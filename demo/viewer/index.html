@@ -46,7 +46,7 @@
   <div id="file-warning">
     <h2>⚠️ Open via local server (file:// won't work)</h2>
     <p>Browsers block 3D assets and data when opened as a file.<br>Run this in Terminal:</p>
-    <code>cd ~/Documents/mygit/cad && ./scripts/serve_demo.sh</code>
+    <code>python scripts/server.py</code>
     <p>Then open:</p>
     <a href="http://localhost:8765/demo/viewer/index.html">http://localhost:8765/demo/viewer/index.html</a>
   </div>
@@ -281,9 +281,29 @@
     buildScene({ ...proj, catalog: DATA.catalog });
   }
 
+  function showToast(msg, isWarn = false) {
+    let toast = document.getElementById('viewer-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'viewer-toast';
+      toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(28,31,34,0.92);color:#fff;padding:9px 18px;border-radius:24px;font-size:12px;font-family:-apple-system,BlinkMacSystemFont,sans-serif;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.25);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);transition:opacity 0.3s ease;pointer-events:none;';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.style.opacity = '1';
+    toast.style.borderColor = isWarn ? '#DE7236' : 'rgba(255,255,255,0.15)';
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => { toast.style.opacity = '0'; }, 4000);
+  }
+
   function loadGLB() {
-    if (location.protocol === 'file:') { alert('Use ./scripts/serve_demo.sh first'); return; }
+    if (location.protocol === 'file:') { showToast('Please open via local server http://localhost:8765', true); return; }
     const proj = DATA.projects.find(p => p.id === currentId);
+    if (!proj?.assets?.glb) {
+      showToast('Procedural 3D active (Blender GLB export is optional).');
+      return;
+    }
+    showToast('Loading pre-baked Blender GLB...');
     new GLTFLoader().load(proj.assets.glb, gltf => {
       interiorGroup.clear();
       ceilingGroup.clear();
@@ -300,7 +320,10 @@
       applyRoofVisibility();
       applyViewClipping();
       if (viewMode === 'dollhouse') setCameraForMode(proj.property, proj.layout?.wall_height_m || 2.85);
-    }, undefined, () => alert('GLB missing — run: python scripts/run_advanced_render.py'));
+      showToast('Blender GLB loaded successfully.');
+    }, undefined, () => {
+      showToast('Procedural Three.js 3D active. Run: python scripts/run_advanced_render.py for Blender baking.');
+    });
   }
 
   function setViewMode(mode) {
