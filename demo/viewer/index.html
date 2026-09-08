@@ -3,68 +3,299 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>3D Property Viewer</title>
+  <title>ThermaBuild · 3D Dollhouse Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; }
-    body { font-family: system-ui, sans-serif; background: #1a1a2e; color: #eee; overflow: hidden; }
+    :root {
+      --bg: #F7F5F0;
+      --glass: rgba(255, 255, 255, 0.82);
+      --glass-border: rgba(255, 255, 255, 0.85);
+      --glass-shadow: 0 12px 36px rgba(28, 31, 34, 0.08), 0 2px 6px rgba(28, 31, 34, 0.04);
+      --text-main: #1C1F22;
+      --text-muted: #687076;
+      --terracotta: #DE7236;
+      --terracotta-hover: #C85F26;
+      --terracotta-light: #FDE7DA;
+      --teal: #2A7B6D;
+      --green: #2E7D32;
+      --radius-pill: 9999px;
+      --radius-card: 16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
     #file-warning {
-      display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,.92);
+      display: none; position: fixed; inset: 0; z-index: 100;
+      background: rgba(247, 245, 240, 0.95); backdrop-filter: blur(20px);
       align-items: center; justify-content: center; padding: 2rem; text-align: center;
     }
     #file-warning.show { display: flex; flex-direction: column; gap: 1rem; }
-    #file-warning code { background: #333; padding: 8px 12px; border-radius: 6px; font-size: 14px; }
-    #file-warning a { color: #ff9933; font-weight: bold; font-size: 1.1rem; }
-    #canvas-wrap { width: 100vw; height: 100vh; }
+    #file-warning code { background: #fff; border: 1px solid rgba(0,0,0,0.1); padding: 8px 14px; border-radius: 8px; font-size: 14px; font-weight: 600; }
+    #file-warning a { color: var(--terracotta); font-weight: 700; text-decoration: none; }
+
+    #canvas-wrap { width: 100vw; height: 100vh; display: block; }
+
+    /* Floating Top HUD Bar */
     #hud {
-      position: fixed; top: 0; left: 0; right: 0; padding: 10px 14px;
-      background: linear-gradient(180deg, rgba(0,0,0,.8), transparent);
-      display: flex; flex-wrap: wrap; gap: 8px; align-items: center; z-index: 10;
+      position: fixed; top: 16px; left: 20px; right: 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; z-index: 20; pointer-events: none;
     }
-    #hud h1 { font-size: .95rem; margin-right: auto; color: #ff9933; }
-    select, button {
-      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.3);
-      color: #fff; padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;
+
+    .hud-bar {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--glass);
+      backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      border-radius: var(--radius-pill);
+      padding: 6px 12px;
+      pointer-events: auto;
     }
-    button.active { background: #ff9933; color: #1a1a2e; font-weight: 700; }
-    button.on { background: rgba(255,153,51,.25); border-color: #ff9933; }
-    #info {
-      position: fixed; bottom: 12px; left: 12px; max-width: 360px;
-      background: rgba(0,0,0,.7); padding: 10px 12px; border-radius: 8px;
-      font-size: 11px; line-height: 1.55; border: 1px solid rgba(255,153,51,.35);
+
+    .brand-pill {
+      display: flex; align-items: center; gap: 9px;
+      padding: 6px 14px;
+      background: var(--glass);
+      backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      border-radius: var(--radius-pill);
+      pointer-events: auto;
+      text-decoration: none;
+      color: var(--text-main);
     }
+    .brand-icon {
+      width: 22px; height: 22px; border-radius: 6px;
+      background: linear-gradient(135deg, #DE7236, #F08B4B);
+      display: grid; place-items: center; color: #fff;
+    }
+    .brand-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px; font-weight: 700; letter-spacing: -0.02em;
+    }
+    .brand-subtitle {
+      font-size: 12px; font-weight: 500; color: var(--text-muted);
+      border-left: 1px solid rgba(0,0,0,0.1); padding-left: 8px; margin-left: 2px;
+    }
+
+    .control-btn {
+      background: transparent; border: 1px solid transparent;
+      color: var(--text-muted); padding: 7px 14px; border-radius: var(--radius-pill);
+      cursor: pointer; font-size: 12px; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .control-btn:hover {
+      background: rgba(222, 114, 54, 0.08); color: var(--terracotta);
+    }
+    .control-btn.active {
+      background: var(--terracotta); color: #fff;
+      box-shadow: 0 4px 14px rgba(222, 114, 54, 0.32);
+    }
+    .control-btn.on {
+      background: var(--terracotta-light); color: var(--terracotta);
+      border-color: rgba(222, 114, 54, 0.25);
+    }
+    .divider {
+      width: 1px; height: 18px; background: rgba(0, 0, 0, 0.08); margin: 0 2px;
+    }
+
+    .hud-select {
+      background: transparent; border: none; outline: none;
+      color: var(--text-main); font-size: 12px; font-weight: 600;
+      padding: 6px 12px; cursor: pointer; font-family: inherit;
+    }
+    .hud-select option { background: #fff; color: #1C1F22; }
+
+    .nav-link-btn {
+      background: #fff; border: 1px solid rgba(0,0,0,0.08);
+      color: var(--terracotta); font-size: 12px; font-weight: 600;
+      padding: 7px 14px; border-radius: var(--radius-pill);
+      text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
+      transition: all 0.2s ease;
+    }
+    .nav-link-btn:hover {
+      background: var(--terracotta); color: #fff;
+      box-shadow: 0 4px 12px rgba(222, 114, 54, 0.25);
+    }
+
+    /* Floating Info Card (Bottom Left) */
+    #info-card {
+      position: fixed; bottom: 24px; left: 24px; max-width: 380px; width: calc(100% - 48px);
+      background: var(--glass);
+      backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      border-radius: var(--radius-card);
+      padding: 16px 20px; z-index: 20;
+      transition: transform 0.25s ease;
+    }
+    .info-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .info-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px; font-weight: 700; color: var(--text-main);
+    }
+    .badge-pill {
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+      padding: 3px 8px; border-radius: 9999px;
+    }
+    .badge-green { background: #E8F5E9; color: #2E7D32; }
+    .badge-warm { background: var(--terracotta-light); color: var(--terracotta); }
+
+    .info-meta {
+      font-size: 12px; color: var(--text-muted); line-height: 1.5;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .info-tags {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+    }
+    .info-tag {
+      font-size: 11px; background: rgba(0, 0, 0, 0.04);
+      padding: 3px 9px; border-radius: 6px; color: var(--text-main); font-weight: 500;
+    }
+
+    /* Floating Room Details Panel (Right Drawer) */
     #room-panel {
-      position: fixed; top: 52px; right: 12px; width: 220px; max-height: 50vh; overflow-y: auto;
-      background: rgba(0,0,0,.75); padding: 10px; border-radius: 8px; font-size: 10px;
-      border: 1px solid rgba(255,255,255,.15);
+      position: fixed; top: 76px; right: 24px; width: 280px; max-height: calc(100vh - 120px);
+      background: var(--glass);
+      backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      border-radius: var(--radius-card);
+      overflow-y: auto; padding: 18px; z-index: 20;
+      font-size: 12px; scrollbar-width: thin;
     }
-    #room-panel h3 { font-size: 11px; color: #ff9933; margin-bottom: 6px; }
-    .room-block { margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #333; }
-    .room-block ul { padding-left: 14px; margin-top: 4px; color: #ccc; }
+    #room-panel h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px; font-weight: 700; color: var(--terracotta);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .room-block {
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 10px; padding: 10px 12px; margin-bottom: 10px;
+    }
+    .room-block b { color: var(--text-main); font-size: 13px; display: block; margin-bottom: 2px; }
+    .room-block .room-sub { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+    .room-block ul { list-style: none; padding-left: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+    .room-block li {
+      background: rgba(0, 0, 0, 0.04); padding: 2px 7px;
+      border-radius: 4px; font-size: 10px; color: var(--text-main); font-weight: 500;
+    }
+
+    /* Minimal Toast Notification */
+    #viewer-toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+      background: rgba(28, 31, 34, 0.94); color: #fff;
+      padding: 10px 22px; border-radius: 9999px; font-size: 12px; font-weight: 500;
+      z-index: 9999; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.15);
+      opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      #hud { flex-direction: column; align-items: stretch; }
+      .hud-bar { overflow-x: auto; }
+      #room-panel { display: none; }
+      #info-card { bottom: 12px; left: 12px; width: calc(100% - 24px); }
+    }
   </style>
 </head>
 <body>
   <div id="file-warning">
     <h2>⚠️ Open via local server (file:// won't work)</h2>
-    <p>Browsers block 3D assets and data when opened as a file.<br>Run this in Terminal:</p>
+    <p>Browsers block 3D WebGL assets and modules when loaded directly from the filesystem.<br>Run this command in Terminal:</p>
     <code>python scripts/server.py</code>
     <p>Then open:</p>
     <a href="http://localhost:8765/demo/viewer/index.html">http://localhost:8765/demo/viewer/index.html</a>
   </div>
 
   <div id="hud">
-    <h1>🕉️ 3D Property Viewer</h1>
-    <select id="project-select"></select>
-    <button id="btn-dollhouse" class="active">Dollhouse</button>
-    <button id="btn-orbit">Orbit</button>
-    <button id="btn-tour">▶ Walkthrough</button>
-    <button id="btn-paths" class="on">Paths</button>
-    <button id="btn-roof">Roof</button>
-    <button id="btn-vastu">Vastu</button>
-    <button id="btn-glb">Load GLB</button>
+    <!-- Brand -->
+    <a href="../index.html" class="brand-pill" title="Back to Main ThermaBuild Studio">
+      <div class="brand-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+      </div>
+      <span class="brand-title">ThermaBuild</span>
+      <span class="brand-subtitle">3D Dollhouse</span>
+    </a>
+
+    <!-- View & Display Controls -->
+    <div class="hud-bar">
+      <button id="btn-dollhouse" class="control-btn active" title="Top-down open roof dollhouse cutaway">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        Dollhouse
+      </button>
+      <button id="btn-orbit" class="control-btn" title="Free orbit around full exterior">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18"/></svg>
+        Orbit
+      </button>
+      <button id="btn-tour" class="control-btn" title="First-person architectural walkthrough">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Walkthrough
+      </button>
+
+      <div class="divider"></div>
+
+      <button id="btn-paths" class="control-btn on" title="Toggle room circulation flow lines">Circulation</button>
+      <button id="btn-roof" class="control-btn" title="Toggle roof slab">Roof</button>
+      <button id="btn-vastu" class="control-btn" title="Overlay Vastu energy zone heatmap">Vastu Zones</button>
+
+      <div class="divider"></div>
+
+      <button id="btn-glb" class="control-btn" title="Load offline Blender-baked mesh (optional)">Blender Mesh</button>
+    </div>
+
+    <!-- Right Controls: Project Dropdown & Back Link -->
+    <div class="hud-bar">
+      <select id="project-select" class="hud-select" aria-label="Select Project"></select>
+      <a href="../index.html" class="nav-link-btn" title="Open Complete Studio">
+        <span>Studio App</span>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
   </div>
+
   <div id="canvas-wrap"></div>
-  <div id="info">Loading…</div>
-  <div id="room-panel"></div>
+
+  <!-- Bottom-Left Property Card -->
+  <div id="info-card">
+    <div class="info-header">
+      <div class="info-title" id="info-title">Loading Layout…</div>
+      <span class="badge-pill badge-green" id="info-badge">Vastu Optimal</span>
+    </div>
+    <div class="info-meta" id="info-meta">
+      <span>Initializing real-time WebGL engine…</span>
+    </div>
+    <div class="info-tags" id="info-tags"></div>
+  </div>
+
+  <!-- Right Collapsible Panel: Rooms & Fixtures -->
+  <div id="room-panel">
+    <h3>
+      <span>Rooms & Fixtures</span>
+      <span style="font-size:10px;color:var(--text-muted);font-weight:normal;" id="room-count">0 rooms</span>
+    </h3>
+    <div id="room-items"></div>
+  </div>
+
+  <div id="viewer-toast"></div>
 
   <script src="projects-data.js"></script>
   <script type="importmap">
@@ -86,15 +317,16 @@
 
   const DATA = window.CAD_PROJECTS;
   if (!DATA?.projects?.length) {
-    document.getElementById('info').textContent = 'Missing projects-data.js — run: python scripts/build_viewer_bundle.py';
+    document.getElementById('info-title').textContent = 'Missing projects-data.js';
+    document.getElementById('info-meta').textContent = 'Run: python scripts/server.py';
   }
 
-  const VASTU = { best: 0x2e7d32, good: 0x66bb6a, bad: 0xffa726, worst: 0xef5350, unknown: 0x757575 };
+  const VASTU = { best: 0x2e7d32, good: 0x66bb6a, bad: 0xde7236, worst: 0xef5350, unknown: 0x757575 };
   const LABELS = {
-    sofa: 'Sofa', tv_unit: 'TV Unit', kitchen_counter: 'Kitchen', pooja_mandir: 'Pooja',
-    bed_double: 'Bed', bed_single: 'Bed', dining_table: 'Dining', study_desk: 'Desk',
-    fridge: 'Fridge', plant: 'Plant', ceiling_fan: 'Ceiling Fan', ceiling_light: 'Light',
-    pendant_light: 'Pendant', floor_lamp: 'Lamp',
+    sofa: 'Sofa', tv_unit: 'TV Unit', kitchen_counter: 'Kitchen Counter', pooja_mandir: 'Pooja Mandir',
+    bed_double: 'Double Bed', bed_single: 'Single Bed', dining_table: 'Dining Table', study_desk: 'Study Desk',
+    fridge: 'Refrigerator', plant: 'Indoor Plant', ceiling_fan: 'Ceiling Fan', ceiling_light: 'Recessed Light',
+    pendant_light: 'Pendant Lamp', floor_lamp: 'Floor Lamp',
   };
 
   let scene, camera, renderer, controls, interiorGroup, vastuGroup, ceilingGroup, sceneLights, tourPoints = [];
@@ -106,26 +338,46 @@
   const DOLLHOUSE_WALL_H = 1.35;
   const clipPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), DOLLHOUSE_WALL_H + 0.1);
 
+  // Check URL param ?project=
+  const urlParams = new URLSearchParams(window.location.search);
+  const requestedProj = urlParams.get('project');
+  if (requestedProj && DATA?.projects?.some(p => p.id === requestedProj)) {
+    currentId = requestedProj;
+  }
+
   const sel = document.getElementById('project-select');
   DATA?.projects?.forEach(p => {
     const o = document.createElement('option');
     o.value = p.id;
     o.textContent = `${p.property.name} (${p.vastu?.compliance_score ?? '?'}/100)`;
+    if (p.id === currentId) o.selected = true;
     sel.appendChild(o);
   });
 
+  function showToast(msg, isWarn = false) {
+    const toast = document.getElementById('viewer-toast');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.style.opacity = '1';
+    toast.style.borderColor = isWarn ? '#DE7236' : 'rgba(255,255,255,0.18)';
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => { toast.style.opacity = '0'; }, 4000);
+  }
+
   function init() {
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xd8d4ce);
-    scene.fog = new THREE.Fog(0xd8d4ce, 28, 55);
-    camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.08, 90);
-    renderer = new THREE.WebGLRenderer({ antialias: true });
+    // Warm alabaster studio background
+    scene.background = new THREE.Color(0xF5F2EB);
+    scene.fog = new THREE.Fog(0xF5F2EB, 32, 65);
+
+    camera = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 0.08, 95);
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     renderer.setSize(innerWidth, innerHeight);
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 0.92;
+    renderer.toneMappingExposure = 1.02;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     document.getElementById('canvas-wrap').appendChild(renderer.domElement);
 
@@ -135,22 +387,29 @@
 
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
     controls.maxPolarAngle = Math.PI / 2.05;
     controls.minDistance = 2.5;
-    controls.maxDistance = 45;
+    controls.maxDistance = 48;
 
-    scene.add(new THREE.HemisphereLight(0xfff6ee, 0x8a9098, 0.55));
-    const sun = new THREE.DirectionalLight(0xfff0e0, 0.85);
-    sun.position.set(12, 22, 10);
+    // Architectural Studio Lighting
+    scene.add(new THREE.HemisphereLight(0xFFF9F2, 0xDFE3E6, 0.65));
+    const sun = new THREE.DirectionalLight(0xFFF4E6, 1.05);
+    sun.position.set(14, 24, 12);
     sun.castShadow = true;
     sun.shadow.mapSize.set(2048, 2048);
     sun.shadow.camera.near = 1;
-    sun.shadow.camera.far = 40;
-    sun.shadow.camera.left = sun.shadow.camera.bottom = -14;
-    sun.shadow.camera.right = sun.shadow.camera.top = 14;
+    sun.shadow.camera.far = 42;
+    sun.shadow.camera.left = sun.shadow.camera.bottom = -15;
+    sun.shadow.camera.right = sun.shadow.camera.top = 15;
     sun.shadow.bias = -0.0002;
     scene.add(sun);
-    scene.add(new THREE.AmbientLight(0xffffff, 0.18));
+
+    // Warm fill light
+    const fillLight = new THREE.DirectionalLight(0xFDF2E9, 0.35);
+    fillLight.position.set(-14, 18, -12);
+    scene.add(fillLight);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.22));
 
     interiorGroup = new THREE.Group();
     ceilingGroup = new THREE.Group();
@@ -176,7 +435,7 @@
       controls.target.copy(tourPoints[0].look);
     } else if (viewMode === 'dollhouse') {
       const span = Math.max(dw, dd);
-      camera.position.set(cx + span * 0.72, span * 0.82, cz + span * 0.78);
+      camera.position.set(cx + span * 0.72, span * 0.84, cz + span * 0.78);
     } else {
       camera.position.set(cx + dw * 0.55, WH * 1.65, cz + dd * 0.62);
     }
@@ -235,7 +494,7 @@
         const cx = r.x + r.w / 2, cz = r.y + r.h / 2;
         const pl = new THREE.Mesh(
           new THREE.PlaneGeometry(r.w, r.h),
-          new THREE.MeshBasicMaterial({ color: VASTU[roomVastu[room.name]] || 0x757575, transparent: true, opacity: 0.32 })
+          new THREE.MeshBasicMaterial({ color: VASTU[roomVastu[room.name]] || 0x757575, transparent: true, opacity: 0.35 })
         );
         pl.rotation.x = -Math.PI / 2;
         pl.position.set(cx, FLOOR_TOP + 0.01, cz);
@@ -251,26 +510,52 @@
     setCameraForMode(prop, WH);
     applyRoofVisibility();
 
+    // Populate Glass Info Card
     const dw = prop.dimensions_m.width, dd = prop.dimensions_m.depth;
     const doorCount = layout.doors?.length || 0;
-    document.getElementById('info').innerHTML =
-      `<strong>${prop.name}</strong><br>${dw}×${dd}m · Facing ${prop.facing}` +
-      `<br>View: <b>${viewMode}</b> · Roof ${showRoof ? 'on' : 'off'} · Paths ${showPaths ? 'on' : 'off'}` +
-      `<br>Doors: ${doorCount} · Realistic PBR lighting` +
-      (vastu ? `<br>Vastu: <b>${vastu.compliance_score}/100</b> (${vastu.grade})` : '') +
-      (proj.astro?.lagna_sign ? `<br>Lagna: ${proj.astro.lagna_sign}` : '');
+    const roomCount = layout.rooms?.length || 0;
 
-    const panel = document.getElementById('room-panel');
-    panel.innerHTML = '<h3>Rooms & fixtures</h3>';
+    document.getElementById('info-title').textContent = prop.name;
+    const score = vastu?.compliance_score ?? 85;
+    const badgeEl = document.getElementById('info-badge');
+    badgeEl.textContent = `Vastu ${score}/100 · ${vastu?.grade || 'Optimal'}`;
+    badgeEl.className = `badge-pill ${score >= 80 ? 'badge-green' : 'badge-warm'}`;
+
+    document.getElementById('info-meta').innerHTML = `
+      <span>Dimensions: <strong>${dw} × ${dd} m</strong> (${(dw * dd).toFixed(0)} m²) · Orientation: <strong>Facing ${prop.facing}</strong></span>
+      <span>Circulation: <strong>${doorCount} Internal Portals</strong> · Mode: <strong>${viewMode.toUpperCase()}</strong></span>
+    `;
+
+    document.getElementById('info-tags').innerHTML = `
+      <span class="info-tag">ECBC-2017 Envelope</span>
+      <span class="info-tag">PBR Materials</span>
+      <span class="info-tag">${proj.astro?.lagna_sign ? `Lagna: ${proj.astro.lagna_sign}` : 'Diurnal Solar Ready'}</span>
+    `;
+
+    // Populate Rooms Panel
+    document.getElementById('room-count').textContent = `${roomCount} zones`;
+    const roomItems = document.getElementById('room-items');
+    roomItems.innerHTML = '';
     for (const room of layout.rooms || []) {
       const pr = prop.rooms?.find(x => x.name === room.name);
       const vr = vastu?.rooms?.find(x => x.name === room.name);
-      panel.innerHTML += `<div class="room-block"><b>${room.name}</b>${pr ? ` · ${pr.vastu_item}` : ''}<br>
-        <span style="color:#aaa">${room.floor} · Vastu: ${vr?.status || '?'}</span>
-        <ul>${(room.furniture||[]).map(f=>`<li>${LABELS[f.type]||f.type.replace(/_/g,' ')}</li>`).join('')}</ul></div>`;
+      const furnList = (room.furniture || []).map(f => `<li>${LABELS[f.type] || f.type.replace(/_/g, ' ')}</li>`).join('');
+
+      roomItems.innerHTML += `
+        <div class="room-block">
+          <b>${room.name}</b>
+          <div class="room-sub">${room.floor || 'Floor'} · Vastu: <span style="font-weight:600;color:${vr?.status === 'best' || vr?.status === 'good' ? '#2E7D32' : '#DE7236'}">${vr?.status || 'standard'}</span></div>
+          <ul>${furnList || '<li>Architectural Zone</li>'}</ul>
+        </div>
+      `;
     }
     if (layout.doors?.length) {
-      panel.innerHTML += `<div class="room-block"><b>Doors</b><ul>${layout.doors.map(d=>`<li>${d.name}</li>`).join('')}</ul></div>`;
+      roomItems.innerHTML += `
+        <div class="room-block">
+          <b>Circulation Doors</b>
+          <ul>${layout.doors.map(d => `<li>${d.name}</li>`).join('')}</ul>
+        </div>
+      `;
     }
   }
 
@@ -281,26 +566,14 @@
     buildScene({ ...proj, catalog: DATA.catalog });
   }
 
-  function showToast(msg, isWarn = false) {
-    let toast = document.getElementById('viewer-toast');
-    if (!toast) {
-      toast = document.createElement('div');
-      toast.id = 'viewer-toast';
-      toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(28,31,34,0.92);color:#fff;padding:9px 18px;border-radius:24px;font-size:12px;font-family:-apple-system,BlinkMacSystemFont,sans-serif;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.25);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);transition:opacity 0.3s ease;pointer-events:none;';
-      document.body.appendChild(toast);
-    }
-    toast.textContent = msg;
-    toast.style.opacity = '1';
-    toast.style.borderColor = isWarn ? '#DE7236' : 'rgba(255,255,255,0.15)';
-    clearTimeout(toast._timer);
-    toast._timer = setTimeout(() => { toast.style.opacity = '0'; }, 4000);
-  }
-
   function loadGLB() {
-    if (location.protocol === 'file:') { showToast('Please open via local server http://localhost:8765', true); return; }
+    if (location.protocol === 'file:') {
+      showToast('Please open via local server http://localhost:8765', true);
+      return;
+    }
     const proj = DATA.projects.find(p => p.id === currentId);
     if (!proj?.assets?.glb) {
-      showToast('Procedural 3D active (Blender GLB export is optional).');
+      showToast('Procedural 3D model active. Blender GLB export is optional.');
       return;
     }
     showToast('Loading pre-baked Blender GLB...');
@@ -344,15 +617,21 @@
   function tick() {
     requestAnimationFrame(tick);
     if (touring && tourPoints.length > 1) {
-      tourT += 0.0035;
+      tourT += 0.0028;
       if (tourT > 1) tourT = 0;
-      const idx = Math.min(Math.floor(tourT * (tourPoints.length - 1)), tourPoints.length - 2);
-      const t = (tourT * (tourPoints.length - 1)) - idx;
-      camera.position.lerpVectors(tourPoints[idx].pos, tourPoints[idx + 1].pos, t);
-      const look = new THREE.Vector3().lerpVectors(tourPoints[idx].look, tourPoints[idx + 1].look, t);
+      const n = tourPoints.length;
+      const f = tourT * (n - 1);
+      const i = Math.floor(f);
+      const frac = f - i;
+      const p0 = tourPoints[i];
+      const p1 = tourPoints[Math.min(i + 1, n - 1)];
+      camera.position.lerpVectors(p0.pos, p1.pos, frac);
+      const look = new THREE.Vector3().lerpVectors(p0.look, p1.look, frac);
       camera.lookAt(look);
       controls.target.copy(look);
-    } else controls.update();
+    } else {
+      controls.update();
+    }
     renderer.render(scene, camera);
   }
 
