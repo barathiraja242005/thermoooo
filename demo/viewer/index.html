@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>3D Property Viewer</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    body { font-family: system-ui, sans-serif; background: #1a1a2e; color: #eee; overflow: hidden; }
+    #file-warning {
+      display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,.92);
+      align-items: center; justify-content: center; padding: 2rem; text-align: center;
+    }
+    #file-warning.show { display: flex; flex-direction: column; gap: 1rem; }
+    #file-warning code { background: #333; padding: 8px 12px; border-radius: 6px; font-size: 14px; }
+    #file-warning a { color: #ff9933; font-weight: bold; font-size: 1.1rem; }
+    #canvas-wrap { width: 100vw; height: 100vh; }
+    #hud {
+      position: fixed; top: 0; left: 0; right: 0; padding: 10px 14px;
+      background: linear-gradient(180deg, rgba(0,0,0,.8), transparent);
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center; z-index: 10;
+    }
+    #hud h1 { font-size: .95rem; margin-right: auto; color: #ff9933; }
+    select, button {
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.3);
+      color: #fff; padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;
+    }
+    button.active { background: #ff9933; color: #1a1a2e; font-weight: 700; }
+    button.on { background: rgba(255,153,51,.25); border-color: #ff9933; }
+    #info {
+      position: fixed; bottom: 12px; left: 12px; max-width: 360px;
+      background: rgba(0,0,0,.7); padding: 10px 12px; border-radius: 8px;
+      font-size: 11px; line-height: 1.55; border: 1px solid rgba(255,153,51,.35);
+    }
+    #room-panel {
+      position: fixed; top: 52px; right: 12px; width: 220px; max-height: 50vh; overflow-y: auto;
+      background: rgba(0,0,0,.75); padding: 10px; border-radius: 8px; font-size: 10px;
+      border: 1px solid rgba(255,255,255,.15);
+    }
+    #room-panel h3 { font-size: 11px; color: #ff9933; margin-bottom: 6px; }
+    .room-block { margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #333; }
+    .room-block ul { padding-left: 14px; margin-top: 4px; color: #ccc; }
+  </style>
+</head>
+<body>
+  <div id="file-warning">
+    <h2>⚠️ Open via local server (file:// won't work)</h2>
+    <p>Browsers block 3D assets and data when opened as a file.<br>Run this in Terminal:</p>
+    <code>cd ~/Documents/mygit/cad && ./scripts/serve_demo.sh</code>
+    <p>Then open:</p>
+    <a href="http://localhost:8765/demo/viewer/index.html">http://localhost:8765/demo/viewer/index.html</a>
+  </div>
+
+  <div id="hud">
+    <h1>🕉️ 3D Property Viewer</h1>
+    <select id="project-select"></select>
+    <button id="btn-dollhouse" class="active">Dollhouse</button>
+    <button id="btn-orbit">Orbit</button>
+    <button id="btn-tour">▶ Walkthrough</button>
+    <button id="btn-paths" class="on">Paths</button>
+    <button id="btn-roof">Roof</button>
+    <button id="btn-vastu">Vastu</button>
+    <button id="btn-glb">Load GLB</button>
+  </div>
+  <div id="canvas-wrap"></div>
+  <div id="info">Loading…</div>
+  <div id="room-panel"></div>
+
+  <script src="projects-data.js"></script>
+  <script type="importmap">
+  { "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+  }}
+  </script>
+  <script type="module">
+  import * as THREE from 'three';
+  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+  import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+  import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+  import { buildRealisticInterior, FLOOR_TOP } from './scene-builder.js';
+
+  if (location.protocol === 'file:') {
+    document.getElementById('file-warning').classList.add('show');
+  }
+
+  const DATA = window.CAD_PROJECTS;
+  if (!DATA?.projects?.length) {
+    document.getElementById('info').textContent = 'Missing projects-data.js — run: python scripts/build_viewer_bundle.py';
+  }
+
+  const VASTU = { best: 0x2e7d32, good: 0x66bb6a, bad: 0xffa726, worst: 0xef5350, unknown: 0x757575 };
+  const LABELS = {
+    sofa: 'Sofa', tv_unit: 'TV Unit', kitchen_counter: 'Kitchen', pooja_mandir: 'Pooja',
+    bed_double: 'Bed', bed_single: 'Bed', dining_table: 'Dining', study_desk: 'Desk',
+    fridge: 'Fridge', plant: 'Plant', ceiling_fan: 'Ceiling Fan', ceiling_light: 'Light',
+    pendant_light: 'Pendant', floor_lamp: 'Lamp',
+  };
+
+  let scene, camera, renderer, controls, interiorGroup, vastuGroup, ceilingGroup, sceneLights, tourPoints = [];
+  let touring = false, tourT = 0, currentId = DATA?.projects?.[0]?.id;
+  let viewMode = 'dollhouse';
+  let showRoof = false;
+  let showPaths = true;
+  let loadedGlb = false;
+  const DOLLHOUSE_WALL_H = 1.35;
+  const clipPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), DOLLHOUSE_WALL_H + 0.1);
+
+  const sel = document.getElementById('project-select');
+  DATA?.projects?.forEach(p => {
+    const o = document.createElement('option');
+    o.value = p.id;
+    o.textContent = `${p.property.name} (${p.vastu?.compliance_score ?? '?'}/100)`;
+    sel.appendChild(o);
+  });
+
+  function init() {
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xd8d4ce);
+    scene.fog = new THREE.Fog(0xd8d4ce, 28, 55);
+    camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.08, 90);
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 0.92;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    document.getElementById('canvas-wrap').appendChild(renderer.domElement);
+
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    pmrem.dispose();
+
+    controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.maxPolarAngle = Math.PI / 2.05;
+    controls.minDistance = 2.5;
+    controls.maxDistance = 45;
+
+    scene.add(new THREE.HemisphereLight(0xfff6ee, 0x8a9098, 0.55));
+    const sun = new THREE.DirectionalLight(0xfff0e0, 0.85);
+    sun.position.set(12, 22, 10);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.camera.near = 1;
+    sun.shadow.camera.far = 40;
+    sun.shadow.camera.left = sun.shadow.camera.bottom = -14;
+    sun.shadow.camera.right = sun.shadow.camera.top = 14;
+    sun.shadow.bias = -0.0002;
+    scene.add(sun);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.18));
+
+    interiorGroup = new THREE.Group();
+    ceilingGroup = new THREE.Group();
+    vastuGroup = new THREE.Group();
+    sceneLights = new THREE.Group();
+    scene.add(interiorGroup, ceilingGroup, vastuGroup, sceneLights);
+
+    window.addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+    requestAnimationFrame(tick);
+  }
+
+  function setCameraForMode(prop, WH) {
+    const dw = prop.dimensions_m.width, dd = prop.dimensions_m.depth;
+    const cx = dw / 2, cz = dd / 2;
+    controls.target.set(cx, viewMode === 'walkthrough' ? 1.45 : 0.85, cz);
+    if (viewMode === 'walkthrough' && tourPoints.length) {
+      camera.position.copy(tourPoints[0].pos);
+      camera.lookAt(tourPoints[0].look);
+      controls.target.copy(tourPoints[0].look);
+    } else if (viewMode === 'dollhouse') {
+      const span = Math.max(dw, dd);
+      camera.position.set(cx + span * 0.72, span * 0.82, cz + span * 0.78);
+    } else {
+      camera.position.set(cx + dw * 0.55, WH * 1.65, cz + dd * 0.62);
+    }
+    controls.update();
+  }
+
+  function applyRoofVisibility() {
+    ceilingGroup.visible = showRoof;
+    interiorGroup.traverse(obj => {
+      if (obj.isMesh && /^Ceil_/i.test(obj.name)) obj.visible = showRoof;
+    });
+    document.getElementById('btn-roof').classList.toggle('on', showRoof);
+    applyViewClipping();
+  }
+
+  function applyViewClipping() {
+    const useClip = loadedGlb && viewMode === 'dollhouse';
+    renderer.localClippingEnabled = useClip;
+    renderer.clippingPlanes = useClip ? [clipPlane] : [];
+    if (useClip) clipPlane.constant = DOLLHOUSE_WALL_H + 0.08;
+    interiorGroup.traverse(obj => {
+      if (!obj.isMesh) return;
+      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+      mats.forEach(m => {
+        if (!m) return;
+        m.clippingPlanes = useClip ? [clipPlane] : null;
+        m.clipShadows = useClip;
+        m.needsUpdate = true;
+      });
+    });
+  }
+
+  function buildScene(proj) {
+    interiorGroup.clear();
+    ceilingGroup.clear();
+    vastuGroup.clear();
+    sceneLights.clear();
+    tourPoints = [];
+    loadedGlb = false;
+
+    const { property: prop, layout, vastu, catalog } = proj;
+    const WH = layout.wall_height_m || 2.85;
+    const WT = layout.wall_thickness_m || 0.12;
+    const wallH = viewMode === 'dollhouse' ? DOLLHOUSE_WALL_H : WH;
+    const roomVastu = {};
+    vastu?.rooms?.forEach(r => { roomVastu[r.name] = r.status; });
+
+    buildRealisticInterior({
+      layout, catalog, interiorGroup, ceilingGroup, sceneLights,
+      wallH, WH, WT, viewMode, showPaths,
+    });
+
+    if (document.getElementById('btn-vastu').classList.contains('active')) {
+      for (const room of layout.rooms || []) {
+        const r = room.rect;
+        const cx = r.x + r.w / 2, cz = r.y + r.h / 2;
+        const pl = new THREE.Mesh(
+          new THREE.PlaneGeometry(r.w, r.h),
+          new THREE.MeshBasicMaterial({ color: VASTU[roomVastu[room.name]] || 0x757575, transparent: true, opacity: 0.32 })
+        );
+        pl.rotation.x = -Math.PI / 2;
+        pl.position.set(cx, FLOOR_TOP + 0.01, cz);
+        vastuGroup.add(pl);
+      }
+    }
+
+    tourPoints = (layout.camera_tour || []).map(p => ({
+      pos: new THREE.Vector3(p.x, p.z, p.y),
+      look: new THREE.Vector3(p.look_at[0], p.look_at[2] ?? 1.4, p.look_at[1]),
+    }));
+
+    setCameraForMode(prop, WH);
+    applyRoofVisibility();
+
+    const dw = prop.dimensions_m.width, dd = prop.dimensions_m.depth;
+    const doorCount = layout.doors?.length || 0;
+    document.getElementById('info').innerHTML =
+      `<strong>${prop.name}</strong><br>${dw}×${dd}m · Facing ${prop.facing}` +
+      `<br>View: <b>${viewMode}</b> · Roof ${showRoof ? 'on' : 'off'} · Paths ${showPaths ? 'on' : 'off'}` +
+      `<br>Doors: ${doorCount} · Realistic PBR lighting` +
+      (vastu ? `<br>Vastu: <b>${vastu.compliance_score}/100</b> (${vastu.grade})` : '') +
+      (proj.astro?.lagna_sign ? `<br>Lagna: ${proj.astro.lagna_sign}` : '');
+
+    const panel = document.getElementById('room-panel');
+    panel.innerHTML = '<h3>Rooms & fixtures</h3>';
+    for (const room of layout.rooms || []) {
+      const pr = prop.rooms?.find(x => x.name === room.name);
+      const vr = vastu?.rooms?.find(x => x.name === room.name);
+      panel.innerHTML += `<div class="room-block"><b>${room.name}</b>${pr ? ` · ${pr.vastu_item}` : ''}<br>
+        <span style="color:#aaa">${room.floor} · Vastu: ${vr?.status || '?'}</span>
+        <ul>${(room.furniture||[]).map(f=>`<li>${LABELS[f.type]||f.type.replace(/_/g,' ')}</li>`).join('')}</ul></div>`;
+    }
+    if (layout.doors?.length) {
+      panel.innerHTML += `<div class="room-block"><b>Doors</b><ul>${layout.doors.map(d=>`<li>${d.name}</li>`).join('')}</ul></div>`;
+    }
+  }
+
+  function loadProject(id) {
+    currentId = id;
+    const proj = DATA.projects.find(p => p.id === id);
+    if (!proj) return;
+    buildScene({ ...proj, catalog: DATA.catalog });
+  }
+
+  function loadGLB() {
+    if (location.protocol === 'file:') { alert('Use ./scripts/serve_demo.sh first'); return; }
+    const proj = DATA.projects.find(p => p.id === currentId);
+    new GLTFLoader().load(proj.assets.glb, gltf => {
+      interiorGroup.clear();
+      ceilingGroup.clear();
+      sceneLights.clear();
+      loadedGlb = true;
+      gltf.scene.traverse(obj => {
+        if (!obj.isMesh) return;
+        if (/^Ceil_/i.test(obj.name)) {
+          obj.visible = showRoof;
+          ceilingGroup.attach(obj);
+        }
+      });
+      interiorGroup.add(gltf.scene);
+      applyRoofVisibility();
+      applyViewClipping();
+      if (viewMode === 'dollhouse') setCameraForMode(proj.property, proj.layout?.wall_height_m || 2.85);
+    }, undefined, () => alert('GLB missing — run: python scripts/run_advanced_render.py'));
+  }
+
+  function setViewMode(mode) {
+    viewMode = mode;
+    touring = mode === 'walkthrough';
+    if (touring) tourT = 0;
+    document.getElementById('btn-dollhouse').classList.toggle('active', mode === 'dollhouse');
+    document.getElementById('btn-orbit').classList.toggle('active', mode === 'orbit');
+    document.getElementById('btn-tour').classList.toggle('active', mode === 'walkthrough');
+    if (!loadedGlb) loadProject(currentId);
+    else {
+      applyViewClipping();
+      const proj = DATA.projects.find(p => p.id === currentId);
+      if (proj) setCameraForMode(proj.property, proj.layout?.wall_height_m || 2.85);
+    }
+  }
+
+  function tick() {
+    requestAnimationFrame(tick);
+    if (touring && tourPoints.length > 1) {
+      tourT += 0.0035;
+      if (tourT > 1) tourT = 0;
+      const idx = Math.min(Math.floor(tourT * (tourPoints.length - 1)), tourPoints.length - 2);
+      const t = (tourT * (tourPoints.length - 1)) - idx;
+      camera.position.lerpVectors(tourPoints[idx].pos, tourPoints[idx + 1].pos, t);
+      const look = new THREE.Vector3().lerpVectors(tourPoints[idx].look, tourPoints[idx + 1].look, t);
+      camera.lookAt(look);
+      controls.target.copy(look);
+    } else controls.update();
+    renderer.render(scene, camera);
+  }
+
+  document.getElementById('btn-dollhouse').onclick = () => setViewMode('dollhouse');
+  document.getElementById('btn-orbit').onclick = () => { setViewMode('orbit'); touring = false; };
+  document.getElementById('btn-tour').onclick = () => setViewMode('walkthrough');
+  document.getElementById('btn-paths').onclick = (e) => {
+    showPaths = !showPaths;
+    e.target.classList.toggle('on', showPaths);
+    loadProject(currentId);
+  };
+  document.getElementById('btn-roof').onclick = () => { showRoof = !showRoof; applyRoofVisibility(); };
+  document.getElementById('btn-vastu').onclick = (e) => { e.target.classList.toggle('active'); loadProject(currentId); };
+  document.getElementById('btn-glb').onclick = loadGLB;
+  sel.onchange = () => { loadedGlb = false; loadProject(sel.value); };
+
+  init();
+  if (DATA?.projects?.length) loadProject(currentId);
+  </script>
+</body>
+</html>

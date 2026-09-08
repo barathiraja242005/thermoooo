@@ -1,0 +1,62 @@
+{
+  "id": "project-b-south-facing",
+  "name": "3BHK South-Facing Villa (needs Vastu fixes)",
+  "description": "Intentionally suboptimal: kitchen NE, toilet NE, master in SE",
+  "facing": "S",
+  "north_rotation_deg": 0,
+  "dimensions_m": {
+    "width": 15,
+    "depth": 12
+  },
+  "owner": {
+    "name": "Priya Mehta",
+    "birth_date": "1992-08-22",
+    "birth_time": "14:15",
+    "birth_place": "Mumbai",
+    "latitude": 19.076,
+    "longitude": 72.8777,
+    "timezone": "Asia/Kolkata"
+  },
+  "rooms": [
+    {
+      "name": "Main Entrance",
+      "vastu_item": "Entrance",
+      "direction": "S"
+    },
+    {
+      "name": "Kitchen",
+      "vastu_item": "Kitchen",
+      "direction": "NE"
+    },
+    {
+      "name": "Pooja",
+      "vastu_item": "Pooja/Mandir",
+      "direction": "E"
+    },
+    {
+      "name": "Master Bedroom",
+      "vastu_item": "Master Bedroom",
+      "direction": "SE"
+    },
+    {
+      "name": "Guest Bedroom",
+      "vastu_item": "Kids Bedroom",
+      "direction": "NW"
+    },
+    {
+      "name": "Study",
+      "vastu_item": "Study Table",
+      "direction": "NE"
+    },
+    {
+      "name": "Toilet",
+      "vastu_item": "Toilets",
+      "direction": "NE"
+    },
+    {
+      "name": "Overhead Tank",
+      "vastu_item": "Overhead Watertank",
+      "direction": "NE"
+    }
+  ]
+}

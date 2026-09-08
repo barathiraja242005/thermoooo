@@ -1,0 +1,44 @@
+{
+  "items": [
+    {
+      "id": "pooja-room-item-0",
+      "type": "pooja_mandir",
+      "label": "Pooja Mandir",
+      "x_m": 1.2000000000000002,
+      "y_m": 0.39999999999999997,
+      "size_m": [
+        1.0,
+        0.45,
+        1.8
+      ],
+      "rotation_deg": 0,
+      "vastu_tip": "NE corner is sacred \u2014 mandir placement is Vastu-optimal here.",
+      "catalog_color": [
+        0.72,
+        0.52,
+        0.18,
+        1
+      ]
+    },
+    {
+      "id": "pooja-room-item-1",
+      "type": "ceiling_light",
+      "label": "Ceiling Light",
+      "x_m": 1.2000000000000002,
+      "y_m": 1.1,
+      "size_m": [
+        0.42,
+        0.42,
+        0.08
+      ],
+      "rotation_deg": 0,
+      "vastu_tip": "Verify placement with VastuFlow zone map.",
+      "catalog_color": [
+        0.98,
+        0.96,
+        0.92,
+        1
+      ]
+    }
+  ]
+}

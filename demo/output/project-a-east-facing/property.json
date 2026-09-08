@@ -1,0 +1,62 @@
+{
+  "id": "project-a-east-facing",
+  "name": "2BHK East-Facing Apartment",
+  "description": "Vastu-compliant layout: kitchen SE, pooja NE, master SW",
+  "facing": "E",
+  "north_rotation_deg": 0,
+  "dimensions_m": {
+    "width": 12,
+    "depth": 10
+  },
+  "owner": {
+    "name": "Raj Sharma",
+    "birth_date": "1985-03-15",
+    "birth_time": "06:30",
+    "birth_place": "New Delhi",
+    "latitude": 28.6139,
+    "longitude": 77.209,
+    "timezone": "Asia/Kolkata"
+  },
+  "rooms": [
+    {
+      "name": "Main Entrance",
+      "vastu_item": "Entrance",
+      "direction": "E"
+    },
+    {
+      "name": "Living Room",
+      "vastu_item": "Family Photo",
+      "direction": "NE"
+    },
+    {
+      "name": "Pooja Room",
+      "vastu_item": "Pooja/Mandir",
+      "direction": "NE"
+    },
+    {
+      "name": "Kitchen",
+      "vastu_item": "Kitchen",
+      "direction": "SE"
+    },
+    {
+      "name": "Master Bedroom",
+      "vastu_item": "Master Bedroom",
+      "direction": "SW"
+    },
+    {
+      "name": "Kids Bedroom",
+      "vastu_item": "Kids Bedroom",
+      "direction": "NW"
+    },
+    {
+      "name": "Study",
+      "vastu_item": "Study Table",
+      "direction": "W"
+    },
+    {
+      "name": "Toilet",
+      "vastu_item": "Toilets",
+      "direction": "WNW"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+.venv/
+tools/
+__pycache__/
+*.pyc
+.DS_Store
+.env
+.env.*
+*.log
+
+# Heavy generated artifacts (regenerate via pipeline)
+demo/output/**/*.png
+demo/output/**/*.mp4
+demo/output/**/*.glb
+demo/output/**/*.FCStd
+demo/output/**/*.FCBak
+demo/output/**/advanced-render.json
+demo/output/project-custom*
+demo/output/project-test*
+
+# Texture binaries (manifest + download script committed)
+assets/textures/**/*.jpg

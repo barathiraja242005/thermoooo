@@ -1,0 +1,46 @@
+{
+  "project": "3BHK South-Facing Villa (needs Vastu fixes)",
+  "facing": "S",
+  "vastu_score": 44,
+  "vastu_grade": "Poor",
+  "issues_count": 3,
+  "lagna_sign": "Scorpio",
+  "outputs": {
+    "floor_plan_svg": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/floor-plan.svg",
+    "vastu_report": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/vastu-report.json",
+    "astro_vastu": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/astro-vastu.json",
+    "panchang": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/panchang-today.json",
+    "freecad": {
+      "status": "skipped",
+      "reason": "FreeCAD not installed"
+    },
+    "blender_render": {
+      "status": "ok",
+      "returncode": 0,
+      "files": {
+        "hero_still": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/project-b-south-facing-hero.png",
+        "living_still": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/project-b-south-facing-living.png",
+        "bedroom_still": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/project-b-south-facing-bedroom.png",
+        "walkthrough_mp4": null,
+        "scene_gltf": null,
+        "photoreal_still": null
+      },
+      "stdout_tail": "m:139.64M (Peak 181.83M) | Time:00:09.44 | Mem:67.11M, Peak:67.11M | Scene, ViewLayer | Sample 64/64\nFra:1 Mem:139.64M (Peak 181.83M) | Time:00:09.44 | Mem:67.11M, Peak:67.11M | Scene, ViewLayer | Finished\nSaved: '/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/project-b-south-facing-bedroom.png'\nTime: 00:09.52 (Saving: 00:00.05)\n\nRendered still: /Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/project-b-south-facing-hero.png\nRendered still: /Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/project-b-south-facing-living.png\nRendered still: /Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/project-b-south-facing-bedroom.png\n\nBlender quit\n",
+      "stderr_tail": "Traceback (most recent call last):\n  File \"/Users/barathiraja/Desktop/26051/property-design-cad/scripts/blender_advanced_render.py\", line 482, in <module>\n    configure_render(\"BLENDER_EEVEE\")\n  File \"/Users/barathiraja/Desktop/26051/property-design-cad/scripts/blender_advanced_render.py\", line 326, in configure_render\n    sc.render.engine = engine\n    ^^^^^^^^^^^^^^^^\nTypeError: bpy_struct: item.attr = val: enum \"BLENDER_EEVEE\" not found in ('BLENDER_EEVEE_NEXT', 'BLENDER_WORKBENCH', 'CYCLES')\n"
+    },
+    "advanced_render": {
+      "status": "ok",
+      "returncode": 0,
+      "files": {
+        "hero_still": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/project-b-south-facing-hero.png",
+        "living_still": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/project-b-south-facing-living.png",
+        "bedroom_still": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/project-b-south-facing-bedroom.png",
+        "walkthrough_mp4": null,
+        "scene_gltf": null,
+        "photoreal_still": null
+      },
+      "stdout_tail": "m:139.64M (Peak 181.83M) | Time:00:09.44 | Mem:67.11M, Peak:67.11M | Scene, ViewLayer | Sample 64/64\nFra:1 Mem:139.64M (Peak 181.83M) | Time:00:09.44 | Mem:67.11M, Peak:67.11M | Scene, ViewLayer | Finished\nSaved: '/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/project-b-south-facing-bedroom.png'\nTime: 00:09.52 (Saving: 00:00.05)\n\nRendered still: /Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/project-b-south-facing-hero.png\nRendered still: /Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/project-b-south-facing-living.png\nRendered still: /Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-b-south-facing/project-b-south-facing-bedroom.png\n\nBlender quit\n",
+      "stderr_tail": "Traceback (most recent call last):\n  File \"/Users/barathiraja/Desktop/26051/property-design-cad/scripts/blender_advanced_render.py\", line 482, in <module>\n    configure_render(\"BLENDER_EEVEE\")\n  File \"/Users/barathiraja/Desktop/26051/property-design-cad/scripts/blender_advanced_render.py\", line 326, in configure_render\n    sc.render.engine = engine\n    ^^^^^^^^^^^^^^^^\nTypeError: bpy_struct: item.attr = val: enum \"BLENDER_EEVEE\" not found in ('BLENDER_EEVEE_NEXT', 'BLENDER_WORKBENCH', 'CYCLES')\n"
+    }
+  }
+}

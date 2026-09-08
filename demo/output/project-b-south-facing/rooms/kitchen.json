@@ -1,0 +1,124 @@
+{
+  "items": [
+    {
+      "id": "kitchen-item-0",
+      "type": "kitchen_counter",
+      "label": "Kitchen Counter",
+      "x_m": 1.75,
+      "y_m": 0.36,
+      "size_m": [
+        2.4,
+        0.62,
+        0.9
+      ],
+      "rotation_deg": 90,
+      "vastu_tip": "Kitchen belongs in SE (Agni corner) \u2014 ideal for stove.",
+      "catalog_color": [
+        0.75,
+        0.75,
+        0.73,
+        1
+      ]
+    },
+    {
+      "id": "kitchen-item-1",
+      "type": "stove",
+      "label": "Cooktop",
+      "x_m": 1.75,
+      "y_m": 1.2,
+      "size_m": [
+        0.6,
+        0.55,
+        0.05
+      ],
+      "rotation_deg": 90,
+      "vastu_tip": "Verify placement with VastuFlow zone map.",
+      "catalog_color": [
+        0.2,
+        0.2,
+        0.2,
+        1
+      ]
+    },
+    {
+      "id": "kitchen-item-2",
+      "type": "fridge",
+      "label": "Refrigerator",
+      "x_m": 2.75,
+      "y_m": 3.96,
+      "size_m": [
+        0.7,
+        0.65,
+        1.75
+      ],
+      "rotation_deg": 0,
+      "vastu_tip": "SE or NW placement for appliances; avoid NE.",
+      "catalog_color": [
+        0.92,
+        0.92,
+        0.94,
+        1
+      ]
+    },
+    {
+      "id": "kitchen-item-3",
+      "type": "dining_table",
+      "label": "Dining Table",
+      "x_m": 1.0,
+      "y_m": 3.12,
+      "size_m": [
+        1.2,
+        0.75,
+        0.75
+      ],
+      "rotation_deg": 0,
+      "vastu_tip": "Verify placement with VastuFlow zone map.",
+      "catalog_color": [
+        0.4,
+        0.28,
+        0.18,
+        1
+      ]
+    },
+    {
+      "id": "kitchen-item-4",
+      "type": "dining_chair",
+      "label": "Dining Chair",
+      "x_m": 1.0,
+      "y_m": 2.4000000000000004,
+      "size_m": [
+        0.45,
+        0.45,
+        0.9
+      ],
+      "rotation_deg": 0,
+      "vastu_tip": "Verify placement with VastuFlow zone map.",
+      "catalog_color": [
+        0.5,
+        0.38,
+        0.28,
+        1
+      ]
+    },
+    {
+      "id": "kitchen-item-5",
+      "type": "dining_chair",
+      "label": "Dining Chair",
+      "x_m": 2.25,
+      "y_m": 3.12,
+      "size_m": [
+        0.45,
+        0.45,
+        0.9
+      ],
+      "rotation_deg": 90,
+      "vastu_tip": "Verify placement with VastuFlow zone map.",
+      "catalog_color": [
+        0.5,
+        0.38,
+        0.28,
+        1
+      ]
+    }
+  ]
+}

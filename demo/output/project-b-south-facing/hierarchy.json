@@ -1,0 +1,891 @@
+{
+  "levels": [
+    "property",
+    "room",
+    "item"
+  ],
+  "property": {
+    "id": "project-b-south-facing",
+    "name": "3BHK South-Facing Villa (needs Vastu fixes)",
+    "dimensions_m": {
+      "width": 15,
+      "depth": 12
+    },
+    "facing": "S",
+    "vastu_score": 44,
+    "vastu_grade": "Poor"
+  },
+  "rooms": [
+    {
+      "id": "living-room",
+      "name": "Living Room",
+      "rect": {
+        "x": 0.25,
+        "y": 0.24,
+        "w": 7.25,
+        "h": 5.52
+      },
+      "floor": "oak_parquet",
+      "wall_color": [
+        0.96,
+        0.94,
+        0.9,
+        1
+      ],
+      "vastu": {},
+      "property_room": {},
+      "items": [
+        {
+          "id": "living-room-item-0",
+          "type": "sofa",
+          "label": "Sofa",
+          "x_m": 2.87,
+          "y_m": 3.12,
+          "size_m": [
+            2.2,
+            0.95,
+            0.82
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Living seating \u2014 face East or North for positive energy flow.",
+          "catalog_color": [
+            0.45,
+            0.35,
+            0.28,
+            1
+          ]
+        },
+        {
+          "id": "living-room-item-1",
+          "type": "coffee_table",
+          "label": "Coffee Table",
+          "x_m": 2.87,
+          "y_m": 1.9200000000000002,
+          "size_m": [
+            1.1,
+            0.6,
+            0.42
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.35,
+            0.22,
+            0.12,
+            1
+          ]
+        },
+        {
+          "id": "living-room-item-2",
+          "type": "tv_unit",
+          "label": "TV Unit",
+          "x_m": 2.87,
+          "y_m": 0.48,
+          "size_m": [
+            1.8,
+            0.45,
+            0.55
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Place TV in SE or NW wall; avoid NE (Pooja zone).",
+          "catalog_color": [
+            0.15,
+            0.12,
+            0.1,
+            1
+          ]
+        },
+        {
+          "id": "living-room-item-3",
+          "type": "floor_lamp",
+          "label": "Floor Lamp",
+          "x_m": 0.75,
+          "y_m": 4.319999999999999,
+          "size_m": [
+            0.35,
+            0.35,
+            1.65
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.85,
+            0.75,
+            0.35,
+            1
+          ]
+        },
+        {
+          "id": "living-room-item-4",
+          "type": "plant",
+          "label": "Indoor Plant",
+          "x_m": 6.25,
+          "y_m": 0.36,
+          "size_m": [
+            0.45,
+            0.45,
+            1.1
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.2,
+            0.55,
+            0.25,
+            1
+          ]
+        }
+      ],
+      "furniture_count": 5,
+      "windows": [
+        {
+          "wall": "N",
+          "offset": 2.5,
+          "width": 3.0,
+          "height": 1.4,
+          "sill_m": 0.9
+        }
+      ]
+    },
+    {
+      "id": "pooja-room",
+      "name": "Pooja Room",
+      "rect": {
+        "x": 7.75,
+        "y": 0.24,
+        "w": 3.0,
+        "h": 2.64
+      },
+      "floor": "marble_white",
+      "wall_color": [
+        0.98,
+        0.95,
+        0.88,
+        1
+      ],
+      "vastu": {},
+      "property_room": {},
+      "items": [
+        {
+          "id": "pooja-room-item-0",
+          "type": "pooja_mandir",
+          "label": "Pooja Mandir",
+          "x_m": 1.5,
+          "y_m": 0.48,
+          "size_m": [
+            1.0,
+            0.45,
+            1.8
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "NE corner is sacred \u2014 mandir placement is Vastu-optimal here.",
+          "catalog_color": [
+            0.72,
+            0.52,
+            0.18,
+            1
+          ]
+        },
+        {
+          "id": "pooja-room-item-1",
+          "type": "ceiling_light",
+          "label": "Ceiling Light",
+          "x_m": 1.5,
+          "y_m": 1.32,
+          "size_m": [
+            0.42,
+            0.42,
+            0.08
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.98,
+            0.96,
+            0.92,
+            1
+          ]
+        }
+      ],
+      "furniture_count": 2,
+      "windows": []
+    },
+    {
+      "id": "kitchen",
+      "name": "Kitchen",
+      "rect": {
+        "x": 11.25,
+        "y": 0.24,
+        "w": 3.5,
+        "h": 4.8
+      },
+      "floor": "ceramic_tile",
+      "wall_color": [
+        0.92,
+        0.92,
+        0.9,
+        1
+      ],
+      "vastu": {
+        "name": "Kitchen",
+        "vastu_item": "Kitchen",
+        "direction": "NE",
+        "status": "worst",
+        "score": 0,
+        "note": "Critical conflict \u2014 relocate if possible"
+      },
+      "property_room": {
+        "name": "Kitchen",
+        "vastu_item": "Kitchen",
+        "direction": "NE"
+      },
+      "items": [
+        {
+          "id": "kitchen-item-0",
+          "type": "kitchen_counter",
+          "label": "Kitchen Counter",
+          "x_m": 1.75,
+          "y_m": 0.36,
+          "size_m": [
+            2.4,
+            0.62,
+            0.9
+          ],
+          "rotation_deg": 90,
+          "vastu_tip": "Kitchen belongs in SE (Agni corner) \u2014 ideal for stove.",
+          "catalog_color": [
+            0.75,
+            0.75,
+            0.73,
+            1
+          ]
+        },
+        {
+          "id": "kitchen-item-1",
+          "type": "stove",
+          "label": "Cooktop",
+          "x_m": 1.75,
+          "y_m": 1.2,
+          "size_m": [
+            0.6,
+            0.55,
+            0.05
+          ],
+          "rotation_deg": 90,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.2,
+            0.2,
+            0.2,
+            1
+          ]
+        },
+        {
+          "id": "kitchen-item-2",
+          "type": "fridge",
+          "label": "Refrigerator",
+          "x_m": 2.75,
+          "y_m": 3.96,
+          "size_m": [
+            0.7,
+            0.65,
+            1.75
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "SE or NW placement for appliances; avoid NE.",
+          "catalog_color": [
+            0.92,
+            0.92,
+            0.94,
+            1
+          ]
+        },
+        {
+          "id": "kitchen-item-3",
+          "type": "dining_table",
+          "label": "Dining Table",
+          "x_m": 1.0,
+          "y_m": 3.12,
+          "size_m": [
+            1.2,
+            0.75,
+            0.75
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.4,
+            0.28,
+            0.18,
+            1
+          ]
+        },
+        {
+          "id": "kitchen-item-4",
+          "type": "dining_chair",
+          "label": "Dining Chair",
+          "x_m": 1.0,
+          "y_m": 2.4000000000000004,
+          "size_m": [
+            0.45,
+            0.45,
+            0.9
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.5,
+            0.38,
+            0.28,
+            1
+          ]
+        },
+        {
+          "id": "kitchen-item-5",
+          "type": "dining_chair",
+          "label": "Dining Chair",
+          "x_m": 2.25,
+          "y_m": 3.12,
+          "size_m": [
+            0.45,
+            0.45,
+            0.9
+          ],
+          "rotation_deg": 90,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.5,
+            0.38,
+            0.28,
+            1
+          ]
+        }
+      ],
+      "furniture_count": 6,
+      "windows": [
+        {
+          "wall": "E",
+          "offset": 1.25,
+          "width": 1.5,
+          "height": 1.0,
+          "sill_m": 1.0
+        }
+      ]
+    },
+    {
+      "id": "master-bedroom",
+      "name": "Master Bedroom",
+      "rect": {
+        "x": 0.25,
+        "y": 6.24,
+        "w": 6.0,
+        "h": 5.52
+      },
+      "floor": "oak_parquet",
+      "wall_color": [
+        0.94,
+        0.91,
+        0.96,
+        1
+      ],
+      "vastu": {
+        "name": "Master Bedroom",
+        "vastu_item": "Master Bedroom",
+        "direction": "SE",
+        "status": "unknown",
+        "score": 50,
+        "note": "No specific rule \u2014 verify manually"
+      },
+      "property_room": {
+        "name": "Master Bedroom",
+        "vastu_item": "Master Bedroom",
+        "direction": "SE"
+      },
+      "items": [
+        {
+          "id": "master-bedroom-item-0",
+          "type": "bed_double",
+          "label": "Double Bed",
+          "x_m": 2.87,
+          "y_m": 2.4000000000000004,
+          "size_m": [
+            2.0,
+            1.6,
+            0.55
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Master bedroom in SW strengthens stability and ownership.",
+          "catalog_color": [
+            0.55,
+            0.48,
+            0.62,
+            1
+          ]
+        },
+        {
+          "id": "master-bedroom-item-1",
+          "type": "wardrobe",
+          "label": "Wardrobe",
+          "x_m": 0.5,
+          "y_m": 2.16,
+          "size_m": [
+            0.6,
+            1.8,
+            2.2
+          ],
+          "rotation_deg": 90,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.32,
+            0.24,
+            0.18,
+            1
+          ]
+        },
+        {
+          "id": "master-bedroom-item-2",
+          "type": "side_table",
+          "label": "Side Table",
+          "x_m": 1.0,
+          "y_m": 3.959999999999999,
+          "size_m": [
+            0.5,
+            0.4,
+            0.55
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.38,
+            0.28,
+            0.18,
+            1
+          ]
+        },
+        {
+          "id": "master-bedroom-item-3",
+          "type": "side_table",
+          "label": "Side Table",
+          "x_m": 4.75,
+          "y_m": 3.959999999999999,
+          "size_m": [
+            0.5,
+            0.4,
+            0.55
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.38,
+            0.28,
+            0.18,
+            1
+          ]
+        },
+        {
+          "id": "master-bedroom-item-4",
+          "type": "ceiling_light",
+          "label": "Ceiling Light",
+          "x_m": 2.87,
+          "y_m": 2.76,
+          "size_m": [
+            0.42,
+            0.42,
+            0.08
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.98,
+            0.96,
+            0.92,
+            1
+          ]
+        }
+      ],
+      "furniture_count": 5,
+      "windows": [
+        {
+          "wall": "W",
+          "offset": 1.88,
+          "width": 2.25,
+          "height": 1.4,
+          "sill_m": 0.9
+        }
+      ]
+    },
+    {
+      "id": "kids-bedroom",
+      "name": "Kids Bedroom",
+      "rect": {
+        "x": 6.5,
+        "y": 6.24,
+        "w": 3.5,
+        "h": 5.52
+      },
+      "floor": "laminate_warm",
+      "wall_color": [
+        0.9,
+        0.95,
+        0.98,
+        1
+      ],
+      "vastu": {},
+      "property_room": {},
+      "items": [
+        {
+          "id": "kids-bedroom-item-0",
+          "type": "bed_single",
+          "label": "Single Bed",
+          "x_m": 1.25,
+          "y_m": 2.16,
+          "size_m": [
+            1.0,
+            1.9,
+            0.5
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.48,
+            0.58,
+            0.72,
+            1
+          ]
+        },
+        {
+          "id": "kids-bedroom-item-1",
+          "type": "study_desk",
+          "label": "Study Desk",
+          "x_m": 2.5,
+          "y_m": 0.7199999999999998,
+          "size_m": [
+            1.2,
+            0.6,
+            0.75
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Study in W or NE enhances focus; face East while working.",
+          "catalog_color": [
+            0.42,
+            0.32,
+            0.22,
+            1
+          ]
+        },
+        {
+          "id": "kids-bedroom-item-2",
+          "type": "bookshelf",
+          "label": "Bookshelf",
+          "x_m": 0.3799999999999999,
+          "y_m": 0.47999999999999954,
+          "size_m": [
+            0.35,
+            1.0,
+            1.8
+          ],
+          "rotation_deg": 90,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.35,
+            0.25,
+            0.15,
+            1
+          ]
+        },
+        {
+          "id": "kids-bedroom-item-3",
+          "type": "toy_chest",
+          "label": "Toy Chest",
+          "x_m": 2.880000000000001,
+          "y_m": 3.959999999999999,
+          "size_m": [
+            0.8,
+            0.5,
+            0.45
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.85,
+            0.55,
+            0.25,
+            1
+          ]
+        }
+      ],
+      "furniture_count": 4,
+      "windows": [
+        {
+          "wall": "N",
+          "offset": 1.0,
+          "width": 1.75,
+          "height": 1.2,
+          "sill_m": 0.9
+        }
+      ]
+    },
+    {
+      "id": "study",
+      "name": "Study",
+      "rect": {
+        "x": 10.25,
+        "y": 6.24,
+        "w": 2.25,
+        "h": 2.88
+      },
+      "floor": "oak_parquet",
+      "wall_color": [
+        0.93,
+        0.93,
+        0.9,
+        1
+      ],
+      "vastu": {
+        "name": "Study",
+        "vastu_item": "Study Table",
+        "direction": "NE",
+        "status": "best",
+        "score": 100,
+        "note": "Ideal placement per classical Vastu"
+      },
+      "property_room": {
+        "name": "Study",
+        "vastu_item": "Study Table",
+        "direction": "NE"
+      },
+      "items": [
+        {
+          "id": "study-item-0",
+          "type": "study_desk",
+          "label": "Study Desk",
+          "x_m": 1.0,
+          "y_m": 0.96,
+          "size_m": [
+            1.2,
+            0.6,
+            0.75
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Study in W or NE enhances focus; face East while working.",
+          "catalog_color": [
+            0.42,
+            0.32,
+            0.22,
+            1
+          ]
+        },
+        {
+          "id": "study-item-1",
+          "type": "office_chair",
+          "label": "Office Chair",
+          "x_m": 1.0,
+          "y_m": 1.92,
+          "size_m": [
+            0.55,
+            0.55,
+            1.0
+          ],
+          "rotation_deg": 180,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.18,
+            0.18,
+            0.22,
+            1
+          ]
+        },
+        {
+          "id": "study-item-2",
+          "type": "bookshelf",
+          "label": "Bookshelf",
+          "x_m": 0.3699999999999992,
+          "y_m": 0.35999999999999943,
+          "size_m": [
+            0.35,
+            1.0,
+            1.8
+          ],
+          "rotation_deg": 90,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.35,
+            0.25,
+            0.15,
+            1
+          ]
+        }
+      ],
+      "furniture_count": 3,
+      "windows": []
+    },
+    {
+      "id": "toilet",
+      "name": "Toilet",
+      "rect": {
+        "x": 12.75,
+        "y": 6.24,
+        "w": 2.0,
+        "h": 2.88
+      },
+      "floor": "ceramic_tile",
+      "wall_color": [
+        0.88,
+        0.92,
+        0.94,
+        1
+      ],
+      "vastu": {
+        "name": "Toilet",
+        "vastu_item": "Toilets",
+        "direction": "NE",
+        "status": "worst",
+        "score": 0,
+        "note": "Critical conflict \u2014 relocate if possible"
+      },
+      "property_room": {
+        "name": "Toilet",
+        "vastu_item": "Toilets",
+        "direction": "NE"
+      },
+      "items": [
+        {
+          "id": "toilet-item-0",
+          "type": "toilet",
+          "label": "Toilet",
+          "x_m": 0.75,
+          "y_m": 1.92,
+          "size_m": [
+            0.4,
+            0.65,
+            0.75
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.95,
+            0.95,
+            0.97,
+            1
+          ]
+        },
+        {
+          "id": "toilet-item-1",
+          "type": "sink",
+          "label": "Wash Basin",
+          "x_m": 1.25,
+          "y_m": 0.47999999999999954,
+          "size_m": [
+            0.55,
+            0.45,
+            0.85
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.9,
+            0.9,
+            0.92,
+            1
+          ]
+        }
+      ],
+      "furniture_count": 2,
+      "windows": []
+    },
+    {
+      "id": "main-entrance",
+      "name": "Main Entrance",
+      "rect": {
+        "x": 10.25,
+        "y": 9.36,
+        "w": 4.5,
+        "h": 2.4
+      },
+      "floor": "marble_cream",
+      "wall_color": [
+        0.96,
+        0.94,
+        0.9,
+        1
+      ],
+      "vastu": {
+        "name": "Main Entrance",
+        "vastu_item": "Entrance",
+        "direction": "S",
+        "status": "best",
+        "score": 100,
+        "note": "Ideal placement per classical Vastu"
+      },
+      "property_room": {
+        "name": "Main Entrance",
+        "vastu_item": "Entrance",
+        "direction": "S"
+      },
+      "items": [
+        {
+          "id": "main-entrance-item-0",
+          "type": "shoe_rack",
+          "label": "Shoe Rack",
+          "x_m": 0.5,
+          "y_m": 1.6799999999999997,
+          "size_m": [
+            1.0,
+            0.35,
+            0.9
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.3,
+            0.22,
+            0.15,
+            1
+          ]
+        },
+        {
+          "id": "main-entrance-item-1",
+          "type": "console_table",
+          "label": "Console Table",
+          "x_m": 2.25,
+          "y_m": 0.7200000000000006,
+          "size_m": [
+            1.2,
+            0.4,
+            0.85
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.38,
+            0.28,
+            0.18,
+            1
+          ]
+        },
+        {
+          "id": "main-entrance-item-2",
+          "type": "plant",
+          "label": "Indoor Plant",
+          "x_m": 3.75,
+          "y_m": 0.2400000000000002,
+          "size_m": [
+            0.45,
+            0.45,
+            1.1
+          ],
+          "rotation_deg": 0,
+          "vastu_tip": "Verify placement with VastuFlow zone map.",
+          "catalog_color": [
+            0.2,
+            0.55,
+            0.25,
+            1
+          ]
+        }
+      ],
+      "furniture_count": 3,
+      "windows": []
+    }
+  ]
+}

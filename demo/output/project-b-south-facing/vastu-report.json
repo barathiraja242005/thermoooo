@@ -1,0 +1,87 @@
+{
+  "compliance_score": 44,
+  "grade": "Poor",
+  "rooms": [
+    {
+      "name": "Main Entrance",
+      "vastu_item": "Entrance",
+      "direction": "S",
+      "status": "best",
+      "score": 100,
+      "note": "Ideal placement per classical Vastu"
+    },
+    {
+      "name": "Kitchen",
+      "vastu_item": "Kitchen",
+      "direction": "NE",
+      "status": "worst",
+      "score": 0,
+      "note": "Critical conflict \u2014 relocate if possible"
+    },
+    {
+      "name": "Pooja",
+      "vastu_item": "Pooja/Mandir",
+      "direction": "E",
+      "status": "unknown",
+      "score": 50,
+      "note": "No specific rule \u2014 verify manually"
+    },
+    {
+      "name": "Master Bedroom",
+      "vastu_item": "Master Bedroom",
+      "direction": "SE",
+      "status": "unknown",
+      "score": 50,
+      "note": "No specific rule \u2014 verify manually"
+    },
+    {
+      "name": "Guest Bedroom",
+      "vastu_item": "Kids Bedroom",
+      "direction": "NW",
+      "status": "unknown",
+      "score": 50,
+      "note": "No specific rule \u2014 verify manually"
+    },
+    {
+      "name": "Study",
+      "vastu_item": "Study Table",
+      "direction": "NE",
+      "status": "best",
+      "score": 100,
+      "note": "Ideal placement per classical Vastu"
+    },
+    {
+      "name": "Toilet",
+      "vastu_item": "Toilets",
+      "direction": "NE",
+      "status": "worst",
+      "score": 0,
+      "note": "Critical conflict \u2014 relocate if possible"
+    },
+    {
+      "name": "Overhead Tank",
+      "vastu_item": "Overhead Watertank",
+      "direction": "NE",
+      "status": "worst",
+      "score": 0,
+      "note": "Critical conflict \u2014 relocate if possible"
+    }
+  ],
+  "issues": [
+    {
+      "name": "Kitchen",
+      "status": "worst",
+      "note": "Critical conflict \u2014 relocate if possible"
+    },
+    {
+      "name": "Toilet",
+      "status": "worst",
+      "note": "Critical conflict \u2014 relocate if possible"
+    },
+    {
+      "name": "Overhead Tank",
+      "status": "worst",
+      "note": "Critical conflict \u2014 relocate if possible"
+    }
+  ]
+}

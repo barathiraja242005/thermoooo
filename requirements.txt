@@ -1,0 +1,6 @@
+# Core pipeline (install.sh also pulls kinvastu + jyotish deps)
+# Use Python 3.12 — 3.14 breaks some astro dependencies
+
+# Optional: run full demo after ./install.sh
+# pip install -r tools/kinvastu/requirements.txt
+# pip install -r tools/jyotish-dashboard/requirements.txt

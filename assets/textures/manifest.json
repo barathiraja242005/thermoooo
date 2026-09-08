@@ -1,0 +1,59 @@
+{
+  "sets": {
+    "wood_floor": {
+      "dir": "assets/textures/wood_floor",
+      "files": {
+        "diff_1k.jpg": "assets/textures/wood_floor/diff_1k.jpg",
+        "rough_1k.jpg": "assets/textures/wood_floor/rough_1k.jpg",
+        "nor_gl_1k.jpg": "assets/textures/wood_floor/nor_gl_1k.jpg"
+      }
+    },
+    "marble_floor": {
+      "dir": "assets/textures/marble_floor",
+      "files": {
+        "diff_1k.jpg": "assets/textures/marble_floor/diff_1k.jpg",
+        "rough_1k.jpg": "assets/textures/marble_floor/rough_1k.jpg",
+        "nor_gl_1k.jpg": "assets/textures/marble_floor/nor_gl_1k.jpg"
+      }
+    },
+    "ceramic_tile": {
+      "dir": "assets/textures/ceramic_tile",
+      "files": {
+        "diff_1k.jpg": "assets/textures/ceramic_tile/diff_1k.jpg",
+        "rough_1k.jpg": "assets/textures/ceramic_tile/rough_1k.jpg",
+        "nor_gl_1k.jpg": "assets/textures/ceramic_tile/nor_gl_1k.jpg"
+      }
+    },
+    "wall_plaster": {
+      "dir": "assets/textures/wall_plaster",
+      "files": {
+        "diff_1k.jpg": "assets/textures/wall_plaster/diff_1k.jpg",
+        "rough_1k.jpg": "assets/textures/wall_plaster/rough_1k.jpg",
+        "nor_gl_1k.jpg": "assets/textures/wall_plaster/nor_gl_1k.jpg"
+      }
+    },
+    "fabric_sofa": {
+      "dir": "assets/textures/fabric_sofa",
+      "files": {
+        "diff_1k.jpg": "assets/textures/fabric_sofa/diff_1k.jpg",
+        "rough_1k.jpg": "assets/textures/fabric_sofa/rough_1k.jpg",
+        "nor_gl_1k.jpg": "assets/textures/fabric_sofa/nor_gl_1k.jpg"
+      }
+    },
+    "wood_furniture": {
+      "dir": "assets/textures/wood_furniture",
+      "files": {
+        "diff_1k.jpg": "assets/textures/wood_furniture/diff_1k.jpg",
+        "rough_1k.jpg": "assets/textures/wood_furniture/rough_1k.jpg",
+        "nor_gl_1k.jpg": "assets/textures/wood_furniture/nor_gl_1k.jpg"
+      }
+    }
+  },
+  "floor_map": {
+    "oak_parquet": "wood_floor",
+    "marble_white": "marble_floor",
+    "marble_cream": "marble_floor",
+    "ceramic_tile": "ceramic_tile",
+    "laminate_warm": "wood_floor"
+  }
+}

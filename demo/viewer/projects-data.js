@@ -1,0 +1,2485 @@
+// Auto-generated — run: python scripts/build_viewer_bundle.py
+window.CAD_PROJECTS = {
+  "catalog": {
+    "sofa": {
+      "size": [
+        2.2,
+        0.95,
+        0.82
+      ],
+      "color": [
+        0.45,
+        0.35,
+        0.28,
+        1
+      ],
+      "roughness": 0.85
+    },
+    "coffee_table": {
+      "size": [
+        1.1,
+        0.6,
+        0.42
+      ],
+      "color": [
+        0.35,
+        0.22,
+        0.12,
+        1
+      ],
+      "roughness": 0.4
+    },
+    "tv_unit": {
+      "size": [
+        1.8,
+        0.45,
+        0.55
+      ],
+      "color": [
+        0.15,
+        0.12,
+        0.1,
+        1
+      ],
+      "roughness": 0.5
+    },
+    "floor_lamp": {
+      "size": [
+        0.35,
+        0.35,
+        1.65
+      ],
+      "color": [
+        0.85,
+        0.75,
+        0.35,
+        1
+      ],
+      "roughness": 0.3,
+      "emission": 0.8
+    },
+    "plant": {
+      "size": [
+        0.45,
+        0.45,
+        1.1
+      ],
+      "color": [
+        0.2,
+        0.55,
+        0.25,
+        1
+      ],
+      "roughness": 0.9
+    },
+    "pooja_mandir": {
+      "size": [
+        1.0,
+        0.45,
+        1.8
+      ],
+      "color": [
+        0.72,
+        0.52,
+        0.18,
+        1
+      ],
+      "roughness": 0.35,
+      "emission": 0.15
+    },
+    "kitchen_counter": {
+      "size": [
+        2.4,
+        0.62,
+        0.9
+      ],
+      "color": [
+        0.75,
+        0.75,
+        0.73,
+        1
+      ],
+      "roughness": 0.25
+    },
+    "stove": {
+      "size": [
+        0.6,
+        0.55,
+        0.05
+      ],
+      "color": [
+        0.2,
+        0.2,
+        0.2,
+        1
+      ],
+      "roughness": 0.2
+    },
+    "fridge": {
+      "size": [
+        0.7,
+        0.65,
+        1.75
+      ],
+      "color": [
+        0.92,
+        0.92,
+        0.94,
+        1
+      ],
+      "roughness": 0.15
+    },
+    "dining_table": {
+      "size": [
+        1.2,
+        0.75,
+        0.75
+      ],
+      "color": [
+        0.4,
+        0.28,
+        0.18,
+        1
+      ],
+      "roughness": 0.45
+    },
+    "dining_chair": {
+      "size": [
+        0.45,
+        0.45,
+        0.9
+      ],
+      "color": [
+        0.5,
+        0.38,
+        0.28,
+        1
+      ],
+      "roughness": 0.7
+    },
+    "bed_double": {
+      "size": [
+        2.0,
+        1.6,
+        0.55
+      ],
+      "color": [
+        0.55,
+        0.48,
+        0.62,
+        1
+      ],
+      "roughness": 0.9
+    },
+    "bed_single": {
+      "size": [
+        1.0,
+        1.9,
+        0.5
+      ],
+      "color": [
+        0.48,
+        0.58,
+        0.72,
+        1
+      ],
+      "roughness": 0.9
+    },
+    "wardrobe": {
+      "size": [
+        0.6,
+        1.8,
+        2.2
+      ],
+      "color": [
+        0.32,
+        0.24,
+        0.18,
+        1
+      ],
+      "roughness": 0.5
+    },
+    "side_table": {
+      "size": [
+        0.5,
+        0.4,
+        0.55
+      ],
+      "color": [
+        0.38,
+        0.28,
+        0.18,
+        1
+      ],
+      "roughness": 0.45
+    },
+    "study_desk": {
+      "size": [
+        1.2,
+        0.6,
+        0.75
+      ],
+      "color": [
+        0.42,
+        0.32,
+        0.22,
+        1
+      ],
+      "roughness": 0.4
+    },
+    "office_chair": {
+      "size": [
+        0.55,
+        0.55,
+        1.0
+      ],
+      "color": [
+        0.18,
+        0.18,
+        0.22,
+        1
+      ],
+      "roughness": 0.6
+    },
+    "bookshelf": {
+      "size": [
+        0.35,
+        1.0,
+        1.8
+      ],
+      "color": [
+        0.35,
+        0.25,
+        0.15,
+        1
+      ],
+      "roughness": 0.55
+    },
+    "toy_chest": {
+      "size": [
+        0.8,
+        0.5,
+        0.45
+      ],
+      "color": [
+        0.85,
+        0.55,
+        0.25,
+        1
+      ],
+      "roughness": 0.7
+    },
+    "toilet": {
+      "size": [
+        0.4,
+        0.65,
+        0.75
+      ],
+      "color": [
+        0.95,
+        0.95,
+        0.97,
+        1
+      ],
+      "roughness": 0.1
+    },
+    "sink": {
+      "size": [
+        0.55,
+        0.45,
+        0.85
+      ],
+      "color": [
+        0.9,
+        0.9,
+        0.92,
+        1
+      ],
+      "roughness": 0.1
+    },
+    "shoe_rack": {
+      "size": [
+        1.0,
+        0.35,
+        0.9
+      ],
+      "color": [
+        0.3,
+        0.22,
+        0.15,
+        1
+      ],
+      "roughness": 0.5
+    },
+    "console_table": {
+      "size": [
+        1.2,
+        0.4,
+        0.85
+      ],
+      "color": [
+        0.38,
+        0.28,
+        0.18,
+        1
+      ],
+      "roughness": 0.4
+    },
+    "ceiling_light": {
+      "size": [
+        0.42,
+        0.42,
+        0.08
+      ],
+      "color": [
+        0.98,
+        0.96,
+        0.92,
+        1
+      ],
+      "roughness": 0.15,
+      "emission": 0.8
+    },
+    "ceiling_fan": {
+      "size": [
+        1.2,
+        1.2,
+        0.35
+      ],
+      "color": [
+        0.75,
+        0.75,
+        0.78,
+        1
+      ],
+      "roughness": 0.35,
+      "metalness": 0.6
+    },
+    "pendant_light": {
+      "size": [
+        0.28,
+        0.28,
+        0.55
+      ],
+      "color": [
+        0.95,
+        0.93,
+        0.88,
+        1
+      ],
+      "roughness": 0.2,
+      "emission": 1.2
+    }
+  },
+  "projects": [
+    {
+      "id": "project-a-east-facing",
+      "property": {
+        "id": "project-a-east-facing",
+        "name": "2BHK East-Facing Apartment",
+        "description": "Vastu-compliant layout: kitchen SE, pooja NE, master SW",
+        "facing": "E",
+        "north_rotation_deg": 0,
+        "dimensions_m": {
+          "width": 12,
+          "depth": 10
+        },
+        "owner": {
+          "name": "Raj Sharma",
+          "birth_date": "1985-03-15",
+          "birth_time": "06:30",
+          "birth_place": "New Delhi",
+          "latitude": 28.6139,
+          "longitude": 77.209,
+          "timezone": "Asia/Kolkata"
+        },
+        "rooms": [
+          {
+            "name": "Main Entrance",
+            "vastu_item": "Entrance",
+            "direction": "E"
+          },
+          {
+            "name": "Living Room",
+            "vastu_item": "Family Photo",
+            "direction": "NE"
+          },
+          {
+            "name": "Pooja Room",
+            "vastu_item": "Pooja/Mandir",
+            "direction": "NE"
+          },
+          {
+            "name": "Kitchen",
+            "vastu_item": "Kitchen",
+            "direction": "SE"
+          },
+          {
+            "name": "Master Bedroom",
+            "vastu_item": "Master Bedroom",
+            "direction": "SW"
+          },
+          {
+            "name": "Kids Bedroom",
+            "vastu_item": "Kids Bedroom",
+            "direction": "NW"
+          },
+          {
+            "name": "Study",
+            "vastu_item": "Study Table",
+            "direction": "W"
+          },
+          {
+            "name": "Toilet",
+            "vastu_item": "Toilets",
+            "direction": "WNW"
+          }
+        ]
+      },
+      "layout": {
+        "wall_height_m": 2.85,
+        "wall_thickness_m": 0.12,
+        "style": "modern_indian",
+        "rooms": [
+          {
+            "name": "Living Room",
+            "rect": {
+              "x": 0.2,
+              "y": 0.2,
+              "w": 5.8,
+              "h": 4.6
+            },
+            "floor": "oak_parquet",
+            "wall_color": [
+              0.96,
+              0.94,
+              0.9,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "sofa",
+                "x": 2.5,
+                "y": 2.8,
+                "rotation_deg": 0
+              },
+              {
+                "type": "coffee_table",
+                "x": 2.5,
+                "y": 1.8,
+                "rotation_deg": 0
+              },
+              {
+                "type": "tv_unit",
+                "x": 2.5,
+                "y": 0.6,
+                "rotation_deg": 0
+              },
+              {
+                "type": "floor_lamp",
+                "x": 0.8,
+                "y": 3.8,
+                "rotation_deg": 0
+              },
+              {
+                "type": "plant",
+                "x": 5.2,
+                "y": 0.5,
+                "rotation_deg": 0
+              },
+              {
+                "type": "ceiling_fan",
+                "x": 2.5,
+                "y": 2.5,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": [
+              {
+                "wall": "N",
+                "offset": 2.0,
+                "width": 2.4,
+                "height": 1.4,
+                "sill_m": 0.9
+              }
+            ]
+          },
+          {
+            "name": "Pooja Room",
+            "rect": {
+              "x": 6.2,
+              "y": 0.2,
+              "w": 2.4,
+              "h": 2.2
+            },
+            "floor": "marble_white",
+            "wall_color": [
+              0.98,
+              0.95,
+              0.88,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "pooja_mandir",
+                "x": 7.4,
+                "y": 0.6,
+                "rotation_deg": 0
+              },
+              {
+                "type": "ceiling_light",
+                "x": 7.4,
+                "y": 1.3,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": []
+          },
+          {
+            "name": "Kitchen",
+            "rect": {
+              "x": 9.0,
+              "y": 0.2,
+              "w": 2.8,
+              "h": 4.0
+            },
+            "floor": "ceramic_tile",
+            "wall_color": [
+              0.92,
+              0.92,
+              0.9,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "kitchen_counter",
+                "x": 10.4,
+                "y": 0.5,
+                "rotation_deg": 90
+              },
+              {
+                "type": "stove",
+                "x": 10.4,
+                "y": 1.2,
+                "rotation_deg": 90
+              },
+              {
+                "type": "fridge",
+                "x": 11.2,
+                "y": 3.5,
+                "rotation_deg": 0
+              },
+              {
+                "type": "dining_table",
+                "x": 9.8,
+                "y": 2.8,
+                "rotation_deg": 0
+              },
+              {
+                "type": "dining_chair",
+                "x": 9.8,
+                "y": 2.2,
+                "rotation_deg": 0
+              },
+              {
+                "type": "dining_chair",
+                "x": 10.8,
+                "y": 2.8,
+                "rotation_deg": 90
+              },
+              {
+                "type": "pendant_light",
+                "x": 9.8,
+                "y": 2.8,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": [
+              {
+                "wall": "E",
+                "offset": 1.0,
+                "width": 1.2,
+                "height": 1.0,
+                "sill_m": 1.0
+              }
+            ]
+          },
+          {
+            "name": "Master Bedroom",
+            "rect": {
+              "x": 0.2,
+              "y": 5.2,
+              "w": 4.8,
+              "h": 4.6
+            },
+            "floor": "oak_parquet",
+            "wall_color": [
+              0.94,
+              0.91,
+              0.96,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "bed_double",
+                "x": 2.5,
+                "y": 7.2,
+                "rotation_deg": 0
+              },
+              {
+                "type": "wardrobe",
+                "x": 0.6,
+                "y": 7.0,
+                "rotation_deg": 90
+              },
+              {
+                "type": "side_table",
+                "x": 1.0,
+                "y": 8.5,
+                "rotation_deg": 0
+              },
+              {
+                "type": "side_table",
+                "x": 4.0,
+                "y": 8.5,
+                "rotation_deg": 0
+              },
+              {
+                "type": "ceiling_fan",
+                "x": 2.5,
+                "y": 7.5,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": [
+              {
+                "wall": "W",
+                "offset": 1.5,
+                "width": 1.8,
+                "height": 1.4,
+                "sill_m": 0.9
+              }
+            ]
+          },
+          {
+            "name": "Kids Bedroom",
+            "rect": {
+              "x": 5.2,
+              "y": 5.2,
+              "w": 2.8,
+              "h": 4.6
+            },
+            "floor": "laminate_warm",
+            "wall_color": [
+              0.9,
+              0.95,
+              0.98,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "bed_single",
+                "x": 6.2,
+                "y": 7.0,
+                "rotation_deg": 0
+              },
+              {
+                "type": "study_desk",
+                "x": 7.2,
+                "y": 5.8,
+                "rotation_deg": 0
+              },
+              {
+                "type": "bookshelf",
+                "x": 5.5,
+                "y": 5.6,
+                "rotation_deg": 90
+              },
+              {
+                "type": "toy_chest",
+                "x": 7.5,
+                "y": 8.5,
+                "rotation_deg": 0
+              },
+              {
+                "type": "ceiling_fan",
+                "x": 6.6,
+                "y": 7.4,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": [
+              {
+                "wall": "N",
+                "offset": 0.8,
+                "width": 1.4,
+                "height": 1.2,
+                "sill_m": 0.9
+              }
+            ]
+          },
+          {
+            "name": "Study",
+            "rect": {
+              "x": 8.2,
+              "y": 5.2,
+              "w": 1.8,
+              "h": 2.4
+            },
+            "floor": "oak_parquet",
+            "wall_color": [
+              0.93,
+              0.93,
+              0.9,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "study_desk",
+                "x": 9.0,
+                "y": 6.0,
+                "rotation_deg": 0
+              },
+              {
+                "type": "office_chair",
+                "x": 9.0,
+                "y": 6.8,
+                "rotation_deg": 180
+              },
+              {
+                "type": "bookshelf",
+                "x": 8.5,
+                "y": 5.5,
+                "rotation_deg": 90
+              }
+            ],
+            "windows": []
+          },
+          {
+            "name": "Toilet",
+            "rect": {
+              "x": 10.2,
+              "y": 5.2,
+              "w": 1.6,
+              "h": 2.4
+            },
+            "floor": "ceramic_tile",
+            "wall_color": [
+              0.88,
+              0.92,
+              0.94,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "toilet",
+                "x": 10.8,
+                "y": 6.8,
+                "rotation_deg": 0
+              },
+              {
+                "type": "sink",
+                "x": 11.2,
+                "y": 5.6,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": []
+          },
+          {
+            "name": "Main Entrance",
+            "rect": {
+              "x": 8.2,
+              "y": 7.8,
+              "w": 3.6,
+              "h": 2.0
+            },
+            "floor": "marble_cream",
+            "wall_color": [
+              0.96,
+              0.94,
+              0.9,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "shoe_rack",
+                "x": 8.6,
+                "y": 9.2,
+                "rotation_deg": 0
+              },
+              {
+                "type": "console_table",
+                "x": 10.0,
+                "y": 8.4,
+                "rotation_deg": 0
+              },
+              {
+                "type": "plant",
+                "x": 11.2,
+                "y": 8.0,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": []
+          }
+        ],
+        "doors": [
+          {
+            "name": "Main Door",
+            "x": 10.0,
+            "y": 9.78,
+            "width": 1.0,
+            "height": 2.1,
+            "wall": "S",
+            "style": "teak"
+          },
+          {
+            "name": "Living-Pooja",
+            "x": 6.05,
+            "y": 1.5,
+            "width": 0.85,
+            "height": 2.05,
+            "wall": "E",
+            "style": "internal"
+          },
+          {
+            "name": "Living-Master",
+            "x": 3.2,
+            "y": 5.15,
+            "width": 0.9,
+            "height": 2.05,
+            "wall": "S",
+            "style": "internal"
+          },
+          {
+            "name": "Pooja-Kitchen",
+            "x": 8.85,
+            "y": 1.8,
+            "width": 0.8,
+            "height": 2.0,
+            "wall": "E",
+            "style": "internal"
+          },
+          {
+            "name": "Master-Kids",
+            "x": 5.15,
+            "y": 7.2,
+            "width": 0.85,
+            "height": 2.05,
+            "wall": "E",
+            "style": "internal"
+          },
+          {
+            "name": "Study-Toilet",
+            "x": 10.15,
+            "y": 6.2,
+            "width": 0.75,
+            "height": 2.0,
+            "wall": "E",
+            "style": "internal"
+          }
+        ],
+        "camera_tour": [
+          {
+            "x": 10.0,
+            "y": 9.5,
+            "z": 1.6,
+            "look_at": [
+              5,
+              5,
+              1
+            ]
+          },
+          {
+            "x": 8.0,
+            "y": 8.5,
+            "z": 1.6,
+            "look_at": [
+              3,
+              3,
+              1
+            ]
+          },
+          {
+            "x": 3.0,
+            "y": 3.0,
+            "z": 1.5,
+            "look_at": [
+              2.5,
+              1.5,
+              0.8
+            ]
+          },
+          {
+            "x": 7.4,
+            "y": 1.5,
+            "z": 1.5,
+            "look_at": [
+              7.4,
+              0.8,
+              1.2
+            ]
+          },
+          {
+            "x": 10.0,
+            "y": 2.5,
+            "z": 1.5,
+            "look_at": [
+              10.4,
+              1.0,
+              0.9
+            ]
+          },
+          {
+            "x": 2.5,
+            "y": 7.5,
+            "z": 1.5,
+            "look_at": [
+              2.5,
+              7.2,
+              0.6
+            ]
+          },
+          {
+            "x": 6.5,
+            "y": 7.0,
+            "z": 1.5,
+            "look_at": [
+              6.2,
+              7.0,
+              0.5
+            ]
+          },
+          {
+            "x": 9.0,
+            "y": 6.2,
+            "z": 1.5,
+            "look_at": [
+              9.0,
+              6.0,
+              0.8
+            ]
+          },
+          {
+            "x": 5.0,
+            "y": 5.0,
+            "z": 4.5,
+            "look_at": [
+              6,
+              5,
+              0
+            ]
+          }
+        ]
+      },
+      "vastu": {
+        "compliance_score": 71,
+        "grade": "Good",
+        "rooms": [
+          {
+            "name": "Main Entrance",
+            "vastu_item": "Entrance",
+            "direction": "E",
+            "status": "good",
+            "score": 80,
+            "note": "Acceptable placement"
+          },
+          {
+            "name": "Living Room",
+            "vastu_item": "Family Photo",
+            "direction": "NE",
+            "status": "unknown",
+            "score": 50,
+            "note": "No specific rule \u2014 verify manually"
+          },
+          {
+            "name": "Pooja Room",
+            "vastu_item": "Pooja/Mandir",
+            "direction": "NE",
+            "status": "good",
+            "score": 80,
+            "note": "Acceptable placement"
+          },
+          {
+            "name": "Kitchen",
+            "vastu_item": "Kitchen",
+            "direction": "SE",
+            "status": "good",
+            "score": 80,
+            "note": "Acceptable placement"
+          },
+          {
+            "name": "Master Bedroom",
+            "vastu_item": "Master Bedroom",
+            "direction": "SW",
+            "status": "best",
+            "score": 100,
+            "note": "Ideal placement per classical Vastu"
+          },
+          {
+            "name": "Kids Bedroom",
+            "vastu_item": "Kids Bedroom",
+            "direction": "NW",
+            "status": "unknown",
+            "score": 50,
+            "note": "No specific rule \u2014 verify manually"
+          },
+          {
+            "name": "Study",
+            "vastu_item": "Study Table",
+            "direction": "W",
+            "status": "unknown",
+            "score": 50,
+            "note": "No specific rule \u2014 verify manually"
+          },
+          {
+            "name": "Toilet",
+            "vastu_item": "Toilets",
+            "direction": "WNW",
+            "status": "good",
+            "score": 80,
+            "note": "Acceptable placement"
+          }
+        ],
+        "issues": []
+      },
+      "astro": {
+        "swisseph_available": true,
+        "lagna_sign": "Aquarius",
+        "moon_sign": "Sagittarius",
+        "used_precise_astro": true,
+        "messages": [
+          "\u2705 \u5df2\u4f7f\u7528 pyswisseph \u9032\u884c\u7cbe\u78ba\u5420\u9640\u8a08\u7b97\uff08Lahiri Ayanamsa\uff09\u3002"
+        ],
+        "room_recommendations": [
+          {
+            "\u623f\u9593": "\ud83d\udeaa \u5927\u9580",
+            "\u6700\u4f73\u65b9\u4f4d": "\u897f\u65b9 / \u5317\u65b9",
+            "\u8aaa\u660e": "\u98a8\u8c61\u6d41\u52d5\u7a7a\u9593",
+            "\u88dc\u6551": "\u4fdd\u6301\u9580\u53e3\u901a\u98a8"
+          },
+          {
+            "\u623f\u9593": "\ud83d\udecf\ufe0f \u4e3b\u81e5\u5ba4",
+            "\u6700\u4f73\u65b9\u4f4d": "\u897f\u5357\u65b9 / \u897f\u65b9",
+            "\u8aaa\u660e": "\u7a69\u56fa\u6839\u57fa",
+            "\u88dc\u6551": "\u4f7f\u7528\u6df1\u8272\u7cfb\u88dd\u98fe"
+          },
+          {
+            "\u623f\u9593": "\ud83c\udf73 \u5eda\u623f",
+            "\u6700\u4f73\u65b9\u4f4d": "\u6771\u5357\u65b9",
+            "\u8aaa\u660e": "Agni \u65b9\u4f4d",
+            "\u88dc\u6551": "\u4fdd\u6301\u901a\u98a8"
+          },
+          {
+            "\u623f\u9593": "\ud83d\ude4f \u7948\u79b1\u5ba4",
+            "\u6700\u4f73\u65b9\u4f4d": "\u6771\u5317\u65b9",
+            "\u8aaa\u660e": "\u9748\u6027\u80fd\u91cf\u5165\u53e3",
+            "\u88dc\u6551": "\u653e\u7f6e\u98a8\u9234"
+          },
+          {
+            "\u623f\u9593": "\ud83d\udcb0 \u8ca1\u4f4d",
+            "\u6700\u4f73\u65b9\u4f4d": "\u5317\u65b9",
+            "\u8aaa\u660e": "Kubera \u6c38\u6046\u65b9\u4f4d",
+            "\u88dc\u6551": "\u4f7f\u7528\u79d1\u6280\u7406\u8ca1"
+          },
+          {
+            "\u623f\u9593": "\ud83d\udcda \u66f8\u623f",
+            "\u6700\u4f73\u65b9\u4f4d": "\u897f\u65b9 / \u5317\u65b9",
+            "\u8aaa\u660e": "\u571f\u661f\u8207\u98a8\u8c61\u7d50\u5408",
+            "\u88dc\u6551": "\u4fdd\u6301\u7a7a\u9593\u958b\u95ca"
+          }
+        ]
+      },
+      "assets": {
+        "hero": "../output/project-a-east-facing/project-a-east-facing-hero.png",
+        "living": "../output/project-a-east-facing/project-a-east-facing-living.png",
+        "bedroom": "../output/project-a-east-facing/project-a-east-facing-bedroom.png",
+        "walkthrough": "../output/project-a-east-facing/project-a-east-facing-walkthrough.mp4",
+        "glb": "../output/project-a-east-facing/project-a-east-facing-scene.glb",
+        "floorPlan": "../output/project-a-east-facing/floor-plan.svg"
+      }
+    },
+    {
+      "id": "project-b-south-facing",
+      "property": {
+        "id": "project-b-south-facing",
+        "name": "3BHK South-Facing Villa (needs Vastu fixes)",
+        "description": "Intentionally suboptimal: kitchen NE, toilet NE, master in SE",
+        "facing": "S",
+        "north_rotation_deg": 0,
+        "dimensions_m": {
+          "width": 15,
+          "depth": 12
+        },
+        "owner": {
+          "name": "Priya Mehta",
+          "birth_date": "1992-08-22",
+          "birth_time": "14:15",
+          "birth_place": "Mumbai",
+          "latitude": 19.076,
+          "longitude": 72.8777,
+          "timezone": "Asia/Kolkata"
+        },
+        "rooms": [
+          {
+            "name": "Main Entrance",
+            "vastu_item": "Entrance",
+            "direction": "S"
+          },
+          {
+            "name": "Kitchen",
+            "vastu_item": "Kitchen",
+            "direction": "NE"
+          },
+          {
+            "name": "Pooja",
+            "vastu_item": "Pooja/Mandir",
+            "direction": "E"
+          },
+          {
+            "name": "Master Bedroom",
+            "vastu_item": "Master Bedroom",
+            "direction": "SE"
+          },
+          {
+            "name": "Guest Bedroom",
+            "vastu_item": "Kids Bedroom",
+            "direction": "NW"
+          },
+          {
+            "name": "Study",
+            "vastu_item": "Study Table",
+            "direction": "NE"
+          },
+          {
+            "name": "Toilet",
+            "vastu_item": "Toilets",
+            "direction": "NE"
+          },
+          {
+            "name": "Overhead Tank",
+            "vastu_item": "Overhead Watertank",
+            "direction": "NE"
+          }
+        ]
+      },
+      "layout": {
+        "wall_height_m": 2.85,
+        "wall_thickness_m": 0.12,
+        "style": "modern_indian",
+        "rooms": [
+          {
+            "name": "Living Room",
+            "rect": {
+              "x": 0.25,
+              "y": 0.24,
+              "w": 7.25,
+              "h": 5.52
+            },
+            "floor": "oak_parquet",
+            "wall_color": [
+              0.96,
+              0.94,
+              0.9,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "sofa",
+                "x": 3.12,
+                "y": 3.36,
+                "rotation_deg": 0
+              },
+              {
+                "type": "coffee_table",
+                "x": 3.12,
+                "y": 2.16,
+                "rotation_deg": 0
+              },
+              {
+                "type": "tv_unit",
+                "x": 3.12,
+                "y": 0.72,
+                "rotation_deg": 0
+              },
+              {
+                "type": "floor_lamp",
+                "x": 1.0,
+                "y": 4.56,
+                "rotation_deg": 0
+              },
+              {
+                "type": "plant",
+                "x": 6.5,
+                "y": 0.6,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": [
+              {
+                "wall": "N",
+                "offset": 2.5,
+                "width": 3.0,
+                "height": 1.4,
+                "sill_m": 0.9
+              }
+            ]
+          },
+          {
+            "name": "Pooja Room",
+            "rect": {
+              "x": 7.75,
+              "y": 0.24,
+              "w": 3.0,
+              "h": 2.64
+            },
+            "floor": "marble_white",
+            "wall_color": [
+              0.98,
+              0.95,
+              0.88,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "pooja_mandir",
+                "x": 9.25,
+                "y": 0.72,
+                "rotation_deg": 0
+              },
+              {
+                "type": "ceiling_light",
+                "x": 9.25,
+                "y": 1.56,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": []
+          },
+          {
+            "name": "Kitchen",
+            "rect": {
+              "x": 11.25,
+              "y": 0.24,
+              "w": 3.5,
+              "h": 4.8
+            },
+            "floor": "ceramic_tile",
+            "wall_color": [
+              0.92,
+              0.92,
+              0.9,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "kitchen_counter",
+                "x": 13.0,
+                "y": 0.6,
+                "rotation_deg": 90
+              },
+              {
+                "type": "stove",
+                "x": 13.0,
+                "y": 1.44,
+                "rotation_deg": 90
+              },
+              {
+                "type": "fridge",
+                "x": 14.0,
+                "y": 4.2,
+                "rotation_deg": 0
+              },
+              {
+                "type": "dining_table",
+                "x": 12.25,
+                "y": 3.36,
+                "rotation_deg": 0
+              },
+              {
+                "type": "dining_chair",
+                "x": 12.25,
+                "y": 2.64,
+                "rotation_deg": 0
+              },
+              {
+                "type": "dining_chair",
+                "x": 13.5,
+                "y": 3.36,
+                "rotation_deg": 90
+              }
+            ],
+            "windows": [
+              {
+                "wall": "E",
+                "offset": 1.25,
+                "width": 1.5,
+                "height": 1.0,
+                "sill_m": 1.0
+              }
+            ]
+          },
+          {
+            "name": "Master Bedroom",
+            "rect": {
+              "x": 0.25,
+              "y": 6.24,
+              "w": 6.0,
+              "h": 5.52
+            },
+            "floor": "oak_parquet",
+            "wall_color": [
+              0.94,
+              0.91,
+              0.96,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "bed_double",
+                "x": 3.12,
+                "y": 8.64,
+                "rotation_deg": 0
+              },
+              {
+                "type": "wardrobe",
+                "x": 0.75,
+                "y": 8.4,
+                "rotation_deg": 90
+              },
+              {
+                "type": "side_table",
+                "x": 1.25,
+                "y": 10.2,
+                "rotation_deg": 0
+              },
+              {
+                "type": "side_table",
+                "x": 5.0,
+                "y": 10.2,
+                "rotation_deg": 0
+              },
+              {
+                "type": "ceiling_light",
+                "x": 3.12,
+                "y": 9.0,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": [
+              {
+                "wall": "W",
+                "offset": 1.88,
+                "width": 2.25,
+                "height": 1.4,
+                "sill_m": 0.9
+              }
+            ]
+          },
+          {
+            "name": "Kids Bedroom",
+            "rect": {
+              "x": 6.5,
+              "y": 6.24,
+              "w": 3.5,
+              "h": 5.52
+            },
+            "floor": "laminate_warm",
+            "wall_color": [
+              0.9,
+              0.95,
+              0.98,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "bed_single",
+                "x": 7.75,
+                "y": 8.4,
+                "rotation_deg": 0
+              },
+              {
+                "type": "study_desk",
+                "x": 9.0,
+                "y": 6.96,
+                "rotation_deg": 0
+              },
+              {
+                "type": "bookshelf",
+                "x": 6.88,
+                "y": 6.72,
+                "rotation_deg": 90
+              },
+              {
+                "type": "toy_chest",
+                "x": 9.38,
+                "y": 10.2,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": [
+              {
+                "wall": "N",
+                "offset": 1.0,
+                "width": 1.75,
+                "height": 1.2,
+                "sill_m": 0.9
+              }
+            ]
+          },
+          {
+            "name": "Study",
+            "rect": {
+              "x": 10.25,
+              "y": 6.24,
+              "w": 2.25,
+              "h": 2.88
+            },
+            "floor": "oak_parquet",
+            "wall_color": [
+              0.93,
+              0.93,
+              0.9,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "study_desk",
+                "x": 11.25,
+                "y": 7.2,
+                "rotation_deg": 0
+              },
+              {
+                "type": "office_chair",
+                "x": 11.25,
+                "y": 8.16,
+                "rotation_deg": 180
+              },
+              {
+                "type": "bookshelf",
+                "x": 10.62,
+                "y": 6.6,
+                "rotation_deg": 90
+              }
+            ],
+            "windows": []
+          },
+          {
+            "name": "Toilet",
+            "rect": {
+              "x": 12.75,
+              "y": 6.24,
+              "w": 2.0,
+              "h": 2.88
+            },
+            "floor": "ceramic_tile",
+            "wall_color": [
+              0.88,
+              0.92,
+              0.94,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "toilet",
+                "x": 13.5,
+                "y": 8.16,
+                "rotation_deg": 0
+              },
+              {
+                "type": "sink",
+                "x": 14.0,
+                "y": 6.72,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": []
+          },
+          {
+            "name": "Main Entrance",
+            "rect": {
+              "x": 10.25,
+              "y": 9.36,
+              "w": 4.5,
+              "h": 2.4
+            },
+            "floor": "marble_cream",
+            "wall_color": [
+              0.96,
+              0.94,
+              0.9,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "shoe_rack",
+                "x": 10.75,
+                "y": 11.04,
+                "rotation_deg": 0
+              },
+              {
+                "type": "console_table",
+                "x": 12.5,
+                "y": 10.08,
+                "rotation_deg": 0
+              },
+              {
+                "type": "plant",
+                "x": 14.0,
+                "y": 9.6,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": []
+          }
+        ],
+        "doors": [
+          {
+            "name": "Main Door",
+            "x": 10.0,
+            "y": 9.8,
+            "width": 1.0,
+            "height": 2.1,
+            "wall": "S"
+          },
+          {
+            "name": "Living-Kitchen",
+            "from": "Living Room",
+            "to": "Kitchen",
+            "width": 0.9
+          },
+          {
+            "name": "Living-Master",
+            "from": "Living Room",
+            "to": "Master Bedroom",
+            "width": 0.9
+          }
+        ],
+        "camera_tour": [
+          {
+            "x": 12.5,
+            "y": 11.4,
+            "z": 1.6,
+            "look_at": [
+              6.25,
+              6.0,
+              1
+            ]
+          },
+          {
+            "x": 10.0,
+            "y": 10.2,
+            "z": 1.6,
+            "look_at": [
+              3.75,
+              3.6,
+              1
+            ]
+          },
+          {
+            "x": 3.75,
+            "y": 3.6,
+            "z": 1.5,
+            "look_at": [
+              3.12,
+              1.8,
+              0.8
+            ]
+          },
+          {
+            "x": 9.25,
+            "y": 1.8,
+            "z": 1.5,
+            "look_at": [
+              9.25,
+              0.96,
+              1.2
+            ]
+          },
+          {
+            "x": 12.5,
+            "y": 3.0,
+            "z": 1.5,
+            "look_at": [
+              13.0,
+              1.2,
+              0.9
+            ]
+          },
+          {
+            "x": 3.12,
+            "y": 9.0,
+            "z": 1.5,
+            "look_at": [
+              3.12,
+              8.64,
+              0.6
+            ]
+          },
+          {
+            "x": 8.12,
+            "y": 8.4,
+            "z": 1.5,
+            "look_at": [
+              7.75,
+              8.4,
+              0.5
+            ]
+          },
+          {
+            "x": 11.25,
+            "y": 7.44,
+            "z": 1.5,
+            "look_at": [
+              11.25,
+              7.2,
+              0.8
+            ]
+          },
+          {
+            "x": 6.25,
+            "y": 6.0,
+            "z": 4.5,
+            "look_at": [
+              7.5,
+              6.0,
+              0
+            ]
+          }
+        ]
+      },
+      "vastu": {
+        "compliance_score": 44,
+        "grade": "Poor",
+        "rooms": [
+          {
+            "name": "Main Entrance",
+            "vastu_item": "Entrance",
+            "direction": "S",
+            "status": "best",
+            "score": 100,
+            "note": "Ideal placement per classical Vastu"
+          },
+          {
+            "name": "Kitchen",
+            "vastu_item": "Kitchen",
+            "direction": "NE",
+            "status": "worst",
+            "score": 0,
+            "note": "Critical conflict \u2014 relocate if possible"
+          },
+          {
+            "name": "Pooja",
+            "vastu_item": "Pooja/Mandir",
+            "direction": "E",
+            "status": "unknown",
+            "score": 50,
+            "note": "No specific rule \u2014 verify manually"
+          },
+          {
+            "name": "Master Bedroom",
+            "vastu_item": "Master Bedroom",
+            "direction": "SE",
+            "status": "unknown",
+            "score": 50,
+            "note": "No specific rule \u2014 verify manually"
+          },
+          {
+            "name": "Guest Bedroom",
+            "vastu_item": "Kids Bedroom",
+            "direction": "NW",
+            "status": "unknown",
+            "score": 50,
+            "note": "No specific rule \u2014 verify manually"
+          },
+          {
+            "name": "Study",
+            "vastu_item": "Study Table",
+            "direction": "NE",
+            "status": "best",
+            "score": 100,
+            "note": "Ideal placement per classical Vastu"
+          },
+          {
+            "name": "Toilet",
+            "vastu_item": "Toilets",
+            "direction": "NE",
+            "status": "worst",
+            "score": 0,
+            "note": "Critical conflict \u2014 relocate if possible"
+          },
+          {
+            "name": "Overhead Tank",
+            "vastu_item": "Overhead Watertank",
+            "direction": "NE",
+            "status": "worst",
+            "score": 0,
+            "note": "Critical conflict \u2014 relocate if possible"
+          }
+        ],
+        "issues": [
+          {
+            "name": "Kitchen",
+            "status": "worst",
+            "note": "Critical conflict \u2014 relocate if possible"
+          },
+          {
+            "name": "Toilet",
+            "status": "worst",
+            "note": "Critical conflict \u2014 relocate if possible"
+          },
+          {
+            "name": "Overhead Tank",
+            "status": "worst",
+            "note": "Critical conflict \u2014 relocate if possible"
+          }
+        ]
+      },
+      "astro": {
+        "swisseph_available": true,
+        "lagna_sign": "Scorpio",
+        "moon_sign": "Taurus",
+        "used_precise_astro": true,
+        "messages": [
+          "\u2705 \u5df2\u4f7f\u7528 pyswisseph \u9032\u884c\u7cbe\u78ba\u5420\u9640\u8a08\u7b97\uff08Lahiri Ayanamsa\uff09\u3002"
+        ],
+        "room_recommendations": [
+          {
+            "\u623f\u9593": "\ud83d\udeaa \u5927\u9580",
+            "\u6700\u4f73\u65b9\u4f4d": "\u5357\u65b9 / \u6771\u65b9",
+            "\u8aaa\u660e": "\u706b\u661f\u4e3b\u5bb0\u65b9\u4f4d",
+            "\u88dc\u6551": "\u9580\u53e3\u653e\u7d05\u8272\u7269\u54c1"
+          },
+          {
+            "\u623f\u9593": "\ud83d\udecf\ufe0f \u4e3b\u81e5\u5ba4",
+            "\u6700\u4f73\u65b9\u4f4d": "\u897f\u5357\u65b9",
+            "\u8aaa\u660e": "\u7a69\u56fa\u6df1\u5c64\u8f49\u5316",
+            "\u88dc\u6551": "\u4f7f\u7528\u6df1\u8272\u5be2\u5177"
+          },
+          {
+            "\u623f\u9593": "\ud83c\udf73 \u5eda\u623f",
+            "\u6700\u4f73\u65b9\u4f4d": "\u6771\u5357\u65b9",
+            "\u8aaa\u660e": "Agni \u65b9\u4f4d",
+            "\u88dc\u6551": "\u9762\u6771\u70f9\u98ea"
+          },
+          {
+            "\u623f\u9593": "\ud83d\ude4f \u7948\u79b1\u5ba4",
+            "\u6700\u4f73\u65b9\u4f4d": "\u6771\u5317\u65b9",
+            "\u8aaa\u660e": "\u8f49\u5316\u6df1\u5c64\u80fd\u91cf",
+            "\u88dc\u6551": "\u5b9a\u671f\u6de8\u5316\u7a7a\u9593"
+          },
+          {
+            "\u623f\u9593": "\ud83d\udcb0 \u8ca1\u4f4d",
+            "\u6700\u4f73\u65b9\u4f4d": "\u5317\u65b9",
+            "\u8aaa\u660e": "Kubera \u6c38\u6046\u65b9\u4f4d",
+            "\u88dc\u6551": "\u653e\u7f6e\u6697\u8272\u4fdd\u96aa\u7bb1"
+          },
+          {
+            "\u623f\u9593": "\ud83d\udcda \u66f8\u623f",
+            "\u6700\u4f73\u65b9\u4f4d": "\u5357\u65b9",
+            "\u8aaa\u660e": "\u706b\u661f\u5e36\u4f86\u5c08\u6ce8\u529b",
+            "\u88dc\u6551": "\u4f7f\u7528\u7d05\u8272\u6587\u5177"
+          }
+        ]
+      },
+      "assets": {
+        "hero": "../output/project-b-south-facing/project-b-south-facing-hero.png",
+        "living": "../output/project-b-south-facing/project-b-south-facing-living.png",
+        "bedroom": "../output/project-b-south-facing/project-b-south-facing-bedroom.png",
+        "walkthrough": "../output/project-b-south-facing/project-b-south-facing-walkthrough.mp4",
+        "glb": "../output/project-b-south-facing/project-b-south-facing-scene.glb",
+        "floorPlan": "../output/project-b-south-facing/floor-plan.svg"
+      }
+    },
+    {
+      "id": "project-c-corner-plot",
+      "property": {
+        "id": "project-c-corner-plot",
+        "name": "Corner Plot West-Facing Bungalow",
+        "description": "Corner plot with dual road access; balanced vastu with minor fixes",
+        "facing": "W",
+        "north_rotation_deg": 15,
+        "dimensions_m": {
+          "width": 18,
+          "depth": 14
+        },
+        "owner": {
+          "name": "Arjun Reddy",
+          "birth_date": "1978-11-05",
+          "birth_time": "04:45",
+          "birth_place": "Hyderabad",
+          "latitude": 17.385,
+          "longitude": 78.4867,
+          "timezone": "Asia/Kolkata"
+        },
+        "rooms": [
+          {
+            "name": "Main Entrance",
+            "vastu_item": "Entrance",
+            "direction": "W"
+          },
+          {
+            "name": "Living",
+            "vastu_item": "Dining Table",
+            "direction": "S"
+          },
+          {
+            "name": "Pooja",
+            "vastu_item": "Pooja/Mandir",
+            "direction": "NE"
+          },
+          {
+            "name": "Kitchen",
+            "vastu_item": "Kitchen",
+            "direction": "SE"
+          },
+          {
+            "name": "Master Bedroom",
+            "vastu_item": "Master Bedroom",
+            "direction": "SW"
+          },
+          {
+            "name": "Office",
+            "vastu_item": "Office Desk",
+            "direction": "W"
+          },
+          {
+            "name": "Locker Room",
+            "vastu_item": "Locker",
+            "direction": "WSW"
+          },
+          {
+            "name": "Underground Tank",
+            "vastu_item": "Underground Watertank",
+            "direction": "NE"
+          },
+          {
+            "name": "Toilet",
+            "vastu_item": "Toilets",
+            "direction": "ESE"
+          }
+        ]
+      },
+      "layout": {
+        "wall_height_m": 2.85,
+        "wall_thickness_m": 0.12,
+        "style": "modern_indian",
+        "rooms": [
+          {
+            "name": "Living Room",
+            "rect": {
+              "x": 0.3,
+              "y": 0.28,
+              "w": 8.7,
+              "h": 6.44
+            },
+            "floor": "oak_parquet",
+            "wall_color": [
+              0.96,
+              0.94,
+              0.9,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "sofa",
+                "x": 3.75,
+                "y": 3.92,
+                "rotation_deg": 0
+              },
+              {
+                "type": "coffee_table",
+                "x": 3.75,
+                "y": 2.52,
+                "rotation_deg": 0
+              },
+              {
+                "type": "tv_unit",
+                "x": 3.75,
+                "y": 0.84,
+                "rotation_deg": 0
+              },
+              {
+                "type": "floor_lamp",
+                "x": 1.2,
+                "y": 5.32,
+                "rotation_deg": 0
+              },
+              {
+                "type": "plant",
+                "x": 7.8,
+                "y": 0.7,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": [
+              {
+                "wall": "N",
+                "offset": 3.0,
+                "width": 3.6,
+                "height": 1.4,
+                "sill_m": 0.9
+              }
+            ]
+          },
+          {
+            "name": "Pooja Room",
+            "rect": {
+              "x": 9.3,
+              "y": 0.28,
+              "w": 3.6,
+              "h": 3.08
+            },
+            "floor": "marble_white",
+            "wall_color": [
+              0.98,
+              0.95,
+              0.88,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "pooja_mandir",
+                "x": 11.1,
+                "y": 0.84,
+                "rotation_deg": 0
+              },
+              {
+                "type": "ceiling_light",
+                "x": 11.1,
+                "y": 1.82,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": []
+          },
+          {
+            "name": "Kitchen",
+            "rect": {
+              "x": 13.5,
+              "y": 0.28,
+              "w": 4.2,
+              "h": 5.6
+            },
+            "floor": "ceramic_tile",
+            "wall_color": [
+              0.92,
+              0.92,
+              0.9,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "kitchen_counter",
+                "x": 15.6,
+                "y": 0.7,
+                "rotation_deg": 90
+              },
+              {
+                "type": "stove",
+                "x": 15.6,
+                "y": 1.68,
+                "rotation_deg": 90
+              },
+              {
+                "type": "fridge",
+                "x": 16.8,
+                "y": 4.9,
+                "rotation_deg": 0
+              },
+              {
+                "type": "dining_table",
+                "x": 14.7,
+                "y": 3.92,
+                "rotation_deg": 0
+              },
+              {
+                "type": "dining_chair",
+                "x": 14.7,
+                "y": 3.08,
+                "rotation_deg": 0
+              },
+              {
+                "type": "dining_chair",
+                "x": 16.2,
+                "y": 3.92,
+                "rotation_deg": 90
+              }
+            ],
+            "windows": [
+              {
+                "wall": "E",
+                "offset": 1.5,
+                "width": 1.8,
+                "height": 1.0,
+                "sill_m": 1.0
+              }
+            ]
+          },
+          {
+            "name": "Master Bedroom",
+            "rect": {
+              "x": 0.3,
+              "y": 7.28,
+              "w": 7.2,
+              "h": 6.44
+            },
+            "floor": "oak_parquet",
+            "wall_color": [
+              0.94,
+              0.91,
+              0.96,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "bed_double",
+                "x": 3.75,
+                "y": 10.08,
+                "rotation_deg": 0
+              },
+              {
+                "type": "wardrobe",
+                "x": 0.9,
+                "y": 9.8,
+                "rotation_deg": 90
+              },
+              {
+                "type": "side_table",
+                "x": 1.5,
+                "y": 11.9,
+                "rotation_deg": 0
+              },
+              {
+                "type": "side_table",
+                "x": 6.0,
+                "y": 11.9,
+                "rotation_deg": 0
+              },
+              {
+                "type": "ceiling_light",
+                "x": 3.75,
+                "y": 10.5,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": [
+              {
+                "wall": "W",
+                "offset": 2.25,
+                "width": 2.7,
+                "height": 1.4,
+                "sill_m": 0.9
+              }
+            ]
+          },
+          {
+            "name": "Kids Bedroom",
+            "rect": {
+              "x": 7.8,
+              "y": 7.28,
+              "w": 4.2,
+              "h": 6.44
+            },
+            "floor": "laminate_warm",
+            "wall_color": [
+              0.9,
+              0.95,
+              0.98,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "bed_single",
+                "x": 9.3,
+                "y": 9.8,
+                "rotation_deg": 0
+              },
+              {
+                "type": "study_desk",
+                "x": 10.8,
+                "y": 8.12,
+                "rotation_deg": 0
+              },
+              {
+                "type": "bookshelf",
+                "x": 8.25,
+                "y": 7.84,
+                "rotation_deg": 90
+              },
+              {
+                "type": "toy_chest",
+                "x": 11.25,
+                "y": 11.9,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": [
+              {
+                "wall": "N",
+                "offset": 1.2,
+                "width": 2.1,
+                "height": 1.2,
+                "sill_m": 0.9
+              }
+            ]
+          },
+          {
+            "name": "Study",
+            "rect": {
+              "x": 12.3,
+              "y": 7.28,
+              "w": 2.7,
+              "h": 3.36
+            },
+            "floor": "oak_parquet",
+            "wall_color": [
+              0.93,
+              0.93,
+              0.9,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "study_desk",
+                "x": 13.5,
+                "y": 8.4,
+                "rotation_deg": 0
+              },
+              {
+                "type": "office_chair",
+                "x": 13.5,
+                "y": 9.52,
+                "rotation_deg": 180
+              },
+              {
+                "type": "bookshelf",
+                "x": 12.75,
+                "y": 7.7,
+                "rotation_deg": 90
+              }
+            ],
+            "windows": []
+          },
+          {
+            "name": "Toilet",
+            "rect": {
+              "x": 15.3,
+              "y": 7.28,
+              "w": 2.4,
+              "h": 3.36
+            },
+            "floor": "ceramic_tile",
+            "wall_color": [
+              0.88,
+              0.92,
+              0.94,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "toilet",
+                "x": 16.2,
+                "y": 9.52,
+                "rotation_deg": 0
+              },
+              {
+                "type": "sink",
+                "x": 16.8,
+                "y": 7.84,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": []
+          },
+          {
+            "name": "Main Entrance",
+            "rect": {
+              "x": 12.3,
+              "y": 10.92,
+              "w": 5.4,
+              "h": 2.8
+            },
+            "floor": "marble_cream",
+            "wall_color": [
+              0.96,
+              0.94,
+              0.9,
+              1
+            ],
+            "furniture": [
+              {
+                "type": "shoe_rack",
+                "x": 12.9,
+                "y": 12.88,
+                "rotation_deg": 0
+              },
+              {
+                "type": "console_table",
+                "x": 15.0,
+                "y": 11.76,
+                "rotation_deg": 0
+              },
+              {
+                "type": "plant",
+                "x": 16.8,
+                "y": 11.2,
+                "rotation_deg": 0
+              }
+            ],
+            "windows": []
+          }
+        ],
+        "doors": [
+          {
+            "name": "Main Door",
+            "x": 10.0,
+            "y": 9.8,
+            "width": 1.0,
+            "height": 2.1,
+            "wall": "S"
+          },
+          {
+            "name": "Living-Kitchen",
+            "from": "Living Room",
+            "to": "Kitchen",
+            "width": 0.9
+          },
+          {
+            "name": "Living-Master",
+            "from": "Living Room",
+            "to": "Master Bedroom",
+            "width": 0.9
+          }
+        ],
+        "camera_tour": [
+          {
+            "x": 15.0,
+            "y": 13.3,
+            "z": 1.6,
+            "look_at": [
+              7.5,
+              7.0,
+              1
+            ]
+          },
+          {
+            "x": 12.0,
+            "y": 11.9,
+            "z": 1.6,
+            "look_at": [
+              4.5,
+              4.2,
+              1
+            ]
+          },
+          {
+            "x": 4.5,
+            "y": 4.2,
+            "z": 1.5,
+            "look_at": [
+              3.75,
+              2.1,
+              0.8
+            ]
+          },
+          {
+            "x": 11.1,
+            "y": 2.1,
+            "z": 1.5,
+            "look_at": [
+              11.1,
+              1.12,
+              1.2
+            ]
+          },
+          {
+            "x": 15.0,
+            "y": 3.5,
+            "z": 1.5,
+            "look_at": [
+              15.6,
+              1.4,
+              0.9
+            ]
+          },
+          {
+            "x": 3.75,
+            "y": 10.5,
+            "z": 1.5,
+            "look_at": [
+              3.75,
+              10.08,
+              0.6
+            ]
+          },
+          {
+            "x": 9.75,
+            "y": 9.8,
+            "z": 1.5,
+            "look_at": [
+              9.3,
+              9.8,
+              0.5
+            ]
+          },
+          {
+            "x": 13.5,
+            "y": 8.68,
+            "z": 1.5,
+            "look_at": [
+              13.5,
+              8.4,
+              0.8
+            ]
+          },
+          {
+            "x": 7.5,
+            "y": 7.0,
+            "z": 4.5,
+            "look_at": [
+              9.0,
+              7.0,
+              0
+            ]
+          }
+        ]
+      },
+      "vastu": {
+        "compliance_score": 89,
+        "grade": "Excellent",
+        "rooms": [
+          {
+            "name": "Main Entrance",
+            "vastu_item": "Entrance",
+            "direction": "W",
+            "status": "best",
+            "score": 100,
+            "note": "Ideal placement per classical Vastu"
+          },
+          {
+            "name": "Living",
+            "vastu_item": "Dining Table",
+            "direction": "S",
+            "status": "good",
+            "score": 80,
+            "note": "Acceptable placement"
+          },
+          {
+            "name": "Pooja",
+            "vastu_item": "Pooja/Mandir",
+            "direction": "NE",
+            "status": "good",
+            "score": 80,
+            "note": "Acceptable placement"
+          },
+          {
+            "name": "Kitchen",
+            "vastu_item": "Kitchen",
+            "direction": "SE",
+            "status": "good",
+            "score": 80,
+            "note": "Acceptable placement"
+          },
+          {
+            "name": "Master Bedroom",
+            "vastu_item": "Master Bedroom",
+            "direction": "SW",
+            "status": "best",
+            "score": 100,
+            "note": "Ideal placement per classical Vastu"
+          },
+          {
+            "name": "Office",
+            "vastu_item": "Office Desk",
+            "direction": "W",
+            "status": "best",
+            "score": 100,
+            "note": "Ideal placement per classical Vastu"
+          },
+          {
+            "name": "Locker Room",
+            "vastu_item": "Locker",
+            "direction": "WSW",
+            "status": "best",
+            "score": 100,
+            "note": "Ideal placement per classical Vastu"
+          },
+          {
+            "name": "Underground Tank",
+            "vastu_item": "Underground Watertank",
+            "direction": "NE",
+            "status": "good",
+            "score": 80,
+            "note": "Acceptable placement"
+          },
+          {
+            "name": "Toilet",
+            "vastu_item": "Toilets",
+            "direction": "ESE",
+            "status": "good",
+            "score": 80,
+            "note": "Acceptable placement"
+          }
+        ],
+        "issues": []
+      },
+      "astro": {
+        "swisseph_available": true,
+        "lagna_sign": "Virgo",
+        "moon_sign": "Sagittarius",
+        "used_precise_astro": true,
+        "messages": [
+          "\u2705 \u5df2\u4f7f\u7528 pyswisseph \u9032\u884c\u7cbe\u78ba\u5420\u9640\u8a08\u7b97\uff08Lahiri Ayanamsa\uff09\u3002"
+        ],
+        "room_recommendations": [
+          {
+            "\u623f\u9593": "\ud83d\udeaa \u5927\u9580",
+            "\u6700\u4f73\u65b9\u4f4d": "\u5317\u65b9",
+            "\u8aaa\u660e": "\u6c34\u661f\u4e3b\u5bb0\u65b9\u4f4d",
+            "\u88dc\u6551": "\u9580\u53e3\u4fdd\u6301\u6574\u6f54"
+          },
+          {
+            "\u623f\u9593": "\ud83d\udecf\ufe0f \u4e3b\u81e5\u5ba4",
+            "\u6700\u4f73\u65b9\u4f4d": "\u897f\u5357\u65b9 / \u5357\u65b9",
+            "\u8aaa\u660e": "\u7a69\u5b9a\u571f\u8c61\u6839\u57fa",
+            "\u88dc\u6551": "\u4f7f\u7528\u5929\u7136\u6750\u8cea"
+          },
+          {
+            "\u623f\u9593": "\ud83c\udf73 \u5eda\u623f",
+            "\u6700\u4f73\u65b9\u4f4d": "\u6771\u5357\u65b9",
+            "\u8aaa\u660e": "Agni \u65b9\u4f4d",
+            "\u88dc\u6551": "\u4fdd\u6301\u5eda\u623f\u6574\u6f54"
+          },
+          {
+            "\u623f\u9593": "\ud83d\ude4f \u7948\u79b1\u5ba4",
+            "\u6700\u4f73\u65b9\u4f4d": "\u6771\u5317\u65b9",
+            "\u8aaa\u660e": "\u9748\u6027\u80fd\u91cf\u5165\u53e3",
+            "\u88dc\u6551": "\u6bcf\u65e5\u6e05\u6668\u51a5\u60f3"
+          },
+          {
+            "\u623f\u9593": "\ud83d\udcb0 \u8ca1\u4f4d",
+            "\u6700\u4f73\u65b9\u4f4d": "\u5317\u65b9",
+            "\u8aaa\u660e": "\u6c34\u661f\u7cbe\u7b97\u80fd\u529b",
+            "\u88dc\u6551": "\u653e\u7f6e\u8a08\u7b97\u6a5f\u6216\u5e33\u7c3f"
+          },
+          {
+            "\u623f\u9593": "\ud83d\udcda \u66f8\u623f",
+            "\u6700\u4f73\u65b9\u4f4d": "\u5317\u65b9",
+            "\u8aaa\u660e": "\u6c34\u661f\u4fc3\u9032\u5206\u6790\u529b",
+            "\u88dc\u6551": "\u9762\u5317\u5de5\u4f5c"
+          }
+        ]
+      },
+      "assets": {
+        "hero": "../output/project-c-corner-plot/project-c-corner-plot-hero.png",
+        "living": "../output/project-c-corner-plot/project-c-corner-plot-living.png",
+        "bedroom": "../output/project-c-corner-plot/project-c-corner-plot-bedroom.png",
+        "walkthrough": "../output/project-c-corner-plot/project-c-corner-plot-walkthrough.mp4",
+        "glb": "../output/project-c-corner-plot/project-c-corner-plot-scene.glb",
+        "floorPlan": "../output/project-c-corner-plot/floor-plan.svg"
+      }
+    }
+  ]
+};

@@ -1,0 +1,46 @@
+{
+  "project": "2BHK East-Facing Apartment",
+  "facing": "E",
+  "vastu_score": 71,
+  "vastu_grade": "Good",
+  "issues_count": 0,
+  "lagna_sign": "Aquarius",
+  "outputs": {
+    "floor_plan_svg": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/floor-plan.svg",
+    "vastu_report": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/vastu-report.json",
+    "astro_vastu": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/astro-vastu.json",
+    "panchang": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/panchang-today.json",
+    "freecad": {
+      "status": "skipped",
+      "reason": "FreeCAD not installed"
+    },
+    "blender_render": {
+      "status": "ok",
+      "returncode": 0,
+      "files": {
+        "hero_still": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/project-a-east-facing-hero.png",
+        "living_still": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/project-a-east-facing-living.png",
+        "bedroom_still": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/project-a-east-facing-bedroom.png",
+        "walkthrough_mp4": null,
+        "scene_gltf": null,
+        "photoreal_still": null
+      },
+      "stdout_tail": "Fra:1 Mem:151.16M (Peak 193.35M) | Time:00:11.94 | Mem:67.11M, Peak:67.11M | Scene, ViewLayer | Sample 64/64\nFra:1 Mem:151.16M (Peak 193.35M) | Time:00:11.94 | Mem:67.11M, Peak:67.11M | Scene, ViewLayer | Finished\nSaved: '/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/project-a-east-facing-bedroom.png'\nTime: 00:12.02 (Saving: 00:00.05)\n\nRendered still: /Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/project-a-east-facing-hero.png\nRendered still: /Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/project-a-east-facing-living.png\nRendered still: /Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/project-a-east-facing-bedroom.png\n\nBlender quit\n",
+      "stderr_tail": "Traceback (most recent call last):\n  File \"/Users/barathiraja/Desktop/26051/property-design-cad/scripts/blender_advanced_render.py\", line 482, in <module>\n    configure_render(\"BLENDER_EEVEE\")\n  File \"/Users/barathiraja/Desktop/26051/property-design-cad/scripts/blender_advanced_render.py\", line 326, in configure_render\n    sc.render.engine = engine\n    ^^^^^^^^^^^^^^^^\nTypeError: bpy_struct: item.attr = val: enum \"BLENDER_EEVEE\" not found in ('BLENDER_EEVEE_NEXT', 'BLENDER_WORKBENCH', 'CYCLES')\n"
+    },
+    "advanced_render": {
+      "status": "ok",
+      "returncode": 0,
+      "files": {
+        "hero_still": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/project-a-east-facing-hero.png",
+        "living_still": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/project-a-east-facing-living.png",
+        "bedroom_still": "/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/project-a-east-facing-bedroom.png",
+        "walkthrough_mp4": null,
+        "scene_gltf": null,
+        "photoreal_still": null
+      },
+      "stdout_tail": "Fra:1 Mem:151.16M (Peak 193.35M) | Time:00:11.94 | Mem:67.11M, Peak:67.11M | Scene, ViewLayer | Sample 64/64\nFra:1 Mem:151.16M (Peak 193.35M) | Time:00:11.94 | Mem:67.11M, Peak:67.11M | Scene, ViewLayer | Finished\nSaved: '/Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/project-a-east-facing-bedroom.png'\nTime: 00:12.02 (Saving: 00:00.05)\n\nRendered still: /Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/project-a-east-facing-hero.png\nRendered still: /Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/project-a-east-facing-living.png\nRendered still: /Users/barathiraja/Desktop/26051/property-design-cad/demo/output/project-a-east-facing/project-a-east-facing-bedroom.png\n\nBlender quit\n",
+      "stderr_tail": "Traceback (most recent call last):\n  File \"/Users/barathiraja/Desktop/26051/property-design-cad/scripts/blender_advanced_render.py\", line 482, in <module>\n    configure_render(\"BLENDER_EEVEE\")\n  File \"/Users/barathiraja/Desktop/26051/property-design-cad/scripts/blender_advanced_render.py\", line 326, in configure_render\n    sc.render.engine = engine\n    ^^^^^^^^^^^^^^^^\nTypeError: bpy_struct: item.attr = val: enum \"BLENDER_EEVEE\" not found in ('BLENDER_EEVEE_NEXT', 'BLENDER_WORKBENCH', 'CYCLES')\n"
+    }
+  }
+}

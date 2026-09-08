@@ -1,0 +1,485 @@
+{
+  "wall_height_m": 2.85,
+  "wall_thickness_m": 0.12,
+  "style": "modern_indian",
+  "rooms": [
+    {
+      "name": "Living Room",
+      "rect": {
+        "x": 0.3,
+        "y": 0.28,
+        "w": 8.7,
+        "h": 6.44
+      },
+      "floor": "oak_parquet",
+      "wall_color": [
+        0.96,
+        0.94,
+        0.9,
+        1
+      ],
+      "furniture": [
+        {
+          "type": "sofa",
+          "x": 3.75,
+          "y": 3.92,
+          "rotation_deg": 0
+        },
+        {
+          "type": "coffee_table",
+          "x": 3.75,
+          "y": 2.52,
+          "rotation_deg": 0
+        },
+        {
+          "type": "tv_unit",
+          "x": 3.75,
+          "y": 0.84,
+          "rotation_deg": 0
+        },
+        {
+          "type": "floor_lamp",
+          "x": 1.2,
+          "y": 5.32,
+          "rotation_deg": 0
+        },
+        {
+          "type": "plant",
+          "x": 7.8,
+          "y": 0.7,
+          "rotation_deg": 0
+        }
+      ],
+      "windows": [
+        {
+          "wall": "N",
+          "offset": 3.0,
+          "width": 3.6,
+          "height": 1.4,
+          "sill_m": 0.9
+        }
+      ]
+    },
+    {
+      "name": "Pooja Room",
+      "rect": {
+        "x": 9.3,
+        "y": 0.28,
+        "w": 3.6,
+        "h": 3.08
+      },
+      "floor": "marble_white",
+      "wall_color": [
+        0.98,
+        0.95,
+        0.88,
+        1
+      ],
+      "furniture": [
+        {
+          "type": "pooja_mandir",
+          "x": 11.1,
+          "y": 0.84,
+          "rotation_deg": 0
+        },
+        {
+          "type": "ceiling_light",
+          "x": 11.1,
+          "y": 1.82,
+          "rotation_deg": 0
+        }
+      ],
+      "windows": []
+    },
+    {
+      "name": "Kitchen",
+      "rect": {
+        "x": 13.5,
+        "y": 0.28,
+        "w": 4.2,
+        "h": 5.6
+      },
+      "floor": "ceramic_tile",
+      "wall_color": [
+        0.92,
+        0.92,
+        0.9,
+        1
+      ],
+      "furniture": [
+        {
+          "type": "kitchen_counter",
+          "x": 15.6,
+          "y": 0.7,
+          "rotation_deg": 90
+        },
+        {
+          "type": "stove",
+          "x": 15.6,
+          "y": 1.68,
+          "rotation_deg": 90
+        },
+        {
+          "type": "fridge",
+          "x": 16.8,
+          "y": 4.9,
+          "rotation_deg": 0
+        },
+        {
+          "type": "dining_table",
+          "x": 14.7,
+          "y": 3.92,
+          "rotation_deg": 0
+        },
+        {
+          "type": "dining_chair",
+          "x": 14.7,
+          "y": 3.08,
+          "rotation_deg": 0
+        },
+        {
+          "type": "dining_chair",
+          "x": 16.2,
+          "y": 3.92,
+          "rotation_deg": 90
+        }
+      ],
+      "windows": [
+        {
+          "wall": "E",
+          "offset": 1.5,
+          "width": 1.8,
+          "height": 1.0,
+          "sill_m": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Master Bedroom",
+      "rect": {
+        "x": 0.3,
+        "y": 7.28,
+        "w": 7.2,
+        "h": 6.44
+      },
+      "floor": "oak_parquet",
+      "wall_color": [
+        0.94,
+        0.91,
+        0.96,
+        1
+      ],
+      "furniture": [
+        {
+          "type": "bed_double",
+          "x": 3.75,
+          "y": 10.08,
+          "rotation_deg": 0
+        },
+        {
+          "type": "wardrobe",
+          "x": 0.9,
+          "y": 9.8,
+          "rotation_deg": 90
+        },
+        {
+          "type": "side_table",
+          "x": 1.5,
+          "y": 11.9,
+          "rotation_deg": 0
+        },
+        {
+          "type": "side_table",
+          "x": 6.0,
+          "y": 11.9,
+          "rotation_deg": 0
+        },
+        {
+          "type": "ceiling_light",
+          "x": 3.75,
+          "y": 10.5,
+          "rotation_deg": 0
+        }
+      ],
+      "windows": [
+        {
+          "wall": "W",
+          "offset": 2.25,
+          "width": 2.7,
+          "height": 1.4,
+          "sill_m": 0.9
+        }
+      ]
+    },
+    {
+      "name": "Kids Bedroom",
+      "rect": {
+        "x": 7.8,
+        "y": 7.28,
+        "w": 4.2,
+        "h": 6.44
+      },
+      "floor": "laminate_warm",
+      "wall_color": [
+        0.9,
+        0.95,
+        0.98,
+        1
+      ],
+      "furniture": [
+        {
+          "type": "bed_single",
+          "x": 9.3,
+          "y": 9.8,
+          "rotation_deg": 0
+        },
+        {
+          "type": "study_desk",
+          "x": 10.8,
+          "y": 8.12,
+          "rotation_deg": 0
+        },
+        {
+          "type": "bookshelf",
+          "x": 8.25,
+          "y": 7.84,
+          "rotation_deg": 90
+        },
+        {
+          "type": "toy_chest",
+          "x": 11.25,
+          "y": 11.9,
+          "rotation_deg": 0
+        }
+      ],
+      "windows": [
+        {
+          "wall": "N",
+          "offset": 1.2,
+          "width": 2.1,
+          "height": 1.2,
+          "sill_m": 0.9
+        }
+      ]
+    },
+    {
+      "name": "Study",
+      "rect": {
+        "x": 12.3,
+        "y": 7.28,
+        "w": 2.7,
+        "h": 3.36
+      },
+      "floor": "oak_parquet",
+      "wall_color": [
+        0.93,
+        0.93,
+        0.9,
+        1
+      ],
+      "furniture": [
+        {
+          "type": "study_desk",
+          "x": 13.5,
+          "y": 8.4,
+          "rotation_deg": 0
+        },
+        {
+          "type": "office_chair",
+          "x": 13.5,
+          "y": 9.52,
+          "rotation_deg": 180
+        },
+        {
+          "type": "bookshelf",
+          "x": 12.75,
+          "y": 7.7,
+          "rotation_deg": 90
+        }
+      ],
+      "windows": []
+    },
+    {
+      "name": "Toilet",
+      "rect": {
+        "x": 15.3,
+        "y": 7.28,
+        "w": 2.4,
+        "h": 3.36
+      },
+      "floor": "ceramic_tile",
+      "wall_color": [
+        0.88,
+        0.92,
+        0.94,
+        1
+      ],
+      "furniture": [
+        {
+          "type": "toilet",
+          "x": 16.2,
+          "y": 9.52,
+          "rotation_deg": 0
+        },
+        {
+          "type": "sink",
+          "x": 16.8,
+          "y": 7.84,
+          "rotation_deg": 0
+        }
+      ],
+      "windows": []
+    },
+    {
+      "name": "Main Entrance",
+      "rect": {
+        "x": 12.3,
+        "y": 10.92,
+        "w": 5.4,
+        "h": 2.8
+      },
+      "floor": "marble_cream",
+      "wall_color": [
+        0.96,
+        0.94,
+        0.9,
+        1
+      ],
+      "furniture": [
+        {
+          "type": "shoe_rack",
+          "x": 12.9,
+          "y": 12.88,
+          "rotation_deg": 0
+        },
+        {
+          "type": "console_table",
+          "x": 15.0,
+          "y": 11.76,
+          "rotation_deg": 0
+        },
+        {
+          "type": "plant",
+          "x": 16.8,
+          "y": 11.2,
+          "rotation_deg": 0
+        }
+      ],
+      "windows": []
+    }
+  ],
+  "doors": [
+    {
+      "name": "Main Door",
+      "x": 10.0,
+      "y": 9.8,
+      "width": 1.0,
+      "height": 2.1,
+      "wall": "S"
+    },
+    {
+      "name": "Living-Kitchen",
+      "from": "Living Room",
+      "to": "Kitchen",
+      "width": 0.9
+    },
+    {
+      "name": "Living-Master",
+      "from": "Living Room",
+      "to": "Master Bedroom",
+      "width": 0.9
+    }
+  ],
+  "camera_tour": [
+    {
+      "x": 15.0,
+      "y": 13.3,
+      "z": 1.6,
+      "look_at": [
+        7.5,
+        7.0,
+        1
+      ]
+    },
+    {
+      "x": 12.0,
+      "y": 11.9,
+      "z": 1.6,
+      "look_at": [
+        4.5,
+        4.2,
+        1
+      ]
+    },
+    {
+      "x": 4.5,
+      "y": 4.2,
+      "z": 1.5,
+      "look_at": [
+        3.75,
+        2.1,
+        0.8
+      ]
+    },
+    {
+      "x": 11.1,
+      "y": 2.1,
+      "z": 1.5,
+      "look_at": [
+        11.1,
+        1.12,
+        1.2
+      ]
+    },
+    {
+      "x": 15.0,
+      "y": 3.5,
+      "z": 1.5,
+      "look_at": [
+        15.6,
+        1.4,
+        0.9
+      ]
+    },
+    {
+      "x": 3.75,
+      "y": 10.5,
+      "z": 1.5,
+      "look_at": [
+        3.75,
+        10.08,
+        0.6
+      ]
+    },
+    {
+      "x": 9.75,
+      "y": 9.8,
+      "z": 1.5,
+      "look_at": [
+        9.3,
+        9.8,
+        0.5
+      ]
+    },
+    {
+      "x": 13.5,
+      "y": 8.68,
+      "z": 1.5,
+      "look_at": [
+        13.5,
+        8.4,
+        0.8
+      ]
+    },
+    {
+      "x": 7.5,
+      "y": 7.0,
+      "z": 4.5,
+      "look_at": [
+        9.0,
+        7.0,
+        0
+      ]
+    }
+  ]
+}

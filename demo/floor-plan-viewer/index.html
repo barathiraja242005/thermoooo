@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Floor Plan Builder — Drill-Down Viewer</title>
+  <style>
+    :root {
+      --bg: #0f1419; --panel: #1a2332; --border: #2a3544;
+      --accent: #ff9933; --text: #e8eaed; --muted: #9aa0a6;
+      --good: #66bb6a; --best: #2e7d32; --bad: #ffa726; --worst: #ef5350;
+    }
+    * { box-sizing: border-box; margin: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+    #file-warn { display: none; background: #5c2; color: #fff; padding: 10px; text-align: center; font-size: 13px; }
+    #file-warn.show { display: block; }
+    header {
+      display: flex; align-items: center; gap: 12px; padding: 10px 16px;
+      background: var(--panel); border-bottom: 1px solid var(--border); flex-shrink: 0;
+    }
+    header h1 { font-size: 1rem; color: var(--accent); margin-right: auto; }
+    select, button {
+      background: #243044; border: 1px solid var(--border); color: var(--text);
+      padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;
+    }
+    button:hover { border-color: var(--accent); }
+    button.primary { background: var(--accent); color: #1a1a1a; font-weight: 600; border: none; }
+    #breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 13px; flex-wrap: wrap; }
+    #breadcrumb span { color: var(--muted); }
+    #breadcrumb .crumb { color: var(--accent); cursor: pointer; }
+    #breadcrumb .crumb:hover { text-decoration: underline; }
+    #breadcrumb .current { color: var(--text); font-weight: 600; cursor: default; }
+    main { display: flex; flex: 1; min-height: 0; }
+    #sidebar {
+      width: 240px; background: var(--panel); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; overflow: hidden; flex-shrink: 0;
+    }
+    #sidebar h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 12px 14px 6px; }
+    #room-list { flex: 1; overflow-y: auto; padding: 0 8px 12px; }
+    .room-btn {
+      display: block; width: 100%; text-align: left; padding: 10px 12px; margin-bottom: 4px;
+      background: transparent; border: 1px solid transparent; border-radius: 6px; color: var(--text);
+    }
+    .room-btn:hover, .room-btn.active { background: #243044; border-color: var(--border); }
+    .room-btn .meta { font-size: 10px; color: var(--muted); margin-top: 2px; }
+    .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+    #canvas-area {
+      flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      overflow: auto; padding: 16px; background: #121820; position: relative;
+    }
+    #svg-container {
+      background: #faf8f5; border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,.5);
+      transition: transform 0.35s cubic-bezier(.4,0,.2,1), opacity 0.25s;
+      max-width: 100%; max-height: calc(100vh - 180px); overflow: auto;
+    }
+    #svg-container.zoom-in { animation: zoomIn 0.4s ease; }
+    @keyframes zoomIn { from { transform: scale(0.85); opacity: 0.5; } to { transform: scale(1); opacity: 1; } }
+    #svg-container svg { display: block; max-width: 100%; height: auto; }
+    #detail-panel {
+      width: 300px; background: var(--panel); border-left: 1px solid var(--border);
+      overflow-y: auto; flex-shrink: 0; padding: 14px;
+    }
+    #detail-panel h3 { font-size: 14px; color: var(--accent); margin-bottom: 10px; }
+    #detail-panel .stat { display: flex; justify-content: space-between; font-size: 12px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+    #detail-panel .stat label { color: var(--muted); }
+    .item-card {
+      background: #243044; border-radius: 8px; padding: 10px; margin-bottom: 8px;
+      cursor: pointer; border: 1px solid transparent; transition: border-color .15s;
+    }
+    .item-card:hover, .item-card.selected { border-color: var(--accent); }
+    .item-card h4 { font-size: 12px; margin-bottom: 4px; }
+    .item-card p { font-size: 11px; color: var(--muted); line-height: 1.45; }
+    .level-badge {
+      display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px;
+      background: #243044; color: var(--accent); margin-bottom: 8px;
+    }
+    .vastu-tip { background: #1e2a1e; border-left: 3px solid var(--good); padding: 10px; font-size: 11px; line-height: 1.5; margin-top: 10px; border-radius: 0 6px 6px 0; }
+    footer {
+      padding: 8px 16px; background: var(--panel); border-top: 1px solid var(--border);
+      font-size: 11px; color: var(--muted); display: flex; gap: 16px; flex-shrink: 0;
+    }
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div id="file-warn">⚠️ Use <code>./scripts/serve_demo.sh</code> — open <a href="http://localhost:8765/demo/floor-plan-viewer/index.html">http://localhost:8765/demo/floor-plan-viewer/index.html</a></div>
+
+  <header>
+    <h1>🕉️ Floor Plan Builder</h1>
+    <div id="breadcrumb"><span class="crumb" data-level="property">Property</span></div>
+    <select id="project-select"></select>
+    <button id="btn-back" style="display:none">← Back</button>
+    <button class="primary" id="btn-3d">Open 3D →</button>
+  </header>
+
+  <main>
+    <aside id="sidebar">
+      <h2>Rooms</h2>
+      <div id="room-list"></div>
+    </aside>
+
+    <section id="canvas-area">
+      <span class="level-badge" id="level-badge">Level 1 · Property Overview</span>
+      <div id="svg-container"></div>
+    </section>
+
+    <aside id="detail-panel">
+      <h3 id="detail-title">Property</h3>
+      <div id="detail-body"></div>
+    </aside>
+  </main>
+
+  <footer>
+    <span>Hierarchy: Property → Room → Item</span>
+    <a href="../viewer/index.html">3D Viewer</a>
+    <a href="../index.html">Gallery</a>
+  </footer>
+
+  <script src="floorplan-data.js"></script>
+  <script>
+  if (location.protocol === 'file:') document.getElementById('file-warn').classList.add('show');
+
+  const DATA = window.CAD_FLOORPLANS;
+  const STATUS_COLOR = { best: '#2e7d32', good: '#66bb6a', bad: '#ffa726', worst: '#ef5350', unknown: '#757575' };
+
+  let state = { level: 'property', projectId: null, roomId: null, itemId: null };
+  let svgDoc = null;
+
+  const sel = document.getElementById('project-select');
+  DATA?.projects?.forEach(p => {
+    const o = document.createElement('option');
+    o.value = p.id;
+    o.textContent = p.hierarchy.property.name;
+    sel.appendChild(o);
+  });
+
+  function project() { return DATA.projects.find(p => p.id === state.projectId); }
+  function room() { return project()?.hierarchy.rooms.find(r => r.id === state.roomId); }
+  function item() { return room()?.items.find(i => i.id === state.itemId); }
+
+  function setState(level, opts = {}) {
+    state.level = level;
+    if (opts.projectId !== undefined) state.projectId = opts.projectId;
+    if (opts.roomId !== undefined) state.roomId = opts.roomId;
+    if (opts.itemId !== undefined) state.itemId = opts.itemId;
+    if (level === 'property') { state.roomId = null; state.itemId = null; }
+    if (level === 'room') state.itemId = null;
+    render();
+  }
+
+  function updateBreadcrumb() {
+    const bc = document.getElementById('breadcrumb');
+    const p = project();
+    let html = `<span class="crumb" data-level="property">${p?.hierarchy.property.name || 'Property'}</span>`;
+    if (state.roomId && room()) {
+      html += `<span> › </span><span class="crumb" data-level="room">${room().name}</span>`;
+    }
+    if (state.itemId && item()) {
+      html += `<span> › </span><span class="current">${item().label}</span>`;
+    } else if (state.level === 'room') {
+      html = html.replace('data-level="room"', 'class="current"');
+    } else {
+      html = html.replace('data-level="property"', 'class="current"');
+    }
+    bc.innerHTML = html;
+    bc.querySelectorAll('.crumb').forEach(el => {
+      el.onclick = () => setState(el.dataset.level, { projectId: state.projectId });
+    });
+    document.getElementById('btn-back').style.display = state.level === 'property' ? 'none' : 'inline-block';
+  }
+
+  function renderRoomList() {
+    const list = document.getElementById('room-list');
+    list.innerHTML = '';
+    project()?.hierarchy.rooms.forEach(r => {
+      const btn = document.createElement('button');
+      btn.className = 'room-btn' + (r.id === state.roomId ? ' active' : '');
+      const st = r.vastu?.status || 'unknown';
+      btn.innerHTML = `<span class="status-dot" style="background:${STATUS_COLOR[st]}"></span>${r.name}
+        <div class="meta">${r.rect.w}×${r.rect.h}m · ${r.items.length} items · ${st}</div>`;
+      btn.onclick = () => setState('room', { roomId: r.id });
+      list.appendChild(btn);
+    });
+  }
+
+  async function loadSvg(url) {
+    const container = document.getElementById('svg-container');
+    container.classList.remove('zoom-in');
+    void container.offsetWidth;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+      const text = await res.text();
+      container.innerHTML = text;
+      svgDoc = container.querySelector('svg');
+      container.classList.add('zoom-in');
+      bindSvgClicks();
+    } catch (e) {
+      container.innerHTML = `<p style="padding:2rem;color:#c62828">Could not load plan (${e.message}).<br><span style="color:#666;font-size:12px">Run: ./scripts/serve_demo.sh then refresh.</span></p>`;
+    }
+  }
+
+  function bindSvgClicks() {
+    if (!svgDoc) return;
+    if (state.level === 'property') {
+      svgDoc.querySelectorAll('.room-zone').forEach(el => {
+        el.onclick = (e) => {
+          e.stopPropagation();
+          setState('room', { roomId: el.dataset.roomId });
+        };
+      });
+    }
+    if (state.level === 'room') {
+      svgDoc.querySelectorAll('.furniture-item').forEach(el => {
+        el.onclick = (e) => {
+          e.stopPropagation();
+          setState('item', { itemId: el.dataset.itemId });
+        };
+      });
+    }
+  }
+
+  function renderDetail() {
+    const title = document.getElementById('detail-title');
+    const body = document.getElementById('detail-body');
+    const badge = document.getElementById('level-badge');
+    const p = project()?.hierarchy.property;
+
+    if (state.level === 'property') {
+      badge.textContent = 'Level 1 · Property Overview';
+      title.textContent = p.name;
+      body.innerHTML = `
+        <div class="stat"><label>Size</label><span>${p.dimensions_m.width}×${p.dimensions_m.depth} m</span></div>
+        <div class="stat"><label>Facing</label><span>${p.facing}</span></div>
+        <div class="stat"><label>Vastu Score</label><span>${p.vastu_score}/100 (${p.vastu_grade})</span></div>
+        <div class="stat"><label>Rooms</label><span>${project().hierarchy.rooms.length}</span></div>
+        <p style="margin-top:12px;font-size:11px;color:var(--muted)">Click any room on the plan or in the sidebar to zoom into detailed 2D layout with all furniture.</p>
+        ${project().assets.hero ? `<img src="${project().assets.hero}" alt="3D preview" style="width:100%;border-radius:8px;margin-top:12px;border:1px solid var(--border)"/>` : ''}`;
+      return;
+    }
+
+    const r = room();
+    if (state.level === 'room') {
+      badge.textContent = 'Level 2 · Room Detail';
+      title.textContent = r.name;
+      const st = r.vastu?.status || 'unknown';
+      body.innerHTML = `
+        <div class="stat"><label>Dimensions</label><span>${r.rect.w}×${r.rect.h} m</span></div>
+        <div class="stat"><label>Floor</label><span>${r.floor}</span></div>
+        <div class="stat"><label>Direction</label><span>${r.property_room?.direction || '—'}</span></div>
+        <div class="stat"><label>Vastu Item</label><span>${r.property_room?.vastu_item || '—'}</span></div>
+        <div class="stat"><label>Status</label><span style="color:${STATUS_COLOR[st]}">${st}</span></div>
+        <div class="vastu-tip">${r.vastu?.note || 'Verify with VastuFlow 16-zone map.'}</div>
+        <h3 style="margin-top:14px;font-size:12px;color:var(--muted)">Furniture (${r.items.length})</h3>`;
+      r.items.forEach(it => {
+        const sel = it.id === state.itemId ? ' selected' : '';
+        body.innerHTML += `<div class="item-card${sel}" data-id="${it.id}">
+          <h4>${it.label}</h4><p>${it.size_m[0].toFixed(1)}×${it.size_m[1].toFixed(1)}m · Click for Vastu tip</p></div>`;
+      });
+      body.querySelectorAll('.item-card').forEach(card => {
+        card.onclick = () => setState('item', { itemId: card.dataset.id });
+      });
+      return;
+    }
+
+    const it = item();
+    if (state.level === 'item' && it) {
+      badge.textContent = 'Level 3 · Item Detail';
+      title.textContent = it.label;
+      body.innerHTML = `
+        <div class="stat"><label>Type</label><span>${it.type}</span></div>
+        <div class="stat"><label>Size (W×D×H)</label><span>${it.size_m.map(v=>v.toFixed(2)).join(' × ')} m</span></div>
+        <div class="stat"><label>Position</label><span>${it.x_m.toFixed(2)}, ${it.y_m.toFixed(2)} m</span></div>
+        <div class="stat"><label>Rotation</label><span>${it.rotation_deg}°</span></div>
+        <div class="vastu-tip"><strong>Vastu guidance</strong><br>${it.vastu_tip}</div>
+        <button class="primary" style="width:100%;margin-top:12px" id="btn-room-back">← Back to ${r.name}</button>`;
+      document.getElementById('btn-room-back').onclick = () => setState('room');
+      svgDoc?.querySelectorAll('.furniture-item').forEach(el => {
+        el.style.opacity = el.dataset.itemId === it.id ? '1' : '0.35';
+      });
+    }
+  }
+
+  async function renderCanvas() {
+    const proj = project();
+    if (!proj) return;
+    if (state.level === 'property') {
+      await loadSvg(proj.assets.mainSvg || proj.assets.floorPlan);
+    } else if (state.level === 'room' || state.level === 'item') {
+      await loadSvg(proj.roomAssets[state.roomId]?.svg);
+    }
+  }
+
+  function render() {
+    updateBreadcrumb();
+    renderRoomList();
+    renderDetail();
+    renderCanvas();
+  }
+
+  document.getElementById('btn-back').onclick = () => {
+    if (state.level === 'item') setState('room');
+    else if (state.level === 'room') setState('property');
+  };
+
+  document.getElementById('btn-3d').onclick = () => {
+    location.href = `../viewer/index.html?project=${state.projectId || ''}`;
+  };
+
+  sel.onchange = () => setState('property', { projectId: sel.value });
+
+  if (DATA?.projects?.length) {
+    setState('property', { projectId: DATA.projects[0].id });
+  } else {
+    document.getElementById('detail-body').textContent = 'Run: python scripts/run_full_pipeline.py';
+  }
+  </script>
+</body>
+</html>
