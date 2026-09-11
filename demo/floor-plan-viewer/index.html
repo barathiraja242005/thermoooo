@@ -6,97 +6,103 @@
   <title>Floor Plan Builder — Drill-Down Viewer</title>
   <style>
     :root {
-      --bg: #F7F5F0; --panel: rgba(255, 255, 255, 0.85); --border: rgba(0, 0, 0, 0.08);
-      --accent: #DE7236; --accent-light: #FDE7DA; --text: #1C1F22; --muted: #687076;
-      --good: #2E7D32; --best: #1B5E20; --bad: #DE7236; --worst: #D32F2F;
+      --bg: #0f1419; --panel: #1a2332; --border: #2a3544;
+      --accent: #ff9933; --text: #e8eaed; --muted: #9aa0a6;
+      --good: #66bb6a; --best: #2e7d32; --bad: #ffa726; --worst: #ef5350;
     }
-    * { box-sizing: border-box; margin: 0; }
-    body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; -webkit-font-smoothing: antialiased; }
-    #file-warn { display: none; background: #FFF3E0; color: #E65100; border-bottom: 1px solid #FFE0B2; padding: 10px; text-align: center; font-size: 13px; font-weight: 600; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      cursor: url('https://verified.realestate/assets/dashboard/images/icon/cursor.svg'), url('../assets/cursors/cursor.svg'), auto;
+    }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+    select, button, a, [role="button"], .crumb, .room-btn {
+      cursor: url('https://verified.realestate/assets/dashboard/images/icon/pointer.svg'), url('../assets/cursors/pointer.svg'), pointer !important;
+    }
+    input, textarea {
+      cursor: url('https://verified.realestate/assets/dashboard/images/icon/type.svg'), url('../assets/cursors/type.svg'), text !important;
+      caret-color: #ff9933;
+    }
+
+    #file-warn { display: none; background: #5c2; color: #fff; padding: 10px; text-align: center; font-size: 13px; }
     #file-warn.show { display: block; }
     header {
-      display: flex; align-items: center; gap: 12px; padding: 12px 20px;
-      background: var(--panel); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); flex-shrink: 0;
+      display: flex; align-items: center; gap: 12px; padding: 10px 16px;
+      background: var(--panel); border-bottom: 1px solid var(--border); flex-shrink: 0;
     }
-    .brand-title { font-size: 15px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; margin-right: auto; }
-    .brand-title span { color: var(--muted); font-size: 13px; font-weight: 400; border-left: 1px solid var(--border); padding-left: 8px; }
+    header h1 { font-size: 1rem; color: var(--accent); margin-right: auto; }
     select, button {
-      background: #fff; border: 1px solid var(--border); color: var(--text);
-      padding: 7px 14px; border-radius: 9999px; cursor: pointer; font-size: 12px; font-weight: 600;
-      transition: all 0.2s ease;
+      background: #243044; border: 1px solid var(--border); color: var(--text);
+      padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;
     }
-    button:hover { border-color: var(--accent); color: var(--accent); }
-    button.primary { background: var(--accent); color: #fff; border: none; box-shadow: 0 4px 12px rgba(222, 114, 54, 0.25); }
-    button.primary:hover { background: #C85F26; }
+    button:hover { border-color: var(--accent); }
+    button.primary { background: var(--accent); color: #1a1a1a; font-weight: 600; border: none; }
     #breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 13px; flex-wrap: wrap; }
     #breadcrumb span { color: var(--muted); }
-    #breadcrumb .crumb { color: var(--accent); cursor: pointer; font-weight: 600; }
+    #breadcrumb .crumb { color: var(--accent); cursor: pointer; }
     #breadcrumb .crumb:hover { text-decoration: underline; }
-    #breadcrumb .current { color: var(--text); font-weight: 700; cursor: default; }
+    #breadcrumb .current { color: var(--text); font-weight: 600; cursor: default; }
     main { display: flex; flex: 1; min-height: 0; }
     #sidebar {
-      width: 250px; background: var(--panel); backdrop-filter: blur(20px); border-right: 1px solid var(--border);
+      width: 240px; background: var(--panel); border-right: 1px solid var(--border);
       display: flex; flex-direction: column; overflow: hidden; flex-shrink: 0;
     }
-    #sidebar h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 14px 16px 8px; font-weight: 700; }
-    #room-list { flex: 1; overflow-y: auto; padding: 0 10px 14px; }
+    #sidebar h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 12px 14px 6px; }
+    #room-list { flex: 1; overflow-y: auto; padding: 0 8px 12px; }
     .room-btn {
-      display: block; width: 100%; text-align: left; padding: 10px 14px; margin-bottom: 5px;
-      background: rgba(255, 255, 255, 0.6); border: 1px solid var(--border); border-radius: 10px; color: var(--text);
-      transition: all 0.15s ease;
+      display: block; width: 100%; text-align: left; padding: 10px 12px; margin-bottom: 4px;
+      background: transparent; border: 1px solid transparent; border-radius: 6px; color: var(--text);
     }
-    .room-btn:hover, .room-btn.active { background: #fff; border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .room-btn .meta { font-size: 10px; color: var(--muted); margin-top: 3px; }
+    .room-btn:hover, .room-btn.active { background: #243044; border-color: var(--border); }
+    .room-btn .meta { font-size: 10px; color: var(--muted); margin-top: 2px; }
     .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
     #canvas-area {
       flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      overflow: auto; padding: 20px; background: #F0EDE6; position: relative;
+      overflow: auto; padding: 16px; background: #121820; position: relative;
     }
     #svg-container {
-      background: #fff; border-radius: 14px; box-shadow: 0 14px 40px rgba(28,31,34,0.08);
-      border: 1px solid var(--border);
+      background: #faf8f5; border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,.5);
       transition: transform 0.35s cubic-bezier(.4,0,.2,1), opacity 0.25s;
-      max-width: 100%; max-height: calc(100vh - 180px); overflow: auto; padding: 12px;
+      max-width: 100%; max-height: calc(100vh - 180px); overflow: auto;
     }
     #svg-container.zoom-in { animation: zoomIn 0.4s ease; }
     @keyframes zoomIn { from { transform: scale(0.85); opacity: 0.5; } to { transform: scale(1); opacity: 1; } }
     #svg-container svg { display: block; max-width: 100%; height: auto; }
     #detail-panel {
-      width: 320px; background: var(--panel); backdrop-filter: blur(20px); border-left: 1px solid var(--border);
-      overflow-y: auto; flex-shrink: 0; padding: 18px;
+      width: 300px; background: var(--panel); border-left: 1px solid var(--border);
+      overflow-y: auto; flex-shrink: 0; padding: 14px;
     }
-    #detail-panel h3 { font-size: 15px; font-weight: 700; color: var(--accent); margin-bottom: 12px; }
-    #detail-panel .stat { display: flex; justify-content: space-between; font-size: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    #detail-panel h3 { font-size: 14px; color: var(--accent); margin-bottom: 10px; }
+    #detail-panel .stat { display: flex; justify-content: space-between; font-size: 12px; padding: 6px 0; border-bottom: 1px solid var(--border); }
     #detail-panel .stat label { color: var(--muted); }
     .item-card {
-      background: #fff; border-radius: 10px; padding: 12px; margin-bottom: 8px;
-      cursor: pointer; border: 1px solid var(--border); transition: all .15s ease;
+      background: #243044; border-radius: 8px; padding: 10px; margin-bottom: 8px;
+      cursor: pointer; border: 1px solid transparent; transition: border-color .15s;
     }
-    .item-card:hover, .item-card.selected { border-color: var(--accent); box-shadow: 0 4px 14px rgba(222, 114, 54, 0.15); }
-    .item-card h4 { font-size: 12px; margin-bottom: 4px; font-weight: 600; }
+    .item-card:hover, .item-card.selected { border-color: var(--accent); }
+    .item-card h4 { font-size: 12px; margin-bottom: 4px; }
     .item-card p { font-size: 11px; color: var(--muted); line-height: 1.45; }
     .level-badge {
-      display: inline-block; font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 9999px;
-      background: var(--accent-light); color: var(--accent); margin-bottom: 12px;
+      display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px;
+      background: #243044; color: var(--accent); margin-bottom: 8px;
     }
-    .vastu-tip { background: #E8F5E9; border-left: 3px solid var(--good); color: #1B5E20; padding: 10px 12px; font-size: 11px; line-height: 1.5; margin-top: 12px; border-radius: 0 8px 8px 0; }
+    .vastu-tip { background: #1e2a1e; border-left: 3px solid var(--good); padding: 10px; font-size: 11px; line-height: 1.5; margin-top: 10px; border-radius: 0 6px 6px 0; }
     footer {
-      padding: 10px 20px; background: var(--panel); backdrop-filter: blur(20px); border-top: 1px solid var(--border);
-      font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 16px; flex-shrink: 0;
+      padding: 8px 16px; background: var(--panel); border-top: 1px solid var(--border);
+      font-size: 11px; color: var(--muted); display: flex; gap: 16px; flex-shrink: 0;
     }
-    footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
-    footer a:hover { text-decoration: underline; }
+    footer a { color: var(--accent); }
   </style>
 </head>
 <body>
-  <div id="file-warn">⚠️ Open via local server: <a href="http://localhost:8765/demo/floor-plan-viewer/index.html">http://localhost:8765/demo/floor-plan-viewer/index.html</a></div>
+  <div id="file-warn">⚠️ Use <code>./scripts/serve_demo.sh</code> — open <a href="http://localhost:8765/demo/floor-plan-viewer/index.html">http://localhost:8765/demo/floor-plan-viewer/index.html</a></div>
 
   <header>
-    <div class="brand-title">ThermaBuild <span>2D Architectural Studio</span></div>
+    <h1>🕉️ Floor Plan Builder</h1>
     <div id="breadcrumb"><span class="crumb" data-level="property">Property</span></div>
     <select id="project-select"></select>
     <button id="btn-back" style="display:none">← Back</button>
-    <button class="primary" id="btn-3d">Open 3D Studio →</button>
+    <button class="primary" id="btn-3d">Open 3D →</button>
   </header>
 
   <main>

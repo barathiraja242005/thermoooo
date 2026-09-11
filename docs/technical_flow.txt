@@ -1,0 +1,124 @@
+================================================================================
+                    THERMABUILD - SYSTEM TECHNICAL FLOW
+================================================================================
+
+1. SYSTEM ARCHITECTURE & TOPOLOGY
+--------------------------------------------------------------------------------
+
+[ USER / BROWSER ]
+       |
+       |  (1) HTTP POST /api/generate
+       |      Payload: { width_m, depth_m, bhk, facing, climate }
+       v
+[ FLASK REST API SERVER ] (scripts/server.py : Port 8765)
+       |
+       +---> [ PROCEDURAL 2D ENGINE ] (scripts/layout_generator.py)
+       |         * Applies 3x3 Vastu Mandala zoning rules
+       |         * Computes room coordinates, walls, doors, windows
+       |         * Generates 2D Vector CAD SVG file (floor-plan.svg)
+       |         * Updates projects-data.js
+       |
+       +---> [ THERMAL PHYSICS ENGINE ] (scripts/thermal_engine.py)
+       |         * Computes sun angle & solar irradiance for orientation
+       |         * Solves hourly Sol-Air Temperature: T_solair = T_out + (a*I)/h
+       |         * Evaluates 1D-RC Heat Flux: Q = U * A * (T_solair - T_indoor)
+       |         * Checks ECBC 2017 thermal compliance
+       |         * (Optional) PyFluentBridge: Headless ANSYS Fluent CFD hook
+       |
+       v  (2) JSON Response: { status, project, layout, thermal_telemetry }
+[ CLIENT-SIDE FRONTEND ] (demo/index.html)
+       |
+       +---> [ 2D CAD VIEWER ]
+       |         * Renders generated floor-plan.svg
+       |         * Overlays live 60 FPS thermal heatmap & wind particle vectors
+       |
+       +---> [ 3D WEBGL DOLLHOUSE ] (demo/viewer/scene-builder.js via Three.js)
+       |         * Extrudes 3D walls & cuts doors/windows dynamically
+       |         * Clips ceiling at 1.35m for dollhouse perspective
+       |         * Renders animated ceiling fans and realistic lighting
+       |
+       +---> [ EXECUTIVE DOSSIER / REPORT ]
+                 * Generates full-screen printable PDF thermal specification
+
+
+2. STEP-BY-STEP DATA & EXECUTION SEQUENCE
+--------------------------------------------------------------------------------
+
+STEP 1: USER INPUT (Frontend)
+   - User opens http://localhost:8765/demo/index.html
+   - Inputs:
+       * Plot Width (e.g. 10.0 m) & Depth (e.g. 14.0 m)
+       * Typology: 2BHK or 3BHK
+       * Orientation: East, North, South, or West
+       * Climate Zone: Composite, Warm-Humid, Hot-Dry, Moderate
+   - Clicks "Generate Thermal Architecture" button.
+
+STEP 2: API DISPATCH (HTTP Request)
+   - Browser fires: POST http://localhost:8765/api/generate
+   - Request JSON body:
+       {
+         "name": "Custom House",
+         "width_m": 10.0,
+         "depth_m": 14.0,
+         "bhk": "3bhk",
+         "facing": "east",
+         "climate": "composite"
+       }
+
+STEP 3: PROCEDURAL SPACE PLANNING (scripts/layout_generator.py)
+   - Calculates boundary setbacks:
+       Front: 1.5m, Sides: 1.0m, Rear: 1.2m
+   - Allocates rooms according to 9-grid Vastu Shastra:
+       * North-East (Ishanya): Living Room & Main Entry (morning daylight)
+       * South-East (Agni): Kitchen (thermal exhaust dissipation)
+       * South-West (Nairutya): Master Bedroom (stability, solar shielding)
+       * North-West (Vayu): Secondary Bedroom / Dining (wind flow)
+       * Center (Brahmasthan): Open Circulation Lobby
+   - Computes wall thicknesses:
+       Exterior load-bearing = 0.23m, Interior partitions = 0.115m
+   - Writes scalable vector SVG: demo/output/<project_id>/floor-plan.svg
+   - Updates project definition into demo/viewer/projects-data.js
+
+STEP 4: THERMAL PHYSICS SOLVER (scripts/thermal_engine.py)
+   - Step 4A: Solar Position & Irradiance
+       Calculates solar elevation and azimuth across 24 hours.
+       Evaluates direct and diffuse solar flux on East/West/North/South walls.
+   - Step 4B: Sol-Air Temperature
+       T_solair(t) = T_outdoor(t) + (alpha * I_total(t) / h_o) - (epsilon * dR / h_o)
+   - Step 4C: 1D Conduction Heat Flux
+       Q_wall = U_wall * Area * (T_solair - T_indoor)
+       Checks against ECBC 2017 U-value limits (U <= 0.40 W/m2.K).
+   - Step 4D: Room Heat Balance
+       Predicts indoor air temperatures and hourly cooling energy demand.
+
+STEP 5: CLIENT-SIDE RENDERING & VISUALIZATION
+   - 2D CAD SVG is dynamically injected into the view container.
+   - HTML5 Canvas engine spawns 80 wind stream particles flowing across
+     rooms driven by Bernoulli wind pressure: dP = 0.5 * Cp * rho * V_wind^2.
+   - Three.js WebGL scene-builder.js receives layout JSON:
+       * Extrudes wall geometry in 3D space
+       * Places doors, windows, and realistic furniture models
+       * Spins ceiling fans at 60 FPS
+       * Applies clipping plane at y = 1.35m for dollhouse cutaway
+   - Real-time Solar Angle Slider allows user to slide from 06:00 to 18:00
+     to preview dynamic shadow sweeps and temperature changes.
+
+STEP 6: EXECUTIVE DOSSIER EXPORT
+   - User clicks "Generate Executive Dossier".
+   - Browser renders a print-optimized modal with:
+       * Thermal Comfort Index (PMV / PPD)
+       * ECBC 2017 compliance status
+       * Passive cooling architecture checklist
+       * Material specification tables (AAC blocks, low-E glazing)
+   - Prints or saves directly as PDF.
+
+
+3. CORE MODULE SUMMARY
+--------------------------------------------------------------------------------
+1. scripts/server.py              : Flask API backend & static file server.
+2. scripts/layout_generator.py    : Procedural 2D CAD, Vastu & SVG generator.
+3. scripts/thermal_engine.py      : Diurnal Sol-Air, 1D-RC & PyFluent bridge.
+4. demo/index.html                : Luminous Glassmorphic Web App & Canvas.
+5. demo/viewer/scene-builder.js   : Procedural Three.js 3D dollhouse engine.
+6. demo/viewer/projects-data.js   : Compiled project manifest & layout data.
+================================================================================

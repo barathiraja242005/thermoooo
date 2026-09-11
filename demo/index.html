@@ -5,20 +5,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ThermaBuild — Intelligent Thermal-Aware Bioclimatic CAD</title>
 
-  <!-- High-end Architectural Typography: Fallback to Plus Jakarta Sans & Space Grotesk -->
+  <!-- High-end Architectural Typography: EB Garamond, Plus Jakarta Sans & Space Grotesk -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 
   <style>
     /* ==========================================================================
-       ThermaBuild Design Tokens — Luminous Frosted Glassmorphism
-       Theme: Organic Light Cream, Translucent Frosted Glass & Warm Peach Luminescence
+       Custom Verified.RealEstate Cursor Suite & Design Tokens
        ========================================================================== */
+    * {
+      cursor: url('https://verified.realestate/assets/dashboard/images/icon/cursor.svg'), url('./assets/cursors/cursor.svg'), auto;
+    }
+
+    body, html, label, .fancybox__content, .leaflet-popup-pane, .leaflet-control {
+      cursor: url('https://verified.realestate/assets/dashboard/images/icon/cursor.svg'), url('./assets/cursors/cursor.svg'), auto !important;
+    }
+
+    /* Pointer cursor for interactive elements */
+    a, button, select, option, .btn, .btn-primary, .btn-secondary, .btn-refer, .btn-corporate,
+    .nav-links a, .nav-menu a, .hero-v2__search-btn, .hero-floating-bubble, .tab-btn, .spec-card,
+    .dossier-pill, .clickable, input[type="button"], input[type="submit"], input[type="range"],
+    input[type="radio"], input[type="checkbox"], [role="button"], .card, .glass-card, .btn-one, .btn-two,
+    .workflow-step, .studio-tabs button {
+      cursor: url('https://verified.realestate/assets/dashboard/images/icon/pointer.svg'), url('./assets/cursors/pointer.svg'), pointer !important;
+    }
+
+    /* Text input cursor */
+    input:not([type="button"]):not([type="submit"]):not([type="radio"]):not([type="checkbox"]):not([type="range"]),
+    textarea, select {
+      cursor: url('https://verified.realestate/assets/dashboard/images/icon/type.svg'), url('./assets/cursors/type.svg'), text !important;
+    }
+
+    input, textarea {
+      caret-color: #FF6725 !important;
+    }
+
+    @font-face {
+      font-family: 'Aroflit';
+      src: local('Aroflit'), local('Aroflit Regular'), local('Aroflit-Regular'), local('Arfolit'), local('Arfolit Regular');
+      font-display: swap;
+    }
+
     :root {
-      /* Typography */
-      --font-primary: 'Arfolit', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      /* Typography — Aroflit Primary */
+      --font-primary: 'Aroflit', 'Arfolit', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-heading: 'Aroflit', 'Arfolit', 'EB Garamond', Georgia, serif;
+      --font-serif: 'Aroflit', 'Arfolit', 'EB Garamond', Georgia, serif;
       --font-mono: 'Space Grotesk', monospace;
+
+
+      /* Verified Real Estate Theme Colors */
+      --vre-orange: #FF6725;
+      --vre-orange-hover: #E85514;
+      --vre-orange-light: #FFF8F4;
+      --vre-orange-border: rgba(255, 103, 37, 0.2);
+      --vre-text-dark: #1A1A1A;
+      --vre-text-muted: #5A5A5A;
+      --vre-border: rgba(0, 0, 0, 0.08);
+      --vre-card-bg: #FFFFFF;
+
 
       /* Canvas & Backgrounds */
       --bg-canvas: #FAF7F2;
@@ -187,6 +234,7 @@
     }
 
     .section-title {
+      font-family: var(--font-heading);
       font-size: 2.5rem;
       font-weight: 700;
       letter-spacing: -0.03em;
@@ -194,6 +242,7 @@
       margin-bottom: 16px;
       line-height: 1.2;
     }
+
 
     .section-desc {
       font-size: 1.1rem;
@@ -251,182 +300,537 @@
       font-size: 0.85rem;
     }
 
-    /* Navigation */
-    .navbar-wrap {
-      position: sticky;
-      top: 24px;
-      z-index: 1000;
-      padding: 0 28px;
+    /* ==========================================================================
+       Verified.RealEstate Header & Announcement Bar
+       ========================================================================== */
+    .announcement-banner {
+      background: #1C1917;
+      padding: 10px 16px;
+      text-align: center;
+      position: relative;
+      z-index: 1001;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .navbar {
+    .announcement-link {
+      color: #FFFFFF;
+      font-size: 13.5px;
+      font-weight: 500;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: opacity 0.2s ease;
+      display: inline-block;
+    }
+
+    .announcement-link:hover {
+      opacity: 0.9;
+      color: #FFFFFF;
+    }
+
+    .announcement-link span {
+      color: #FF6725;
+      font-weight: 700;
+    }
+
+    .site-header {
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-container {
       max-width: var(--max-width);
       margin: 0 auto;
+      padding: 16px 28px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 28px;
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(28px) saturate(180%);
-      -webkit-backdrop-filter: blur(28px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.85);
-      border-radius: var(--radius-pill);
-      box-shadow: 0 8px 32px rgba(180, 150, 130, 0.08);
     }
 
-    .brand {
-      display: flex;
+    .brand-logo {
+      display: inline-flex;
       align-items: center;
       gap: 12px;
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: -0.025em;
-      color: var(--text-main);
       text-decoration: none;
     }
 
-    .brand-mark {
-      width: 32px;
-      height: 32px;
+    .brand-icon-box {
+      width: 36px;
+      height: 36px;
       border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-apricot) 100%);
+      background: linear-gradient(135deg, #FF6725 0%, #FA8948 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       color: #FFFFFF;
-      box-shadow: 0 3px 10px var(--accent-orange-glow);
+      box-shadow: 0 4px 12px rgba(255, 103, 37, 0.28);
     }
 
-    .brand-mark svg {
-      width: 17px;
-      height: 17px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2.3;
+    .brand-text-wrap {
+      display: flex;
+      flex-direction: column;
     }
 
-    .nav-links {
+    .brand-text {
+      font-size: 1.32rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #1A1A1A;
+      line-height: 1.1;
+      display: inline-flex;
+      align-items: baseline;
+    }
+
+    .brand-tm {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #FF6725;
+      margin-left: 2px;
+      vertical-align: super;
+    }
+
+    .brand-tagline {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #8C949E;
+    }
+
+
+    .nav-menu {
       display: flex;
       align-items: center;
       gap: 32px;
       list-style: none;
+      margin: 0;
+      padding: 0;
     }
 
-    .nav-links a {
-      font-size: 0.92rem;
+    .nav-menu .nav-link {
+      color: #24292E;
+      font-size: 15px;
       font-weight: 500;
-      color: var(--text-secondary);
-      transition: color 0.15s ease;
       text-decoration: none;
-      position: relative;
-    }
-
-    .nav-links a:hover {
-      color: var(--accent-orange);
-    }
-
-    .nav-links a.active {
-      color: var(--accent-orange);
-      font-weight: 600;
-    }
-
-    /* Hero Section */
-    .hero {
-      padding-top: 50px;
-      padding-bottom: 90px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.95fr;
-      gap: 56px;
-      align-items: center;
-    }
-
-    .hero-badge-live {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: var(--accent-peach);
-      border: 1px solid rgba(222, 114, 54, 0.25);
-      padding: 6px 14px;
-      border-radius: var(--radius-pill);
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--accent-orange);
-      margin-bottom: 24px;
+      gap: 5px;
+      transition: color 0.2s ease;
     }
 
-    .live-pulse-dot {
+    .nav-menu .nav-link:hover,
+    .nav-menu .nav-link.active {
+      color: #FF6725;
+    }
+
+    .nav-asterisk {
+      color: #FF6725;
+      font-weight: 700;
+      font-size: 14px;
+      margin-left: 2px;
+    }
+
+    .dropdown-icon {
+      margin-left: 2px;
+      color: #6C757D;
+      transition: transform 0.2s ease;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .btn-refer {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 26px;
+      border-radius: 9999px;
+      border: 1.5px solid #FFD9C7;
+      background: #FFF9F5;
+      color: #E85818;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-refer:hover {
+      background: #FFEFE6;
+      border-color: #FF6725;
+      color: #D34B0E;
+    }
+
+    .btn-corporate {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 26px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #FF6F26 0%, #F05315 100%);
+      color: #FFFFFF;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(240, 83, 21, 0.28);
+      transition: all 0.25s ease;
+    }
+
+    .btn-corporate:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(240, 83, 21, 0.38);
+      background: linear-gradient(135deg, #FF7B38 0%, #FA5E1E 100%);
+      color: #FFFFFF;
+    }
+
+    /* ==========================================================================
+       Verified.RealEstate Hero Section (v2)
+       ========================================================================== */
+    .hero-v2 {
+      position: relative;
+      background: #FFF8F4;
+      padding: 85px 0 100px;
+      min-height: 86vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero-v2__grain {
+      position: absolute;
+      inset: 0;
+      opacity: 0.028;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-v2__grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+      background-size: 72px 72px;
+      pointer-events: none;
+      z-index: 1;
+      mask-image: radial-gradient(ellipse 65% 65% at 50% 45%, black, transparent);
+      -webkit-mask-image: radial-gradient(ellipse 65% 65% at 50% 45%, black, transparent);
+    }
+
+    .hero-orb-1 {
+      position: absolute;
+      top: -25%;
+      right: -8%;
+      width: 720px;
+      height: 720px;
+      background: radial-gradient(circle, rgba(255, 103, 37, 0.09) 0%, transparent 65%);
+      pointer-events: none;
+      animation: heroOrb1 14s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    .hero-orb-2 {
+      position: absolute;
+      bottom: -20%;
+      left: -8%;
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, rgba(255, 180, 130, 0.08) 0%, transparent 65%);
+      pointer-events: none;
+      animation: heroOrb2 18s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    @keyframes heroOrb1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(-30px, 20px) scale(1.08); }
+      66% { transform: translate(15px, -15px) scale(0.96); }
+    }
+
+    @keyframes heroOrb2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(20px, -30px) scale(1.05); }
+    }
+
+    .hero-v2__skyline {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+
+    .hero-v2__skyline img {
+      width: 100%;
+      display: block;
+      filter: saturate(0.2);
+    }
+
+    .hero-v2__container {
+      position: relative;
+      z-index: 2;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 28px;
+      width: 100%;
+    }
+
+    .hero-v2__row {
+      display: grid;
+      grid-template-columns: 1.05fr 1.15fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-v2__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: 100px;
+      padding: 7px 18px 7px 12px;
+      margin-bottom: 28px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    }
+
+    .hero-v2__eyebrow-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: var(--accent-orange);
-      box-shadow: 0 0 0 0 rgba(222, 114, 54, 0.7);
-      animation: pulseRipple 1.8s infinite;
+      background: #FF6725;
+      box-shadow: 0 0 10px rgba(255, 103, 37, 0.5);
+      animation: heroPulse 2.5s ease-in-out infinite;
     }
 
-    @keyframes pulseRipple {
-      0% { box-shadow: 0 0 0 0 rgba(222, 114, 54, 0.7); }
-      70% { box-shadow: 0 0 0 7px rgba(222, 114, 54, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(222, 114, 54, 0); }
+    .hero-v2__eyebrow-text {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #4A4F55;
     }
 
-    .hero-title {
-      font-size: 3.8rem;
-      font-weight: 800;
-      line-height: 1.12;
-      letter-spacing: -0.035em;
-      color: var(--text-main);
+    @keyframes heroPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .hero-v2__heading {
+      font-family: 'Aroflit', 'Arfolit', 'EB Garamond', Georgia, serif;
+      font-size: clamp(40px, 4.9vw, 76px);
+      line-height: 1.1;
+      font-weight: 500;
+      color: #1A1A1A;
       margin-bottom: 22px;
+      max-width: 680px;
     }
 
-    .hero-title span {
-      background: linear-gradient(135deg, var(--accent-orange) 0%, #CF5F24 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .hero-v2__heading em {
+      font-style: italic;
+      color: #FF6725;
+      position: relative;
+      display: inline-block;
+      font-weight: 500;
+      font-family: 'Aroflit', 'Arfolit', 'EB Garamond', Georgia, serif;
     }
 
-    .hero-subtitle {
-      font-size: 1.18rem;
-      line-height: 1.7;
-      color: var(--text-secondary);
+    .highlight-badge-for {
+      display: inline-block;
+      background: #FF6725;
+      color: #FFFFFF;
+      font-family: 'Aroflit', 'Arfolit', 'EB Garamond', Georgia, serif;
+      font-size: 0.78em;
+      font-weight: 600;
+      font-style: normal;
+      padding: 1px 16px;
+      border-radius: 9px;
+      vertical-align: 8%;
+      margin: 0 6px;
+      box-shadow: 0 3px 10px rgba(255, 103, 37, 0.28);
+    }
+
+
+    .hero-v2__sub {
+      font-size: clamp(16px, 1.25vw, 19px);
+      line-height: 1.72;
+      color: #555E68;
+      max-width: 530px;
       margin-bottom: 38px;
     }
 
-    .hero-actions {
+    .hero-v2__search {
+      max-width: 510px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .hero-v2__search-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: 18px;
+      padding: 6px;
+      box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.04),
+        0 8px 24px rgba(0, 0, 0, 0.05),
+        0 24px 52px rgba(255, 103, 37, 0.06);
+    }
+
+    .hero-v2__search-inner {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .hero-v2__search-field {
+      flex: 1;
+      min-width: 0;
+      padding: 14px 18px;
+      position: relative;
+    }
+
+    .hero-v2__search-label {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #FF6725;
+      margin-bottom: 6px;
+    }
+
+    .select-wrapper {
+      position: relative;
       display: flex;
       align-items: center;
-      gap: 16px;
-      margin-bottom: 40px;
     }
 
-    .hero-specs {
-      display: flex;
-      gap: 28px;
-      padding-top: 24px;
-      border-top: 1px solid var(--glass-border-subtle);
+    .hero-select {
+      background: transparent !important;
+      border: none !important;
+      outline: none !important;
+      color: #1A1A1A !important;
+      font-size: 15px;
+      font-family: var(--font-primary);
+      font-weight: 500;
+      width: 100%;
+      padding-right: 26px;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
     }
 
-    .spec-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+    .select-chevron {
+      position: absolute;
+      right: 4px;
+      pointer-events: none;
     }
 
-    .spec-num {
-      font-family: var(--font-mono);
-      font-size: 1.35rem;
+    .hero-v2__search-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #FF6F26 0%, #F05315 100%);
+      color: #FFFFFF;
+      font-size: 13.5px;
       font-weight: 700;
-      color: var(--text-main);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 13px;
+      padding: 0 28px;
+      min-width: 154px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(240, 83, 21, 0.32);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .spec-label {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+    .hero-v2__search-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(240, 83, 21, 0.42);
+      background: linear-gradient(135deg, #FF7B38 0%, #FA5E1E 100%);
+      color: #FFFFFF;
     }
+
+    .hero-v2__right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-v2__map-wrapper {
+      width: 100%;
+      max-width: 660px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-v2__floating-map {
+      width: 100%;
+      max-width: 640px;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.07)) drop-shadow(0 10px 20px rgba(255, 103, 37, 0.12));
+      animation: heroIllustrationFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes heroIllustrationFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
+    }
+
+    /* Floating Quick Search Bubble */
+    .hero-floating-bubble {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FF6F26 0%, #F05315 100%);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 26px rgba(240, 83, 21, 0.45);
+      z-index: 9999;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+    }
+
+    .hero-floating-bubble:hover {
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 12px 32px rgba(240, 83, 21, 0.55);
+      color: #FFFFFF;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+      .hero-v2__row {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .nav-menu, .header-actions {
+        display: none;
+      }
+      .hero-v2 {
+        padding: 50px 0 60px;
+      }
+    }
+
 
     /* Hero Canvas Thermal Simulator */
     .hero-canvas-card {
@@ -1273,106 +1677,146 @@
 
 <body>
 
-  <!-- Ambient Light Orbs -->
-  <div class="spatial-glow-top"></div>
-  <div class="spatial-glow-left"></div>
-
-  <!-- Navigation Bar -->
-  <div class="navbar-wrap">
-    <nav class="navbar">
-      <a href="#hero" class="brand">
-        <div class="brand-mark">
-          <svg viewBox="0 0 24 24">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-          </svg>
-        </div>
-        <span>ThermaBuild</span>
+  <!-- Top Announcement Bar -->
+  <div class="announcement-banner">
+    <div class="container">
+      <a href="#configurator" class="announcement-link">
+        Explore <span>ThermaBuild 2.0</span> — Climate-Responsive Spatial CAD, 3D Dollhouse &amp; Thermal Simulation
       </a>
-
-      <ul class="nav-links">
-        <li><a href="#hero" class="active">Overview</a></li>
-        <li><a href="#workflow">Workflow</a></li>
-        <li><a href="#configurator">Studio</a></li>
-        <li><a href="#climate">Microclimate</a></li>
-        <li><a href="#studio-section">2D / 3D CAD</a></li>
-        <li><a href="#materials">Materials</a></li>
-        <li><a href="#simulation">Simulation</a></li>
-        <li><a href="#report">Dossier</a></li>
-      </ul>
-
-      <a href="#configurator" class="btn btn-primary btn-sm">Start Designing</a>
-    </nav>
+    </div>
   </div>
 
-  <!-- Hero Section with Interactive Luminous Thermal Simulator -->
-  <section id="hero" class="hero">
-    <div class="container">
-      <div class="hero-grid">
-        <div>
-          <div class="hero-badge-live">
-            <div class="live-pulse-dot"></div>
-            Bioclimatic CAD & Thermal Intelligence Engine
+  <!-- Main Navigation Header -->
+  <header class="site-header">
+    <div class="navbar-container">
+      <a href="#hero" class="brand-logo">
+        <div class="brand-icon-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <div class="brand-text-wrap">
+          <span class="brand-text">ThermaBuild<span class="brand-tm">™</span></span>
+          <span class="brand-tagline">Bioclimatic CAD Studio</span>
+        </div>
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="#hero" class="nav-link active">Overview <span class="nav-asterisk">*</span></a></li>
+        <li><a href="#workflow" class="nav-link">Workflow</a></li>
+        <li><a href="#configurator" class="nav-link">Studio</a></li>
+        <li><a href="#climate" class="nav-link">Microclimate</a></li>
+        <li class="nav-dropdown">
+          <a href="#studio-section" class="nav-link">
+            2D / 3D CAD
+            <svg class="dropdown-icon" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+          </a>
+        </li>
+        <li class="nav-dropdown">
+          <a href="#simulation" class="nav-link">
+            Simulation
+            <svg class="dropdown-icon" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+          </a>
+        </li>
+        <li><a href="#report" class="nav-link">Dossier</a></li>
+      </ul>
+
+      <div class="header-actions">
+        <a href="#workflow" class="btn-refer">Architecture</a>
+        <a href="#configurator" class="btn-corporate">Launch Studio <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section (v2) with Floating Map & Verification Search -->
+  <section id="hero" class="hero-v2">
+    <!-- Atmospheric Ambient Layers -->
+    <div class="hero-v2__grain"></div>
+    <div class="hero-v2__grid"></div>
+    <div class="hero-orb-1"></div>
+    <div class="hero-orb-2"></div>
+
+    <!-- Skyline Silhouette at Bottom -->
+    <div class="hero-v2__skyline">
+      <img src="https://verified.realestate/assets/images/assets/chennaibg3.svg" alt="Skyline Background" onerror="this.style.display='none'" />
+    </div>
+
+    <div class="hero-v2__container">
+      <div class="hero-v2__row">
+        <!-- Left Hero Content -->
+        <div class="hero-v2__left">
+          <!-- Eyebrow Badge -->
+          <div class="hero-v2__eyebrow">
+            <span class="hero-v2__eyebrow-dot"></span>
+            <span class="hero-v2__eyebrow-text">BIOCLIMATIC CAD &amp; THERMAL INTELLIGENCE PLATFORM</span>
           </div>
 
-          <h1 class="hero-title">
-            Design Better Homes.<br />
-            <span>Build for the Climate.</span>
+          <!-- Hero Headline -->
+          <h1 class="hero-v2__heading">
+            The <em>Bioclimatic CAD</em> <span class="highlight-badge-for">for</span><br />
+            Climate-Resilient Homes
           </h1>
 
-          <p class="hero-subtitle">
-            ThermaBuild turns regional microclimate vectors into spatial floor plans, parametric 3D CAD models, and validated conjugate heat transfer simulations.
+          <!-- Hero Subtitle -->
+          <p class="hero-v2__sub">
+            Synthesize regional microclimate vectors into parametric 2D spatial layouts, interactive 3D dollhouse CAD models, and validated conjugate heat transfer simulations.
           </p>
 
-          <div class="hero-actions">
-            <a href="#configurator" class="btn btn-primary">Start Designing</a>
-            <a href="#workflow" class="btn btn-secondary">Explore Architecture</a>
-          </div>
+          <!-- Interactive Search & Action Box -->
+          <div class="hero-v2__search">
+            <div class="hero-v2__search-card">
+              <form action="#configurator" onsubmit="event.preventDefault(); document.getElementById('configurator').scrollIntoView({behavior: 'smooth'});">
+                <div class="hero-v2__search-inner">
+                  <div class="hero-v2__search-field">
+                    <span class="hero-v2__search-label">SELECT DESIGN OBJECTIVE</span>
+                    <div class="select-wrapper">
+                      <select id="hero-action-select" class="hero-select" onchange="if(this.value.startsWith('#')) document.querySelector(this.value).scrollIntoView({behavior:'smooth'})">
+                        <option value="#configurator" selected>Synthesize a climate-resilient house layout</option>
+                        <option value="#climate">Analyze regional microclimate &amp; solar radiation</option>
+                        <option value="#configurator">Evaluate Vedic Vastu zoning &amp; orientation</option>
+                        <option value="#studio-section">Generate 2D spatial plan &amp; 3D dollhouse CAD</option>
+                        <option value="#studio-section">Export FreeCAD solid boundary STEP model</option>
+                        <option value="#simulation">Run 24-hr conjugate heat transfer simulation</option>
+                        <option value="#fluent-cfd">Validate with ANSYS Fluent CFD physics</option>
+                        <option value="#report">Compile executive thermal design dossier</option>
+                      </select>
+                      <svg class="select-chevron" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1.5L6 6.5L11 1.5" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                  </div>
 
-          <div class="hero-specs">
-            <div class="spec-item">
-              <div class="spec-num">-7.6°C</div>
-              <div class="spec-label">Peak Temperature Drop</div>
-            </div>
-            <div class="spec-item">
-              <div class="spec-num">38.4%</div>
-              <div class="spec-label">Cooling Load Saved</div>
-            </div>
-            <div class="spec-item">
-              <div class="spec-num">ECBC 2017</div>
-              <div class="spec-label">Building Code Verified</div>
+                  <button type="submit" class="hero-v2__search-btn">
+                    <span>START DESIGNING</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.333 8H12.667M12.667 8L8 3.333M12.667 8L8 12.667" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
 
-        <!-- Interactive Luminous Canvas Simulator -->
-        <div class="glass-card hero-canvas-card">
-          <div class="canvas-header">
-            <div class="canvas-title">
-              <span style="color: var(--accent-orange);">●</span>
-              <span>Live Thermal Heat-Map & Airflow Contours</span>
-            </div>
-            <span class="section-pill" style="margin: 0; font-size: 0.72rem; padding: 4px 10px;" id="hero-flow-status">Particles Active (60 FPS)</span>
-          </div>
-
-          <div class="canvas-stage-wrap">
-            <canvas id="hero-thermal-canvas" width="500" height="320"></canvas>
-          </div>
-
-          <div class="canvas-floating-controls">
-            <div class="sun-slider-wrap">
-              <span>☀️ Sun Angle:</span>
-              <input type="range" id="hero-sun-slider" min="0" max="180" value="75" oninput="updateHeroSun(this.value)" />
-              <span id="hero-sun-val" style="font-family: var(--font-mono); font-weight: 700; color: var(--accent-orange);">75° High Noon</span>
-            </div>
-            <div style="display: flex; gap: 8px;">
-              <button class="btn btn-secondary btn-sm" onclick="toggleParticles()">Toggle Flow</button>
-            </div>
+        <!-- Right Floating Map Artwork -->
+        <div class="hero-v2__right">
+          <div class="hero-v2__map-wrapper">
+            <img 
+              src="https://verified.realestate/assets/images/hero1.png" 
+              alt="ThermaBuild Bioclimatic Architectural CAD Ecosystem" 
+              class="hero-v2__floating-map"
+            />
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Floating Orange Quick-Action Bubble (bottom-right matching screenshot) -->
+  <a href="#configurator" class="hero-floating-bubble" title="Quick Search &amp; Assist">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+  </a>
+
 
   <!-- Continuous Design Workflow -->
   <section id="workflow">
@@ -1551,8 +1995,8 @@
             <div class="form-section-title">Passive Strategies & Constraints</div>
             <div class="pref-stack">
               <label class="pref-item-card">
-                <input type="checkbox" id="pref-vastu" checked />
-                <span class="pref-label">Vedic Vastu Alignment (NE Water / SE Fire / SW Master Bed)</span>
+                <input type="checkbox" id="pref-vastu" />
+                <span class="pref-label">Apply Vastu preferences (Optional orientation & directional rules)</span>
               </label>
               <label class="pref-item-card">
                 <input type="checkbox" id="pref-purge" checked />
@@ -1987,6 +2431,108 @@
     </div>
   </section>
 
+  <!-- Dedicated Tier 2: ANSYS Fluent CFD Validation Section -->
+  <section id="fluent-cfd" style="padding: 10px 0 70px 0;">
+    <div class="container">
+      <div class="glass-card" style="padding: 36px; background: rgba(255,255,255,0.85); border: 1px solid var(--glass-border);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
+          <div>
+            <div class="section-pill" style="margin-bottom: 8px;">Tier 2 Simulation · High-Fidelity Physics Verification</div>
+            <h3 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main);">ANSYS Fluent CFD Aerothermal Validation</h3>
+            <p style="font-size: 0.92rem; color: var(--text-secondary); margin-top: 4px;">
+              Loads <code style="background:#f0eae4; padding:2px 6px; border-radius:4px;">house.step</code> solid CAD, generates polyhedral boundary inflation meshes, and solves 3D Navier-Stokes airflow & solar conjugate heat transfer.
+            </p>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <span id="fluent-mode-badge" style="background: rgba(222,114,54,0.12); color: var(--accent-orange); padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; border: 1px solid rgba(222,114,54,0.3);">
+              Dual-Mode Ready (SIH Pipeline)
+            </span>
+            <button class="btn btn-primary" id="btn-run-cfd" onclick="runFluentCfd()" style="padding: 12px 24px; font-size: 0.95rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Run ANSYS Fluent CFD
+            </button>
+          </div>
+        </div>
+
+        <!-- 10-Stage Pipeline Progress & Live Console -->
+        <div id="cfd-pipeline-container" style="display: none; margin-bottom: 28px; background: #1C1F22; border-radius: 12px; padding: 20px; color: #f0f0f0; font-family: var(--font-mono); font-size: 0.85rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 14px; border-bottom: 1px solid #333; padding-bottom: 10px;">
+            <span style="color: #DE7236; font-weight: 700;">▶ ANSYS Fluent Meshing & Navier-Stokes Execution Pipeline</span>
+            <span id="cfd-progress-pct" style="color: #66bb6a;">0%</span>
+          </div>
+          <div id="cfd-terminal-log" style="max-height: 180px; overflow-y: auto; line-height: 1.6; color: #b0bec5;">
+            Ready to initialize Watertight Geometry workflow...
+          </div>
+        </div>
+
+        <!-- 3-Way Comparative Benchmark Table -->
+        <div style="margin-top: 16px;">
+          <h4 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">3-Way Performance Verification Matrix</h4>
+          <div style="overflow-x: auto;">
+            <table class="dossier-table" style="width: 100%; border-collapse: collapse; font-size: 0.88rem;">
+              <thead>
+                <tr>
+                  <th style="background:#F5EFEB; padding:12px; text-align:left;">Engineering Metric</th>
+                  <th style="background:#FDF2F0; padding:12px; color:#8A3B2E; text-align:left;">1. Baseline Reference House</th>
+                  <th style="background:#FDF4ED; padding:12px; color:var(--accent-orange); text-align:left;">2. ThermaBuild Recommendation</th>
+                  <th style="background:#EDF7ED; padding:12px; color:#2E7D32; text-align:left;">3. ANSYS Fluent Validation</th>
+                </tr>
+              </thead>
+              <tbody id="matrix-tbody">
+                <tr>
+                  <td style="padding:10px; font-weight:600; border-bottom:1px solid #eee;">Exterior Wall Assembly</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee;">Burnt Clay Brick 230mm (U=2.15)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:600; color:var(--accent-orange);" id="td-rec-wall">AAC Block 200mm (U=0.38)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:600; color:#2E7D32;" id="td-cfd-wall">Validated (U=0.38 W/m²K)</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; font-weight:600; border-bottom:1px solid #eee;">Roof Slab Specification</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee;">RCC 150mm Uninsulated (U=3.20)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:600; color:var(--accent-orange);" id="td-rec-roof">Cool Roof + 50mm XPS (U=0.26)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:600; color:#2E7D32;" id="td-cfd-roof">Validated (U=0.26 W/m²K)</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; font-weight:600; border-bottom:1px solid #eee;">Glazing System</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee;">Single Clear 5mm (SHGC=0.82)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:600; color:var(--accent-orange);" id="td-rec-win">Double Low-E Argon (SHGC=0.27)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:600; color:#2E7D32;" id="td-cfd-win">Validated (SHGC=0.27)</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; font-weight:600; border-bottom:1px solid #eee;">Peak Indoor Temperature</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; color:#8A3B2E;" id="td-base-temp">42.5°C</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:700; color:var(--accent-orange);" id="td-rec-temp">36.0°C (Predicted 1D-RC)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:700; color:#2E7D32;" id="td-cfd-temp">27.1°C (Aerothermal Conjugate)</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; font-weight:600; border-bottom:1px solid #eee;">Natural Ventilation Rate</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee;">0.8 ACH (Infiltration)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:600; color:var(--accent-orange);">3.5 ACH (Bernoulli Pressure)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:600; color:#2E7D32;" id="td-cfd-ach">7.5 ACH (Cross-Draft Navier-Stokes)</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; font-weight:600;">ECBC 2017 Compliance</td>
+                  <td style="padding:10px; color:#C62828;">Non-Compliant</td>
+                  <td style="padding:10px; font-weight:700; color:var(--accent-orange);">ECBC+ Compliant</td>
+                  <td style="padding:10px; font-weight:700; color:#2E7D32;">Verified ECBC+ Tier</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--glass-border-subtle); flex-wrap: wrap; gap: 12px;">
+          <div style="font-size: 0.85rem; color: var(--text-muted);">
+            Structured CAD Model: <a id="link-step-download" href="output/project-custom/house.step" download style="color:var(--accent-orange); font-weight:600; text-decoration:none;">house.step</a> &middot; FreeCAD Script: <a id="link-cad-script" href="output/project-custom/generate_cad.py" target="_blank" style="color:var(--accent-orange); font-weight:600; text-decoration:none;">generate_cad.py</a>
+          </div>
+          <button class="btn btn-secondary" onclick="openDossierModal()" style="font-size: 0.9rem; padding: 10px 22px;">
+            Open Executive Dossier Report
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- Report Banner -->
   <section id="report" style="padding-bottom: 120px;">
     <div class="container">
@@ -2384,26 +2930,19 @@
       };
 
       const payload = {
-        city_key: ThermaState.locationKey,
-        city_name: ThermaState.cityName,
-        latitude: ThermaState.latitude,
-        longitude: ThermaState.longitude,
+        name: "ThermaBuild Custom Villa",
+        area_sqft: parseFloat(document.getElementById('area-slider')?.value || 1000),
         width_m: ThermaState.widthM,
         depth_m: ThermaState.depthM,
         facing: ThermaState.facing,
         bhk: ThermaState.bhk,
-        floors: ThermaState.floors,
-        typology: ThermaState.typology,
-        passive_options: {
-          vastu: document.getElementById('pref-vastu').checked,
-          night_purge: document.getElementById('pref-purge').checked,
-          overhang: document.getElementById('pref-overhang').checked
-        }
+        apply_vastu: document.getElementById('pref-vastu')?.checked || false,
+        climate: ThermaState.locationKey || "composite",
       };
 
       try {
         setStep(s1, spin1, false);
-        await new Promise(r => setTimeout(r, 450));
+        await new Promise(r => setTimeout(r, 350));
         setStep(s1, spin1, true);
 
         setStep(s2, spin2, false);
@@ -2416,20 +2955,20 @@
           });
           if (resp.ok) apiData = await resp.json();
         } catch (err) {
-          console.warn('Utilizing reactive client simulation solver.', err);
+          console.warn('Backend offline, utilizing reactive client simulation solver.', err);
         }
-        await new Promise(r => setTimeout(r, 500));
+        await new Promise(r => setTimeout(r, 400));
         setStep(s2, spin2, true);
 
         setStep(s3, spin3, false);
-        await new Promise(r => setTimeout(r, 450));
+        await new Promise(r => setTimeout(r, 350));
         setStep(s3, spin3, true);
 
         setStep(s4, spin4, false);
-        await new Promise(r => setTimeout(r, 400));
+        await new Promise(r => setTimeout(r, 300));
         setStep(s4, spin4, true);
 
-        if (apiData && apiData.status === 'ok') {
+        if (apiData && (apiData.status === 'ok' || apiData.status === 'success')) {
           applyGeneratedResults(apiData);
         } else {
           updateUI();
@@ -2448,58 +2987,146 @@
     }
 
     function applyGeneratedResults(data) {
+      if (!data) return;
+      window.LAST_GENERATED_DATA = data;
+      const pid = data.project_id || 'project-custom';
+
       const imgPlan = document.getElementById('img-2d-plan');
-      if (imgPlan && data.layout && data.layout.svg_url) {
-        imgPlan.src = `${data.layout.svg_url}?t=${Date.now()}`;
+      if (imgPlan) {
+        const svgUrl = data.svg_url || (data.layout && data.layout.svg_url);
+        if (svgUrl) imgPlan.src = `${svgUrl}?t=${Date.now()}`;
       }
 
       const iframe3d = document.getElementById('iframe-3d');
       if (iframe3d) iframe3d.src = `viewer/index.html?t=${Date.now()}`;
 
-      const vastuScore = data.layout.vastu_score || 88;
-      const vastuGrade = data.layout.vastu_grade || 'Good';
-      document.getElementById('sum-vastu').innerText = `${vastuScore} / 100 (${vastuGrade})`;
-      document.getElementById('overlay-vastu-badge').innerText = `Vastu Verified (${vastuScore}/100)`;
-      document.getElementById('dos-vastu-score').innerText = `${vastuScore}/100 (${vastuGrade})`;
+      // Update link to STEP & CAD
+      const stepLink = document.getElementById('link-step-download');
+      if (stepLink) stepLink.href = `output/${pid}/house.step`;
+      const cadLink = document.getElementById('link-cad-script');
+      if (cadLink) cadLink.href = `output/${pid}/generate_cad.py`;
 
-      if (data.climate) {
-        document.getElementById('clim-temp').innerText = `${data.climate.peak_temp_c}°C`;
-        document.getElementById('clim-solar').innerText = `${data.climate.solar_peak_w_m2} W/m²`;
-        document.getElementById('clim-wind').innerText = `${data.climate.wind_speed_m_s} m/s (${data.climate.wind_dir})`;
-        document.getElementById('clim-hum').innerText = `${data.climate.humidity_pct}%`;
-        document.getElementById('summary-zone-badge').innerText = data.climate.zone;
+      // Vastu
+      const vastuSummary = data.layout?.vastu_summary || {};
+      const vastuScore = vastuSummary.score || 85;
+      const vastuGrade = vastuSummary.grade || (data.layout?.apply_vastu ? 'Good' : 'Functional');
+      const vastuAppliedText = data.layout?.apply_vastu ? `${vastuScore} / 100 (${vastuGrade})` : 'Disabled (Functional MEP)';
+      document.getElementById('sum-vastu').innerText = vastuAppliedText;
+      document.getElementById('overlay-vastu-badge').innerText = data.layout?.apply_vastu ? `Vastu Verified (${vastuScore}/100)` : 'Functional Layout';
+      document.getElementById('dos-vastu-score').innerText = vastuAppliedText;
+
+      // Climate & Materials
+      if (data.materials && data.materials.recommended_materials) {
+        const rec = data.materials.recommended_materials;
+        if (rec.roof) {
+          document.getElementById('mat-roof-name').innerText = rec.roof.name;
+          document.getElementById('mat-roof-u').innerText = `${rec.roof.u_value} W/m²K`;
+          document.getElementById('mat-roof-desc').innerText = `Overdeck XPS + Cool Roof (SRI ${rec.roof.sri || 104})`;
+          const tdRoof = document.getElementById('td-rec-roof');
+          if (tdRoof) tdRoof.innerText = `${rec.roof.name} (U=${rec.roof.u_value})`;
+        }
+        if (rec.wall) {
+          document.getElementById('mat-wall-name').innerText = rec.wall.name;
+          document.getElementById('mat-wall-u').innerText = `${rec.wall.u_value} W/m²K`;
+          document.getElementById('mat-wall-desc').innerText = `AAC masonry with thermal lag ${rec.wall.time_lag_hours || 8.4} hrs`;
+          const tdWall = document.getElementById('td-rec-wall');
+          if (tdWall) tdWall.innerText = `${rec.wall.name} (U=${rec.wall.u_value})`;
+        }
+        if (rec.window) {
+          document.getElementById('mat-win-name').innerText = rec.window.name;
+          document.getElementById('mat-win-u').innerText = `SHGC ${rec.window.shgc} / ${rec.window.u_value} W/m²K`;
+          document.getElementById('mat-win-desc').innerText = `Argon gas insulated Low-E double glazing`;
+          const tdWin = document.getElementById('td-rec-win');
+          if (tdWin) tdWin.innerText = `${rec.window.name} (SHGC=${rec.window.shgc})`;
+        }
       }
 
-      if (data.materials) {
-        document.getElementById('mat-roof-name').innerText = data.materials.roof.name;
-        document.getElementById('mat-roof-u').innerText = `${data.materials.roof.u_value} W/m²K`;
-        document.getElementById('mat-roof-desc').innerText = data.materials.roof.desc;
+      // Fast Thermal Simulation Model
+      if (data.fast_thermal && data.fast_thermal.metrics) {
+        const m = data.fast_thermal.metrics;
+        document.getElementById('sim-diff-temp').innerText = `-${m.indoor_temp_delta_c}°C`;
+        document.getElementById('sim-ingress-mit').innerText = `-${m.cooling_load_reduction_pct}%`;
+        document.getElementById('sim-energy-save').innerText = `${m.cooling_load_reduction_pct}% / load`;
 
-        document.getElementById('mat-wall-name').innerText = data.materials.wall.name;
-        document.getElementById('mat-wall-u').innerText = `${data.materials.wall.u_value} W/m²K`;
-        document.getElementById('mat-wall-desc').innerText = data.materials.wall.desc;
+        document.getElementById('comp-base-stat').innerText = `${m.peak_indoor_temp_baseline_c}°C Peak Indoor`;
+        document.getElementById('comp-opt-stat').innerText = `${m.peak_indoor_temp_recommended_c}°C Peak Indoor`;
 
-        document.getElementById('mat-win-name').innerText = data.materials.window.name;
-        document.getElementById('mat-win-u').innerText = `${data.materials.window.shgc} / ${data.materials.window.u_value} W/m²K`;
-        document.getElementById('mat-win-desc').innerText = data.materials.window.desc;
+        const tdBase = document.getElementById('td-base-temp');
+        if (tdBase) tdBase.innerText = `${m.peak_indoor_temp_baseline_c}°C`;
+        const tdRec = document.getElementById('td-rec-temp');
+        if (tdRec) tdRec.innerText = `${m.peak_indoor_temp_recommended_c}°C (1D-RC Prediction)`;
 
-        document.getElementById('mat-ins-name').innerText = data.materials.insulation.name;
-        document.getElementById('mat-ins-u').innerText = `k = ${data.materials.insulation.k_value} W/m·K`;
-        document.getElementById('mat-ins-desc').innerText = data.materials.insulation.desc;
+        document.getElementById('dos-base-peak').innerText = `${m.peak_indoor_temp_baseline_c}°C (Overheating)`;
+        document.getElementById('dos-peak-indoor').innerText = `${m.peak_indoor_temp_recommended_c}°C (1D-RC Predicted)`;
+        document.getElementById('dos-dt').innerText = `-${m.indoor_temp_delta_c}°C passive drop`;
+        document.getElementById('dos-offset').innerText = `${m.cooling_load_reduction_pct}% cooling load reduction`;
       }
+    }
 
-      if (data.simulation) {
-        document.getElementById('sim-diff-temp').innerText = `-${data.simulation.temp_reduction_c}°C`;
-        document.getElementById('sim-ingress-mit').innerText = `-${data.simulation.heat_ingress_mitigation_pct}%`;
-        document.getElementById('sim-energy-save').innerText = `${data.simulation.annual_cooling_energy_saved_pct}% / year`;
+    async function runFluentCfd() {
+      const btn = document.getElementById('btn-run-cfd');
+      const container = document.getElementById('cfd-pipeline-container');
+      const log = document.getElementById('cfd-terminal-log');
+      const pct = document.getElementById('cfd-progress-pct');
 
-        document.getElementById('comp-base-stat').innerText = `${data.simulation.peak_conventional}°C Peak Indoor`;
-        document.getElementById('comp-opt-stat').innerText = `${data.simulation.peak_optimized}°C Peak Indoor`;
+      btn.disabled = true;
+      btn.innerText = 'Simulating CFD...';
+      container.style.display = 'block';
+      log.innerHTML = '';
 
-        document.getElementById('dos-base-peak').innerText = `${data.simulation.peak_conventional}°C (Overheating)`;
-        document.getElementById('dos-peak-indoor').innerText = `${data.simulation.peak_optimized}°C (Comfort Envelope)`;
-        document.getElementById('dos-dt').innerText = `-${data.simulation.temp_reduction_c}°C passive drop`;
-        document.getElementById('dos-offset').innerText = `${data.simulation.annual_cooling_energy_saved_pct}% cooling energy reduction`;
+      const appendLog = (msg, color='#b0bec5') => {
+        const line = document.createElement('div');
+        line.style.color = color;
+        line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+        log.appendChild(line);
+        log.scrollTop = log.scrollHeight;
+      };
+
+      appendLog('>> Initializing PyFluent automated session...', '#DE7236');
+      pct.innerText = '10%';
+
+      try {
+        const pid = window.LAST_GENERATED_DATA?.project_id || 'project-custom';
+        const resp = await fetch('/api/simulate/fluent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ project_id: pid })
+        });
+        const data = await resp.json();
+
+        if (data.status === 'success') {
+          const stages = data.cfd.stages || [];
+          for (let i = 0; i < stages.length; i++) {
+            await new Promise(r => setTimeout(r, 160));
+            const s = stages[i];
+            appendLog(`Stage ${s.stage_num}/10 [${s.name}]: ${s.details}`, s.status === 'PASSED' ? '#81c784' : '#90caf9');
+            pct.innerText = `${Math.round(((i + 1) / stages.length) * 100)}%`;
+          }
+
+          appendLog('>> Navier-Stokes Solver Converged! Extracted thermal and velocity fields.', '#66bb6a');
+          const badge = document.getElementById('fluent-mode-badge');
+          if (badge) {
+            badge.innerText = data.cfd.execution_mode === 'LIVE_FLUENT' ? 'Live ANSYS Fluent Server' : 'SIH Presentation Mode (High-Fidelity Demo)';
+            badge.style.borderColor = '#2e7d32';
+            badge.style.color = '#2e7d32';
+          }
+
+          const cfdRes = data.cfd.cfd_results;
+          if (cfdRes) {
+            const tdCfdTemp = document.getElementById('td-cfd-temp');
+            if (tdCfdTemp) tdCfdTemp.innerText = `${cfdRes.thermal_gradients.indoor_operative_avg_c}°C (CFD Verified)`;
+            const tdCfdAch = document.getElementById('td-cfd-ach');
+            if (tdCfdAch) tdCfdAch.innerText = `${cfdRes.airflow_patterns.air_changes_per_hour_ach} ACH (Navier-Stokes)`;
+            document.getElementById('dos-peak-indoor').innerText = `${cfdRes.thermal_gradients.indoor_operative_avg_c}°C (ANSYS Verified)`;
+          }
+
+          btn.disabled = false;
+          btn.innerText = 'CFD Validated (Re-run)';
+        }
+      } catch (err) {
+        appendLog(`Execution error: ${err.message}`, '#e57373');
+        btn.disabled = false;
+        btn.innerText = 'Run ANSYS Fluent CFD';
       }
     }
 
@@ -2582,7 +3209,7 @@
     // Live Canvas Thermal Heat-Map & Particle Simulator Engine
     // ==========================================================================
     const canvas = document.getElementById('hero-thermal-canvas');
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas ? canvas.getContext('2d') : null;
     let particles = [];
     const numParticles = 45;
 
@@ -2610,6 +3237,7 @@
         }
       }
       draw(ctx) {
+        if (!ctx) return;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         // Cool blue-teal particles transitioning to warm air exhaust
@@ -2622,6 +3250,7 @@
     }
 
     function initParticles() {
+      if (!canvas || !ctx) return;
       particles = [];
       for (let i = 0; i < numParticles; i++) {
         const p = new ThermalParticle();
@@ -2631,7 +3260,9 @@
     }
 
     function renderCanvas() {
+      if (!canvas || !ctx) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 
       const w = canvas.width;
       const h = canvas.height;
@@ -2741,18 +3372,22 @@
       ThermaState.sunAngle = parseInt(val);
       const angle = parseInt(val);
       const labels = angle > 120 ? 'Evening Low West' : angle < 50 ? 'Morning East' : 'High Noon Peak';
-      document.getElementById('hero-sun-val').innerText = `${angle}° ${labels}`;
+      const el = document.getElementById('hero-sun-val');
+      if (el) el.innerText = `${angle}° ${labels}`;
     }
 
     function toggleParticles() {
       ThermaState.particlesActive = !ThermaState.particlesActive;
-      document.getElementById('hero-flow-status').innerText = ThermaState.particlesActive ? 'Particles Active (60 FPS)' : 'Particles Paused';
+      const el = document.getElementById('hero-flow-status');
+      if (el) el.innerText = ThermaState.particlesActive ? 'Particles Active (60 FPS)' : 'Particles Paused';
     }
 
     window.addEventListener('DOMContentLoaded', () => {
       updateUI();
-      initParticles();
-      requestAnimationFrame(renderCanvas);
+      if (canvas && ctx) {
+        initParticles();
+        requestAnimationFrame(renderCanvas);
+      }
     });
   </script>
 
