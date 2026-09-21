@@ -108,6 +108,35 @@ WALL_CATALOG: Dict[str, EnvelopeAssembly] = {
         time_lag_hours=5.5,
         embodied_carbon_rating="C",
     ),
+    "rammed_earth_thick": EnvelopeAssembly(
+        assembly_id="W_EARTH_450",
+        name="Thick Stabilized Rammed Earth (450mm) - High Night Thermal Mass",
+        type="wall",
+        description="450mm heavy stabilized rammed earth wall providing immense volumetric heat capacity and exceptionally high thermal inertia for cold/mountainous regions.",
+        layers=[
+            LayerSpec("Stabilized Rammed Earth", 0.450, 0.95, 2100, 1000),
+            LayerSpec("Internal Lime Wash Plaster", 0.010, 0.70, 1600, 840),
+        ],
+        overall_u_value=0.78,
+        thermal_damping_pct=95.0,
+        time_lag_hours=14.5,
+        embodied_carbon_rating="A+",
+    ),
+    "stone_masonry_insulated": EnvelopeAssembly(
+        assembly_id="W_STONE_INS",
+        name="Traditional Stone Masonry with Internal Wood-Wool Insulation",
+        type="wall", 
+        description="400mm granite/local stone masonry paired with 75mm wood-wool composite board for extreme cold and night heat retention.",
+        layers=[
+            LayerSpec("Local Stone Masonry", 0.350, 2.20, 2600, 880),
+            LayerSpec("Wood-Wool Insulation Board", 0.075, 0.040, 400, 1600),
+            LayerSpec("Interior Timber Paneling", 0.015, 0.13, 600, 1600),
+        ],
+        overall_u_value=0.28,
+        thermal_damping_pct=94.0,
+        time_lag_hours=13.0,
+        embodied_carbon_rating="A",
+    ),
 }
 
 ROOF_CATALOG: Dict[str, EnvelopeAssembly] = {
@@ -161,6 +190,24 @@ ROOF_CATALOG: Dict[str, EnvelopeAssembly] = {
         time_lag_hours=3.5,
         solar_reflectance_sri=22.0,
         embodied_carbon_rating="C",
+    ),
+    "cold_climate_timber_roof": EnvelopeAssembly(
+        assembly_id="R_COLD_TIMBER",
+        name="Heavy Timber Roof with 100mm Rockwool & Vapor Barrier",
+        type="roof",
+        description="Sloped timber roof structure with 100mm high-density rockwool insulation and vapor barrier designed to retain interior heat during freezing nights.",
+        layers=[
+            LayerSpec("Bituminous Shingles / Slate", 0.010, 0.40, 2000, 1000),
+            LayerSpec("Exterior Plywood Deck", 0.018, 0.15, 540, 1200),
+            LayerSpec("Rockwool Insulation Layer", 0.100, 0.035, 50, 1030),
+            LayerSpec("Vapor Retarder Membrane", 0.002, 0.50, 1200, 1400),
+            LayerSpec("Interior Cedar Ceiling Planks", 0.020, 0.12, 450, 1600),
+        ],
+        overall_u_value=0.22,
+        thermal_damping_pct=96.0,
+        time_lag_hours=12.0,
+        solar_reflectance_sri=35.0,
+        embodied_carbon_rating="A+",
     ),
 }
 
@@ -239,12 +286,12 @@ class MaterialRecommendationEngine:
             rec_roof = ROOF_CATALOG["cool_overdeck_xps"]
             rec_window = WINDOW_CATALOG["double_lowe_argon"]
             rationale = "Warm-Humid climates require low solar absorptance (SHGC 0.27) and moderate thermal mass so the building cools rapidly at night under natural cross-ventilation."
-        elif "cold" in zone:
-            # Cold: High heating requirement -> Maximum insulation
-            rec_wall = WALL_CATALOG["insulated_cavity_brick"]
-            rec_roof = ROOF_CATALOG["cool_overdeck_xps"]
+        elif "cold" in zone or "ladakh" in zone:
+            # Cold / Ladakh Trans-Himalayan: High heating requirement -> Maximum insulation & thermal mass
+            rec_wall = WALL_CATALOG["stone_masonry_insulated"]
+            rec_roof = ROOF_CATALOG["cold_climate_timber_roof"]
             rec_window = WINDOW_CATALOG["double_lowe_argon"]
-            rationale = "Cold climates demand high thermal resistance (U < 0.35 W/m2K) to prevent envelope transmission heat loss."
+            rationale = "Cold and Trans-Himalayan climates demand high thermal resistance (U < 0.28 W/m2K), heavy thermal mass for night-time heat storage (such as thick stone and rammed earth), and insulation to prevent freezing overnight."
         else:
             # Composite (Default - New Delhi, Lucknow, Jaipur)
             rec_wall = WALL_CATALOG["aac_200_plaster"]

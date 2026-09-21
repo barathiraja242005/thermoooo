@@ -56,7 +56,10 @@ function mesh(geo, material, x, y, z, ry = 0) {
 }
 
 function box(w, h, d, material, x, z, centerY, ry = 0) {
-  return mesh(new THREE.BoxGeometry(w, h, d), material, x, centerY, z, ry);
+  const sx = Math.max(2, Math.min(24, Math.round(w * 3)));
+  const sy = Math.max(2, Math.min(10, Math.round(h * 3)));
+  const sz = Math.max(2, Math.min(24, Math.round(d * 3)));
+  return mesh(new THREE.BoxGeometry(w, h, d, sx, sy, sz), material, x, centerY, z, ry);
 }
 
 function cyl(rt, rb, h, seg, material, x, z, centerY, ry = 0) {
@@ -94,11 +97,13 @@ export function addWindow(win, room, WH, WT, group) {
     group.add(box(ww + ft * 2, ft, 0.06, frame, x, z, cy - rh / 2));
     group.add(box(ft, rh, 0.06, frame, x - ww / 2, z, cy));
     group.add(box(ft, rh, 0.06, frame, x + ww / 2, z, cy));
+    group.add(box(ww + 0.1, 0.03, 0.12, PALETTE.granite, x, z, FLOOR_TOP + sill - 0.015));
   } else {
     group.add(box(0.06, ft, ww + ft * 2, frame, x, z, cy + rh / 2));
     group.add(box(0.06, ft, ww + ft * 2, frame, x, z, cy - rh / 2));
     group.add(box(0.06, rh, ft, frame, x, z - ww / 2, cy));
     group.add(box(0.06, rh, ft, frame, x, z + ww / 2, cy));
+    group.add(box(0.12, 0.03, ww + 0.1, PALETTE.granite, x, z, FLOOR_TOP + sill - 0.015));
   }
 }
 
@@ -122,6 +127,7 @@ export function addDoor(door, WH, group) {
     group.add(box(ft, h, 0.1, frameMat, x + w / 2, z + zOff, cy));
     group.add(box(w * 0.92, h * 0.96, panelT, panelMat, x, z + zOff, cy));
     group.add(cyl(0.025, 0.025, 0.12, 12, PALETTE.metalBrass, x + w * 0.38, z + zOff, FLOOR_TOP + 1.0));
+    group.add(box(w, 0.03, 0.08, PALETTE.woodDark, x, z + zOff, FLOOR_TOP + 0.015));
   } else {
     group.add(box(0.1, ft, w + ft * 2, frameMat, x, z, cy + h / 2));
     group.add(box(0.1, ft, w + ft * 2, frameMat, x, z, FLOOR_TOP + ft / 2));
@@ -129,6 +135,7 @@ export function addDoor(door, WH, group) {
     group.add(box(0.1, h, ft, frameMat, x, z + w / 2, cy));
     group.add(box(panelT, h * 0.96, w * 0.92, panelMat, x, z, cy));
     group.add(cyl(0.025, 0.025, 0.12, 12, PALETTE.metalBrass, x, z + w * 0.38, FLOOR_TOP + 1.0));
+    group.add(box(0.08, 0.03, w, PALETTE.woodDark, x, z, FLOOR_TOP + 0.015));
   }
 }
 
@@ -219,20 +226,38 @@ export function addFurniture(type, item, catalog, WH, group, sceneLights) {
 
   if (type === 'sofa') {
     g.add(box(2.0, 0.36, 0.88, fab, 0, 0, FLOOR_TOP + 0.22));
+    g.add(box(0.66, 0.37, 0.86, fab, -0.67, 0, FLOOR_TOP + 0.225));
+    g.add(box(0.66, 0.37, 0.86, fab, 0, 0, FLOOR_TOP + 0.225));
+    g.add(box(0.66, 0.37, 0.86, fab, 0.67, 0, FLOOR_TOP + 0.225));
     g.add(box(2.0, 0.62, 0.16, fab, 0, -0.4, FLOOR_TOP + 0.58));
-    g.add(box(0.14, 0.42, 0.88, fab, -0.98, 0, FLOOR_TOP + 0.28));
-    g.add(box(0.14, 0.42, 0.88, fab, 0.98, 0, FLOOR_TOP + 0.28));
+    
+    g.add(box(0.14, 0.32, 0.88, fab, -0.98, 0, FLOOR_TOP + 0.24));
+    const leftArm = cyl(0.07, 0.07, 0.88, 16, fab, -0.98, 0, FLOOR_TOP + 0.4);
+    leftArm.rotation.x = Math.PI / 2;
+    g.add(leftArm);
+    
+    g.add(box(0.14, 0.32, 0.88, fab, 0.98, 0, FLOOR_TOP + 0.24));
+    const rightArm = cyl(0.07, 0.07, 0.88, 16, fab, 0.98, 0, FLOOR_TOP + 0.4);
+    rightArm.rotation.x = Math.PI / 2;
+    g.add(rightArm);
+    
     g.add(box(2.0, 0.08, 0.9, PALETTE.woodDark, 0, 0, FLOOR_TOP + 0.06));
   } else if (type === 'bed_double') {
     g.add(box(2.05, 0.28, 1.65, PALETTE.woodOak, 0, 0, FLOOR_TOP + 0.18));
     g.add(box(1.95, 0.22, 1.55, fab, 0, 0, FLOOR_TOP + 0.42));
     g.add(box(2.05, 0.85, 0.1, PALETTE.woodOak, 0, -0.74, FLOOR_TOP + 0.52));
+    const hbCyl1 = cyl(0.05, 0.05, 2.05, 16, PALETTE.woodOak, 0, -0.74, FLOOR_TOP + 0.945);
+    hbCyl1.rotation.z = Math.PI / 2;
+    g.add(hbCyl1);
     g.add(box(0.52, 0.1, 0.36, pbrMat({ color: 0xf5f3ef, roughness: 0.98 }), -0.55, -0.55, FLOOR_TOP + 0.58));
     g.add(box(0.52, 0.1, 0.36, pbrMat({ color: 0xf5f3ef, roughness: 0.98 }), 0.55, -0.55, FLOOR_TOP + 0.58));
   } else if (type === 'bed_single') {
     g.add(box(1.05, 0.26, 1.95, PALETTE.woodOak, 0, 0, FLOOR_TOP + 0.16));
     g.add(box(0.95, 0.2, 1.85, fab, 0, 0, FLOOR_TOP + 0.38));
     g.add(box(1.05, 0.7, 0.08, PALETTE.woodOak, 0, -0.9, FLOOR_TOP + 0.48));
+    const hbCyl2 = cyl(0.04, 0.04, 1.05, 16, PALETTE.woodOak, 0, -0.9, FLOOR_TOP + 0.83);
+    hbCyl2.rotation.z = Math.PI / 2;
+    g.add(hbCyl2);
   } else if (type === 'kitchen_counter') {
     g.add(box(2.4, 0.88, 0.62, PALETTE.applianceWhite, 0, 0, FLOOR_TOP + 0.46));
     g.add(box(2.42, 0.035, 0.64, PALETTE.granite, 0, 0, FLOOR_TOP + 0.915));
@@ -310,44 +335,323 @@ export function addFurniture(type, item, catalog, WH, group, sceneLights) {
   group.add(g);
 }
 
-export function buildRealisticInterior({
-  layout, catalog, interiorGroup, ceilingGroup, sceneLights,
-  wallH, WH, WT, viewMode, showPaths = true,
-}) {
+/**
+ * Builds segmented walls with true architectural openings for windows and doors.
+ * Deduplicates shared interior partitions to eliminate double-thick walls and Z-fighting.
+ */
+function buildArchitecturalWalls(layout, wallH, WT, wm, interiorGroup) {
+  const rooms = layout.rooms || [];
+  const hRaw = [];
+  const vRaw = [];
+
+  for (const room of rooms) {
+    const r = room.rect;
+    hRaw.push({ line: r.y, start: r.x, end: r.x + r.w });
+    hRaw.push({ line: r.y + r.h, start: r.x, end: r.x + r.w });
+    vRaw.push({ line: r.x, start: r.y, end: r.y + r.h });
+    vRaw.push({ line: r.x + r.w, start: r.y, end: r.y + r.h });
+  }
+
+  // Deduplicate and merge overlapping colinear segments
+  const mergeLineSegments = (list) => {
+    const tol = 0.08;
+    const lines = [];
+    for (const item of list) {
+      let group = lines.find(g => Math.abs(g.line - item.line) < tol);
+      if (!group) {
+        group = { line: item.line, intervals: [] };
+        lines.push(group);
+      }
+      group.intervals.push([Math.min(item.start, item.end), Math.max(item.start, item.end)]);
+    }
+    const result = [];
+    for (const grp of lines) {
+      grp.intervals.sort((a, b) => a[0] - b[0]);
+      const merged = [];
+      for (const iv of grp.intervals) {
+        if (!merged.length) merged.push([...iv]);
+        else {
+          const last = merged[merged.length - 1];
+          if (iv[0] <= last[1] + tol) {
+            last[1] = Math.max(last[1], iv[1]);
+          } else {
+            merged.push([...iv]);
+          }
+        }
+      }
+      for (const m of merged) {
+        if (m[1] - m[0] > 0.1) {
+          result.push({ line: grp.line, start: m[0], end: m[1], openings: [] });
+        }
+      }
+    }
+    return result;
+  };
+
+  const hMerged = mergeLineSegments(hRaw);
+  const vMerged = mergeLineSegments(vRaw);
+
+  const addOpening = (segList, line, oStart, oEnd, data) => {
+    const tol = 0.12;
+    for (const seg of segList) {
+      if (Math.abs(seg.line - line) < tol) {
+        if (oEnd > seg.start - tol && oStart < seg.end + tol) {
+          seg.openings.push({
+            start: Math.max(seg.start, oStart),
+            end: Math.min(seg.end, oEnd),
+            ...data
+          });
+        }
+      }
+    }
+  };
+
+  // Collect window openings
+  for (const room of rooms) {
+    const r = room.rect;
+    for (const win of room.windows || []) {
+      const ww = win.width || 1.2;
+      const wh = win.height || 1.2;
+      const sill = win.sill_m !== undefined ? win.sill_m : 0.9;
+      const off = win.offset || 1.0;
+      if (win.wall === 'N') {
+        addOpening(hMerged, r.y, r.x + off, r.x + off + ww, { type: 'window', sill, wh });
+      } else if (win.wall === 'S') {
+        addOpening(hMerged, r.y + r.h, r.x + off, r.x + off + ww, { type: 'window', sill, wh });
+      } else if (win.wall === 'W') {
+        addOpening(vMerged, r.x, r.y + off, r.y + off + ww, { type: 'window', sill, wh });
+      } else if (win.wall === 'E') {
+        addOpening(vMerged, r.x + r.w, r.y + off, r.y + off + ww, { type: 'window', sill, wh });
+      }
+    }
+  }
+
+  // Collect door openings
+  for (const door of layout.doors || []) {
+    const dw = door.width || 0.9;
+    const dh = door.height || 2.05;
+    const dx = door.x, dz = door.y;
+    const wall = door.wall || 'S';
+    if (wall === 'S' || wall === 'N') {
+      addOpening(hMerged, dz, dx - dw / 2, dx + dw / 2, { type: 'door', dh });
+    } else {
+      addOpening(vMerged, dx, dz - dw / 2, dz + dw / 2, { type: 'door', dh });
+    }
+  }
+
+  // Render horizontal wall segments
+  for (const seg of hMerged) {
+    seg.openings.sort((a, b) => a.start - b.start);
+    let curr = seg.start;
+    for (const op of seg.openings) {
+      if (op.start > curr + 0.05) {
+        const w = op.start - curr;
+        const cx = curr + w / 2;
+        interiorGroup.add(box(w, wallH, WT, wm, cx, seg.line, FLOOR_TOP + wallH / 2));
+      }
+      const openW = Math.max(0.1, op.end - op.start);
+      const openCx = op.start + openW / 2;
+      if (op.type === 'door') {
+        const lintelH = wallH - op.dh;
+        if (lintelH > 0.05) {
+          interiorGroup.add(box(openW, lintelH, WT, wm, openCx, seg.line, FLOOR_TOP + op.dh + lintelH / 2));
+        }
+      } else if (op.type === 'window') {
+        if (op.sill > 0.05) {
+          interiorGroup.add(box(openW, op.sill, WT, wm, openCx, seg.line, FLOOR_TOP + op.sill / 2));
+        }
+        const topY = op.sill + op.wh;
+        const lintelH = wallH - topY;
+        if (lintelH > 0.05) {
+          interiorGroup.add(box(openW, lintelH, WT, wm, openCx, seg.line, FLOOR_TOP + topY + lintelH / 2));
+        }
+      }
+      curr = Math.max(curr, op.end);
+    }
+    if (curr < seg.end - 0.05) {
+      const w = seg.end - curr;
+      const cx = curr + w / 2;
+      interiorGroup.add(box(w, wallH, WT, wm, cx, seg.line, FLOOR_TOP + wallH / 2));
+    }
+  }
+
+  // Render vertical wall segments
+  for (const seg of vMerged) {
+    seg.openings.sort((a, b) => a.start - b.start);
+    let curr = seg.start;
+    for (const op of seg.openings) {
+      if (op.start > curr + 0.05) {
+        const d = op.start - curr;
+        const cz = curr + d / 2;
+        interiorGroup.add(box(WT, wallH, d, wm, seg.line, cz, FLOOR_TOP + wallH / 2));
+      }
+      const openD = Math.max(0.1, op.end - op.start);
+      const openCz = op.start + openD / 2;
+      if (op.type === 'door') {
+        const lintelH = wallH - op.dh;
+        if (lintelH > 0.05) {
+          interiorGroup.add(box(WT, lintelH, openD, wm, seg.line, openCz, FLOOR_TOP + op.dh + lintelH / 2));
+        }
+      } else if (op.type === 'window') {
+        if (op.sill > 0.05) {
+          interiorGroup.add(box(WT, op.sill, openD, wm, seg.line, openCz, FLOOR_TOP + op.sill / 2));
+        }
+        const topY = op.sill + op.wh;
+        const lintelH = wallH - topY;
+        if (lintelH > 0.05) {
+          interiorGroup.add(box(WT, lintelH, openD, wm, seg.line, openCz, FLOOR_TOP + topY + lintelH / 2));
+        }
+      }
+      curr = Math.max(curr, op.end);
+    }
+    if (curr < seg.end - 0.05) {
+      const d = seg.end - curr;
+      const cz = curr + d / 2;
+      interiorGroup.add(box(WT, wallH, d, wm, seg.line, cz, FLOOR_TOP + wallH / 2));
+    }
+  }
+}
+
+/**
+ * Builds the physical 4-layer wall cutaway demonstration assembly.
+ * Defined stack: Exterior plaster (15mm) -> AAC block (200mm) -> Insulation (50mm) -> Interior plaster (12mm)
+ */
+export function buildWallCutaway(x, z, WH, group) {
+  const cutawayGroup = new THREE.Group();
+  cutawayGroup.name = 'WallCutawayAssembly';
+  const L = 1.35;
+  const H = Math.min(1.4, WH * 0.55);
+
+  // Stepped layers revealing internal construction
+  // 1. Exterior plaster (15mm)
+  const l1 = box(0.015, H * 0.75, L * 0.7, pbrMat({ color: 0xd6cbbd, roughness: 0.92 }), x - 0.13, z, FLOOR_TOP + (H * 0.75) / 2);
+  l1.name = 'Cutaway_ExtPlaster';
+  l1.userData = { cutawayLayer: 1, tempExt: 42.4 };
+  cutawayGroup.add(l1);
+
+  // 2. AAC Block (200mm)
+  const l2 = box(0.20, H * 0.85, L * 0.85, pbrMat({ color: 0xb5b2aa, roughness: 0.88 }), x - 0.02, z, FLOOR_TOP + (H * 0.85) / 2);
+  l2.name = 'Cutaway_AACBlock';
+  l2.userData = { cutawayLayer: 2, tempExt: 41.0, tempInt: 32.0 };
+  cutawayGroup.add(l2);
+
+  // 3. Insulation layer (50mm)
+  const l3 = box(0.05, H * 0.95, L * 0.95, pbrMat({ color: 0xd9c58b, roughness: 0.82 }), x + 0.105, z, FLOOR_TOP + (H * 0.95) / 2);
+  l3.name = 'Cutaway_Insulation';
+  l3.userData = { cutawayLayer: 3, tempExt: 32.0, tempInt: 25.0 };
+  cutawayGroup.add(l3);
+
+  // 4. Interior plaster (12mm)
+  const l4 = box(0.012, H, L, pbrMat({ color: 0xf7f5f0, roughness: 0.9 }), x + 0.136, z, FLOOR_TOP + H / 2);
+  l4.name = 'Cutaway_IntPlaster';
+  l4.userData = { cutawayLayer: 4, tempInt: 24.2 };
+  cutawayGroup.add(l4);
+
+  // Concrete foundation plinth for cutaway
+  cutawayGroup.add(box(0.36, 0.12, L + 0.1, pbrMat({ color: 0x5a5854, roughness: 0.85 }), x, z, FLOOR_TOP + 0.06));
+
+  group.add(cutawayGroup);
+  return cutawayGroup;
+}
+
+/**
+ * Builds realistic furnished interior scene.
+ * Flexible signature accepting both options object and positional arguments.
+ */
+export function buildRealisticInterior(opts, ...args) {
+  let layout, catalog, interiorGroup, ceilingGroup, sceneLights, showPaths = true, wallH = 2.85, WH, WT;
+
+  if (opts && opts.layout) {
+    layout = opts.layout;
+    catalog = opts.catalog;
+    interiorGroup = opts.interiorGroup;
+    ceilingGroup = opts.ceilingGroup;
+    sceneLights = opts.sceneLights;
+    showPaths = opts.showPaths !== undefined ? opts.showPaths : true;
+    wallH = opts.wallH || 2.85;
+    WH = opts.WH || layout.wall_height_m || 2.85;
+    WT = opts.WT || layout.wall_thickness_m || 0.20;
+  } else {
+    layout = opts;
+    catalog = args[0];
+    interiorGroup = args[1];
+    ceilingGroup = args[2];
+    sceneLights = args[3];
+    showPaths = args[4] !== undefined ? args[4] : true;
+    wallH = args[5] || 2.85;
+    WH = layout?.wall_height_m || 2.85;
+    WT = layout?.wall_thickness_m || 0.20;
+  }
+
+  if (!layout) return;
   const FLOOR = FLOOR_TEX;
 
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  for (const r of (layout.rooms || []).map(x => x.rect)) {
+    if (r.x < minX) minX = r.x;
+    if (r.x + r.w > maxX) maxX = r.x + r.w;
+    if (r.y < minY) minY = r.y;
+    if (r.y + r.h > maxY) maxY = r.y + r.h;
+  }
+
+  if (minX !== Infinity && interiorGroup) {
+    const bcx = (minX + maxX) / 2, bcz = (minY + maxY) / 2;
+    const bw = maxX - minX, bh = maxY - minY;
+    // Outer site ground plane (marked with isOuterGround so it retains natural earth tone in thermal mode)
+    const groundMesh = box(34, 0.01, 32, pbrMat({ color: 0x90a4ae, roughness: 0.95 }), bcx, bcz, 0);
+    groundMesh.userData.isOuterGround = true;
+    interiorGroup.add(groundMesh);
+
+    // Foundation plinth
+    const plinth = box(bw + 0.35, 0.15, bh + 0.35, pbrMat({ color: 0x4a4a48, roughness: 0.8 }), bcx, bcz, 0.15 / 2);
+    interiorGroup.add(plinth);
+
+    // Add multi-layer wall assembly cutaway on the West exterior facade
+    buildWallCutaway(minX - 0.25, bcz, WH, interiorGroup);
+  }
+
+  // Floors and ceilings
   for (const room of layout.rooms || []) {
     const r = room.rect;
     const cx = r.x + r.w / 2, cz = r.y + r.h / 2;
     const ft = FLOOR[room.floor] || FLOOR.oak_parquet;
-    interiorGroup.add(box(r.w, 0.052, r.h, pbrMat({ color: ft.color, roughness: ft.rough, metalness: ft.metal }), cx, cz, FLOOR_TOP / 2));
-
-    const wc = room.wall_color || [0.95, 0.93, 0.9];
-    const wm = pbrMat({ color: new THREE.Color(wc[0], wc[1], wc[2]), roughness: 0.9, metalness: 0 });
-    interiorGroup.add(box(r.w, wallH, WT, wm, cx, r.y + WT / 2, FLOOR_TOP + wallH / 2));
-    interiorGroup.add(box(r.w, wallH, WT, wm, cx, r.y + r.h - WT / 2, FLOOR_TOP + wallH / 2));
-    interiorGroup.add(box(WT, wallH, r.h, wm, r.x + WT / 2, cz, FLOOR_TOP + wallH / 2));
-    interiorGroup.add(box(WT, wallH, r.h, wm, r.x + r.w - WT / 2, cz, FLOOR_TOP + wallH / 2));
-
-    const sk = box(r.w, 0.035, r.h, PALETTE.ceiling, cx, cz, FLOOR_TOP + WH - 0.02);
-    sk.name = `Ceil_${room.name}`;
-    ceilingGroup.add(sk);
-
-    for (const win of room.windows || []) addWindow(win, room, WH, WT, interiorGroup);
-
-    const hasFan = (room.furniture || []).some(f => f.type === 'ceiling_fan');
-    if (!hasFan && ['Living Room', 'Master Bedroom', 'Kids Bedroom'].includes(room.name)) {
-      addCeilingFan(cx, cz, WH, interiorGroup);
+    if (interiorGroup) {
+      const floorMesh = box(r.w, 0.052, r.h, pbrMat({ color: ft.color, roughness: ft.rough, metalness: ft.metal }), cx, cz, FLOOR_TOP / 2);
+      floorMesh.userData.isRoomFloor = true;
+      interiorGroup.add(floorMesh);
     }
 
-    for (const item of room.furniture || []) {
-      addFurniture(item.type, item, catalog, WH, interiorGroup, sceneLights);
+    if (ceilingGroup) {
+      const sk = box(r.w, 0.035, r.h, PALETTE.ceiling, cx, cz, FLOOR_TOP + WH - 0.02);
+      sk.name = `Ceil_${room.name}`;
+      ceilingGroup.add(sk);
+    }
+
+    if (interiorGroup) {
+      for (const win of room.windows || []) addWindow(win, room, WH, WT, interiorGroup);
+
+      const hasFan = (room.furniture || []).some(f => f.type === 'ceiling_fan');
+      if (!hasFan && ['Living & Dining', 'Living Room', 'Master Bedroom', 'Bedroom 2', 'Bedroom 3'].includes(room.name)) {
+        addCeilingFan(cx, cz, WH, interiorGroup);
+      }
+
+      for (const item of room.furniture || []) {
+        addFurniture(item.type, item, catalog, WH, interiorGroup, sceneLights);
+      }
     }
   }
 
-  for (const door of layout.doors || []) addDoor(door, WH, interiorGroup);
+  // Build segmented architectural walls with real door & window cutouts
+  if (interiorGroup) {
+    const defaultWm = pbrMat({ color: new THREE.Color(0.95, 0.93, 0.9), roughness: 0.9, metalness: 0, envMapIntensity: 0.6 });
+    buildArchitecturalWalls(layout, wallH, WT, defaultWm, interiorGroup);
 
-  if (showPaths && layout.camera_tour?.length) {
-    addWalkPath(layout.camera_tour, interiorGroup, true);
+    for (const door of layout.doors || []) addDoor(door, WH, interiorGroup);
+
+    if (showPaths && layout.camera_tour?.length) {
+      addWalkPath(layout.camera_tour, interiorGroup, true);
+    }
   }
 }
+
+

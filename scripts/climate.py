@@ -109,6 +109,22 @@ CLIMATE_DATABASE: Dict[str, ClimateProfile] = {
         hdd_base18=2200.0,
         solar_irradiance_peak_wm2=820.0,
     ),
+    "ladakh": ClimateProfile(
+        zone="Cold Arid (Ladakh Trans-Himalaya)",
+        city="Leh, Ladakh",
+        latitude=34.1526,
+        longitude=77.5771,
+        elevation_m=3500.0,
+        design_temp_summer_c=24.5,
+        design_temp_winter_c=-18.0,
+        diurnal_range_c=17.5,
+        design_rh_pct=22.0,
+        prevailing_wind_dir="WNW",
+        prevailing_wind_speed_ms=4.2,
+        cdd_base18=80.0,
+        hdd_base18=3950.0,
+        solar_irradiance_peak_wm2=1040.0,
+    ),
 }
 
 CITY_TO_ZONE = {
@@ -128,6 +144,14 @@ CITY_TO_ZONE = {
     "pune": "temperate",
     "shimla": "cold",
     "srinagar": "cold",
+    "leh": "ladakh",
+    "ladakh": "ladakh",
+    "kargil": "ladakh",
+    "nubra": "ladakh",
+    "dras": "ladakh",
+    "diskit": "ladakh",
+    "pangong": "ladakh",
+    "spiti": "ladakh",
 }
 
 

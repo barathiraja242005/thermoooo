@@ -1,0 +1,401 @@
+{
+  "id": "plan-4",
+  "property": {
+    "id": "plan-4",
+    "name": "Plan 4: 1 BHK Minimalist Studio (483 sq.ft)",
+    "description": "Orthogonal single-bedroom efficiency studio (7.28m \u00d7 6.17m = 23'-10\" \u00d7 20'-3\"). Daylit open floor plan.",
+    "facing": "E",
+    "north_rotation_deg": 0,
+    "dimensions_m": {
+      "width": 7.28,
+      "depth": 6.17
+    },
+    "area_sqft": 483,
+    "area_m2": 44.9,
+    "bhk": 1,
+    "rooms": [
+      {
+        "name": "Living Room",
+        "vastu_item": "Living & Dining",
+        "direction": "NE"
+      },
+      {
+        "name": "Kitchen & Dining",
+        "vastu_item": "Kitchen",
+        "direction": "SE"
+      },
+      {
+        "name": "Bedroom",
+        "vastu_item": "Master Bedroom",
+        "direction": "NW"
+      },
+      {
+        "name": "Office Nook",
+        "vastu_item": "Study",
+        "direction": "North"
+      },
+      {
+        "name": "Bathroom",
+        "vastu_item": "Toilet/Bath",
+        "direction": "West"
+      }
+    ]
+  },
+  "layout": {
+    "wall_height_m": 2.7,
+    "wall_thickness_m": 0.18,
+    "style": "minimalist_studio",
+    "rooms": [
+      {
+        "name": "Living Room",
+        "rect": {
+          "x": 0.2,
+          "y": 0.2,
+          "w": 3.8,
+          "h": 3.4
+        },
+        "floor": "oak_parquet",
+        "furniture": [
+          {
+            "type": "sofa",
+            "x": 2.1,
+            "y": 2.4,
+            "rotation_deg": 0
+          },
+          {
+            "type": "coffee_table",
+            "x": 2.1,
+            "y": 1.5,
+            "rotation_deg": 0
+          },
+          {
+            "type": "tv_unit",
+            "x": 2.1,
+            "y": 0.6,
+            "rotation_deg": 0
+          },
+          {
+            "type": "ceiling_fan",
+            "x": 2.1,
+            "y": 1.9,
+            "rotation_deg": 0
+          },
+          {
+            "type": "plant",
+            "x": 0.6,
+            "y": 0.6,
+            "rotation_deg": 0
+          }
+        ],
+        "windows": [
+          {
+            "wall": "S",
+            "offset": 0.8,
+            "width": 1.5,
+            "height": 1.3,
+            "sill_m": 0.9
+          },
+          {
+            "wall": "W",
+            "offset": 0.8,
+            "width": 1.2,
+            "height": 1.3,
+            "sill_m": 0.9
+          }
+        ]
+      },
+      {
+        "name": "Kitchen & Dining",
+        "rect": {
+          "x": 4.1,
+          "y": 0.2,
+          "w": 3,
+          "h": 3.4
+        },
+        "floor": "ceramic_tile",
+        "furniture": [
+          {
+            "type": "kitchen_counter",
+            "x": 6.6,
+            "y": 1.8,
+            "rotation_deg": 90
+          },
+          {
+            "type": "stove",
+            "x": 6.6,
+            "y": 2.6,
+            "rotation_deg": 90
+          },
+          {
+            "type": "fridge",
+            "x": 4.5,
+            "y": 3,
+            "rotation_deg": 0
+          },
+          {
+            "type": "dining_table",
+            "x": 5.1,
+            "y": 1.2,
+            "rotation_deg": 0
+          }
+        ],
+        "windows": [
+          {
+            "wall": "E",
+            "offset": 0.8,
+            "width": 1.4,
+            "height": 1.2,
+            "sill_m": 1
+          },
+          {
+            "wall": "S",
+            "offset": 0.6,
+            "width": 1,
+            "height": 1.2,
+            "sill_m": 1
+          }
+        ]
+      },
+      {
+        "name": "Bedroom",
+        "rect": {
+          "x": 0.2,
+          "y": 3.7,
+          "w": 3.8,
+          "h": 2.3
+        },
+        "floor": "oak_parquet",
+        "furniture": [
+          {
+            "type": "bed_double",
+            "x": 2.1,
+            "y": 4.8,
+            "rotation_deg": 0
+          },
+          {
+            "type": "side_table",
+            "x": 0.7,
+            "y": 5.5,
+            "rotation_deg": 0
+          },
+          {
+            "type": "side_table",
+            "x": 3.4,
+            "y": 5.5,
+            "rotation_deg": 0
+          },
+          {
+            "type": "wardrobe",
+            "x": 0.6,
+            "y": 4,
+            "rotation_deg": 90
+          },
+          {
+            "type": "ceiling_fan",
+            "x": 2.1,
+            "y": 4.8,
+            "rotation_deg": 0
+          }
+        ],
+        "windows": [
+          {
+            "wall": "N",
+            "offset": 0.8,
+            "width": 1.4,
+            "height": 1.2,
+            "sill_m": 0.9
+          },
+          {
+            "wall": "W",
+            "offset": 0.6,
+            "width": 1.2,
+            "height": 1.2,
+            "sill_m": 0.9
+          }
+        ]
+      },
+      {
+        "name": "Office Nook",
+        "rect": {
+          "x": 4.1,
+          "y": 3.7,
+          "w": 1.5,
+          "h": 2.3
+        },
+        "floor": "oak_parquet",
+        "furniture": [
+          {
+            "type": "study_desk",
+            "x": 4.8,
+            "y": 4.8,
+            "rotation_deg": 0
+          },
+          {
+            "type": "office_chair",
+            "x": 4.8,
+            "y": 4.2,
+            "rotation_deg": 0
+          },
+          {
+            "type": "floor_lamp",
+            "x": 5.3,
+            "y": 5.5,
+            "rotation_deg": 0
+          }
+        ],
+        "windows": [
+          {
+            "wall": "N",
+            "offset": 0.3,
+            "width": 0.9,
+            "height": 1.2,
+            "sill_m": 0.9
+          }
+        ]
+      },
+      {
+        "name": "Bathroom",
+        "rect": {
+          "x": 5.7,
+          "y": 3.7,
+          "w": 1.4,
+          "h": 2.3
+        },
+        "floor": "ceramic_tile",
+        "furniture": [
+          {
+            "type": "toilet",
+            "x": 6.4,
+            "y": 4.4,
+            "rotation_deg": 0
+          },
+          {
+            "type": "sink",
+            "x": 6.4,
+            "y": 5.3,
+            "rotation_deg": 0
+          }
+        ],
+        "windows": [
+          {
+            "wall": "E",
+            "offset": 0.4,
+            "width": 0.6,
+            "height": 0.6,
+            "sill_m": 1.8
+          }
+        ]
+      }
+    ],
+    "doors": [
+      {
+        "from": "Living Room",
+        "to": "Kitchen & Dining",
+        "x": 4,
+        "y": 1.8,
+        "width": 1.1,
+        "wall": "E",
+        "name": "Open Dining Portal"
+      },
+      {
+        "from": "Living Room",
+        "to": "Bedroom",
+        "x": 2.1,
+        "y": 3.6,
+        "width": 0.9,
+        "wall": "N",
+        "name": "Bedroom Door"
+      },
+      {
+        "from": "Kitchen & Dining",
+        "to": "Office Nook",
+        "x": 4.8,
+        "y": 3.6,
+        "width": 0.85,
+        "wall": "N",
+        "name": "Office Entry"
+      },
+      {
+        "from": "Office Nook",
+        "to": "Bathroom",
+        "x": 5.6,
+        "y": 4.8,
+        "width": 0.75,
+        "wall": "E",
+        "name": "Bathroom Door"
+      }
+    ],
+    "camera_tour": [
+      {
+        "x": 2.1,
+        "y": 1,
+        "z": 1.4,
+        "look_at": [
+          2.1,
+          2.5,
+          1.3
+        ]
+      },
+      {
+        "x": 5.2,
+        "y": 1.8,
+        "z": 1.4,
+        "look_at": [
+          6.4,
+          2.4,
+          1.3
+        ]
+      },
+      {
+        "x": 2.1,
+        "y": 4.8,
+        "z": 1.4,
+        "look_at": [
+          2.1,
+          5.5,
+          1.2
+        ]
+      },
+      {
+        "x": 4.8,
+        "y": 4.5,
+        "z": 1.4,
+        "look_at": [
+          4.8,
+          5.5,
+          1.2
+        ]
+      }
+    ]
+  },
+  "vastu": {
+    "compliance_score": 93,
+    "grade": "Optimal",
+    "rooms": [
+      {
+        "name": "Living Room",
+        "status": "best",
+        "score": 95,
+        "note": "Bright open daytime quadrant"
+      },
+      {
+        "name": "Kitchen & Dining",
+        "status": "best",
+        "score": 94,
+        "note": "Southeast cooking zone"
+      },
+      {
+        "name": "Bedroom",
+        "status": "good",
+        "score": 91,
+        "note": "Quiet northwest sanctuary"
+      },
+      {
+        "name": "Office Nook",
+        "status": "best",
+        "score": 95,
+        "note": "North clarity study orientation"
+      }
+    ]
+  }
+}

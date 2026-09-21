@@ -1,0 +1,576 @@
+[
+  {
+    "id": "plan-1",
+    "name": "Plan 1: 2 BHK Compact Villa",
+    "bhk": "2 BHK",
+    "bhk_count": 2,
+    "facing": "East / South",
+    "vastu_score": 94,
+    "image": "assets/plan_1.png",
+    "overall_dimensions": {
+      "width_cm": 1026,
+      "depth_cm": 1049,
+      "width_m": 10.26,
+      "depth_m": 10.49,
+      "width_formatted": "10.26m (33'-8\")",
+      "depth_formatted": "10.49m (34'-5\")",
+      "approx_outer_area_sqft": 1158.2,
+      "approx_outer_area_sqm": 107.63
+    },
+    "highlights": [
+      "1,158 sq.ft Compact Footprint (10.26m × 10.49m)",
+      "Dedicated Dining + Kitchen + Store Layout",
+      "Spacious Hall (5.28m × 3.72m) with Sit-Out Entry",
+      "Internal Staircase & Landscaped Buffer"
+    ],
+    "rooms": [
+      {
+        "id": "bedroom_01",
+        "name": "Bed Room 1",
+        "type": "Bedroom",
+        "position": "Top-Left",
+        "dimensions_cm": "294 × 294 cm",
+        "dimensions_m": "2.94m × 2.94m",
+        "dimensions_ft": "9'8\" × 9'8\"",
+        "area_sqft": 93.0,
+        "area_sqm": 8.64
+      },
+      {
+        "id": "bedroom_02",
+        "name": "Master Bed Room 2",
+        "type": "Bedroom",
+        "position": "Bottom-Left",
+        "dimensions_cm": "294 × 438 cm",
+        "dimensions_m": "2.94m × 4.38m",
+        "dimensions_ft": "9'8\" × 14'4\"",
+        "area_sqft": 138.6,
+        "area_sqm": 12.88
+      },
+      {
+        "id": "dining",
+        "name": "Dining Room",
+        "type": "Dining",
+        "position": "Top-Center",
+        "dimensions_cm": "312 × 444 cm",
+        "dimensions_m": "3.12m × 4.44m",
+        "dimensions_ft": "10'3\" × 14'7\"",
+        "area_sqft": 149.1,
+        "area_sqm": 13.85
+      },
+      {
+        "id": "kitchen",
+        "name": "Kitchen",
+        "type": "Kitchen",
+        "position": "Top-Right",
+        "dimensions_cm": "324 × 240 cm",
+        "dimensions_m": "3.24m × 2.40m",
+        "dimensions_ft": "10'8\" × 7'10\"",
+        "area_sqft": 83.7,
+        "area_sqm": 7.78
+      },
+      {
+        "id": "hall",
+        "name": "Hall / Living",
+        "type": "Living",
+        "position": "Center-Lower",
+        "dimensions_cm": "528 × 372 cm",
+        "dimensions_m": "5.28m × 3.72m",
+        "dimensions_ft": "17'4\" × 12'2\"",
+        "area_sqft": 211.4,
+        "area_sqm": 19.64
+      },
+      {
+        "id": "wc",
+        "name": "W/C & Bath",
+        "type": "Toilet",
+        "position": "Left-Middle",
+        "dimensions_cm": "192 × 138 cm",
+        "dimensions_m": "1.92m × 1.38m",
+        "dimensions_ft": "6'4\" × 4'6\"",
+        "area_sqft": 28.5,
+        "area_sqm": 2.65
+      },
+      {
+        "id": "store",
+        "name": "Store Room",
+        "type": "Storage",
+        "position": "Right-Middle",
+        "dimensions_cm": "120 × 180 cm",
+        "dimensions_m": "1.20m × 1.80m",
+        "dimensions_ft": "3'11\" × 5'11\"",
+        "area_sqft": 23.2,
+        "area_sqm": 2.16
+      },
+      {
+        "id": "sitout",
+        "name": "Sit-Out / Foyer",
+        "type": "Sit-Out",
+        "position": "Bottom-Center",
+        "dimensions_cm": "312 × 138 cm",
+        "dimensions_m": "3.12m × 1.38m",
+        "dimensions_ft": "10'3\" × 4'6\"",
+        "area_sqft": 46.4,
+        "area_sqm": 4.31
+      },
+      {
+        "id": "staircase",
+        "name": "Internal Staircase",
+        "type": "Staircase",
+        "position": "Right-Center",
+        "direction": "UP"
+      }
+    ],
+    "freecad_generation": {
+      "target": "FreeCAD",
+      "recommended_model_structure": [
+        "Site", "Foundation", "FloorSlab", "ExternalWalls", "InternalWalls",
+        "Rooms", "Doors", "Windows", "Ventilators", "Staircase", "SitOut", "Roof"
+      ],
+      "outputs": ["FCStd", "STEP", "OBJ", "IFC"]
+    }
+  },
+  {
+    "id": "plan-2",
+    "name": "Plan 2: 4 BHK Suburban Residence",
+    "bhk": "4 BHK",
+    "bhk_count": 4,
+    "facing": "South / East",
+    "vastu_score": 92,
+    "image": "assets/plan_2.png",
+    "overall_dimensions": {
+      "width_m": 8.00,
+      "depth_m": 9.50,
+      "width_formatted": "8.00m (26'-3\")",
+      "depth_formatted": "9.50m (31'-2\")",
+      "porch_dimensions": "4.12m × 2.00m",
+      "laundry_projection": "1.50m × 3.30m",
+      "approx_outer_area_sqft": 960,
+      "approx_outer_area_sqm": 89.2
+    },
+    "highlights": [
+      "Compact 4 BHK Footprint (8.00m × 9.50m)",
+      "Master Suite with Attached T&B",
+      "Integrated Open Living + Dining + Kitchen Layout",
+      "Covered Front Porch (4.12m × 2.00m) & External Laundry"
+    ],
+    "rooms": [
+      {
+        "id": "master_bedroom",
+        "name": "Master Bedroom",
+        "type": "Bedroom",
+        "position": "Top-Left",
+        "dimensions_m": "4.00m × 3.35m",
+        "dimensions_ft": "13'1\" × 11'0\"",
+        "area_sqft": 144.0,
+        "features": ["Ensuite Master's T&B (1.2m × 2.3m)"]
+      },
+      {
+        "id": "bedroom_4",
+        "name": "Bedroom 4",
+        "type": "Bedroom",
+        "position": "Top-Right",
+        "dimensions_m": "4.00m × 3.50m",
+        "dimensions_ft": "13'1\" × 11'6\"",
+        "area_sqft": 150.7
+      },
+      {
+        "id": "bedroom_2",
+        "name": "Bedroom 2",
+        "type": "Bedroom",
+        "position": "Middle-Right",
+        "dimensions_m": "2.80m × 3.00m",
+        "dimensions_ft": "9'2\" × 9'10\"",
+        "area_sqft": 90.4
+      },
+      {
+        "id": "bedroom_1",
+        "name": "Bedroom 1",
+        "type": "Bedroom",
+        "position": "Bottom-Right",
+        "dimensions_m": "2.80m × 3.00m",
+        "dimensions_ft": "9'2\" × 9'10\"",
+        "area_sqft": 90.4
+      },
+      {
+        "id": "living",
+        "name": "Living Room",
+        "type": "Living",
+        "position": "Front-Left",
+        "dimensions_m": "4.00m × 2.70m",
+        "dimensions_ft": "13'1\" × 8'10\"",
+        "area_sqft": 116.3
+      },
+      {
+        "id": "dining",
+        "name": "Dining Room",
+        "type": "Dining",
+        "position": "Center-Left",
+        "dimensions_m": "4.00m × 2.00m",
+        "dimensions_ft": "13'1\" × 6'7\"",
+        "area_sqft": 86.1
+      },
+      {
+        "id": "kitchen",
+        "name": "Kitchen",
+        "type": "Kitchen",
+        "position": "Middle-Left",
+        "dimensions_m": "3.80m × 2.00m",
+        "dimensions_ft": "12'6\" × 6'7\"",
+        "area_sqft": 81.8
+      },
+      {
+        "id": "common_bath",
+        "name": "Common Toilet & Bath",
+        "type": "Bathroom",
+        "position": "Middle-Right (between Bed 1 & 2)",
+        "dimensions_m": "2.80m × 0.70m",
+        "dimensions_ft": "9'2\" × 2'4\"",
+        "area_sqft": 21.1
+      },
+      {
+        "id": "porch",
+        "name": "Front Porch",
+        "type": "Porch",
+        "position": "Bottom-Front",
+        "dimensions_m": "4.12m × 2.00m",
+        "dimensions_ft": "13'6\" × 6'7\"",
+        "area_sqft": 88.7
+      },
+      {
+        "id": "laundry",
+        "name": "Laundry & Utility",
+        "type": "Utility",
+        "position": "Left Projection",
+        "dimensions_m": "1.50m × 3.30m",
+        "dimensions_ft": "4'11\" × 10'10\"",
+        "area_sqft": 53.3
+      }
+    ],
+    "freecad_generation": {
+      "target": "FreeCAD",
+      "recommended_workbench": "BIM",
+      "outputs": ["FCStd", "STEP", "OBJ", "IFC"]
+    }
+  },
+  {
+    "id": "plan-3",
+    "name": "Plan 3: 5 BHK Luxury Manor",
+    "bhk": "5 BHK",
+    "bhk_count": 5,
+    "facing": "South / East",
+    "vastu_score": 95,
+    "image": "assets/plan_3.png",
+    "overall_dimensions": {
+      "width_m": 12.80,
+      "depth_m": 9.00,
+      "width_formatted": "12.80m (42'-0\")",
+      "depth_formatted": "9.00m (29'-6\")",
+      "approx_outer_area_sqft": 1240,
+      "approx_outer_area_sqm": 115.2
+    },
+    "highlights": [
+      "Expansive 5-Bedroom Executive Layout (12.80m × 9.00m)",
+      "Triple Reception: Grand Living (49.6m²) + Dining + Sitting Room",
+      "3 Luxury Bathrooms (inc. 8.4m² Master Ensuite)",
+      "Chef's Kitchen with Utility Extension & Stair Lobby"
+    ],
+    "rooms": [
+      {
+        "id": "R01",
+        "name": "Bedroom 1 (NW)",
+        "type": "Bedroom",
+        "position": "North-West",
+        "area_sqft": 146.5,
+        "area_m2": 13.61,
+        "dimensions_m": "3.35m × 3.00m"
+      },
+      {
+        "id": "R02",
+        "name": "Bedroom 2 (North)",
+        "type": "Bedroom",
+        "position": "North-Center",
+        "area_sqft": 262.8,
+        "area_m2": 24.42,
+        "dimensions_m": "3.25m × 3.00m"
+      },
+      {
+        "id": "R03",
+        "name": "Master Suite (NE)",
+        "type": "Bedroom",
+        "position": "North-East",
+        "area_sqft": 217.2,
+        "area_m2": 20.18,
+        "dimensions_m": "3.40m × 3.00m"
+      },
+      {
+        "id": "R04",
+        "name": "Bedroom 4 (SW)",
+        "type": "Bedroom",
+        "position": "South-West",
+        "area_sqft": 158.4,
+        "area_m2": 14.72,
+        "dimensions_m": "3.35m × 4.70m"
+      },
+      {
+        "id": "R05",
+        "name": "Bedroom 5 (South)",
+        "type": "Bedroom",
+        "position": "South-Center",
+        "area_sqft": 138.6,
+        "area_m2": 12.88,
+        "dimensions_m": "3.10m × 2.20m"
+      },
+      {
+        "id": "R06",
+        "name": "Grand Family Living",
+        "type": "Living",
+        "position": "Central-West",
+        "area_sqft": 534.0,
+        "area_m2": 49.61
+      },
+      {
+        "id": "R07",
+        "name": "Dining Hall",
+        "type": "Dining",
+        "position": "Central-East",
+        "area_sqft": 230.8,
+        "area_m2": 21.44,
+        "dimensions_m": "2.30m × 1.60m"
+      },
+      {
+        "id": "R08",
+        "name": "Formal Living",
+        "type": "Living",
+        "position": "Center",
+        "area_sqft": 314.7,
+        "area_m2": 29.24,
+        "dimensions_m": "3.10m × 2.20m"
+      },
+      {
+        "id": "R09",
+        "name": "Lounge / Sitting",
+        "type": "Living",
+        "position": "Center-South",
+        "area_sqft": 196.7,
+        "area_m2": 18.27,
+        "dimensions_m": "2.40m × 2.00m"
+      },
+      {
+        "id": "R10",
+        "name": "Master Bath 1",
+        "type": "Bathroom",
+        "position": "North-Center",
+        "area_sqft": 90.0,
+        "area_m2": 8.36,
+        "dimensions_m": "2.30m × 2.10m"
+      },
+      {
+        "id": "R11",
+        "name": "Bathroom 2",
+        "type": "Bathroom",
+        "position": "North-Center",
+        "area_sqft": 71.0,
+        "area_m2": 6.60,
+        "dimensions_m": "1.20m × 1.40m"
+      },
+      {
+        "id": "R12",
+        "name": "Bathroom 3",
+        "type": "Bathroom",
+        "position": "North-Center",
+        "area_sqft": 93.6,
+        "area_m2": 8.70,
+        "dimensions_m": "1.20m × 1.40m"
+      },
+      {
+        "id": "R13",
+        "name": "Chef's Kitchen",
+        "type": "Kitchen",
+        "position": "East",
+        "dimensions_m": "2.60m × 2.80m",
+        "features": ["Service extension 2.38 m²"]
+      },
+      {
+        "id": "R15",
+        "name": "Stair Lobby / Circulation",
+        "type": "Circulation",
+        "position": "East",
+        "area_sqft": 200.6,
+        "area_m2": 18.64,
+        "dimensions_m": "2.60m × 1.20m"
+      }
+    ],
+    "freecad_generation": {
+      "target": "FreeCAD",
+      "recommended_workbench": "BIM",
+      "outputs": ["FCStd", "STEP", "OBJ", "IFC"]
+    }
+  },
+  {
+    "id": "plan-4",
+    "name": "Plan 4: 1 BHK Minimalist Studio",
+    "bhk": "1 BHK",
+    "bhk_count": 1,
+    "facing": "South / East",
+    "vastu_score": 93,
+    "image": "assets/plan_4.png",
+    "overall_dimensions": {
+      "width_m": 7.283,
+      "depth_m": 6.166,
+      "width_formatted": "23'-10 3/4\" (7.28m)",
+      "depth_formatted": "20'-2 3/4\" (6.17m)",
+      "approx_outer_area_sqft": 483,
+      "approx_outer_area_sqm": 44.9
+    },
+    "highlights": [
+      "Compact 1 BHK Studio Layout (23'-10\" × 20'-2\")",
+      "Open Dining-Kitchen (121.9 sq.ft) + Bright Living Room (108 sq.ft)",
+      "Dedicated Office / Study Work Nook & Walk-in Closet",
+      "Full Bathroom with Bathtub (45.4 sq.ft)"
+    ],
+    "rooms": [
+      {
+        "id": "R01",
+        "name": "Living Room",
+        "type": "Living",
+        "position": "Top-Left",
+        "dimensions_ft": "10'-8 1/2\" × 10'-1\"",
+        "area_sqft": 108.00,
+        "area_m2": 10.03
+      },
+      {
+        "id": "R02",
+        "name": "Dining Room + Kitchen",
+        "type": "Kitchen/Dining",
+        "position": "Top-Right",
+        "dimensions_ft": "11'-10 1/4\" × 10'-3\"",
+        "area_sqft": 121.90,
+        "area_m2": 11.32
+      },
+      {
+        "id": "R03",
+        "name": "Bedroom",
+        "type": "Bedroom",
+        "position": "Bottom-Left",
+        "dimensions_ft": "8'-3 1/4\" × 8'-5 1/4\"",
+        "area_sqft": 69.75,
+        "area_m2": 6.48
+      },
+      {
+        "id": "R04",
+        "name": "Office / Study Nook",
+        "type": "Office",
+        "position": "Center",
+        "area_sqft": 6.67,
+        "area_m2": 0.62
+      },
+      {
+        "id": "R05",
+        "name": "Walk-in Closet (W.I.C)",
+        "type": "Closet",
+        "position": "Center-Left",
+        "area_sqft": 7.21,
+        "area_m2": 0.67
+      },
+      {
+        "id": "R06",
+        "name": "Entry Foyer",
+        "type": "Entry",
+        "position": "Bottom-Center",
+        "area_sqft": 42.61,
+        "area_m2": 3.96
+      },
+      {
+        "id": "R07",
+        "name": "Full Bathroom",
+        "type": "Bathroom",
+        "position": "Bottom-Right",
+        "area_sqft": 45.40,
+        "area_m2": 4.22,
+        "features": ["Bathtub", "Wash Basin", "WC"]
+      }
+    ],
+    "freecad_generation": {
+      "target": "FreeCAD",
+      "recommended_workbench": "BIM",
+      "outputs": ["FCStd", "STEP", "OBJ", "IFC"]
+    }
+  },
+  {
+    "id": "plan-5",
+    "name": "Plan 5: 1 BHK Solar Chamfer Villa",
+    "bhk": "1 BHK",
+    "bhk_count": 1,
+    "facing": "South / East",
+    "vastu_score": 91,
+    "image": "assets/plan_5.png",
+    "overall_dimensions": {
+      "width_ft": "26'-9\"",
+      "depth_ft": "23'-0\"",
+      "angled_wall_ft": "15'-4\"",
+      "width_formatted": "26'-9\" (8.15m)",
+      "depth_formatted": "23'-0\" (7.01m)",
+      "approx_outer_area_sqft": 495,
+      "approx_outer_area_sqm": 46.0
+    },
+    "highlights": [
+      "Aerodynamic 15'-4\" Angled Solar-Chamfer Facade",
+      "Expansive 208 sq.ft Daylit Living Room",
+      "Private Bedroom (12'-10\" × 7'-11\", 101 sq.ft)",
+      "Dedicated 87 sq.ft Entrance Foyer & 53 sq.ft Full Bath"
+    ],
+    "rooms": [
+      {
+        "id": "R03",
+        "name": "Daylit Living Room",
+        "type": "Living",
+        "position": "Center-North",
+        "area_sqft": 208.0,
+        "area_m2": 19.32,
+        "features": ["15'-4\" Angled Wall Window Array"]
+      },
+      {
+        "id": "R05",
+        "name": "Master Bedroom",
+        "type": "Bedroom",
+        "position": "Bottom-Right",
+        "dimensions_ft": "12'-10\" × 7'-11\"",
+        "area_sqft": 101.0,
+        "area_m2": 9.38
+      },
+      {
+        "id": "R04",
+        "name": "Entrance Foyer",
+        "type": "Entry",
+        "position": "Bottom-Center",
+        "dimensions_ft": "13'-11\" × 4'-3\" run",
+        "area_sqft": 87.0,
+        "area_m2": 8.08
+      },
+      {
+        "id": "R02",
+        "name": "Full Bathroom",
+        "type": "Bathroom",
+        "position": "Mid-Left",
+        "area_sqft": 53.0,
+        "area_m2": 4.92,
+        "features": ["Bathtub", "Toilet", "Wash Basin"]
+      },
+      {
+        "id": "R01",
+        "name": "Gourmet Kitchen",
+        "type": "Kitchen",
+        "position": "Top-Left",
+        "dimensions_ft": "7'-0\" × 7'-3\"",
+        "area_sqft": 46.0,
+        "area_m2": 4.27,
+        "features": ["Cooktop", "Sink", "Dishwasher", "Refrigerator"]
+      }
+    ],
+    "freecad_generation": {
+      "target": "FreeCAD",
+      "recommended_workbench": "BIM",
+      "outputs": ["FCStd", "STEP", "OBJ", "IFC"]
+    }
+  }
+]

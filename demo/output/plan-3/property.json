@@ -1,0 +1,535 @@
+{
+  "id": "plan-3",
+  "property": {
+    "id": "plan-3",
+    "name": "Plan 3: 5 BHK Luxury Manor (1,240 sq.ft)",
+    "description": "Generous 5 BHK multi-generational manor (12.80m \u00d7 9.00m). Dual living zones, chef kitchen.",
+    "facing": "E",
+    "north_rotation_deg": 0,
+    "dimensions_m": {
+      "width": 12.8,
+      "depth": 9
+    },
+    "area_sqft": 1240,
+    "area_m2": 115.2,
+    "bhk": 5,
+    "rooms": [
+      {
+        "name": "Grand Family Living",
+        "vastu_item": "Living & Dining",
+        "direction": "NE"
+      },
+      {
+        "name": "Dining Hall",
+        "vastu_item": "Dining Room",
+        "direction": "North"
+      },
+      {
+        "name": "Chef's Kitchen",
+        "vastu_item": "Kitchen",
+        "direction": "SE"
+      },
+      {
+        "name": "Master Suite",
+        "vastu_item": "Master Bedroom",
+        "direction": "SW"
+      },
+      {
+        "name": "Bedroom 1 (NW)",
+        "vastu_item": "Bedroom",
+        "direction": "NW"
+      },
+      {
+        "name": "Bedroom 2 (North)",
+        "vastu_item": "Bedroom",
+        "direction": "North"
+      },
+      {
+        "name": "Bedroom 4 (West)",
+        "vastu_item": "Bedroom",
+        "direction": "West"
+      },
+      {
+        "name": "Bedroom 5 (South)",
+        "vastu_item": "Bedroom",
+        "direction": "South"
+      }
+    ]
+  },
+  "layout": {
+    "wall_height_m": 2.85,
+    "wall_thickness_m": 0.2,
+    "style": "luxury_manor",
+    "rooms": [
+      {
+        "name": "Grand Family Living",
+        "rect": {
+          "x": 4,
+          "y": 2.5,
+          "w": 4.8,
+          "h": 3.8
+        },
+        "floor": "marble_white",
+        "furniture": [
+          {
+            "type": "sofa",
+            "x": 6.4,
+            "y": 4.8,
+            "rotation_deg": 0
+          },
+          {
+            "type": "coffee_table",
+            "x": 6.4,
+            "y": 3.9,
+            "rotation_deg": 0
+          },
+          {
+            "type": "tv_unit",
+            "x": 6.4,
+            "y": 2.8,
+            "rotation_deg": 0
+          },
+          {
+            "type": "ceiling_fan",
+            "x": 6.4,
+            "y": 4.2,
+            "rotation_deg": 0
+          },
+          {
+            "type": "plant",
+            "x": 4.5,
+            "y": 5.8,
+            "rotation_deg": 0
+          },
+          {
+            "type": "plant",
+            "x": 8.3,
+            "y": 5.8,
+            "rotation_deg": 0
+          }
+        ],
+        "windows": []
+      },
+      {
+        "name": "Dining Hall",
+        "rect": {
+          "x": 4,
+          "y": 6.4,
+          "w": 4.8,
+          "h": 2.4
+        },
+        "floor": "marble_cream",
+        "furniture": [
+          {
+            "type": "dining_table",
+            "x": 6.4,
+            "y": 7.6,
+            "rotation_deg": 0
+          },
+          {
+            "type": "pendant_light",
+            "x": 6.4,
+            "y": 7.6,
+            "rotation_deg": 0
+          }
+        ],
+        "windows": [
+          {
+            "wall": "N",
+            "offset": 1.6,
+            "width": 1.6,
+            "height": 1.3,
+            "sill_m": 0.9
+          }
+        ]
+      },
+      {
+        "name": "Chef's Kitchen",
+        "rect": {
+          "x": 8.9,
+          "y": 6.2,
+          "w": 3.7,
+          "h": 2.6
+        },
+        "floor": "ceramic_tile",
+        "furniture": [
+          {
+            "type": "kitchen_counter",
+            "x": 12,
+            "y": 7.5,
+            "rotation_deg": 90
+          },
+          {
+            "type": "stove",
+            "x": 12,
+            "y": 8.2,
+            "rotation_deg": 90
+          },
+          {
+            "type": "fridge",
+            "x": 9.3,
+            "y": 8.4,
+            "rotation_deg": 0
+          }
+        ],
+        "windows": [
+          {
+            "wall": "N",
+            "offset": 0.8,
+            "width": 1.2,
+            "height": 1.1,
+            "sill_m": 1
+          },
+          {
+            "wall": "E",
+            "offset": 0.8,
+            "width": 1.4,
+            "height": 1.1,
+            "sill_m": 1
+          }
+        ]
+      },
+      {
+        "name": "Master Suite",
+        "rect": {
+          "x": 8.9,
+          "y": 0.2,
+          "w": 3.7,
+          "h": 3.4
+        },
+        "floor": "oak_parquet",
+        "furniture": [
+          {
+            "type": "bed_double",
+            "x": 10.7,
+            "y": 1.9,
+            "rotation_deg": 0
+          },
+          {
+            "type": "side_table",
+            "x": 9.4,
+            "y": 2.8,
+            "rotation_deg": 0
+          },
+          {
+            "type": "side_table",
+            "x": 12,
+            "y": 2.8,
+            "rotation_deg": 0
+          },
+          {
+            "type": "wardrobe",
+            "x": 9.3,
+            "y": 0.7,
+            "rotation_deg": 90
+          },
+          {
+            "type": "ceiling_fan",
+            "x": 10.7,
+            "y": 1.9,
+            "rotation_deg": 0
+          }
+        ],
+        "windows": [
+          {
+            "wall": "S",
+            "offset": 0.8,
+            "width": 1.6,
+            "height": 1.3,
+            "sill_m": 0.9
+          },
+          {
+            "wall": "E",
+            "offset": 0.8,
+            "width": 1.6,
+            "height": 1.3,
+            "sill_m": 0.9
+          }
+        ]
+      },
+      {
+        "name": "Bedroom 1 (NW)",
+        "rect": {
+          "x": 0.2,
+          "y": 5.8,
+          "w": 3.6,
+          "h": 3
+        },
+        "floor": "oak_parquet",
+        "furniture": [
+          {
+            "type": "bed_double",
+            "x": 2,
+            "y": 7.3,
+            "rotation_deg": 0
+          },
+          {
+            "type": "wardrobe",
+            "x": 0.6,
+            "y": 6.2,
+            "rotation_deg": 90
+          }
+        ],
+        "windows": [
+          {
+            "wall": "N",
+            "offset": 0.8,
+            "width": 1.4,
+            "height": 1.2,
+            "sill_m": 0.9
+          },
+          {
+            "wall": "W",
+            "offset": 0.8,
+            "width": 1.4,
+            "height": 1.2,
+            "sill_m": 0.9
+          }
+        ]
+      },
+      {
+        "name": "Bedroom 2 (North)",
+        "rect": {
+          "x": 4,
+          "y": 0.2,
+          "w": 3.5,
+          "h": 2.2
+        },
+        "floor": "oak_parquet",
+        "furniture": [
+          {
+            "type": "bed_single",
+            "x": 5.8,
+            "y": 1.3,
+            "rotation_deg": 0
+          },
+          {
+            "type": "study_desk",
+            "x": 4.5,
+            "y": 0.6,
+            "rotation_deg": 0
+          }
+        ],
+        "windows": [
+          {
+            "wall": "S",
+            "offset": 0.8,
+            "width": 1.4,
+            "height": 1.2,
+            "sill_m": 0.9
+          }
+        ]
+      },
+      {
+        "name": "Bedroom 4 (West)",
+        "rect": {
+          "x": 0.2,
+          "y": 0.2,
+          "w": 3.6,
+          "h": 3.2
+        },
+        "floor": "oak_parquet",
+        "furniture": [
+          {
+            "type": "bed_double",
+            "x": 2,
+            "y": 1.8,
+            "rotation_deg": 0
+          },
+          {
+            "type": "wardrobe",
+            "x": 0.6,
+            "y": 2.8,
+            "rotation_deg": 90
+          }
+        ],
+        "windows": [
+          {
+            "wall": "S",
+            "offset": 0.8,
+            "width": 1.4,
+            "height": 1.2,
+            "sill_m": 0.9
+          },
+          {
+            "wall": "W",
+            "offset": 0.8,
+            "width": 1.4,
+            "height": 1.2,
+            "sill_m": 0.9
+          }
+        ]
+      },
+      {
+        "name": "Bedroom 5 (South)",
+        "rect": {
+          "x": 0.2,
+          "y": 3.5,
+          "w": 3.6,
+          "h": 2.2
+        },
+        "floor": "oak_parquet",
+        "furniture": [
+          {
+            "type": "bed_single",
+            "x": 2,
+            "y": 4.6,
+            "rotation_deg": 0
+          },
+          {
+            "type": "study_desk",
+            "x": 3.2,
+            "y": 4,
+            "rotation_deg": 90
+          }
+        ],
+        "windows": [
+          {
+            "wall": "W",
+            "offset": 0.6,
+            "width": 1.4,
+            "height": 1.2,
+            "sill_m": 0.9
+          }
+        ]
+      }
+    ],
+    "doors": [
+      {
+        "from": "Grand Family Living",
+        "to": "Dining Hall",
+        "x": 6.4,
+        "y": 6.3,
+        "width": 1.2,
+        "wall": "N",
+        "name": "Dining Passage"
+      },
+      {
+        "from": "Dining Hall",
+        "to": "Chef's Kitchen",
+        "x": 8.8,
+        "y": 7.5,
+        "width": 1,
+        "wall": "E",
+        "name": "Kitchen Entry"
+      },
+      {
+        "from": "Grand Family Living",
+        "to": "Master Suite",
+        "x": 8.8,
+        "y": 2.5,
+        "width": 1,
+        "wall": "E",
+        "name": "Master Suite Door"
+      },
+      {
+        "from": "Dining Hall",
+        "to": "Bedroom 1 (NW)",
+        "x": 3.9,
+        "y": 7.2,
+        "width": 0.9,
+        "wall": "W",
+        "name": "Bed 1 Entry"
+      },
+      {
+        "from": "Grand Family Living",
+        "to": "Bedroom 5 (South)",
+        "x": 3.9,
+        "y": 4.5,
+        "width": 0.9,
+        "wall": "W",
+        "name": "Bed 5 Entry"
+      },
+      {
+        "from": "Grand Family Living",
+        "to": "Bedroom 4 (West)",
+        "x": 3.9,
+        "y": 2,
+        "width": 0.9,
+        "wall": "W",
+        "name": "Bed 4 Entry"
+      },
+      {
+        "from": "Grand Family Living",
+        "to": "Bedroom 2 (North)",
+        "x": 5.7,
+        "y": 2.4,
+        "width": 0.9,
+        "wall": "S",
+        "name": "Bed 2 Entry"
+      }
+    ],
+    "camera_tour": [
+      {
+        "x": 6.4,
+        "y": 3,
+        "z": 1.5,
+        "look_at": [
+          6.4,
+          5,
+          1.4
+        ]
+      },
+      {
+        "x": 6.4,
+        "y": 6.4,
+        "z": 1.5,
+        "look_at": [
+          10,
+          7.5,
+          1.4
+        ]
+      },
+      {
+        "x": 10.7,
+        "y": 1.9,
+        "z": 1.5,
+        "look_at": [
+          10.7,
+          3,
+          1.3
+        ]
+      },
+      {
+        "x": 2,
+        "y": 7.3,
+        "z": 1.5,
+        "look_at": [
+          2,
+          8.5,
+          1.3
+        ]
+      }
+    ]
+  },
+  "vastu": {
+    "compliance_score": 96,
+    "grade": "Optimal",
+    "rooms": [
+      {
+        "name": "Master Suite",
+        "status": "best",
+        "score": 98,
+        "note": "South-West master sanctuary"
+      },
+      {
+        "name": "Chef's Kitchen",
+        "status": "best",
+        "score": 96,
+        "note": "South-East Agni placement"
+      },
+      {
+        "name": "Grand Family Living",
+        "status": "best",
+        "score": 96,
+        "note": "Central expansive core"
+      },
+      {
+        "name": "Dining Hall",
+        "status": "good",
+        "score": 94,
+        "note": "North harmonious dining"
+      }
+    ]
+  }
+}
