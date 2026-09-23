@@ -2,13 +2,40 @@
                     THERMABUILD - SYSTEM TECHNICAL FLOW
 ================================================================================
 
-1. SYSTEM ARCHITECTURE & TOPOLOGY
+1. THREE OPERATIONAL WORKFLOW MODES (User Intent Architecture)
+--------------------------------------------------------------------------------
+
+[ PLATFORM ENTRY / FLOW SELECTOR HUB ]
+       |
+       +---> [ FLOW 1: GREENFIELD DESIGN ] ("I Don't Have a House")
+       |         * End-to-end 5-step generative pipeline
+       |         * Step 1: Site Location & Microclimate Telemetry (Leaflet GIS)
+       |         * Step 2: Spatial Specs, BHK & Vedic Vastu Mandala Alignment
+       |         * Step 3: Procedural 2D Architectural Blueprint & Material Schedules
+       |         * Step 4: 3D BIM Digital Twin Extrusion & Virtual Walkthrough
+       |         * Step 5: ANSYS Fluent Conjugate Heat Transfer CFD Validation Report
+       |
+       +---> [ FLOW 2: 2D PLAN FAST-TRACK ] ("I Have a 2D Plan, No House")
+       |         * Skips manual greenfield design (Steps 1, 2, 3)
+       |         * Step 1: Direct 2D Plan Intake (Upload custom CAD/PNG/SVG or Select Library)
+       |         * Step 2: Instant 3D BIM Solid Extrusion & Three.js Virtual Dollhouse
+       |         * Step 3: ANSYS Fluent CFD Thermal & Aerothermal Validation
+       |
+       +---> [ FLOW 3: THERMAL RETROFIT AUDIT ] ("I Have a 2D Plan & House Built")
+       |         * Building envelope diagnosis & thermal comfort optimization
+       |         * Step 1: 2D Plan + Existing As-Built Envelope Material Audit
+       |                   (Wall type, Roof slab, Glazing, Orientation, Climate symptoms)
+       |         * Step 2: Comparative ANSYS Simulation & Prescriptive Retrofit Schedules
+       |                   (Sol-Air baseline vs retrofitted delta, U-value upgrades, cost payback)
+
+
+2. SYSTEM ARCHITECTURE & TOPOLOGY
 --------------------------------------------------------------------------------
 
 [ USER / BROWSER ]
        |
-       |  (1) HTTP POST /api/generate
-       |      Payload: { width_m, depth_m, bhk, facing, climate }
+       |  (1) HTTP POST /api/generate or /api/audit
+       |      Payload: { width_m, depth_m, bhk, facing, climate } or Envelope Details
        v
 [ FLASK REST API SERVER ] (scripts/server.py : Port 8765)
        |
@@ -25,7 +52,7 @@
        |         * Checks ECBC 2017 thermal compliance
        |         * (Optional) PyFluentBridge: Headless ANSYS Fluent CFD hook
        |
-       v  (2) JSON Response: { status, project, layout, thermal_telemetry }
+       v  (2) JSON Response: { status, project, layout, thermal_telemetry, audit }
 [ CLIENT-SIDE FRONTEND ] (demo/index.html)
        |
        +---> [ 2D CAD VIEWER ]
@@ -38,10 +65,10 @@
        |         * Renders animated ceiling fans and realistic lighting
        |
        +---> [ EXECUTIVE DOSSIER / REPORT ]
-                 * Generates full-screen printable PDF thermal specification
+                 * Generates full-screen printable PDF thermal specification / retrofit audit
 
 
-2. STEP-BY-STEP DATA & EXECUTION SEQUENCE
+3. STEP-BY-STEP DATA & EXECUTION SEQUENCE
 --------------------------------------------------------------------------------
 
 STEP 1: USER INPUT (Frontend)

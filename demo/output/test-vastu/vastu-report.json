@@ -1,0 +1,47 @@
+{
+  "compliance_score": 66,
+  "grade": "Needs improvement",
+  "rooms": [
+    {
+      "name": "Living & Dining",
+      "vastu_item": "Living & Dining",
+      "direction": "NE",
+      "status": "unknown",
+      "score": 50,
+      "note": "No specific rule \u2014 verify manually"
+    },
+    {
+      "name": "Kitchen",
+      "vastu_item": "Kitchen",
+      "direction": "SE",
+      "status": "good",
+      "score": 80,
+      "note": "Acceptable placement"
+    },
+    {
+      "name": "Master Bedroom",
+      "vastu_item": "Master Bedroom",
+      "direction": "SW",
+      "status": "best",
+      "score": 100,
+      "note": "Ideal placement per classical Vastu"
+    },
+    {
+      "name": "Bedroom 2",
+      "vastu_item": "Bedroom 2",
+      "direction": "NW",
+      "status": "unknown",
+      "score": 50,
+      "note": "No specific rule \u2014 verify manually"
+    },
+    {
+      "name": "Bathroom",
+      "vastu_item": "Bathroom",
+      "direction": "W",
+      "status": "unknown",
+      "score": 50,
+      "note": "No specific rule \u2014 verify manually"
+    }
+  ],
+  "issues": []
+}

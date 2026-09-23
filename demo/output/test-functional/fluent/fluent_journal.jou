@@ -1,0 +1,11 @@
+; ANSYS Fluent TUI Automation Journal for test-functional
+/file/import/cad/yes "/Users/barathiraja/Desktop/sih26051/thermoooo/demo/output/test-functional/house.step" mm
+/mesh/surface-mesh/create-surface-mesh
+/mesh/volume-mesh/create-poly-hexcore
+/define/models/energy? yes
+/define/models/viscous/ke-realizable? yes
+/define/boundary-conditions/velocity-inlet inlet no no yes 3.0 no 316.65
+/solve/initialize/hybrid-initialization
+/solve/iterate 150
+/file/write-case-data "/Users/barathiraja/Desktop/sih26051/thermoooo/demo/output/test-functional/fluent/house_cfd.cas.h5"
+/exit yes

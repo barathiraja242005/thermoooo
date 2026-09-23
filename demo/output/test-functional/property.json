@@ -1,0 +1,40 @@
+{
+  "id": "test-functional",
+  "name": "Functional 2BHK Test",
+  "facing": "E",
+  "dimensions_m": {
+    "width": 7.71,
+    "depth": 9.64
+  },
+  "area_sqft": 800,
+  "area_m2": 74.3,
+  "bhk": 2,
+  "apply_vastu": false,
+  "rooms": [
+    {
+      "name": "Living & Dining",
+      "direction": "Frontage",
+      "vastu_item": "Living & Dining"
+    },
+    {
+      "name": "Kitchen",
+      "direction": "Service",
+      "vastu_item": "Kitchen"
+    },
+    {
+      "name": "Master Bedroom",
+      "direction": "Private",
+      "vastu_item": "Master Bedroom"
+    },
+    {
+      "name": "Bedroom 2",
+      "direction": "Private",
+      "vastu_item": "Bedroom 2"
+    },
+    {
+      "name": "Bathroom",
+      "direction": "Wet",
+      "vastu_item": "Bathroom"
+    }
+  ]
+}

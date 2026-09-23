@@ -1,0 +1,115 @@
+{
+  "project_id": "test-functional",
+  "execution_mode": "SIH_DEMONSTRATION_MODE",
+  "execution_label": "High-Fidelity CFD Pipeline (SIH Presentation Mode \u2014 Licensed Fluent Server Offline)",
+  "is_live_ansys": false,
+  "step_file": "/Users/barathiraja/Desktop/sih26051/thermoooo/demo/output/test-functional/house.step",
+  "pyfluent_script": "/Users/barathiraja/Desktop/sih26051/thermoooo/demo/output/test-functional/fluent/run_fluent.py",
+  "fluent_journal": "/Users/barathiraja/Desktop/sih26051/thermoooo/demo/output/test-functional/fluent/fluent_journal.jou",
+  "stages": [
+    {
+      "stage_num": 1,
+      "name": "Geometry Import",
+      "status": "COMPLETED",
+      "details": "Loaded STEP CAD solid: house.step (B-Rep Manifold)",
+      "duration_ms": 120
+    },
+    {
+      "stage_num": 2,
+      "name": "Geometry Validation",
+      "status": "PASSED",
+      "details": "Watertight shell verified. Zero non-manifold edges, 6 boundaries recognized.",
+      "duration_ms": 85
+    },
+    {
+      "stage_num": 3,
+      "name": "Surface Mesh Generation",
+      "status": "COMPLETED",
+      "details": "Curvature & proximity size function applied. Min: 5.0mm, Max: 60.0mm.",
+      "duration_ms": 310
+    },
+    {
+      "stage_num": 4,
+      "name": "Volume Mesh Refinement",
+      "status": "COMPLETED",
+      "details": "Poly-Hexcore topology created. 5 prism boundary inflation layers (y+ ~ 1.0).",
+      "duration_ms": 640
+    },
+    {
+      "stage_num": 5,
+      "name": "Mesh Quality Check",
+      "status": "PASSED",
+      "details": "Min Orthogonal Quality: 0.28 (>0.15 threshold). Max Aspect Ratio: 14.2.",
+      "duration_ms": 95
+    },
+    {
+      "stage_num": 6,
+      "name": "Material Assignment",
+      "status": "APPLIED",
+      "details": "Assigned physical properties: AAC (k=0.16 W/mK), XPS (k=0.028 W/mK), Glass (k=1.0 W/mK).",
+      "duration_ms": 60
+    },
+    {
+      "stage_num": 7,
+      "name": "Climate Boundary Conditions",
+      "status": "SET",
+      "details": "Velocity Inlet: 3.0 m/s @ 90.0\u00b0. Pressure Outlet: 0 Pa gauge. T_amb: 43.5\u00b0C.",
+      "duration_ms": 75
+    },
+    {
+      "stage_num": 8,
+      "name": "Solar Ray Tracing",
+      "status": "ACTIVE",
+      "details": "Discrete Ordinates (DO) Radiation Model initialized with diurnal solar vector.",
+      "duration_ms": 140
+    },
+    {
+      "stage_num": 9,
+      "name": "Solver Execution",
+      "status": "CONVERGED",
+      "details": "Realizable k-epsilon turbulence model. SIMPLE pressure-velocity coupling. Residuals < 1e-4.",
+      "duration_ms": 820
+    },
+    {
+      "stage_num": 10,
+      "name": "Result Extraction",
+      "status": "COMPLETED",
+      "details": "Exported surface temperature distributions, room velocity fields, and ACH rates.",
+      "duration_ms": 150
+    }
+  ],
+  "mesh_metrics": {
+    "total_cells": 1842500,
+    "polyhedral_cells": 1420100,
+    "prism_cells": 422400,
+    "min_orthogonal_quality": 0.284,
+    "max_skewness": 0.68,
+    "max_aspect_ratio": 14.2,
+    "inflation_layers": 5,
+    "boundary_faces": 28400
+  },
+  "cfd_results": {
+    "airflow_patterns": {
+      "living_room_avg_velocity_ms": 1.26,
+      "master_bedroom_avg_velocity_ms": 0.84,
+      "kitchen_exhaust_velocity_ms": 1.65,
+      "cross_ventilation_effectiveness": "High (Cross-Draft Established)",
+      "air_changes_per_hour_ach": 7.5
+    },
+    "thermal_gradients": {
+      "outdoor_ambient_temp_c": 43.5,
+      "living_room_temp_c": 27.2,
+      "master_bedroom_temp_c": 26.4,
+      "kitchen_temp_c": 28.5,
+      "peak_indoor_surface_temp_c": 29.1,
+      "indoor_operative_avg_c": 27.1,
+      "effective_cooling_reduction_pct": 31.4
+    },
+    "pressure_field": {
+      "windward_stagnation_pressure_pa": 4.69,
+      "leeward_suction_pressure_pa": -2.48,
+      "internal_pressure_differential_pa": 7.17
+    }
+  },
+  "transparency_notice": "NOTE: This simulation was generated via ThermaBuild's calibrated aerothermal emulator for demonstration. The complete executable PyFluent script (run_fluent.py) and Fluent TUI journal (fluent_journal.jou) have been compiled and exported for execution on licensed ANSYS Fluent workstations."
+}

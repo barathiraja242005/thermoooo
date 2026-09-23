@@ -42,6 +42,7 @@ Open **http://localhost:8765/demo/index.html** in your browser.
 - **Future-Proof PyFluent Bridge** — Clean decoupled driver interface ready to connect to local or remote ANSYS Fluent instances via gRPC.
 - **Vedic Vastu Alignment** — Integrated room quadrant orientation analysis (NE pooja/water, SE kitchen/fire, SW master bed/earth).
 - **Executive Thermal Design Dossier** — One-click generation of full-screen, print-ready client reports with U-value schedules and thermal compliance verdicts.
+- **Glassmorphic Animal Husbandry Bioclimatic Studio** — Dedicated livestock shelter engineering suite for Cattle (🐄), Goats (🐐), and Poultry (🐓) featuring 3D thermal heat-map WebGL visualization, species-specific THI stress modeling, continuous ridge chimney CFD ventilation, and vernacular BOQ dossiers.
 
 ---
 

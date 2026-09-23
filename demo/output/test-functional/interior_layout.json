@@ -1,0 +1,261 @@
+{
+  "wall_height_m": 2.85,
+  "wall_thickness_m": 0.23,
+  "style": "modern_passive",
+  "rooms": [
+    {
+      "name": "Living & Dining",
+      "rect": {
+        "x": 0.2,
+        "y": 0.2,
+        "w": 4.09,
+        "h": 4.44
+      },
+      "floor": "oak_parquet",
+      "wall_color": [
+        0.96,
+        0.95,
+        0.93,
+        1
+      ],
+      "furniture": [
+        {
+          "type": "sofa",
+          "x": 1.64,
+          "y": 3.11,
+          "rotation_deg": 0
+        },
+        {
+          "type": "coffee_table",
+          "x": 1.64,
+          "y": 2.22,
+          "rotation_deg": 0
+        },
+        {
+          "type": "tv_unit",
+          "x": 1.64,
+          "y": 0.5,
+          "rotation_deg": 0
+        },
+        {
+          "type": "dining_table",
+          "x": 3.27,
+          "y": 2.0,
+          "rotation_deg": 0
+        },
+        {
+          "type": "ceiling_fan",
+          "x": 2.04,
+          "y": 2.22,
+          "rotation_deg": 0
+        }
+      ],
+      "windows": [
+        {
+          "wall": "E",
+          "offset": 1.2,
+          "width": 2.2,
+          "height": 1.4,
+          "sill_m": 0.9
+        }
+      ],
+      "zone": "Frontage"
+    },
+    {
+      "name": "Kitchen",
+      "rect": {
+        "x": 4.29,
+        "y": 0.2,
+        "w": 3.02,
+        "h": 3.7
+      },
+      "floor": "ceramic_tile",
+      "wall_color": [
+        0.94,
+        0.94,
+        0.92,
+        1
+      ],
+      "furniture": [
+        {
+          "type": "kitchen_counter",
+          "x": 6.71,
+          "y": 1.2,
+          "rotation_deg": 90
+        },
+        {
+          "type": "fridge",
+          "x": 4.69,
+          "y": 0.6,
+          "rotation_deg": 0
+        }
+      ],
+      "windows": [
+        {
+          "wall": "N",
+          "offset": 1.0,
+          "width": 1.2,
+          "height": 1.2,
+          "sill_m": 1.1
+        }
+      ],
+      "zone": "Service"
+    },
+    {
+      "name": "Master Bedroom",
+      "rect": {
+        "x": 0.2,
+        "y": 4.74,
+        "w": 4.09,
+        "h": 4.3
+      },
+      "floor": "hardwood",
+      "wall_color": [
+        0.95,
+        0.93,
+        0.9,
+        1
+      ],
+      "furniture": [
+        {
+          "type": "bed_double",
+          "x": 1.84,
+          "y": 7.11,
+          "rotation_deg": 0
+        },
+        {
+          "type": "wardrobe",
+          "x": 0.6,
+          "y": 6.03,
+          "rotation_deg": 90
+        },
+        {
+          "type": "ceiling_fan",
+          "x": 1.84,
+          "y": 6.89,
+          "rotation_deg": 0
+        }
+      ],
+      "windows": [
+        {
+          "wall": "S",
+          "offset": 1.2,
+          "width": 1.8,
+          "height": 1.4,
+          "sill_m": 0.9
+        }
+      ],
+      "zone": "Private"
+    },
+    {
+      "name": "Bedroom 2",
+      "rect": {
+        "x": 4.29,
+        "y": 4.0,
+        "w": 3.02,
+        "h": 2.79
+      },
+      "floor": "hardwood",
+      "wall_color": [
+        0.94,
+        0.95,
+        0.92,
+        1
+      ],
+      "furniture": [
+        {
+          "type": "bed_single",
+          "x": 5.6,
+          "y": 5.39,
+          "rotation_deg": 0
+        },
+        {
+          "type": "study_desk",
+          "x": 4.69,
+          "y": 4.6,
+          "rotation_deg": 0
+        }
+      ],
+      "windows": [
+        {
+          "wall": "E",
+          "offset": 1.0,
+          "width": 1.5,
+          "height": 1.4,
+          "sill_m": 0.9
+        }
+      ],
+      "zone": "Private"
+    },
+    {
+      "name": "Bathroom",
+      "rect": {
+        "x": 4.29,
+        "y": 6.99,
+        "w": 3.02,
+        "h": 2.15
+      },
+      "floor": "slate_gray",
+      "wall_color": [
+        0.92,
+        0.92,
+        0.92,
+        1
+      ],
+      "furniture": [
+        {
+          "type": "toilet",
+          "x": 5.6,
+          "y": 7.59,
+          "rotation_deg": 0
+        },
+        {
+          "type": "sink",
+          "x": 5.6,
+          "y": 8.64,
+          "rotation_deg": 180
+        }
+      ],
+      "windows": [
+        {
+          "wall": "E",
+          "offset": 0.6,
+          "width": 0.6,
+          "height": 0.6,
+          "sill_m": 1.8
+        }
+      ],
+      "zone": "Wet"
+    }
+  ],
+  "doors": [
+    {
+      "from": "Living & Dining",
+      "to": "Kitchen",
+      "x": 4.09,
+      "y": 1.0,
+      "width": 0.9
+    },
+    {
+      "from": "Living & Dining",
+      "to": "Master Bedroom",
+      "x": 1.84,
+      "y": 4.74,
+      "width": 0.9
+    },
+    {
+      "from": "Living & Dining",
+      "to": "Bedroom 2",
+      "x": 4.09,
+      "y": 4.8,
+      "width": 0.85
+    },
+    {
+      "from": "Master Bedroom",
+      "to": "Bathroom",
+      "x": 4.09,
+      "y": 7.59,
+      "width": 0.8
+    }
+  ]
+}

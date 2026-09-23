@@ -1,0 +1,144 @@
+{
+  "project_id": "test-functional",
+  "project_name": "Functional 2BHK Test",
+  "builtup_area_sqft": 800.0,
+  "climate_zone": "Composite",
+  "facing": "E",
+  "vastu_applied": false,
+  "cfd_execution_mode": "SIH_DEMONSTRATION_MODE",
+  "cfd_execution_label": "High-Fidelity CFD Pipeline (SIH Presentation Mode \u2014 Licensed Fluent Server Offline)",
+  "comparison_matrix": {
+    "columns": [
+      "Baseline Reference",
+      "ThermaBuild Recommendation",
+      "ANSYS Fluent Validation"
+    ],
+    "parameters": [
+      {
+        "metric": "Exterior Wall Assembly",
+        "baseline": "Conventional Red Clay Brick 230mm (Baseline)",
+        "recommended": "Autoclaved Aerated Concrete (AAC) 200mm",
+        "validated": "Validated: Autoclaved Aerated Concrete (AAC) 200mm"
+      },
+      {
+        "metric": "Roof Slab Specification",
+        "baseline": "Uninsulated RCC Slab 150mm (Baseline)",
+        "recommended": "High-Albedo Cool Roof + 50mm Overdeck XPS",
+        "validated": "Validated: High-Albedo Cool Roof + 50mm Overdeck XPS"
+      },
+      {
+        "metric": "Glazing System",
+        "baseline": "Single Clear Float Glass 5mm (Baseline)",
+        "recommended": "Double Glazed Low-E (Argon Filled, 6-12-6)",
+        "validated": "Validated: Double Glazed Low-E (Argon Filled, 6-12-6)"
+      },
+      {
+        "metric": "Peak Indoor Temperature (\u00b0C)",
+        "baseline": "42.5 \u00b0C",
+        "recommended": "36.0 \u00b0C (Predicted)",
+        "validated": "27.1 \u00b0C (CFD Aerothermal)"
+      },
+      {
+        "metric": "Peak Conduction Heat Load (kW)",
+        "baseline": "16.82 kW",
+        "recommended": "1.63 kW",
+        "validated": "1.76 kW (CFD Conjugate Heat Transfer)"
+      },
+      {
+        "metric": "Natural Ventilation (ACH)",
+        "baseline": "0.8 ACH (Infiltration only)",
+        "recommended": "3.5 ACH (Bernoulli estimate)",
+        "validated": "7.5 ACH (Navier-Stokes Cross-Draft)"
+      },
+      {
+        "metric": "ECBC 2017 Compliance",
+        "baseline": "Non-Compliant (Exceeds U-value thresholds)",
+        "recommended": "ECBC+ Compliant",
+        "validated": "Verified ECBC+ Tier (Thermal transmittance verified)"
+      }
+    ]
+  },
+  "materials_summary": {
+    "wall": {
+      "assembly_id": "W_AAC_200",
+      "name": "Autoclaved Aerated Concrete (AAC) 200mm",
+      "thickness_m": 0.227,
+      "u_value": 0.38,
+      "time_lag_hours": 8.4,
+      "layers": [
+        {
+          "name": "External Plaster",
+          "thickness_m": 0.015,
+          "conductivity_k": 0.72,
+          "density_kg_m3": 1800,
+          "specific_heat_j_kg_k": 840
+        },
+        {
+          "name": "AAC Blockwork",
+          "thickness_m": 0.2,
+          "conductivity_k": 0.16,
+          "density_kg_m3": 550,
+          "specific_heat_j_kg_k": 1050
+        },
+        {
+          "name": "Internal Gypsum Plaster",
+          "thickness_m": 0.012,
+          "conductivity_k": 0.25,
+          "density_kg_m3": 900,
+          "specific_heat_j_kg_k": 1000
+        }
+      ]
+    },
+    "roof": {
+      "assembly_id": "R_COOL_XPS",
+      "name": "High-Albedo Cool Roof + 50mm Overdeck XPS",
+      "thickness_m": 0.219,
+      "u_value": 0.26,
+      "sri": 104.0,
+      "layers": [
+        {
+          "name": "Cool Roof Reflective Coating",
+          "thickness_m": 0.002,
+          "conductivity_k": 0.2,
+          "density_kg_m3": 1200,
+          "specific_heat_j_kg_k": 1000
+        },
+        {
+          "name": "XPS Rigid Board",
+          "thickness_m": 0.05,
+          "conductivity_k": 0.028,
+          "density_kg_m3": 35,
+          "specific_heat_j_kg_k": 1450
+        },
+        {
+          "name": "Waterproofing Membrane",
+          "thickness_m": 0.005,
+          "conductivity_k": 0.17,
+          "density_kg_m3": 1100,
+          "specific_heat_j_kg_k": 1000
+        },
+        {
+          "name": "RCC Concrete Slab",
+          "thickness_m": 0.15,
+          "conductivity_k": 1.74,
+          "density_kg_m3": 2400,
+          "specific_heat_j_kg_k": 1000
+        },
+        {
+          "name": "Internal Ceiling Plaster",
+          "thickness_m": 0.012,
+          "conductivity_k": 0.25,
+          "density_kg_m3": 900,
+          "specific_heat_j_kg_k": 1000
+        }
+      ]
+    },
+    "window": {
+      "assembly_id": "GLZ_LOWE_ARG",
+      "name": "Double Glazed Low-E (Argon Filled, 6-12-6)",
+      "u_value": 1.65,
+      "shgc": 0.27,
+      "vlt": 0.62
+    }
+  }
+}

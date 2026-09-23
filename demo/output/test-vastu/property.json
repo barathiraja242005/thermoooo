@@ -1,0 +1,40 @@
+{
+  "id": "test-vastu",
+  "name": "Vastu 3BHK Test",
+  "facing": "E",
+  "dimensions_m": {
+    "width": 9.44,
+    "depth": 11.8
+  },
+  "area_sqft": 1199,
+  "area_m2": 111.4,
+  "bhk": 3,
+  "apply_vastu": true,
+  "rooms": [
+    {
+      "name": "Living & Dining",
+      "direction": "NE",
+      "vastu_item": "Living & Dining"
+    },
+    {
+      "name": "Kitchen",
+      "direction": "SE",
+      "vastu_item": "Kitchen"
+    },
+    {
+      "name": "Master Bedroom",
+      "direction": "SW",
+      "vastu_item": "Master Bedroom"
+    },
+    {
+      "name": "Bedroom 2",
+      "direction": "NW",
+      "vastu_item": "Bedroom 2"
+    },
+    {
+      "name": "Bathroom",
+      "direction": "W",
+      "vastu_item": "Bathroom"
+    }
+  ]
+}

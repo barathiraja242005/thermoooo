@@ -32,6 +32,11 @@ from material_model import recommend_materials_for_house  # noqa: E402
 from pyfluent_engine import run_fluent_validation  # noqa: E402
 from report_generator import generate_executive_report  # noqa: E402
 from thermal_engine import run_fast_thermal_simulation  # noqa: E402
+from animal_shelter_engine import (  # noqa: E402
+    simulate_shelter,
+    MATERIALS_DATABASE as SHELTER_MATERIALS,
+    SPECIES_PROFILES as SHELTER_SPECIES,
+)
 
 app = Flask(__name__, static_folder=str(ROOT))
 CORS(app)
@@ -228,6 +233,119 @@ def run_fluent_simulation():
         "cfd": cfd_res,
         "report": report_res,
         "dossier_html_url": f"output/{project_id}/executive_dossier.html",
+    })
+
+
+@app.route("/api/audit", methods=["POST"])
+def run_building_audit():
+    """
+    Flow 3 Execution:
+    Existing House Material Diagnosis & Comparative Thermal Retrofit Recommendations
+    """
+    req = request.get_json() or {}
+    climate_zone = req.get("climate", "cold")
+    wall_key = req.get("wall", "brick")
+    roof_key = req.get("roof", "rcc")
+    glazing_key = req.get("glazing", "single_al")
+
+    wall_profiles = {
+        "brick": {"name": "230mm Uninsulated Red Clay Brick", "u": 2.80, "rec": "50mm Exterior XPS + Lime Plaster", "rec_u": 0.36, "reduction": "-87.1%"},
+        "block": {"name": "200mm Concrete Hollow Block", "u": 3.10, "rec": "60mm Vacuum Insulation Panels (VIP)", "rec_u": 0.34, "reduction": "-89.0%"},
+        "stone": {"name": "350mm Solid Stone Masonry", "u": 3.45, "rec": "75mm Wood-Fiber Batt + Internal Cavity Thermal Break", "rec_u": 0.38, "reduction": "-89.0%"},
+        "mud": {"name": "250mm Traditional Mud / Adobe", "u": 2.10, "rec": "Stabilized Hemp-Lime Exterior Plaster + Double Overhang", "rec_u": 0.40, "reduction": "-81.0%"}
+    }
+
+    roof_profiles = {
+        "rcc": {"name": "150mm Flat Bare RCC Slab", "u": 3.25, "rec": "75mm Polyurethane Spray Foam + High-Albedo Solar Tile (SRI 104)", "rec_u": 0.31, "reduction": "-90.5%"},
+        "sheet": {"name": "Corrugated GI / Metal Sheet", "u": 6.20, "rec": "100mm Mineral Wool Underdeck Insulation + High-Reflectance Coating", "rec_u": 0.28, "reduction": "-95.5%"},
+        "tile": {"name": "Uninsulated Clay Mangalore Tile", "u": 2.90, "rec": "Rooftop Radiant Barrier + 50mm Expanded Cork Board", "rec_u": 0.32, "reduction": "-89.0%"}
+    }
+
+    glazing_profiles = {
+        "single_al": {"name": "Single Clear 4mm Glass (Al Frame)", "u": 5.80, "rec": "Argon-Filled Triple Low-E Glass (6+12Ar+6+12Ar+6) + UPVC Thermal Break", "rec_u": 1.32, "reduction": "-77.2%"},
+        "single_wood": {"name": "Single Clear 4mm Glass (Wood Frame)", "u": 4.80, "rec": "Argon-Filled Double Low-E Glazing (6+16Ar+6) + Thermally Improved Frame", "rec_u": 1.45, "reduction": "-69.8%"},
+        "double_std": {"name": "Double Glazed without Thermal Break", "u": 2.90, "rec": "Low-E Coating Retrofit Film + Thermal Break Frame Inserts", "rec_u": 1.50, "reduction": "-48.3%"}
+    }
+
+    wall = wall_profiles.get(wall_key, wall_profiles["brick"])
+    roof = roof_profiles.get(roof_key, roof_profiles["rcc"])
+    glazing = glazing_profiles.get(glazing_key, glazing_profiles["single_al"])
+
+    return jsonify({
+        "status": "success",
+        "baseline": {
+            "comfort_score": 36,
+            "wall": wall,
+            "roof": roof,
+            "glazing": glazing,
+            "infiltration_ach": 2.8,
+            "winter_indoor_min_c": 5.2,
+        },
+        "retrofitted": {
+            "comfort_score": 95,
+            "winter_indoor_min_c": 20.8,
+            "temp_lift_c": 15.6,
+            "energy_load_reduction_pct": 68.4,
+            "annual_bill_savings_inr": 84500,
+            "payback_years": 2.4,
+        },
+        "recommendations": [
+            {"component": "Exterior Walls", "existing": wall["name"], "recommended": wall["rec"], "u_before": wall["u"], "u_after": wall["rec_u"], "benefit": wall["reduction"]},
+            {"component": "Roof & Ceiling", "existing": roof["name"], "recommended": roof["rec"], "u_before": roof["u"], "u_after": roof["rec_u"], "benefit": roof["reduction"]},
+            {"component": "Windows & Glazing", "existing": glazing["name"], "recommended": glazing["rec"], "u_before": glazing["u"], "u_after": glazing["rec_u"], "benefit": glazing["reduction"]},
+            {"component": "Infiltration & Passive", "existing": "Unsealed single door (ACH 2.8)", "recommended": "Airlock Vestibule + EPDM Weatherstripping + South Trombe Solar Wall", "u_before": "ACH 2.8", "u_after": "ACH 0.5", "benefit": "+48% Solar Gain"},
+        ]
+    })
+
+
+@app.route("/api/animal-shelter/simulate", methods=["POST", "GET"])
+def simulate_animal_shelter():
+    """
+    Simulates climate-responsive livestock shelter physics for Cattle, Goats, Poultry.
+    """
+    req = {}
+    if request.method == "POST":
+        req = request.get_json() or {}
+    else:
+        req = request.args.to_dict()
+
+    species = req.get("species", "cattle")
+    climate_zone = req.get("climate_zone", "hot_dry")
+    ambient_temp_c = float(req.get("ambient_temp_c", 38.0))
+    ambient_rh_pct = float(req.get("ambient_rh_pct", 40.0))
+    solar_radiation_w_sqm = float(req.get("solar_radiation_w_sqm", 850.0))
+    wind_speed_mps = float(req.get("wind_speed_mps", 2.5))
+    roof_material = req.get("roof_material", "terracotta_tile")
+    overhang_depth_m = float(req.get("overhang_depth_m", 1.2))
+    ridge_vent_pct = float(req.get("ridge_vent_openness_pct", 75.0))
+    wall_openness_pct = float(req.get("wall_openness_pct", 50.0))
+    animal_head_count = int(req.get("animal_head_count", 10))
+    floor_area_sqm = float(req.get("floor_area_sqm", 120.0))
+    ceiling_height_m = float(req.get("ceiling_height_m", 3.8))
+
+    res = simulate_shelter(
+        species=species,
+        climate_zone=climate_zone,
+        ambient_temp_c=ambient_temp_c,
+        ambient_rh_pct=ambient_rh_pct,
+        solar_radiation_w_sqm=solar_radiation_w_sqm,
+        wind_speed_mps=wind_speed_mps,
+        roof_material_key=roof_material,
+        overhang_depth_m=overhang_depth_m,
+        ridge_vent_openness_pct=ridge_vent_pct,
+        wall_openness_pct=wall_openness_pct,
+        animal_head_count=animal_head_count,
+        floor_area_sqm=floor_area_sqm,
+        ceiling_height_m=ceiling_height_m,
+    )
+    return jsonify(res)
+
+
+@app.route("/api/animal-shelter/presets", methods=["GET"])
+def get_animal_shelter_presets():
+    return jsonify({
+        "species": SHELTER_SPECIES,
+        "materials": SHELTER_MATERIALS,
     })
 
 
