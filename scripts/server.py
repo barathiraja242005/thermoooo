@@ -19,6 +19,14 @@ import sys
 from pathlib import Path
 from typing import Any, Dict
 
+# Ensure UTF-8 output on Windows consoles
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 

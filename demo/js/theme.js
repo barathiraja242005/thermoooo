@@ -2,11 +2,12 @@
  * ==========================================================================
  * ThermaBuild — Dynamic Theme Prop Engine & Live Customizer
  * ==========================================================================
- * Allows developers and users to configure the color theme as a prop.
+ * Modern Dark Architectural Studio Design System
+ * Allows developers and users to configure the color theme as a prop or preset.
  * 
  * Usage:
- *   ThermaTheme.setTheme({ primary: '#2563EB', bgCanvas: '#F8FAFC' });
- *   ThermaTheme.applyPreset('cad-blueprint');
+ *   ThermaTheme.setTheme({ primary: '#00E5FF', bgCanvas: '#07090E' });
+ *   ThermaTheme.applyPreset('modern-dark-studio');
  *   ThermaTheme.copyCSS();
  */
 
@@ -14,151 +15,162 @@
   'use strict';
 
   const DEFAULT_PROPS = {
-    primary: '#DE7236',
-    primaryHover: '#CF6124',
-    primaryGlow: 'rgba(222, 114, 54, 0.28)',
-    primaryLight: '#FFF8F4',
-    primaryBorder: 'rgba(222, 114, 54, 0.25)',
+    primary: '#00E5FF',
+    primaryHover: '#00B4D8',
+    primaryGlow: 'rgba(0, 229, 255, 0.35)',
+    primaryLight: 'rgba(0, 229, 255, 0.12)',
+    primaryBorder: 'rgba(0, 229, 255, 0.38)',
 
-    secondary: '#3E8074',
-    secondaryHover: '#2F6F66',
-    secondaryGlow: 'rgba(62, 128, 116, 0.22)',
-    secondaryLight: '#EBF4F2',
+    secondary: '#F59E0B',
+    secondaryHover: '#D97706',
+    secondaryGlow: 'rgba(245, 158, 11, 0.32)',
+    secondaryLight: 'rgba(245, 158, 11, 0.12)',
 
-    accentPeach: '#FDE7DA',
-    accentPeachSubtle: 'rgba(253, 231, 218, 0.45)',
-    accentApricot: '#F8B185',
+    accentEmerald: '#10B981',
+    accentEmeraldGlow: 'rgba(16, 185, 129, 0.32)',
 
-    bgCanvas: '#FAF7F2',
-    bgSurface: '#FFFFFF',
-    bgCard: 'rgba(255, 255, 255, 0.72)',
-    bgCardHover: 'rgba(255, 255, 255, 0.88)',
+    accentPeach: 'rgba(0, 229, 255, 0.15)',
+    accentPeachSubtle: 'rgba(0, 229, 255, 0.08)',
+    accentApricot: '#38BDF8',
 
-    textMain: '#1C1F22',
-    textSecondary: '#525960',
-    textMuted: '#848D96',
-    textSubtle: '#B0B8C0',
+    bgCanvas: '#07090E',
+    bgSurface: '#0E131F',
+    bgCard: 'rgba(14, 20, 32, 0.75)',
+    bgCardHover: 'rgba(20, 28, 45, 0.88)',
 
-    border: 'rgba(0, 0, 0, 0.08)',
-    borderSubtle: 'rgba(218, 208, 198, 0.45)',
-    glassBorder: 'rgba(255, 255, 255, 0.82)'
+    textMain: '#F8FAFC',
+    textSecondary: '#94A3B8',
+    textMuted: '#64748B',
+    textSubtle: '#475569',
+
+    border: 'rgba(255, 255, 255, 0.09)',
+    borderSubtle: 'rgba(255, 255, 255, 0.05)',
+    glassBorder: 'rgba(255, 255, 255, 0.12)'
   };
 
   const PRESETS = {
-    'warm-bioclimatic': {
-      name: 'Warm Bioclimatic (Default)',
+    'modern-dark-studio': {
+      name: 'Modern Dark Studio (Default)',
       props: { ...DEFAULT_PROPS }
     },
     'cad-blueprint': {
-      name: 'CAD Blueprint Blue',
+      name: 'CAD Blueprint Electric',
+      props: {
+        primary: '#38BDF8',
+        primaryHover: '#0EA5E9',
+        primaryGlow: 'rgba(56, 189, 248, 0.38)',
+        primaryLight: 'rgba(56, 189, 248, 0.12)',
+        primaryBorder: 'rgba(56, 189, 248, 0.35)',
+        secondary: '#06B6D4',
+        secondaryHover: '#0891B2',
+        secondaryGlow: 'rgba(6, 182, 212, 0.3)',
+        secondaryLight: 'rgba(6, 182, 212, 0.12)',
+        accentEmerald: '#10B981',
+        accentEmeraldGlow: 'rgba(16, 185, 129, 0.3)',
+        accentPeach: 'rgba(56, 189, 248, 0.15)',
+        accentPeachSubtle: 'rgba(56, 189, 248, 0.08)',
+        accentApricot: '#7DD3FC',
+        bgCanvas: '#060B14',
+        bgSurface: '#0B1526',
+        bgCard: 'rgba(11, 21, 38, 0.8)',
+        bgCardHover: 'rgba(16, 31, 56, 0.9)',
+        textMain: '#F0F9FF',
+        textSecondary: '#94A3B8',
+        textMuted: '#64748B',
+        textSubtle: '#475569',
+        border: 'rgba(56, 189, 248, 0.15)',
+        borderSubtle: 'rgba(56, 189, 248, 0.08)',
+        glassBorder: 'rgba(56, 189, 248, 0.2)'
+      }
+    },
+    'solar-amber': {
+      name: 'Solar Amber Diurnal',
+      props: {
+        primary: '#F59E0B',
+        primaryHover: '#D97706',
+        primaryGlow: 'rgba(245, 158, 11, 0.38)',
+        primaryLight: 'rgba(245, 158, 11, 0.14)',
+        primaryBorder: 'rgba(245, 158, 11, 0.35)',
+        secondary: '#00E5FF',
+        secondaryHover: '#00B4D8',
+        secondaryGlow: 'rgba(0, 229, 255, 0.3)',
+        secondaryLight: 'rgba(0, 229, 255, 0.12)',
+        accentEmerald: '#10B981',
+        accentEmeraldGlow: 'rgba(16, 185, 129, 0.3)',
+        accentPeach: 'rgba(245, 158, 11, 0.15)',
+        accentPeachSubtle: 'rgba(245, 158, 11, 0.08)',
+        accentApricot: '#FCD34D',
+        bgCanvas: '#0A0805',
+        bgSurface: '#14100A',
+        bgCard: 'rgba(20, 16, 10, 0.82)',
+        bgCardHover: 'rgba(30, 24, 15, 0.92)',
+        textMain: '#FFFBEB',
+        textSecondary: '#D1D5DB',
+        textMuted: '#9CA3AF',
+        textSubtle: '#6B7280',
+        border: 'rgba(245, 158, 11, 0.16)',
+        borderSubtle: 'rgba(245, 158, 11, 0.08)',
+        glassBorder: 'rgba(245, 158, 11, 0.22)'
+      }
+    },
+    'eco-forest': {
+      name: 'Eco Forest Bioclimatic',
+      props: {
+        primary: '#10B981',
+        primaryHover: '#059669',
+        primaryGlow: 'rgba(16, 185, 129, 0.35)',
+        primaryLight: 'rgba(16, 185, 129, 0.12)',
+        primaryBorder: 'rgba(16, 185, 129, 0.32)',
+        secondary: '#F59E0B',
+        secondaryHover: '#D97706',
+        secondaryGlow: 'rgba(245, 158, 11, 0.3)',
+        secondaryLight: 'rgba(245, 158, 11, 0.12)',
+        accentEmerald: '#34D399',
+        accentEmeraldGlow: 'rgba(52, 211, 153, 0.3)',
+        accentPeach: 'rgba(16, 185, 129, 0.15)',
+        accentPeachSubtle: 'rgba(16, 185, 129, 0.08)',
+        accentApricot: '#6EE7B7',
+        bgCanvas: '#060E0A',
+        bgSurface: '#0C1A13',
+        bgCard: 'rgba(12, 26, 19, 0.8)',
+        bgCardHover: 'rgba(18, 38, 28, 0.9)',
+        textMain: '#ECFDF5',
+        textSecondary: '#94A3B8',
+        textMuted: '#64748B',
+        textSubtle: '#475569',
+        border: 'rgba(16, 185, 129, 0.16)',
+        borderSubtle: 'rgba(16, 185, 129, 0.08)',
+        glassBorder: 'rgba(16, 185, 129, 0.22)'
+      }
+    },
+    'clean-architectural-light': {
+      name: 'Clean Architectural (Light Mode)',
       props: {
         primary: '#0284C7',
         primaryHover: '#0369A1',
-        primaryGlow: 'rgba(2, 132, 199, 0.3)',
+        primaryGlow: 'rgba(2, 132, 199, 0.25)',
         primaryLight: '#F0F9FF',
         primaryBorder: 'rgba(2, 132, 199, 0.25)',
-        secondary: '#0D9488',
-        secondaryHover: '#0F766E',
-        secondaryGlow: 'rgba(13, 148, 136, 0.25)',
-        secondaryLight: '#F0FDFA',
+        secondary: '#D97706',
+        secondaryHover: '#B45309',
+        secondaryGlow: 'rgba(217, 119, 6, 0.22)',
+        secondaryLight: '#FFFBEB',
+        accentEmerald: '#059669',
+        accentEmeraldGlow: 'rgba(5, 150, 105, 0.25)',
         accentPeach: '#E0F2FE',
         accentPeachSubtle: 'rgba(224, 242, 254, 0.45)',
         accentApricot: '#BAE6FD',
         bgCanvas: '#F8FAFC',
         bgSurface: '#FFFFFF',
-        bgCard: 'rgba(255, 255, 255, 0.8)',
-        bgCardHover: 'rgba(255, 255, 255, 0.95)',
+        bgCard: 'rgba(255, 255, 255, 0.85)',
+        bgCardHover: 'rgba(255, 255, 255, 0.98)',
         textMain: '#0F172A',
         textSecondary: '#334155',
         textMuted: '#64748B',
         textSubtle: '#94A3B8',
         border: 'rgba(15, 23, 42, 0.08)',
         borderSubtle: 'rgba(148, 163, 184, 0.3)',
-        glassBorder: 'rgba(255, 255, 255, 0.9)'
-      }
-    },
-    'eco-forest': {
-      name: 'Eco Forest & Sustainable Sage',
-      props: {
-        primary: '#059669',
-        primaryHover: '#047857',
-        primaryGlow: 'rgba(5, 150, 105, 0.28)',
-        primaryLight: '#ECFDF5',
-        primaryBorder: 'rgba(5, 150, 105, 0.25)',
-        secondary: '#D97706',
-        secondaryHover: '#B45309',
-        secondaryGlow: 'rgba(217, 119, 6, 0.25)',
-        secondaryLight: '#FFFBEB',
-        accentPeach: '#D1FAE5',
-        accentPeachSubtle: 'rgba(209, 250, 229, 0.45)',
-        accentApricot: '#A7F3D0',
-        bgCanvas: '#F3F8F5',
-        bgSurface: '#FFFFFF',
-        bgCard: 'rgba(255, 255, 255, 0.78)',
-        bgCardHover: 'rgba(255, 255, 255, 0.92)',
-        textMain: '#064E3B',
-        textSecondary: '#1F2937',
-        textMuted: '#6B7280',
-        textSubtle: '#9CA3AF',
-        border: 'rgba(6, 78, 59, 0.08)',
-        borderSubtle: 'rgba(110, 150, 130, 0.3)',
-        glassBorder: 'rgba(255, 255, 255, 0.85)'
-      }
-    },
-    'dark-obsidian': {
-      name: 'Dark Obsidian CAD Mode',
-      props: {
-        primary: '#F59E0B',
-        primaryHover: '#D97706',
-        primaryGlow: 'rgba(245, 158, 11, 0.35)',
-        primaryLight: '#262015',
-        primaryBorder: 'rgba(245, 158, 11, 0.35)',
-        secondary: '#10B981',
-        secondaryHover: '#059669',
-        secondaryGlow: 'rgba(16, 185, 129, 0.3)',
-        secondaryLight: '#11221B',
-        accentPeach: '#2A241C',
-        accentPeachSubtle: 'rgba(42, 36, 28, 0.6)',
-        accentApricot: '#78350F',
-        bgCanvas: '#0F1216',
-        bgSurface: '#181C22',
-        bgCard: 'rgba(24, 28, 34, 0.82)',
-        bgCardHover: 'rgba(32, 38, 46, 0.92)',
-        textMain: '#F8FAFC',
-        textSecondary: '#CBD5E1',
-        textMuted: '#94A3B8',
-        textSubtle: '#64748B',
-        border: 'rgba(255, 255, 255, 0.1)',
-        borderSubtle: 'rgba(255, 255, 255, 0.08)',
-        glassBorder: 'rgba(255, 255, 255, 0.12)'
-      }
-    },
-    'corporate-slate': {
-      name: 'Corporate Graphite & Coral',
-      props: {
-        primary: '#E11D48',
-        primaryHover: '#BE123C',
-        primaryGlow: 'rgba(225, 29, 72, 0.28)',
-        primaryLight: '#FFF1F2',
-        primaryBorder: 'rgba(225, 29, 72, 0.25)',
-        secondary: '#4F46E5',
-        secondaryHover: '#4338CA',
-        secondaryGlow: 'rgba(79, 70, 229, 0.25)',
-        secondaryLight: '#EEF2FF',
-        accentPeach: '#FFE4E6',
-        accentPeachSubtle: 'rgba(255, 228, 230, 0.45)',
-        accentApricot: '#FECDD3',
-        bgCanvas: '#F8FAFC',
-        bgSurface: '#FFFFFF',
-        bgCard: 'rgba(255, 255, 255, 0.78)',
-        bgCardHover: 'rgba(255, 255, 255, 0.92)',
-        textMain: '#0F172A',
-        textSecondary: '#334155',
-        textMuted: '#64748B',
-        textSubtle: '#94A3B8',
-        border: 'rgba(15, 23, 42, 0.08)',
-        borderSubtle: 'rgba(148, 163, 184, 0.3)',
-        glassBorder: 'rgba(255, 255, 255, 0.88)'
+        glassBorder: 'rgba(255, 255, 255, 0.95)'
       }
     }
   };
@@ -168,7 +180,7 @@
 
   // State
   let currentProps = { ...DEFAULT_PROPS };
-  let currentPreset = 'warm-bioclimatic';
+  let currentPreset = 'modern-dark-studio';
 
   // Helper: Convert hex to rgba
   function hexToRgba(hex, alpha) {
@@ -189,15 +201,16 @@
 
     root.style.setProperty('--theme-primary', props.primary);
     root.style.setProperty('--theme-primary-hover', props.primaryHover || props.primary);
-    root.style.setProperty('--theme-primary-glow', props.primaryGlow || hexToRgba(props.primary, 0.28));
-    root.style.setProperty('--theme-primary-light', props.primaryLight || hexToRgba(props.primary, 0.08));
-    root.style.setProperty('--theme-primary-border', props.primaryBorder || hexToRgba(props.primary, 0.25));
+    root.style.setProperty('--theme-primary-glow', props.primaryGlow || hexToRgba(props.primary, 0.35));
+    root.style.setProperty('--theme-primary-light', props.primaryLight || hexToRgba(props.primary, 0.12));
+    root.style.setProperty('--theme-primary-border', props.primaryBorder || hexToRgba(props.primary, 0.35));
 
     root.style.setProperty('--theme-secondary', props.secondary);
     root.style.setProperty('--theme-secondary-hover', props.secondaryHover || props.secondary);
-    root.style.setProperty('--theme-secondary-glow', props.secondaryGlow || hexToRgba(props.secondary, 0.22));
-    root.style.setProperty('--theme-secondary-light', props.secondaryLight || hexToRgba(props.secondary, 0.08));
+    root.style.setProperty('--theme-secondary-glow', props.secondaryGlow || hexToRgba(props.secondary, 0.3));
+    root.style.setProperty('--theme-secondary-light', props.secondaryLight || hexToRgba(props.secondary, 0.12));
 
+    if (props.accentEmerald) root.style.setProperty('--theme-accent-emerald', props.accentEmerald);
     if (props.accentPeach) root.style.setProperty('--theme-accent-peach', props.accentPeach);
     if (props.accentPeachSubtle) root.style.setProperty('--theme-accent-peach-subtle', props.accentPeachSubtle);
     if (props.accentApricot) root.style.setProperty('--theme-accent-apricot', props.accentApricot);
@@ -280,8 +293,8 @@
     },
 
     reset: function () {
-      this.applyPreset('warm-bioclimatic');
-      showToast('Theme reset to default');
+      this.applyPreset('modern-dark-studio');
+      showToast('Theme reset to Modern Dark Studio default');
     },
 
     exportCSS: function () {
@@ -320,14 +333,15 @@
         position: fixed;
         bottom: 24px;
         right: 24px;
-        background: #1C1F22;
-        color: #FFFFFF;
-        padding: 12px 20px;
+        background: #0E131F;
+        color: #F8FAFC;
+        padding: 12px 22px;
         border-radius: 9999px;
+        border: 1px solid rgba(0, 229, 255, 0.3);
         font-family: var(--font-primary, sans-serif);
         font-size: 0.86rem;
         font-weight: 600;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 20px rgba(0, 229, 255, 0.2);
         z-index: 100000;
         pointer-events: none;
         opacity: 0;
@@ -355,13 +369,15 @@
 
     if (priInput) priInput.value = p.primary;
     if (secInput) secInput.value = p.secondary;
-    if (bgInput) bgInput.value = p.bgCanvas.startsWith('#') ? p.bgCanvas : '#FAF7F2';
-    if (textInput) textInput.value = p.textMain.startsWith('#') ? p.textMain : '#1C1F22';
+    if (bgInput) bgInput.value = p.bgCanvas.startsWith('#') ? p.bgCanvas : '#07090E';
+    if (textInput) textInput.value = p.textMain.startsWith('#') ? p.textMain : '#F8FAFC';
 
     // Highlight active preset badge
     document.querySelectorAll('.theme-preset-badge').forEach(b => {
-      b.style.borderColor = (b.dataset.preset === currentPreset) ? 'var(--theme-primary)' : 'rgba(0,0,0,0.1)';
-      b.style.fontWeight = (b.dataset.preset === currentPreset) ? '700' : '500';
+      const isActive = (b.dataset.preset === currentPreset);
+      b.style.borderColor = isActive ? 'var(--theme-primary)' : 'rgba(255,255,255,0.08)';
+      b.style.background = isActive ? 'rgba(0, 229, 255, 0.12)' : 'rgba(255,255,255,0.02)';
+      b.style.fontWeight = isActive ? '700' : '500';
     });
   }
 
@@ -377,21 +393,23 @@
         position: fixed;
         bottom: 24px;
         left: 24px;
-        width: 48px;
-        height: 48px;
+        width: 46px;
+        height: 46px;
         border-radius: 50%;
-        background: var(--theme-primary, #DE7236);
-        color: #FFFFFF;
-        border: 2px solid rgba(255, 255, 255, 0.85);
-        box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+        background: rgba(14, 20, 32, 0.85);
+        color: var(--theme-primary, #00E5FF);
+        border: 1px solid var(--theme-glass-border, rgba(255, 255, 255, 0.15));
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 16px var(--theme-primary-glow, rgba(0, 229, 255, 0.25));
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         z-index: 99999;
-        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s;
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s, border-color 0.2s;
       ">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10"></circle>
           <path d="M12 2a4.5 4.5 0 0 0 0 9 4.5 4.5 0 0 1 0 9 4.5 4.5 0 0 0 0-9 4.5 4.5 0 0 1 0-9z"></path>
           <circle cx="8" cy="8" r="1.5" fill="currentColor"></circle>
@@ -403,34 +421,33 @@
       <!-- Glassmorphic Flyout Panel -->
       <div id="theme-customizer-panel" style="
         position: fixed;
-        bottom: 84px;
+        bottom: 80px;
         left: 24px;
         width: 320px;
-        background: var(--theme-bg-surface, #FFFFFF);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid var(--theme-glass-border, rgba(255,255,255,0.85));
-        border-radius: 20px;
-        box-shadow: 0 20px 48px rgba(0,0,0,0.18);
+        background: rgba(14, 19, 31, 0.95);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid var(--theme-glass-border, rgba(255,255,255,0.15));
+        border-radius: 18px;
+        box-shadow: 0 24px 64px rgba(0,0,0,0.8), 0 0 32px rgba(0, 229, 255, 0.15);
         padding: 20px;
         z-index: 99999;
         display: none;
         flex-direction: column;
         gap: 16px;
         font-family: var(--font-primary, sans-serif);
-        animation: panelFadeIn 0.25s ease forwards;
       ">
-        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.06); padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 1.1rem;">🎨</span>
-            <span style="font-weight: 700; font-size: 0.95rem; color: var(--theme-text-main, #1C1F22);">Theme Props</span>
+            <span style="font-size: 1.1rem; color: var(--theme-primary);">🎨</span>
+            <span style="font-weight: 700; font-size: 0.95rem; color: var(--theme-text-main, #F8FAFC);">Theme Architecture</span>
           </div>
-          <button id="theme-panel-close" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--theme-text-muted, #888); line-height: 1;">✕</button>
+          <button id="theme-panel-close" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--theme-text-muted, #94A3B8); line-height: 1;">✕</button>
         </div>
 
         <!-- Presets -->
         <div>
-          <div style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--theme-text-muted); margin-bottom: 8px;">Curated Presets</div>
+          <div style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--theme-text-muted); margin-bottom: 8px;">Curated Presets</div>
           <div style="display: flex; flex-direction: column; gap: 6px;" id="theme-preset-list">
             ${Object.keys(PRESETS).map(key => `
               <button class="theme-preset-badge" data-preset="${key}" style="
@@ -438,16 +455,16 @@
                 align-items: center;
                 gap: 10px;
                 padding: 7px 10px;
-                border-radius: 10px;
-                border: 1px solid rgba(0,0,0,0.08);
-                background: rgba(0,0,0,0.02);
+                border-radius: 8px;
+                border: 1px solid rgba(255,255,255,0.08);
+                background: rgba(255,255,255,0.02);
                 color: var(--theme-text-main);
                 font-size: 0.82rem;
                 cursor: pointer;
                 text-align: left;
                 transition: background 0.15s, border-color 0.15s;
               ">
-                <span style="width: 14px; height: 14px; border-radius: 50%; background: ${PRESETS[key].props.primary}; display: inline-block; border: 1px solid rgba(0,0,0,0.1);"></span>
+                <span style="width: 14px; height: 14px; border-radius: 50%; background: ${PRESETS[key].props.primary}; display: inline-block; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 0 6px ${PRESETS[key].props.primaryGlow};"></span>
                 <span style="flex: 1;">${PRESETS[key].name}</span>
               </button>
             `).join('')}
@@ -456,62 +473,63 @@
 
         <!-- Live Color Pickers -->
         <div>
-          <div style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--theme-text-muted); margin-bottom: 8px;">Fine-Tune Props</div>
+          <div style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--theme-text-muted); margin-bottom: 8px;">Fine-Tune Props</div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <label style="display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; color: var(--theme-text-secondary);">
-              Primary Accent
+            <label style="display: flex; flex-direction: column; gap: 4px; font-size: 0.76rem; color: var(--theme-text-secondary);">
+              Thermal Cyan
               <div style="display: flex; align-items: center; gap: 6px;">
-                <input type="color" id="theme-picker-primary" value="${currentProps.primary}" style="width: 32px; height: 32px; border: none; border-radius: 8px; cursor: pointer; padding: 0;">
-                <span style="font-family: monospace; font-size: 0.75rem;">Primary</span>
+                <input type="color" id="theme-picker-primary" value="${currentProps.primary}" style="width: 28px; height: 28px; border: none; border-radius: 6px; cursor: pointer; padding: 0; background: none;">
+                <span style="font-family: monospace; font-size: 0.74rem; color: var(--theme-text-muted);">Accent</span>
               </div>
             </label>
 
-            <label style="display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; color: var(--theme-text-secondary);">
-              Bioclimatic Cool
+            <label style="display: flex; flex-direction: column; gap: 4px; font-size: 0.76rem; color: var(--theme-text-secondary);">
+              Solar Amber
               <div style="display: flex; align-items: center; gap: 6px;">
-                <input type="color" id="theme-picker-secondary" value="${currentProps.secondary}" style="width: 32px; height: 32px; border: none; border-radius: 8px; cursor: pointer; padding: 0;">
-                <span style="font-family: monospace; font-size: 0.75rem;">Cool</span>
+                <input type="color" id="theme-picker-secondary" value="${currentProps.secondary}" style="width: 28px; height: 28px; border: none; border-radius: 6px; cursor: pointer; padding: 0; background: none;">
+                <span style="font-family: monospace; font-size: 0.74rem; color: var(--theme-text-muted);">Diurnal</span>
               </div>
             </label>
 
-            <label style="display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; color: var(--theme-text-secondary);">
+            <label style="display: flex; flex-direction: column; gap: 4px; font-size: 0.76rem; color: var(--theme-text-secondary);">
               Canvas BG
               <div style="display: flex; align-items: center; gap: 6px;">
-                <input type="color" id="theme-picker-bg" value="${currentProps.bgCanvas}" style="width: 32px; height: 32px; border: none; border-radius: 8px; cursor: pointer; padding: 0;">
-                <span style="font-family: monospace; font-size: 0.75rem;">Canvas</span>
+                <input type="color" id="theme-picker-bg" value="${currentProps.bgCanvas}" style="width: 28px; height: 28px; border: none; border-radius: 6px; cursor: pointer; padding: 0; background: none;">
+                <span style="font-family: monospace; font-size: 0.74rem; color: var(--theme-text-muted);">Canvas</span>
               </div>
             </label>
 
-            <label style="display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; color: var(--theme-text-secondary);">
+            <label style="display: flex; flex-direction: column; gap: 4px; font-size: 0.76rem; color: var(--theme-text-secondary);">
               Heading Text
               <div style="display: flex; align-items: center; gap: 6px;">
-                <input type="color" id="theme-picker-text" value="${currentProps.textMain}" style="width: 32px; height: 32px; border: none; border-radius: 8px; cursor: pointer; padding: 0;">
-                <span style="font-family: monospace; font-size: 0.75rem;">Text</span>
+                <input type="color" id="theme-picker-text" value="${currentProps.textMain}" style="width: 28px; height: 28px; border: none; border-radius: 6px; cursor: pointer; padding: 0; background: none;">
+                <span style="font-family: monospace; font-size: 0.74rem; color: var(--theme-text-muted);">Text</span>
               </div>
             </label>
           </div>
         </div>
 
         <!-- Action Buttons -->
-        <div style="display: flex; gap: 8px; margin-top: 4px; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.06);">
+        <div style="display: flex; gap: 8px; margin-top: 4px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.08);">
           <button id="theme-btn-copy" style="
             flex: 1;
             padding: 8px 12px;
-            background: var(--theme-primary, #DE7236);
-            color: #FFFFFF;
+            background: var(--theme-primary, #00E5FF);
+            color: #07090E;
             border: none;
             border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
+            font-size: 0.78rem;
+            font-weight: 700;
             cursor: pointer;
+            box-shadow: 0 0 12px var(--theme-primary-glow);
           ">Copy CSS Props</button>
           <button id="theme-btn-reset" style="
             padding: 8px 12px;
-            background: rgba(0,0,0,0.05);
+            background: rgba(255,255,255,0.06);
             color: var(--theme-text-secondary);
-            border: none;
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 8px;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 600;
             cursor: pointer;
           ">Reset</button>

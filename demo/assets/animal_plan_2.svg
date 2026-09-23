@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%" style="background:#ffffff; font-family:system-ui,sans-serif;">
+  <defs>
+    <pattern id="grid2" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#efebe9" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="url(#grid2)" />
+  
+  <!-- Outer Walls (Thick Mud/Stone Thermal Mass) -->
+  <rect x="50" y="40" width="700" height="420" fill="none" stroke="#5d4037" stroke-width="8" rx="4" />
+  
+  <!-- Title Block -->
+  <rect x="500" y="410" width="245" height="45" fill="#efebe9" stroke="#5d4037" stroke-width="1" />
+  <text x="510" y="428" font-size="12" font-weight="bold" fill="#3e2723">ANIMAL PLAN 2: BUFFALO AGRO-SHED</text>
+  <text x="510" y="444" font-size="10" fill="#4e342e">Capacity: 16 Buffaloes | 18.0m × 10.0m (1,800 sq.ft)</text>
+  
+  <!-- North Loose Housing Pen -->
+  <rect x="70" y="60" width="460" height="150" fill="#fbe9e7" stroke="#d84315" stroke-width="2" />
+  <text x="300" y="90" text-anchor="middle" font-size="13" font-weight="bold" fill="#bf360c">NORTH COVERED RESTING BAY (8 BUFFALOES)</text>
+  <text x="300" y="115" text-anchor="middle" font-size="11" fill="#d84315">Compacted Earth Bedding with Straw Thermal Insulation</text>
+
+  <!-- Manger North -->
+  <rect x="70" y="180" width="460" height="30" fill="#ffccbc" stroke="#ff5722" stroke-width="1.5" />
+  <text x="300" y="200" text-anchor="middle" font-size="11" fill="#d84315">North Feeding Manger (1.0m Width)</text>
+
+  <!-- Feeding Passage -->
+  <rect x="70" y="210" width="460" height="80" fill="#fff8e1" stroke="#ffa000" stroke-width="2" />
+  <text x="300" y="255" text-anchor="middle" font-size="13" font-weight="bold" fill="#e65100">CENTRAL FEEDING &amp; VENTILATION ALLEY</text>
+
+  <!-- Manger South -->
+  <rect x="70" y="290" width="460" height="30" fill="#ffccbc" stroke="#ff5722" stroke-width="1.5" />
+  <text x="300" y="310" text-anchor="middle" font-size="11" fill="#d84315">South Feeding Manger (1.0m Width)</text>
+
+  <!-- South Loose Housing Pen -->
+  <rect x="70" y="320" width="460" height="120" fill="#fbe9e7" stroke="#d84315" stroke-width="2" />
+  <text x="300" y="375" text-anchor="middle" font-size="13" font-weight="bold" fill="#bf360c">SOUTH COVERED RESTING BAY (8 BUFFALOES)</text>
+
+  <!-- East Wallowing Pool / Evaporative Cooling Buffer -->
+  <rect x="545" y="60" width="185" height="380" fill="#e1f5fe" stroke="#0288d1" stroke-width="2" />
+  <text x="637" y="180" text-anchor="middle" font-size="13" font-weight="bold" fill="#01579b">EAST OPEN-AIR</text>
+  <text x="637" y="200" text-anchor="middle" font-size="13" font-weight="bold" fill="#01579b">WALLOWING POOL</text>
+  <text x="637" y="230" text-anchor="middle" font-size="11" fill="#0277bd">&amp; MUD BUFFER</text>
+  <text x="637" y="260" text-anchor="middle" font-size="10" fill="#0288d1">(Passive Evaporative</text>
+  <text x="637" y="275" text-anchor="middle" font-size="10" fill="#0288d1">Cooling Zone -6°C)</text>
+</svg>

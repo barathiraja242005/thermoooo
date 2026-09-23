@@ -125,16 +125,26 @@
     const val = select.value;
     const routes = {
       'studio': 'studio.html',
+      'flow1': 'studio.html',
+      'flow2': 'studio.html#step-2',
+      'flow3': 'studio.html#step-4',
+      'flow4': 'studio.html#livestock',
       'climate': 'studio.html#climate',
       '2d': 'studio.html#step-2',
       '3d': 'studio.html#step-3',
       'simulation': 'simulation.html',
       'fluent': 'fluent-cfd.html',
       'livestock': 'studio.html#livestock',
-      'dossier': 'report.html'
+      'dossier': 'report.html',
+      '#climate': 'studio.html#climate',
+      '#fluent-cfd': 'fluent-cfd.html',
+      '#report': 'report.html',
+      '#configurator': 'studio.html'
     };
     if (routes[val]) {
       window.location.href = routes[val];
+    } else if (val.startsWith('#')) {
+      window.location.href = 'studio.html' + val;
     } else {
       window.location.href = 'studio.html';
     }

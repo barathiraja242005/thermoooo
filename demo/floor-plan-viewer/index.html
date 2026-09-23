@@ -4,18 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Floor Plan Builder — Drill-Down Viewer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f1419; --panel: #1a2332; --border: #2a3544;
-      --accent: #ff9933; --text: #e8eaed; --muted: #9aa0a6;
-      --good: #66bb6a; --best: #2e7d32; --bad: #ffa726; --worst: #ef5350;
+      --bg: #07090E; --panel: #0E131F; --border: rgba(255, 255, 255, 0.09);
+      --accent: #00E5FF; --accent-hover: #00B4D8; --text: #F8FAFC; --muted: #94A3B8;
+      --good: #10B981; --best: #059669; --bad: #F59E0B; --worst: #EF4444;
     }
     * {
       box-sizing: border-box;
       margin: 0;
-      cursor: url('https://verified.realestate/assets/dashboard/images/icon/cursor.svg'), url('../assets/cursors/cursor.svg'), auto;
     }
-    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
     select, button, a, [role="button"], .crumb, .room-btn {
       cursor: url('https://verified.realestate/assets/dashboard/images/icon/pointer.svg'), url('../assets/cursors/pointer.svg'), pointer !important;
     }

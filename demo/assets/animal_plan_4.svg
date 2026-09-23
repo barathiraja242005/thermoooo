@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%" style="background:#ffffff; font-family:system-ui,sans-serif;">
+  <defs>
+    <pattern id="grid4" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#eceff1" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="url(#grid4)" />
+  
+  <!-- Outer Walls (Heavy Stone Masonry Cavity 450mm) -->
+  <rect x="50" y="40" width="700" height="420" fill="none" stroke="#37474f" stroke-width="10" rx="4" />
+  
+  <!-- Title Block -->
+  <rect x="500" y="410" width="245" height="45" fill="#eceff1" stroke="#37474f" stroke-width="1" />
+  <text x="510" y="428" font-size="12" font-weight="bold" fill="#263238">ANIMAL PLAN 4: HIGHLAND YAK SHELTER</text>
+  <text x="510" y="444" font-size="10" fill="#455a64">Cold Arid Trans-Himalaya | 16.0m × 10.0m (1,600 sq.ft)</text>
+  
+  <!-- North Heavy Insulated Wall Buffer -->
+  <rect x="70" y="60" width="660" height="60" fill="#cfd8dc" stroke="#607d8b" stroke-width="2" />
+  <text x="400" y="95" text-anchor="middle" font-size="12" font-weight="bold" fill="#263238">NORTH STRAW-BALE THERMAL BUFFER &amp; DRY FODDER STORAGE</text>
+
+  <!-- Central Winter Night Enclosure -->
+  <rect x="70" y="130" width="660" height="190" fill="#efebe9" stroke="#795548" stroke-width="2" />
+  <text x="400" y="190" text-anchor="middle" font-size="14" font-weight="bold" fill="#4e342e">HEATED WINTER NIGHT ENCLOSURE (12 HIGH-ALTITUDE YAKS)</text>
+  <text x="400" y="215" text-anchor="middle" font-size="11" fill="#6d4c41">450mm Rammed Earth + Poplar Rafter Ceiling (Thermal Damping 88%)</text>
+  <text x="400" y="235" text-anchor="middle" font-size="11" fill="#6d4c41">Deep Straw Bedding over Sloped Stone Flagging (Sub-Zero Protection down to -28°C)</text>
+
+  <!-- South Passive Solar Solarium Verandah -->
+  <rect x="70" y="330" width="660" height="110" fill="#fff9c4" stroke="#fbc02d" stroke-width="2" />
+  <text x="400" y="375" text-anchor="middle" font-size="13" font-weight="bold" fill="#f57f17">SOUTH-FACING GLAZED SOLARIUM VERANDAH (DIRECT SOLAR HEAT GAIN)</text>
+  <text x="400" y="400" text-anchor="middle" font-size="11" fill="#e65100">☀️ Double Polycarbonate Solar Heat Trap with Thermal Mass Trombe Wall</text>
+</svg>
