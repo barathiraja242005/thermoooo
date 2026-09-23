@@ -15,42 +15,48 @@
   'use strict';
 
   const DEFAULT_PROPS = {
-    primary: '#00E5FF',
-    primaryHover: '#00B4D8',
-    primaryGlow: 'rgba(0, 229, 255, 0.35)',
-    primaryLight: 'rgba(0, 229, 255, 0.12)',
-    primaryBorder: 'rgba(0, 229, 255, 0.38)',
+    primary: '#1A1A1A',
+    primaryHover: '#333333',
+    primaryGlow: 'rgba(212, 197, 249, 0.4)',
+    primaryLight: 'rgba(188, 227, 245, 0.35)',
+    primaryBorder: '#D4C5F9',
 
-    secondary: '#F59E0B',
-    secondaryHover: '#D97706',
-    secondaryGlow: 'rgba(245, 158, 11, 0.32)',
-    secondaryLight: 'rgba(245, 158, 11, 0.12)',
+    secondary: '#D97706',
+    secondaryHover: '#B45309',
+    secondaryGlow: 'rgba(243, 198, 211, 0.35)',
+    secondaryLight: 'rgba(251, 242, 192, 0.55)',
 
-    accentEmerald: '#10B981',
-    accentEmeraldGlow: 'rgba(16, 185, 129, 0.32)',
+    accentRose: '#F3C6D3',
+    accentLavender: '#D4C5F9',
+    accentMint: '#C2E2D6',
+    accentYellow: '#FBF2C0',
+    accentBlue: '#BCE3F5',
 
-    accentPeach: 'rgba(0, 229, 255, 0.15)',
-    accentPeachSubtle: 'rgba(0, 229, 255, 0.08)',
-    accentApricot: '#38BDF8',
+    accentEmerald: '#059669',
+    accentEmeraldGlow: 'rgba(194, 226, 214, 0.45)',
 
-    bgCanvas: '#07090E',
-    bgSurface: '#0E131F',
-    bgCard: 'rgba(14, 20, 32, 0.75)',
-    bgCardHover: 'rgba(20, 28, 45, 0.88)',
+    accentPeach: 'rgba(243, 198, 211, 0.35)',
+    accentPeachSubtle: 'rgba(251, 242, 192, 0.45)',
+    accentApricot: '#BCE3F5',
 
-    textMain: '#F8FAFC',
-    textSecondary: '#94A3B8',
-    textMuted: '#64748B',
-    textSubtle: '#475569',
+    bgCanvas: '#F5F2EB',
+    bgSurface: 'rgba(255, 255, 255, 0.92)',
+    bgCard: 'rgba(255, 255, 255, 0.92)',
+    bgCardHover: '#FFFFFF',
 
-    border: 'rgba(255, 255, 255, 0.09)',
-    borderSubtle: 'rgba(255, 255, 255, 0.05)',
-    glassBorder: 'rgba(255, 255, 255, 0.12)'
+    textMain: '#1A1A1A',
+    textSecondary: '#6B665E',
+    textMuted: '#8C857B',
+    textSubtle: '#A8A095',
+
+    border: '#E2DDD2',
+    borderSubtle: '#EBE7DD',
+    glassBorder: 'rgba(212, 197, 249, 0.35)'
   };
 
   const PRESETS = {
-    'modern-dark-studio': {
-      name: 'Modern Dark Studio (Default)',
+    'warm-paper-pastel': {
+      name: 'Warm Paper & Pastel Spectrum (Default)',
       props: { ...DEFAULT_PROPS }
     },
     'cad-blueprint': {
@@ -180,7 +186,7 @@
 
   // State
   let currentProps = { ...DEFAULT_PROPS };
-  let currentPreset = 'modern-dark-studio';
+  let currentPreset = 'warm-paper-pastel';
 
   // Helper: Convert hex to rgba
   function hexToRgba(hex, alpha) {
@@ -592,11 +598,9 @@
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       loadSavedTheme();
-      mountThemeCustomizer();
     });
   } else {
     loadSavedTheme();
-    mountThemeCustomizer();
   }
 
   // Expose globally

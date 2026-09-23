@@ -49,6 +49,13 @@ from animal_shelter_engine import (  # noqa: E402
 app = Flask(__name__, static_folder=str(ROOT))
 CORS(app)
 
+@app.after_request
+def add_no_cache_headers(response):
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
 # In-memory active project state
 CURRENT_PROJECT_STATE: Dict[str, Any] = {}
 
@@ -56,6 +63,11 @@ CURRENT_PROJECT_STATE: Dict[str, Any] = {}
 @app.route("/")
 def index():
     return send_from_directory(ROOT / "demo", "index.html")
+
+
+@app.route("/favicon.ico")
+def favicon():
+    return "", 204
 
 
 @app.route("/demo/<path:path>")
