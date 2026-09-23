@@ -3,1234 +3,1009 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ThermaBuild Studio — Bioclimatic CAD &amp; Thermal Intelligence Platform</title>
+  <title>ThermaBuild — Climate-responsive home design</title>
+  <meta name="description" content="Pick a site anywhere in India. ThermaBuild reads its sun, wind and temperature, suggests a plan and materials, and shows how the home will perform before it is built.">
+  <meta name="theme-color" content="#0E1830">
+  <link rel="icon" href="assets/thermabuild_logo.png">
 
-  <!-- Typography: Recoleta, Geist, Outfit & Montserrat System -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-  <!-- Leaflet Map CSS & JS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+  <script src="assets/three.min.js" defer></script>
 
-  <!-- Three.js for 3D BIM Walkthrough -->
-  <script src="assets/three.min.js"></script>
-  <script>
-    if (typeof THREE === 'undefined') {
-      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
-    }
-  </script>
-
-  <!-- ThermaBuild Architectural Design System -->
-  <link rel="stylesheet" href="css/theme.css?v=3.0">
-  <link rel="stylesheet" href="css/styles.css?v=7.0">
+  <link rel="stylesheet" href="css/site.css?v=1">
 </head>
 <body>
 
-  <!-- Ambient Dynamic Vector Grid & Particle Canvas Overlay -->
-  <canvas id="ambient-motion-canvas" class="ambient-motion-canvas"></canvas>
+  <!-- Thermal "heat view" filter used by the hero compare slider -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <filter id="heat-view" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="0.33 0.5 0.17 0 0  0.33 0.5 0.17 0 0  0.33 0.5 0.17 0 0  0 0 0 1 0"/>
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="1.25" intercept="-0.08"/>
+        <feFuncG type="linear" slope="1.25" intercept="-0.08"/>
+        <feFuncB type="linear" slope="1.25" intercept="-0.08"/>
+      </feComponentTransfer>
+      <feComponentTransfer>
+        <feFuncR type="table" tableValues="0.06 0.20 0.55 0.86 0.96 0.99 1"/>
+        <feFuncG type="table" tableValues="0.05 0.08 0.12 0.30 0.56 0.84 0.97"/>
+        <feFuncB type="table" tableValues="0.22 0.50 0.58 0.35 0.10 0.30 0.84"/>
+      </feComponentTransfer>
+    </filter>
+  </svg>
 
-  <!-- Ambient Subtle Translucent Atmospheric Orbs (Playful Iridescent Glow) -->
-  <div class="spatial-glow-top"></div>
-  <div class="spatial-glow-left"></div>
+  <a class="skip-link" href="#studio">Skip to the design studio</a>
 
-  <!-- Structural Translucent Header -->
-  <header class="site-header">
-    <div class="navbar-container">
-      <a href="index.html" class="brand-logo" title="ThermaBuild CAD Studio">
-        <span class="brand-wordmark">ThermaBuild</span>
-        <span class="brand-badge">STUDIO</span>
+  <!-- ============ HEADER ============ -->
+  <header class="site-header" id="site-header" data-state="over-hero">
+    <div class="header-inner">
+      <a href="#top" class="brand" aria-label="ThermaBuild home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="23" cy="9" r="4.5" fill="var(--solar)"/>
+          <path d="M4 27V15.5L14 8l10 7.5V27z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+          <path d="M11 27v-6.5h6V27" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+        </svg>
+        <span class="brand-name">ThermaBuild</span>
       </a>
 
+      <nav class="main-nav" id="main-nav" aria-label="Main">
+        <a href="#how">How it works</a>
+        <a href="#climates">Climates</a>
+        <a href="#paths">Design paths</a>
+        <a href="#studio">Studio</a>
+      </nav>
+
+      <div class="header-status" id="header-status" aria-live="polite">
+        <span class="header-status-path" id="header-status-path">New home</span>
+        <span class="header-status-step" id="header-status-step">Step 1 of 5</span>
+      </div>
+
+      <a href="#studio" class="btn btn-solar header-cta" id="header-cta">Start designing</a>
+
+      <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
     </div>
+    <div class="header-progress" aria-hidden="true"><span id="header-progress-bar"></span></div>
   </header>
 
-  <main class="container" style="padding-top: 16px; padding-bottom: 96px;">
+  <main id="top">
 
-    <section class="hero-editorial" id="hero-landing" aria-labelledby="hero-title">
-      <div class="hero-editorial-copy">
-        <div class="hero-editorial-kicker"><span></span> THERMABUILD <i></i> CLIMATE-RESPONSIVE HOME DESIGN</div>
-        <h1 id="hero-title">Read the <em>place.</em><br>Design for it.</h1>
-        <p class="hero-editorial-lead">Explore how local sun, wind and temperature can inform your layout, material choices and thermal study.</p>
-        <div class="hero-editorial-actions">
-          <button type="button" class="hero-editorial-primary" onclick="document.getElementById('studio-workspace').scrollIntoView({ behavior: 'smooth' })">Start a home design <span aria-hidden="true">↗</span></button>
-          <button type="button" class="hero-editorial-secondary" onclick="document.getElementById('flow-selector-hub').scrollIntoView({ behavior: 'smooth' })">See the design paths <span aria-hidden="true">↓</span></button>
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="hero-sky" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <div class="hero-copy" data-parallax-copy>
+          <p class="hero-kicker load-in" style="--d:0">Climate-responsive home design for India</p>
+          <h1 id="hero-title" class="hero-title">
+            <span class="line"><span class="load-in" style="--d:1">Design a home</span></span>
+            <span class="line"><span class="load-in" style="--d:2">that works with</span></span>
+            <span class="line"><span class="load-in" style="--d:3">its climate.</span></span>
+          </h1>
+          <p class="hero-lead load-in" style="--d:4">Pick a site anywhere in India. ThermaBuild reads its sun, wind and temperature, suggests a plan and materials, and shows how warm or cool the home will stay, before anything is built.</p>
+          <div class="hero-actions load-in" style="--d:5">
+            <a href="#paths" class="btn btn-solar btn-lg">Start designing</a>
+            <a href="#how" class="btn btn-ghost-light btn-lg">See how it works</a>
+          </div>
         </div>
-      </div>
 
-      <div class="hero-editorial-visual">
-        <img src="assets/hero_house.jpg" alt="Contemporary climate-responsive home with deep shading and a planted roof" fetchpriority="high">
-        <div class="hero-visual-caption"><span>DESIGN STUDY / 001</span><span>LIGHT · SHADE · AIR</span></div>
-        <div class="hero-visual-card"><span class="hero-visual-icon">N</span><div><strong>Start with the site</strong><small>Orientation · climate · context</small></div></div>
+        <figure class="hero-visual load-wipe" data-parallax-visual>
+          <div class="compare" id="heat-compare" style="--pos:50%">
+            <img class="compare-img" src="assets/hero_house.jpg" alt="Two-storey home with timber louvres, deep overhangs and a planted roof" fetchpriority="high" width="1200" height="896">
+            <div class="compare-heat" aria-hidden="true">
+              <img class="compare-img" src="assets/hero_house.jpg" alt="" width="1200" height="896">
+            </div>
+            <div class="compare-handle" aria-hidden="true"><span></span></div>
+            <input type="range" class="compare-range" id="heat-range" min="0" max="100" value="50" aria-label="Drag to compare the photo with the heat view">
+            <span class="compare-tag compare-tag-left" aria-hidden="true">Heat view</span>
+            <span class="compare-tag compare-tag-right" aria-hidden="true">Photo</span>
+          </div>
+          <figcaption class="hero-caption">
+            <span class="thermal-legend" aria-hidden="true"><i></i></span>
+            <span>Cooler surfaces</span>
+            <span class="hero-caption-end">Hotter surfaces. Drag to compare. Heat view is illustrative.</span>
+          </figcaption>
+        </figure>
       </div>
-      <div class="hero-process-strip" aria-label="Design workflow">
-        <div><span>01</span><strong>Site</strong><small>Climate &amp; orientation</small></div>
-        <div><span>02</span><strong>Plan</strong><small>Rooms &amp; circulation</small></div>
-        <div><span>03</span><strong>Materials</strong><small>Envelope &amp; shading</small></div>
-        <div><span>04</span><strong>Thermal study</strong><small>Compare design choices</small></div>
+      <a href="#how" class="scroll-cue" aria-label="Scroll to how it works"><span></span></a>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section class="section how" id="how" aria-labelledby="how-title">
+      <div class="container how-grid">
+        <div class="how-intro reveal">
+          <h2 id="how-title" class="section-title">Four decisions shape how a home feels inside.</h2>
+          <p class="section-lead">ThermaBuild walks you through them in the order an architect would, and explains every recommendation so you can question it.</p>
+          <a href="#paths" class="text-link">Choose where to start</a>
+        </div>
+
+        <ol class="how-steps" id="how-steps">
+          <span class="how-line" aria-hidden="true"><span id="how-line-fill"></span></span>
+          <li class="how-step reveal">
+            <span class="how-num">1</span>
+            <div>
+              <h3>Read the site</h3>
+              <p>Drop a pin or search a town. You get its summer peak, winter low, sunshine and prevailing wind, plus the passive strategy that suits it.</p>
+            </div>
+          </li>
+          <li class="how-step reveal">
+            <span class="how-num">2</span>
+            <div>
+              <h3>Shape the plan</h3>
+              <p>Set plot size, bedrooms and entrance facing. Rooms are placed by sun and Vastu zone, and matched to a real floor plan.</p>
+            </div>
+          </li>
+          <li class="how-step reveal">
+            <span class="how-num">3</span>
+            <div>
+              <h3>Choose the envelope</h3>
+              <p>Walls, roof and glazing are suggested for your climate, from rammed earth in Ladakh to cool roofs in Rajasthan, with the reasoning shown.</p>
+            </div>
+          </li>
+          <li class="how-step reveal">
+            <span class="how-num">4</span>
+            <div>
+              <h3>See how it performs</h3>
+              <p>Move the sun across a 3D model, then read a 24-hour indoor temperature curve against an ordinary build.</p>
+            </div>
+          </li>
+        </ol>
       </div>
     </section>
 
-    <!-- 1. Project Typology Switcher (4 Workflows) -->
-    <section class="flow-selector-card" id="studio-workspace">
-      <div class="flow-selector-title">
-        <span>Choose a design path</span>
-        <span class="confirm-badge">4 workflows</span>
-      </div>
-      <div class="flow-hub" id="flow-selector-hub">
-        <button type="button" class="flow-card-btn active" id="flow-card-1" onclick="switchMainFlow(1)">
-          <span class="flow-card-badge">Flow 01</span>
-          <strong>New home design</strong>
-          <small>Shape a home around the site, climate and your room requirements.</small>
-        </button>
-        <button type="button" class="flow-card-btn" id="flow-card-2" onclick="switchMainFlow(2)">
-          <span class="flow-card-badge">Flow 02</span>
-          <strong>2D plan to 3D</strong>
-          <small>Bring in a floor plan and explore its three-dimensional form.</small>
-        </button>
-        <button type="button" class="flow-card-btn" id="flow-card-3" onclick="switchMainFlow(3)">
-          <span class="flow-card-badge">Flow 03</span>
-          <strong>Home retrofit</strong>
-          <small>Review the existing envelope and compare upgrade options.</small>
-        </button>
-        <button type="button" class="flow-card-btn" id="flow-card-4" onclick="switchMainFlow(4)">
-          <span class="flow-card-badge">Flow 04</span>
-          <strong>Animal shelter</strong>
-          <small>Explore climate-aware shelter design for livestock.</small>
-        </button>
+    <!-- ============ CLIMATES ============ -->
+    <section class="section climates" id="climates" aria-labelledby="climates-title">
+      <div class="container">
+        <div class="climates-head reveal">
+          <h2 id="climates-title" class="section-title">From −28 °C in Dras to 46 °C in Jaisalmer.</h2>
+          <p class="section-lead">One house design can't serve all of India. Each bar shows a place's yearly range, from winter extreme to summer peak. Pick one to start designing there.</p>
+        </div>
+        <div class="climate-chart reveal" id="climate-chart" role="list" aria-label="Yearly temperature range by location"></div>
+        <div class="climate-axis reveal" id="climate-axis" aria-hidden="true"></div>
       </div>
     </section>
 
-    <!-- 2. Editorial 5-Step Pipeline Progress Rail -->
-    <section class="pipeline-rail-card">
-      <div class="pipeline-header">
-        <span class="pipeline-title">Engineering Pipeline Sequence</span>
-        <span class="lock-badge" id="pipeline-status-badge">Sequential Verification Enforced</span>
-      </div>
-      
-      <!-- Stepper for Flow 1 & Flow 4 (5 Steps) -->
-      <div class="pipeline-rail" id="stepper-flow-1">
-        <button type="button" class="pipeline-step active" id="step-tab-1" onclick="goToStep(1)">
-          <span class="step-num-pill" id="step-tab-title-1">01 Intake &amp; GIS</span>
-          <span class="step-title">Site Coordinates</span>
-          <span class="step-sub" id="step-tab-sub-1">Microclimate Intelligence</span>
-        </button>
-        <button type="button" class="pipeline-step locked" id="step-tab-2" onclick="goToStep(2)">
-          <span class="step-num-pill" id="step-tab-title-2">02 Architecture</span>
-          <span class="step-title">Layout &amp; Vastu</span>
-          <span class="step-sub" id="step-tab-sub-2">Spatial Alignment</span>
-        </button>
-        <button type="button" class="pipeline-step locked" id="step-tab-3" onclick="goToStep(3)">
-          <span class="step-num-pill" id="step-tab-title-3">03 Materials</span>
-          <span class="step-title">Envelope Specs</span>
-          <span class="step-sub" id="step-tab-sub-3">Thermal Mass Assembly</span>
-        </button>
-        <button type="button" class="pipeline-step locked" id="step-tab-4" onclick="goToStep(4)">
-          <span class="step-num-pill" id="step-tab-title-4">04 Simulation</span>
-          <span class="step-title">3D BIM Centerpiece</span>
-          <span class="step-sub" id="step-tab-sub-4">Conjugate CFD Field</span>
-        </button>
-        <button type="button" class="pipeline-step locked" id="step-tab-5" onclick="goToStep(5)">
-          <span class="step-num-pill" id="step-tab-title-5">05 Dossier</span>
-          <span class="step-title">ANSYS Final Report</span>
-          <span class="step-sub" id="step-tab-sub-5">Compliance &amp; Export</span>
-        </button>
-      </div>
-
-      <!-- Stepper for Flow 2 (4 Steps) -->
-      <div class="pipeline-rail" id="stepper-flow-2" style="display: none; grid-template-columns: repeat(4, 1fr);">
-        <button type="button" class="pipeline-step active" id="f2-tab-1" onclick="goToStep(1)">
-          <span class="step-num-pill">01 Intake</span>
-          <span class="step-title">Site Location</span>
-          <span class="step-sub">Microclimate Map</span>
-        </button>
-        <button type="button" class="pipeline-step locked" id="f2-tab-2" onclick="goToStep(2)">
-          <span class="step-num-pill">02 Architecture</span>
-          <span class="step-title">2D Blueprint Intake</span>
-          <span class="step-sub">Suggested / Custom CAD</span>
-        </button>
-        <button type="button" class="pipeline-step locked" id="f2-tab-3" onclick="goToStep(3)">
-          <span class="step-num-pill">03 Digital Twin</span>
-          <span class="step-title">3D BIM Extrusion</span>
-          <span class="step-sub">Model &amp; Walkthrough</span>
-        </button>
-        <button type="button" class="pipeline-step locked" id="f2-tab-4" onclick="goToStep(4)">
-          <span class="step-num-pill">04 Dossier</span>
-          <span class="step-title">ANSYS Final Report</span>
-          <span class="step-sub">Thermal &amp; Aerothermal</span>
-        </button>
-      </div>
-
-      <!-- Stepper for Flow 3 (5 Steps) -->
-      <div class="pipeline-rail" id="stepper-flow-3" style="display: none;">
-        <button type="button" class="pipeline-step active" id="f3-tab-1" onclick="goToStep(1)">
-          <span class="step-num-pill">01 Intake</span>
-          <span class="step-title">Site Location</span>
-          <span class="step-sub">Microclimate Map</span>
-        </button>
-        <button type="button" class="pipeline-step locked" id="f3-tab-2" onclick="goToStep(2)">
-          <span class="step-num-pill">02 Audit</span>
-          <span class="step-title">Existing Blueprint</span>
-          <span class="step-sub">Material Assemblies</span>
-        </button>
-        <button type="button" class="pipeline-step locked" id="f3-tab-3" onclick="goToStep(3)">
-          <span class="step-num-pill">03 Diagnosis</span>
-          <span class="step-title">Flaws &amp; Upgrade Matrix</span>
-          <span class="step-sub">Energy Payback &amp; ROI</span>
-        </button>
-        <button type="button" class="pipeline-step locked" id="f3-tab-4" onclick="goToStep(4)">
-          <span class="step-num-pill">04 Retrofit BIM</span>
-          <span class="step-title">3D Digital Twin</span>
-          <span class="step-sub">Upgraded Simulation</span>
-        </button>
-        <button type="button" class="pipeline-step locked" id="f3-tab-5" onclick="goToStep(5)">
-          <span class="step-num-pill">05 Dossier</span>
-          <span class="step-title">ANSYS Final Report</span>
-          <span class="step-sub">Comparative Savings</span>
-        </button>
-      </div>
-    </section>
-
-    <!-- ========================================== -->
-    <!-- STEP 1: SITE INTAKE & GIS MAP              -->
-    <!-- ========================================== -->
-    <section class="step-panel arch-card" id="flow-step-1">
-      <h2>01. Site Location &amp; Microclimate Intelligence</h2>
-      <p>Select your site coordinates on the geographic map or choose a bioclimatic preset to extract solar insolation, diurnal temperature swing, and prevailing wind vectors.</p>
-
-      <fieldset>
-        <legend>Geographic Presets &amp; Bioclimatic Zones</legend>
-        
-        <!-- Apple-Style Segmented Region Pills -->
-        <div class="segmented-group" style="margin-bottom: 16px; width: 100%;">
-          <button type="button" class="segmented-btn active" onclick="document.querySelectorAll('#flow-step-1 .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); selectMapPreset('leh')">Leh</button>
-          <button type="button" class="segmented-btn" onclick="document.querySelectorAll('#flow-step-1 .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); selectMapPreset('nubra')">Nubra</button>
-          <button type="button" class="segmented-btn" onclick="document.querySelectorAll('#flow-step-1 .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); selectMapPreset('kargil')">Kargil</button>
-          <button type="button" class="segmented-btn" onclick="document.querySelectorAll('#flow-step-1 .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); selectMapPreset('dras')">Dras</button>
-          <button type="button" class="segmented-btn" onclick="document.querySelectorAll('#flow-step-1 .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); selectMapPreset('pangong')">Pangong</button>
-          <button type="button" class="segmented-btn" onclick="document.querySelectorAll('#flow-step-1 .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); selectMapPreset('spiti')">Spiti</button>
-          <button type="button" class="segmented-btn" onclick="document.querySelectorAll('#flow-step-1 .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); selectMapPreset('new_delhi')">Delhi</button>
-          <button type="button" class="segmented-btn" onclick="document.querySelectorAll('#flow-step-1 .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); selectMapPreset('chennai')">Chennai</button>
-          <button type="button" class="segmented-btn" onclick="document.querySelectorAll('#flow-step-1 .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); selectMapPreset('jaisalmer')">Jaisalmer</button>
-          <button type="button" class="segmented-btn" onclick="document.querySelectorAll('#flow-step-1 .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); selectMapPreset('bengaluru')">Bengaluru</button>
+    <!-- ============ DESIGN PATHS ============ -->
+    <section class="section paths" id="paths" aria-labelledby="paths-title">
+      <div class="container">
+        <div class="paths-head reveal">
+          <h2 id="paths-title" class="section-title">What are you building?</h2>
+          <p class="section-lead">Every path starts from your site's climate. Pick the one that matches where you are.</p>
         </div>
-
-        <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 14px; align-items: end;">
-          <div>
-            <label style="font-size: 0.85rem; font-weight: 700; color: var(--theme-obsidian); margin-bottom: 6px; display: block;">National Climate Preset Selector:</label>
-            <select id="location-select" onchange="onLocationPresetChange(this.value)">
-              <option value="leh">Leh, Ladakh (Cold Arid Trans-Himalaya)</option>
-              <option value="nubra">Diskit, Nubra Valley, Ladakh</option>
-              <option value="kargil">Kargil Suru Valley, Ladakh</option>
-              <option value="dras">Dras Valley, Ladakh (Coldest Inhabited)</option>
-              <option value="pangong">Pangong Tso, Changthang Plateau</option>
-              <option value="spiti">Kaza, Spiti Valley, Himachal</option>
-              <option value="new_delhi">New Delhi (Composite)</option>
-              <option value="chennai">Chennai (Warm &amp; Humid)</option>
-              <option value="jaisalmer">Jaisalmer (Hot &amp; Dry)</option>
-              <option value="bengaluru">Bengaluru (Temperate)</option>
-            </select>
-          </div>
-          <div>
-            <label style="font-size: 0.85rem; font-weight: 700; color: var(--theme-obsidian); margin-bottom: 6px; display: block;">Search Custom Coordinates:</label>
-            <div style="display: flex; gap: 8px;">
-              <input type="text" id="city-search" placeholder="Enter city name..." />
-              <button type="button" class="btn-primary" onclick="searchCityLocation()">Search</button>
-            </div>
-          </div>
-        </div>
-      </fieldset>
-
-      <div id="map" style="height: 380px; width: 100%; border-radius: var(--radius-md); border: 1px solid var(--theme-border); margin: 16px 0; box-shadow: 0 4px 16px rgba(0,0,0,0.04);"></div>
-
-      <fieldset>
-        <legend>Microclimate Telemetry &amp; Bioclimatic Directive</legend>
-        <table class="arch-table">
-          <tr>
-            <th>Latitude / Longitude</th>
-            <td><span id="climate-coords">34.1526° N, 77.5771° E</span></td>
-            <th>Climate Classification</th>
-            <td><span id="climate-zone">Cold &amp; Cloudy / High Altitude</span></td>
-          </tr>
-          <tr>
-            <th>Peak Summer Temp</th>
-            <td><span id="climate-summer-temp">28.4 °C</span></td>
-            <th>Winter Extreme Temp</th>
-            <td><span id="climate-winter-temp">-14.2 °C</span></td>
-          </tr>
-          <tr>
-            <th>Solar Insolation</th>
-            <td><span id="climate-solar-rad">5.8 kWh/m²/day</span></td>
-            <th>Prevailing Wind</th>
-            <td><span id="climate-wind">3.4 m/s (West-Northwest)</span></td>
-          </tr>
-        </table>
-        
-        <div class="explain-box">
-          <span class="explain-tag">Passive Architectural Directive</span>
-          <span class="explain-text" id="climate-directive">
-            Direct solar gain capture, high thermal mass Trombe wall, buffer unconditioned zones to the North.
-          </span>
-        </div>
-      </fieldset>
-
-      <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
-        <button type="button" class="btn-primary" onclick="proceedToStep2()">Proceed to 02 Architecture &rarr;</button>
-      </div>
-    </section>
-
-
-    <!-- ========================================== -->
-    <!-- FLOW 1 - STEP 2: SPECS & VASTU (New House) -->
-    <!-- ========================================== -->
-    <section class="step-panel arch-card" id="flow-step-2" style="display: none;">
-      <h2>02. Building Typology &amp; Vedic Vastu Spatial Matrix</h2>
-      <p>Configure plot dimensions, residential typology, facing direction, and analyze Vastu energy alignment.</p>
-
-      <fieldset>
-        <legend>Plot &amp; Architectural Specifications</legend>
-        
-        <!-- Apple-Style Typology Selector -->
-        <div class="form-group-apple">
-          <div class="form-label-row">
-            <span class="form-label-text">Residential Typology:</span>
-            <span class="form-value-badge" id="bhk-badge">2 BHK Standard</span>
-          </div>
-          <div class="segmented-group" id="bhk-segmented">
-            <button type="button" class="segmented-btn" onclick="document.querySelectorAll('#bhk-segmented .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); document.getElementById('bhk-select').value='1BHK'; updateBHKSelection('1BHK'); document.getElementById('bhk-badge').textContent='1 BHK Compact';">1 BHK Compact</button>
-            <button type="button" class="segmented-btn active" onclick="document.querySelectorAll('#bhk-segmented .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); document.getElementById('bhk-select').value='2BHK'; updateBHKSelection('2BHK'); document.getElementById('bhk-badge').textContent='2 BHK Standard';">2 BHK Standard</button>
-            <button type="button" class="segmented-btn" onclick="document.querySelectorAll('#bhk-segmented .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); document.getElementById('bhk-select').value='3BHK'; updateBHKSelection('3BHK'); document.getElementById('bhk-badge').textContent='3 BHK Multi-Zone';">3 BHK Multi-Zone</button>
-            <button type="button" class="segmented-btn" onclick="document.querySelectorAll('#bhk-segmented .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); document.getElementById('bhk-select').value='4BHK'; updateBHKSelection('4BHK'); document.getElementById('bhk-badge').textContent='4 BHK Villa';">4 BHK Villa</button>
-          </div>
-          <!-- Hidden select for programmatic binding -->
-          <select id="bhk-select" style="display: none;" onchange="updateBHKSelection(this.value)">
-            <option value="1BHK">1 BHK</option>
-            <option value="2BHK" selected>2 BHK</option>
-            <option value="3BHK">3 BHK</option>
-            <option value="4BHK">4 BHK</option>
-          </select>
-        </div>
-
-        <!-- Apple-Style Built-up Area Slider -->
-        <div class="apple-slider-wrap" style="margin-bottom: 16px;">
-          <div class="form-label-row">
-            <span class="form-label-text">Built-up Carpet Area:</span>
-            <span class="form-value-badge" id="area-slider-val">1,200 sq ft (111.5 m²)</span>
-          </div>
-          <input type="range" class="apple-slider" id="plot-area-slider" min="400" max="5000" step="50" value="1200"
-                 oninput="document.getElementById('area-slider-val').textContent = Number(this.value).toLocaleString() + ' sq ft (' + (this.value * 0.092903).toFixed(1) + ' m²)'; document.getElementById('plot-area-input').value = this.value; updateDimensionsFromArea(this.value);" />
-          <input type="number" id="plot-area-input" value="1200" style="display: none;" />
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-          <div class="apple-slider-wrap">
-            <div class="form-label-row">
-              <span class="form-label-text">Plot Width:</span>
-              <span class="form-value-badge" id="width-slider-val">10.0 m</span>
-            </div>
-            <input type="range" class="apple-slider" id="plot-width-slider" min="6" max="30" step="0.5" value="10.0"
-                   oninput="document.getElementById('width-slider-val').textContent = Number(this.value).toFixed(1) + ' m'; document.getElementById('plot-width-input').value = this.value;" />
-            <input type="number" id="plot-width-input" value="10.0" style="display: none;" />
-          </div>
-          <div class="apple-slider-wrap">
-            <div class="form-label-row">
-              <span class="form-label-text">Plot Length:</span>
-              <span class="form-value-badge" id="length-slider-val">12.0 m</span>
-            </div>
-            <input type="range" class="apple-slider" id="plot-length-slider" min="6" max="30" step="0.5" value="12.0"
-                   oninput="document.getElementById('length-slider-val').textContent = Number(this.value).toFixed(1) + ' m'; document.getElementById('plot-length-input').value = this.value;" />
-            <input type="number" id="plot-length-input" value="12.0" style="display: none;" />
-          </div>
-        </div>
-
-        <!-- Apple-Style Primary Facing Direction Selector -->
-        <div class="form-group-apple" style="margin-top: 16px;">
-          <div class="form-label-row">
-            <span class="form-label-text">Primary Entrance Facing:</span>
-            <span class="form-value-badge" id="facing-badge">North (Kuber - Optimal)</span>
-          </div>
-          <div class="segmented-group" id="facing-segmented">
-            <button type="button" class="segmented-btn active" onclick="document.querySelectorAll('#facing-segmented .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); document.getElementById('facing-select').value='north'; calculateVastuScore(); document.getElementById('facing-badge').textContent='North (Kuber - Optimal)';">North (Optimal Flux)</button>
-            <button type="button" class="segmented-btn" onclick="document.querySelectorAll('#facing-segmented .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); document.getElementById('facing-select').value='east'; calculateVastuScore(); document.getElementById('facing-badge').textContent='East (Surya - Morning Solar)';">East (Morning Solar)</button>
-            <button type="button" class="segmented-btn" onclick="document.querySelectorAll('#facing-segmented .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); document.getElementById('facing-select').value='south'; calculateVastuScore(); document.getElementById('facing-badge').textContent='South (Yama - Airlock Buffer)';">South (Airlock Buffer)</button>
-            <button type="button" class="segmented-btn" onclick="document.querySelectorAll('#facing-segmented .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); document.getElementById('facing-select').value='west'; calculateVastuScore(); document.getElementById('facing-badge').textContent='West (Varuna - Shaded)';">West (Afternoon Shading)</button>
-          </div>
-          <select id="facing-select" style="display: none;" onchange="calculateVastuScore()">
-            <option value="north" selected>North</option>
-            <option value="east">East</option>
-            <option value="south">South</option>
-            <option value="west">West</option>
-          </select>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Vedic Vastu Mandala (9-Square Spatial Alignment)</legend>
-        <table class="arch-table">
-          <tr>
-            <td><strong>NW (Vayu):</strong> Guest / Utility</td>
-            <td><strong>N (Kuber):</strong> Living / Study</td>
-            <td><strong>NE (Ishanya):</strong> Meditation / Water</td>
-          </tr>
-          <tr>
-            <td><strong>W (Varuna):</strong> Dining / Children</td>
-            <td><strong>Center (Brahmasthan):</strong> Courtyard / Atrium</td>
-            <td><strong>E (Surya):</strong> Verandah / Living</td>
-          </tr>
-          <tr>
-            <td><strong>SW (Nairruti):</strong> Master Bedroom</td>
-            <td><strong>S (Yama):</strong> Staircase / Storage</td>
-            <td><strong>SE (Agni):</strong> Kitchen / Thermal Mass</td>
-          </tr>
-        </table>
-        
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 12px;">
-          <span style="font-weight: 600; font-size: 0.9rem;">Vastu Bioclimatic Harmony Score:</span>
-          <span class="confirm-badge" id="vastu-score-badge">94% (A+ Compliant)</span>
-        </div>
-      </fieldset>
-
-      <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-        <button type="button" class="btn-secondary" onclick="goToStep(1)">&larr; Back to 01 Intake</button>
-        <button type="button" class="btn-primary" onclick="generate2DPlan(); proceedToStep3();">Generate 2D Layout &amp; Proceed to 03 Materials &rarr;</button>
-      </div>
-    </section>
-
-
-    <!-- ========================================== -->
-    <!-- FLOW 4 - STEP 2: SPECIES & SPECS (Animal)   -->
-    <!-- ========================================== -->
-    <section class="step-panel arch-card" id="animal-flow-step-2" style="display: none;">
-      <h2>02. Livestock Species, Herd Capacity &amp; Shelter Axis</h2>
-      <p>Define livestock typology, headcount, stall dimensions, and passive aerothermal orientation.</p>
-
-      <fieldset>
-        <legend>Species Selection (Bioclimatic Templates)</legend>
-        <div class="segmented-group" id="species-segmented" style="width: 100%;">
-          <button type="button" class="segmented-btn active" id="species-btn-cattle" onclick="document.querySelectorAll('#species-segmented .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); selectAnimalType('cattle');">Dairy Cattle (Cow Shed)</button>
-          <button type="button" class="segmented-btn" id="species-btn-poultry" onclick="document.querySelectorAll('#species-segmented .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); selectAnimalType('poultry');">Poultry / Broiler (Elevated)</button>
-          <button type="button" class="segmented-btn" id="species-btn-goat" onclick="document.querySelectorAll('#species-segmented .segmented-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); selectAnimalType('goat');">Caprine / Goat &amp; Sheep</button>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Herd Capacity &amp; Footprint Dimensions</legend>
-        <div class="apple-slider-wrap" style="margin-bottom: 14px;">
-          <div class="form-label-row">
-            <span class="form-label-text">Livestock Herd Count:</span>
-            <span class="form-value-badge" id="animal-herd-val">20 Head</span>
-          </div>
-          <input type="range" class="apple-slider" id="animal-herd-slider" min="5" max="150" value="20" oninput="updateAnimalHerdCapacity(this.value)" />
-        </div>
-        
-        <table class="arch-table">
-          <tr>
-            <th>Required Covered Area</th>
-            <td><span id="animal-covered-area">90.0 m²</span></td>
-            <th>Open Paddock Run</th>
-            <td><span id="animal-open-area">180.0 m²</span></td>
-          </tr>
-          <tr>
-            <th>Shelter Dimensions</th>
-            <td><span id="animal-shelter-dim">15.0 m × 6.0 m</span></td>
-            <th>Ridge Eaves Height</th>
-            <td><span id="animal-shelter-height">4.2 m / 2.8 m</span></td>
-          </tr>
-        </table>
-      </fieldset>
-
-      <fieldset>
-        <legend>Ridge Axis &amp; Microclimate Orientation</legend>
-        <select id="animal-orientation-select">
-          <option value="EW" selected>East-West Long Axis (Optimal Overhead Solar Shading)</option>
-          <option value="NS">North-South Long Axis (Cold Climate Passive Solar Gain)</option>
-          <option value="WIND">Perpendicular to Prevailing Summer Cross-Breeze</option>
-        </select>
-      </fieldset>
-
-      <div style="display: flex; justify-content: space-between; margin-top: 18px;">
-        <button type="button" class="btn-secondary" onclick="goToStep(1)">&larr; Back to 01 Farm GIS</button>
-        <button type="button" class="btn-primary" onclick="updateAnimal2DLayout(); proceedToStep3();">Generate 2D Shelter Plan &amp; Proceed &rarr;</button>
-      </div>
-    </section>
-
-
-    <!-- ========================================== -->
-    <!-- FLOW 1 - STEP 3: 2D PLAN & SPECS (New House) -->
-    <!-- ========================================== -->
-    <section class="step-panel arch-card" id="flow-step-3" style="display: none;">
-      <h2>03. 2D Architectural Plan &amp; Predicted Bioclimatic Assemblies</h2>
-      <p>5 verified engineered floor plans mapped to your BHK and climate envelope, coupled with physics-based assembly recommendations.</p>
-
-      <!-- Plan Selection Tabs -->
-      <fieldset>
-        <legend>Select Floor Plan Blueprint (5 Real Architectural Plans)</legend>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-          <button type="button" class="btn active" id="plan-btn-0" onclick="selectArchitecturalPlan(0)">Plan 1: 2/3 BHK Executive Villa (1,158 sq.ft)</button>
-          <button type="button" class="btn" id="plan-btn-1" onclick="selectArchitecturalPlan(1)">Plan 2: 4 BHK Suburban Residence (960 sq.ft)</button>
-          <button type="button" class="plan-tab-btn btn" id="plan-btn-2" onclick="selectArchitecturalPlan(2)">Plan 3: 5 BHK Luxury Manor (1,240 sq.ft)</button>
-          <button type="button" class="plan-tab-btn btn" id="plan-btn-3" onclick="selectArchitecturalPlan(3)">Plan 4: 1 BHK Minimalist Studio (483 sq.ft)</button>
-          <button type="button" class="plan-tab-btn btn" id="plan-btn-4" onclick="selectArchitecturalPlan(4)">Plan 5: 1 BHK Solar Chamfer Villa (495 sq.ft)</button>
-        </div>
-
-        <div style="display: flex; align-items: center; justify-content: space-between; background: var(--theme-bg-subtle); padding: 10px 14px; border-radius: var(--radius-sm);">
-          <strong id="plan-title-display" style="font-family: var(--font-editorial); font-size: 1.1rem; color: var(--theme-obsidian);">Plan 1: 2/3 BHK Executive Villa (1,158 sq.ft)</strong>
-          <div style="display: flex; gap: 8px;">
-            <span class="confirm-badge" id="plan-vastu-badge">Vastu Score: 94/100</span>
-            <span class="confirm-badge" style="background: var(--theme-gold-light); color: var(--theme-obsidian); border-color: var(--theme-gold-border);" id="plan-dim-badge">10.26m × 10.49m</span>
-          </div>
-        </div>
-      </fieldset>
-
-      <!-- 2D Plan Image & Room Schedule -->
-      <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 18px; margin: 16px 0;">
-        <fieldset>
-          <legend>2D Architectural Blueprint Viewer</legend>
-          <div style="text-align: center; background: #FFFFFF; padding: 12px; border: 1.5px solid var(--theme-border); border-radius: var(--radius-md);">
-            <img id="fabricated-2d-plan-img" src="assets/plan_1.png" alt="Architectural Floor Plan" style="max-width: 100%; max-height: 360px; object-fit: contain;" />
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <legend>Room Schedule &amp; Dimensions</legend>
-          <ul id="plan-room-schedule-list" style="padding-left: 20px; line-height: 1.8; font-size: 0.92rem; color: var(--theme-text-main);">
-            <li>Bed 1: 294 × 294 cm (9'8" × 9'8")</li>
-            <li>Master Bed 2: 294 × 438 cm (9'8" × 14'4")</li>
-            <li>Dining: 312 × 444 cm (10'3" × 14'7")</li>
-            <li>Kitchen: 324 × 240 cm (10'8" × 7'10")</li>
-            <li>Living Hall: 528 × 372 cm (17'4" × 12'2")</li>
-            <li>W/C Bath: 192 × 138 cm (6'4" × 4'6")</li>
-            <li>Store: 120 × 180 cm (3'11" × 5'11")</li>
-            <li>Verandah / Sit-Out: 312 × 138 cm (10'3" × 4'6")</li>
-          </ul>
-        </fieldset>
-      </div>
-
-      <!-- "Why?" Physics Explainability Engine -->
-      <div class="explain-box">
-        <span class="explain-tag">Why was this Bioclimatic Material Assembly Chosen?</span>
-        <span class="explain-text" id="ai-predict-rationale">
-          Stabilized 350mm Rammed Earth provides 10.2 hours thermal lag, shifting the peak daytime 42°C heat pulse into cool nighttime dissipation. Coupled with high-albedo cool roof (SRI 104) and double Low-E argon glazing, conductive ingress is cut by 68.4%.
-        </span>
-      </div>
-
-      <!-- Visual Interactive Envelope Assemblies -->
-      <fieldset>
-        <legend>Predicted Bioclimatic Envelope Assemblies</legend>
-        
-        <!-- Wall Assembly Cards -->
-        <div class="form-group-apple">
-          <div class="form-label-row">
-            <span class="form-label-text">Wall Assembly:</span>
-            <span class="form-value-badge" id="wall-assembly-badge">U: 0.45 W/m²K · 10.2h Lag</span>
-          </div>
-          <div class="visual-assembly-grid" id="wall-assembly-grid">
-            <div class="visual-assembly-card selected" onclick="document.querySelectorAll('#wall-assembly-grid .visual-assembly-card').forEach(c=>c.classList.remove('selected')); this.classList.add('selected'); document.getElementById('wall-mat-select').value='rammed_earth'; document.getElementById('wall-assembly-badge').textContent='U: 0.45 W/m²K · 10.2h Lag';">
-              <div class="assembly-header-row">
-                <span class="assembly-tag">High Thermal Mass</span>
-                <span style="font-size: 11px; font-weight: 700; color: var(--theme-emerald);">ECBC Compliant</span>
-              </div>
-              <div class="assembly-title">Stabilized Rammed Earth 350mm</div>
-              <div style="font-size: 0.8rem; color: var(--theme-text-muted);">Monolithic vernacular earth + breathable hydraulic lime render.</div>
-              <div class="assembly-specs-row">
-                <div class="assembly-spec-item"><span>U-Value</span><strong>0.45 W/m²K</strong></div>
-                <div class="assembly-spec-item"><span>Thermal Lag</span><strong>10.2 Hours</strong></div>
-                <div class="assembly-spec-item"><span>Conductivity (k)</span><strong>0.75 W/mK</strong></div>
-              </div>
-            </div>
-
-            <div class="visual-assembly-card" onclick="document.querySelectorAll('#wall-assembly-grid .visual-assembly-card').forEach(c=>c.classList.remove('selected')); this.classList.add('selected'); document.getElementById('wall-mat-select').value='aac_aerogel'; document.getElementById('wall-assembly-badge').textContent='U: 0.42 W/m²K · 6.8h Lag';">
-              <div class="assembly-header-row">
-                <span class="assembly-tag" style="background: var(--theme-pastel-blue); color: #0369A1;">Lightweight Core</span>
-                <span style="font-size: 11px; font-weight: 700; color: var(--theme-sky-primary);">Rapid Assembly</span>
-              </div>
-              <div class="assembly-title">Autoclaved Aerated Concrete 200mm</div>
-              <div style="font-size: 0.8rem; color: var(--theme-text-muted);">AAC cellular blocks with aerogel-infused micro-plaster.</div>
-              <div class="assembly-specs-row">
-                <div class="assembly-spec-item"><span>U-Value</span><strong>0.42 W/m²K</strong></div>
-                <div class="assembly-spec-item"><span>Thermal Lag</span><strong>6.8 Hours</strong></div>
-                <div class="assembly-spec-item"><span>Conductivity (k)</span><strong>0.14 W/mK</strong></div>
-              </div>
-            </div>
-
-            <div class="visual-assembly-card" onclick="document.querySelectorAll('#wall-assembly-grid .visual-assembly-card').forEach(c=>c.classList.remove('selected')); this.classList.add('selected'); document.getElementById('wall-mat-select').value='cavity_brick'; document.getElementById('wall-assembly-badge').textContent='U: 0.36 W/m²K · 8.5h Lag';">
-              <div class="assembly-header-row">
-                <span class="assembly-tag" style="background: var(--theme-pastel-yellow); color: #B45309;">Cavity Wall</span>
-                <span style="font-size: 11px; font-weight: 700; color: var(--theme-amber);">Mineral Wool</span>
-              </div>
-              <div class="assembly-title">Cavity Terracotta 300mm</div>
-              <div style="font-size: 0.8rem; color: var(--theme-text-muted);">Twin hollow clay wythes with 50mm hydrophobic rockwool.</div>
-              <div class="assembly-specs-row">
-                <div class="assembly-spec-item"><span>U-Value</span><strong>0.36 W/m²K</strong></div>
-                <div class="assembly-spec-item"><span>Thermal Lag</span><strong>8.5 Hours</strong></div>
-                <div class="assembly-spec-item"><span>Conductivity (k)</span><strong>0.038 W/mK</strong></div>
-              </div>
-            </div>
-          </div>
-          <!-- Hidden select for programmatic binding -->
-          <select id="wall-mat-select" style="display: none;">
-            <option value="rammed_earth" selected>Stabilized Rammed Earth 350mm</option>
-            <option value="aac_aerogel">Lightweight AAC Block 200mm</option>
-            <option value="cavity_brick">Cavity Terracotta 300mm</option>
-            <option value="cseb_cork">Compressed Earth Block 250mm</option>
-            <option value="clt_woodfiber">Cross-Laminated Timber 140mm</option>
-          </select>
-        </div>
-
-        <!-- Roof & Fenestration Segmented Selectors -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px;">
-          <div class="form-group-apple">
-            <div class="form-label-row">
-              <span class="form-label-text">Roof Assembly:</span>
-              <span class="form-value-badge" id="roof-badge">U: 0.26 W/m²K · SRI 104</span>
-            </div>
-            <select id="roof-mat-select" onchange="document.getElementById('roof-badge').textContent = this.options[this.selectedIndex].text.split('+')[0];">
-              <option value="cool_roof" selected>High-Albedo Cool Roof (SRI 104) + 100mm XPS (U=0.26 W/m²K)</option>
-              <option value="green_roof">Sedum Vegetated Green Roof 120mm (U=0.22 W/m²K)</option>
-              <option value="poplar_mud">Double-Ventilated Poplar Mud Roof (U=0.24 W/m²K)</option>
-              <option value="terracotta_double">Mangalore Interlocking Tile + Radiant Foil (U=0.32 W/m²K)</option>
-            </select>
-          </div>
-
-          <div class="form-group-apple">
-            <div class="form-label-row">
-              <span class="form-label-text">Glazing Specification:</span>
-              <span class="form-value-badge" id="glazing-badge">U: 1.35 · SHGC 0.32</span>
-            </div>
-            <select id="glazing-mat-select" onchange="document.getElementById('glazing-badge').textContent = this.options[this.selectedIndex].text.split('(')[0];">
-              <option value="low_e_double" selected>Double Glazed Low-E Argon 6+12A+6 (SHGC=0.32, U=1.35 W/m²K)</option>
-              <option value="krypton_triple">Triple Glazed Krypton Super-Insulated (SHGC=0.28, U=0.78 W/m²K)</option>
-              <option value="smart_electrochromic">Dynamic Tint Electrochromic Glass (SHGC=0.09-0.45, U=1.10 W/m²K)</option>
-              <option value="single_clear">Baseline Single Float Glass 4mm (SHGC=0.82, U=5.70 W/m²K)</option>
-            </select>
-          </div>
-        </div>
-      </fieldset>
-
-      <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-        <button type="button" class="btn-secondary" onclick="goToStep(2)">&larr; Back to 02 Architecture</button>
-        <button type="button" class="btn-primary" onclick="proceedToStep4()">Run Simulation &amp; Inspect 3D BIM &rarr;</button>
-      </div>
-    </section>
-
-
-    <!-- ========================================== -->
-    <!-- FLOW 4 - STEP 3: 2D SHELTER PLAN (Animal)   -->
-    <!-- ========================================== -->
-    <section class="step-panel arch-card" id="animal-flow-step-3" style="display: none;">
-      <h2>03. 2D Livestock Shelter Blueprint &amp; Vernacular Assemblies</h2>
-      <p>Select from 5 engineered bioclimatic livestock blueprints or upload your own shelter drawing.</p>
-
-      <fieldset>
-        <legend>Verified User 2D Animal Shelter Blueprints</legend>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-          <button type="button" class="btn active" id="animal-plan-btn-0" onclick="selectAnimalPlan(0)">Plan 1: Dairy Cow Shed (515 sq.ft · 5 Cubicles, Milking Bay)</button>
-          <button type="button" class="btn" id="animal-plan-btn-1" onclick="selectAnimalPlan(1)">Plan 2: Poultry / Broiler House (72 sq.ft · Elevated Roost)</button>
-        </div>
-      </fieldset>
-
-      <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 18px; margin: 16px 0;">
-        <fieldset>
-          <legend>Active 2D Livestock Blueprint</legend>
-          <div style="text-align: center; background: #fff; padding: 10px; border: 1.5px solid var(--theme-border); border-radius: var(--radius-md);">
-            <img id="animal-plan-img" src="assets/animal_plan_1.png" alt="2D Livestock Blueprint" style="max-width: 100%; max-height: 320px; object-fit: contain;" />
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <legend>Shelter Specifications &amp; Vernacular Materials</legend>
-          <div class="explain-box" style="margin-top: 0;">
-            <span class="explain-tag">Why this Vernacular Strategy?</span>
-            <span class="explain-text" id="animal-ai-predict-rationale">
-              Multi-layered thatch roof delivers 82% thermal damping. Paired with 14.8 ACH cross-draft louvers and grooved non-slip concrete, THI remains in the optimal comfort zone (&lt;72).
+        <div class="paths-grid" id="flow-selector-hub">
+          <button type="button" class="path-card active reveal" id="flow-card-1" onclick="choosePath(1)" aria-pressed="true">
+            <span class="path-media"><img src="assets/hero_house.jpg" alt="" loading="lazy" data-parallax-inner></span>
+            <span class="path-body">
+              <strong>A new home</strong>
+              <small>Start from the site and your room needs. Get a plan, materials and a performance report.</small>
+              <span class="path-meta">5 steps</span>
             </span>
-          </div>
-
-          <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
-            <div>
-              <label style="font-weight: 700; font-size: 0.85rem; display: block; margin-bottom: 4px;">Roofing Assembly:</label>
-              <select id="animal-roof-material">
-                <option value="thatch" selected>Vernacular Layered Thatch (Paddy Straw 180mm, U=0.35)</option>
-                <option value="white_aluminum">Reflective White Aluminum + 50mm Glasswool Foil (U=0.38)</option>
-                <option value="terracotta_tiles">Mangalore Terracotta Clay Tiles on Bamboo Truss (U=0.85)</option>
-                <option value="puff_sandwich">50mm Food-Grade PUFF Sandwich Panel (U=0.42)</option>
-              </select>
-            </div>
-            <div>
-              <label style="font-weight: 700; font-size: 0.85rem; display: block; margin-bottom: 4px;">Perimeter Aeration:</label>
-              <select id="animal-wall-material">
-                <option value="slatted_louvers" selected>Open Slatted Hardwood Louvers (60% Porosity, 14.8 ACH Draft)</option>
-                <option value="poultry_mesh">1" Galvanized Hexagonal Wire Mesh + Curtains (18.5 ACH)</option>
-                <option value="rammed_half_wall">1.2m Rammed Earth Dwarf Wall + Bamboo Screen (12.4 ACH)</option>
-              </select>
-            </div>
-            <div>
-              <label style="font-weight: 700; font-size: 0.85rem; display: block; margin-bottom: 4px;">Flooring &amp; Hygiene:</label>
-              <select id="animal-floor-material">
-                <option value="grooved_concrete" selected>Grooved Non-Slip Concrete (1:40 Drainage Gutter)</option>
-                <option value="slatted_timber">Raised Slatted Hardwood Flooring with Dung Trays</option>
-                <option value="vulcanized_rubber">Interlocking Vulcanized Rubber Comfort Bedding Mats</option>
-              </select>
-            </div>
-          </div>
-        </fieldset>
-      </div>
-
-      <div style="display: flex; justify-content: space-between; margin-top: 18px;">
-        <button type="button" class="btn-secondary" onclick="goToStep(2)">&larr; Back to 02 Species</button>
-        <button type="button" class="btn-primary" onclick="proceedToStep4()">View 3D Shelter Centerpiece &rarr;</button>
-      </div>
-    </section>
-
-
-    <!-- ========================================== -->
-    <!-- FLOW 1 - STEP 4: 3D BIM CENTERPIECE        -->
-    <!-- ========================================== -->
-    <section class="step-panel arch-card" id="flow-step-4" style="display: none;">
-      <h2>04. 3D BIM Digital Twin &amp; Conjugate Thermal Field Centerpiece</h2>
-      <p>Interactive full-scale 3D solid architectural twin mapped directly to your active blueprint and thermal boundaries.</p>
-
-      <div class="glass-viewport-container" style="margin: 18px 0;">
-        <div class="glass-floating-toolbar">
-          <button type="button" class="glass-toolbar-btn active" onclick="switch3DViewerType('iframe')">Photorealistic 3D</button>
-          <button type="button" class="glass-toolbar-btn" onclick="switch3DViewerType('threejs')">Thermal FLIR Mesh</button>
-        </div>
-
-        <!-- Photorealistic Sketchfab 3D Model Iframe -->
-        <div id="iframe-3d-container" style="height: 520px; width: 100%;">
-          <iframe id="iframe-3d-model"
-                  title="Photorealistic 3D BIM Model"
-                  frameborder="0"
-                  allowfullscreen
-                  mozallowfullscreen="true"
-                  webkitallowfullscreen="true"
-                  allow="autoplay; fullscreen; xr-spatial-tracking"
-                  src="https://sketchfab.com/models/e7cc06b3ddc241239bb4e84a180f451f/embed?autostart=1&ui_theme=dark&ui_watermark=0"
-                  style="width: 100%; height: 100%; border: none;">
-          </iframe>
-        </div>
-
-        <!-- Real-time Three.js Canvas Container -->
-        <div id="viewer-3d-container" style="display: none;">
-          <div id="viewer-3d" style="height: 460px; width: 100%;"></div>
-          <div style="padding: 12px 16px; background: #17201F; display: flex; gap: 8px; flex-wrap: wrap;">
-            <button type="button" class="btn" style="color: #fff; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2);" onclick="setViewerMode('realistic')">Realistic PBR</button>
-            <button type="button" class="btn" style="color: #fff; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2);" onclick="setViewerMode('thermal')">Thermal Heat-Map</button>
-            <button type="button" class="btn" style="color: #fff; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2);" onclick="setViewerMode('wireframe')">Wireframe BIM</button>
-            <button type="button" class="btn" style="color: #fff; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2);" onclick="toggleSunPath()">Toggle Sun Path</button>
-            <button type="button" class="btn" style="color: #fff; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2);" onclick="toggleAirflowVectors()">Toggle Wind Streamlines</button>
-          </div>
-        </div>
-      </div>
-
-      <div style="display: flex; justify-content: space-between; margin-top: 18px;">
-        <button type="button" class="btn-secondary" onclick="navigateStep4Back()">&larr; Back to 03 Materials</button>
-        <button type="button" class="btn-primary" onclick="navigateStep4Next()">Generate ANSYS Final Dossier &rarr;</button>
-      </div>
-    </section>
-
-
-    <!-- ========================================== -->
-    <!-- FLOW 4 - STEP 4: 3D SHELTER CENTERPIECE    -->
-    <!-- ========================================== -->
-    <section class="step-panel arch-card" id="animal-flow-step-4" style="display: none;">
-      <h2>04. 3D Livestock Shelter BIM &amp; Aerothermal Centerpiece</h2>
-      <p>Interactive agricultural digital twin mapped to natural ridge stack convection vectors.</p>
-
-      <div class="glass-viewport-container" style="margin: 18px 0;">
-        <div class="glass-floating-toolbar">
-          <button type="button" class="glass-toolbar-btn active" onclick="switchAnimal3DViewerType('iframe')">Photorealistic 3D</button>
-          <button type="button" class="glass-toolbar-btn" onclick="switchAnimal3DViewerType('threejs')">Ridge Stack Flow</button>
-        </div>
-
-        <div id="iframe-animal-3d-container" style="height: 520px; width: 100%;">
-          <iframe id="iframe-animal-3d-model"
-                  title="Photorealistic 3D Livestock Shelter BIM Model"
-                  frameborder="0"
-                  allowfullscreen
-                  mozallowfullscreen="true"
-                  webkitallowfullscreen="true"
-                  allow="autoplay; fullscreen; xr-spatial-tracking"
-                  src="https://sketchfab.com/models/3b751ac688eb41319da3878b6a9901e9/embed?autostart=1&ui_theme=dark&ui_watermark=0"
-                  style="width: 100%; height: 100%; border: none;">
-          </iframe>
-        </div>
-
-        <div id="animal-viewer-3d-container" style="display: none;">
-          <div id="animal-shelter-canvas" style="height: 460px; width: 100%;"></div>
-        </div>
-      </div>
-
-      <div style="display: flex; justify-content: space-between; margin-top: 18px;">
-        <button type="button" class="btn-secondary" onclick="navigateStep4Back()">&larr; Back to 03 Materials</button>
-        <button type="button" class="btn-primary" onclick="navigateStep4Next()">Generate ANSYS Final Dossier &rarr;</button>
-      </div>
-    </section>
-
-
-    <!-- ========================================== -->
-    <!-- STEP 5: ANSYS CFD FINAL DOSSIER (Flow 1-3) -->
-    <!-- ========================================== -->
-    <section class="step-panel" id="flow-step-5" style="display: none;">
-      <div class="dossier-bound-card">
-        <div class="dossier-header-row">
-          <div>
-            <span class="explain-tag" style="color: var(--theme-sky-primary);">Official Engineering Deliverable · Step 05</span>
-            <h2 class="dossier-title">ANSYS CFD Aerothermal &amp; Thermal Compliance Dossier</h2>
-            <p style="margin: 0; color: var(--theme-text-secondary);">
-              Conjugate Heat Transfer (CHT) numerical solution verified against ECBC 2024 &amp; NBC 2016 bioclimatic standards.
-            </p>
-          </div>
-          <span class="confirm-badge">Verified Pass</span>
-        </div>
-
-        <!-- A. Thermal Performance Metrics -->
-        <fieldset>
-          <legend>A. Thermal Performance &amp; Aerothermal Metrics</legend>
-          <table class="arch-table">
-            <tr>
-              <th>Baseline Peak Indoor Temp</th>
-              <td><span id="res-peak-temp-base">38.4 °C</span></td>
-              <th>ThermaBuild Optimized Temp</th>
-              <td><strong id="res-peak-temp-opt" style="color: var(--theme-sky-primary);">26.1 °C</strong></td>
-            </tr>
-            <tr>
-              <th>Indoor Peak Drop (&Delta;T)</th>
-              <td><strong id="res-temp-diff" style="color: var(--theme-emerald);">-12.3 °C</strong></td>
-              <th>Natural Air Changes (ACH)</th>
-              <td><span id="res-ach-val">8.4 ACH</span></td>
-            </tr>
-            <tr>
-              <th>Predicted Mean Vote (PMV)</th>
-              <td><span id="res-pmv-val">+0.18 (Neutral / Ideal)</span></td>
-              <th>Estimated HVAC Energy Savings</th>
-              <td><strong id="res-energy-savings" style="color: var(--theme-emerald);">68.4%</strong></td>
-            </tr>
-          </table>
-        </fieldset>
-
-        <!-- B. Detailed Bioclimatic Envelope Materials Specification -->
-        <fieldset>
-          <legend>B. Bioclimatic Envelope Materials Specification &amp; Thermal Schedule</legend>
-          <table class="arch-table">
-            <thead>
-              <tr>
-                <th>Envelope Component</th>
-                <th>Specified Assembly</th>
-                <th>Thickness</th>
-                <th>Conductivity (k)</th>
-                <th>U-Value</th>
-                <th>Thermal Lag</th>
-                <th>ECBC Verdict</th>
-              </tr>
-            </thead>
-            <tbody id="flow1-materials-report-body">
-              <tr>
-                <td><strong>Exterior Walls</strong></td>
-                <td><span id="rep-wall-name">Stabilized Rammed Earth 350mm + Lime Plaster</span></td>
-                <td>350 mm</td>
-                <td>0.75 W/m·K</td>
-                <td><strong id="rep-wall-u" style="color: var(--theme-emerald);">0.45 W/m²K</strong></td>
-                <td>10.2 hrs lag</td>
-                <td><span class="confirm-badge">Pass</span></td>
-              </tr>
-              <tr>
-                <td><strong>Roof &amp; Ceiling</strong></td>
-                <td><span id="rep-roof-name">Cool Roof (SRI 104) + 100mm Overdeck XPS</span></td>
-                <td>220 mm</td>
-                <td>0.028 W/m·K</td>
-                <td><strong id="rep-roof-u" style="color: var(--theme-emerald);">0.28 W/m²K</strong></td>
-                <td>SRI = 104</td>
-                <td><span class="confirm-badge">Pass</span></td>
-              </tr>
-              <tr>
-                <td><strong>Glazing &amp; Windows</strong></td>
-                <td><span id="rep-glaze-name">Double Glazed Low-E Argon (6+12A+6) + uPVC Frame</span></td>
-                <td>24 mm unit</td>
-                <td>SHGC = 0.32</td>
-                <td><strong id="rep-glaze-u" style="color: var(--theme-emerald);">1.35 W/m²K</strong></td>
-                <td>VLT = 68%</td>
-                <td><span class="confirm-badge">Pass</span></td>
-              </tr>
-              <tr>
-                <td><strong>Subgrade &amp; Floor</strong></td>
-                <td><span>Compacted Subgrade + 50mm Expanded Cork Board Screed</span></td>
-                <td>180 mm</td>
-                <td>0.040 W/m·K</td>
-                <td><strong style="color: var(--theme-emerald);">0.42 W/m²K</strong></td>
-                <td>Deep Ground Coupling</td>
-                <td><span class="confirm-badge">Pass</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </fieldset>
-
-        <!-- Final Downloadable Dossier Action -->
-        <fieldset style="background: var(--theme-sky-light); border: 1.5px solid var(--theme-sky-border);">
-          <legend>ANSYS CFD &amp; Thermal Final Report</legend>
-          <p style="margin-top: 0; font-size: 0.92rem; color: var(--theme-text-secondary);">
-            Official printable and client-ready engineering report with thermal comfort curves and ECBC compliance seals.
-          </p>
-          <button type="button" class="btn-primary" onclick="downloadPDFDossier()" style="font-size: 1rem; padding: 12px 24px;">
-            Download ANSYS Final Report (.pdf)
           </button>
-        </fieldset>
-
-        <div style="display: flex; justify-content: space-between; margin-top: 24px;">
-          <button type="button" class="btn-secondary" onclick="navigateStep5Back()">&larr; Back to 04 3D BIM Centerpiece</button>
-          <button type="button" class="btn-secondary" onclick="switchMainFlow(ThermaState.activeFlow)">Restart Pipeline</button>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- ========================================== -->
-    <!-- STEP 5: LIVESTOCK THI FINAL DOSSIER        -->
-    <!-- ========================================== -->
-    <section class="step-panel" id="animal-flow-step-5" style="display: none;">
-      <div class="dossier-bound-card">
-        <div class="dossier-header-row">
-          <div>
-            <span class="explain-tag" style="color: var(--theme-amber);">Agro-Livestock Bioclimatics · Step 05</span>
-            <h2 class="dossier-title">ANSYS CFD THI Heat Stress &amp; Vernacular Report</h2>
-            <p style="margin: 0; color: var(--theme-text-secondary);">
-              Animal comfort zone preservation metrics, stack velocity calculations, and vernacular material schedules.
-            </p>
-          </div>
-          <span class="confirm-badge">Optimal THI Zone</span>
-        </div>
-
-        <fieldset>
-          <legend>A. Temperature-Humidity Index (THI) &amp; Aerothermal Assessment</legend>
-          <table class="arch-table">
-            <tr>
-              <th>Baseline Shelter THI</th>
-              <td><span id="animal-thi-baseline" style="color: #c62828; font-weight: bold;">84.2 (Severe Heat Stress)</span></td>
-              <th>ThermaBuild Optimized THI</th>
-              <td><strong id="animal-thi-optimized" style="color: var(--theme-emerald);">70.1 (Optimal Comfort Zone)</strong></td>
-            </tr>
-            <tr>
-              <th>Ridge Siphon Convective Rate</th>
-              <td><span id="animal-ach">14.8 Air Changes/Hour</span></td>
-              <th>Milk / Growth Yield Protection</th>
-              <td><strong style="color: var(--theme-emerald);">+18.5% Yield Protection</strong></td>
-            </tr>
-          </table>
-        </fieldset>
-
-        <fieldset>
-          <legend>B. Livestock Shelter Vernacular Materials Schedule</legend>
-          <table class="arch-table">
-            <thead>
-              <tr>
-                <th>Shelter Component</th>
-                <th>Specified Vernacular Assembly</th>
-                <th>Dimensions</th>
-                <th>Conductivity (k)</th>
-                <th>U-Value</th>
-                <th>Bio-Thermal Function</th>
-              </tr>
-            </thead>
-            <tbody id="animal-materials-report-body">
-              <tr>
-                <td><strong>Roof Assembly</strong></td>
-                <td><span id="rep-animal-roof-name">Multi-Layered Vernacular Thatch (Paddy Straw)</span></td>
-                <td>180 mm</td>
-                <td>0.065 W/m·K</td>
-                <td><strong id="rep-animal-roof-u" style="color: var(--theme-emerald);">0.35 W/m²K</strong></td>
-                <td>82% thermal damping; eliminates overhead radiative load</td>
-              </tr>
-              <tr>
-                <td><strong>Perimeter Aeration</strong></td>
-                <td><span id="rep-animal-wall-name">Open Slatted Hardwood Louvers (60% Porosity)</span></td>
-                <td>30 mm slats</td>
-                <td>Porosity: 60%</td>
-                <td><strong style="color: var(--theme-emerald);">14.8 ACH Draft</strong></td>
-                <td>Continuous cross-draft; rapid humidity &amp; ammonia purge</td>
-              </tr>
-              <tr>
-                <td><strong>Flooring System</strong></td>
-                <td><span id="rep-animal-floor-name">Grooved Concrete with 1:40 Lateral Drainage</span></td>
-                <td>100 mm slab</td>
-                <td>1.40 W/m·K</td>
-                <td><strong style="color: var(--theme-emerald);">1.90 W/m²K</strong></td>
-                <td>Anti-slip hoof grip, antimicrobial drainage</td>
-              </tr>
-              <tr>
-                <td><strong>Ridge Stack Exhaust</strong></td>
-                <td><span>Aerodynamic Raised Ridge Vent Cap (300mm Throat)</span></td>
-                <td>300 mm throat</td>
-                <td>1.2 m/s velocity</td>
-                <td><strong style="color: var(--theme-emerald);">Thermal Siphon</strong></td>
-                <td>Natural stack buoyancy evacuates buoyant heated air</td>
-              </tr>
-            </tbody>
-          </table>
-        </fieldset>
-
-        <fieldset style="background: var(--theme-amber-light); border: 1.5px solid var(--theme-amber-border);">
-          <legend>ANSYS CFD &amp; Thermal Final Report</legend>
-          <p style="margin-top: 0; font-size: 0.92rem; color: var(--theme-text-secondary);">
-            Complete livestock bioclimatic dossier with THI reduction curves and vernacular specifications.
-          </p>
-          <button type="button" class="btn-amber" onclick="downloadAnimalPDFDossier()" style="font-size: 1rem; padding: 12px 24px;">
-            Download ANSYS Final Report (.pdf)
+          <button type="button" class="path-card reveal" id="flow-card-2" onclick="choosePath(2)" aria-pressed="false">
+            <span class="path-media path-media-plan"><img src="assets/plan_1.png" alt="" loading="lazy" data-parallax-inner></span>
+            <span class="path-body">
+              <strong>A plan I already have</strong>
+              <small>Upload a floor plan or pick one of ours, then see it in 3D and test it against your climate.</small>
+              <span class="path-meta">4 steps</span>
+            </span>
           </button>
-        </fieldset>
-
-        <div style="display: flex; justify-content: space-between; margin-top: 24px;">
-          <button type="button" class="btn-secondary" onclick="goToStep(4)">&larr; Back to 04 3D Shelter Centerpiece</button>
-          <button type="button" class="btn-secondary" onclick="goToStep(1)">Restart Livestock Pipeline</button>
+          <button type="button" class="path-card reveal" id="flow-card-3" onclick="choosePath(3)" aria-pressed="false">
+            <span class="path-media"><img src="assets/hero_cfd.jpg" alt="" loading="lazy" data-parallax-inner style="object-position: 40% 60%"></span>
+            <span class="path-body">
+              <strong>Upgrading my current home</strong>
+              <small>Tell us what your walls, roof and windows are made of. See which upgrades pay back fastest.</small>
+              <span class="path-meta">5 steps</span>
+            </span>
+          </button>
+          <button type="button" class="path-card reveal" id="flow-card-4" onclick="choosePath(4)" aria-pressed="false">
+            <span class="path-media path-media-plan"><img src="assets/animal_plan_1.png" alt="" loading="lazy" data-parallax-inner></span>
+            <span class="path-body">
+              <strong>A shelter for livestock</strong>
+              <small>Cattle, goats or poultry. Keep heat stress down with shelter shape, roofing and airflow.</small>
+              <span class="path-meta">5 steps</span>
+            </span>
+          </button>
         </div>
       </div>
     </section>
 
-
-    <!-- ========================================== -->
-    <!-- FLOW 2: 2D PLAN FAST-TRACK STEPS           -->
-    <!-- ========================================== -->
-    <section class="step-panel arch-card" id="flow2-step-1" style="display: none;">
-      <h2>Flow 2 - 02. 2D Architectural Plan Intake (Suggested &amp; Custom Upload)</h2>
-      <p>Select one of the 5 verified engineered floor plans or upload your own 2D CAD drawing to synthesize the 3D BIM digital twin immediately.</p>
-
-      <fieldset>
-        <legend>Option A: Select from 5 Suggested Floor Plans</legend>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-          <button type="button" class="btn active" id="f2-plan-btn-0" onclick="flow2SelectPresetPlan(0)">Plan 1: 2/3 BHK Executive Villa (1,158 sq.ft)</button>
-          <button type="button" class="btn" id="f2-plan-btn-1" onclick="flow2SelectPresetPlan(1)">Plan 2: 4 BHK Suburban Residence (960 sq.ft)</button>
-          <button type="button" class="btn" id="f2-plan-btn-2" onclick="flow2SelectPresetPlan(2)">Plan 3: 5 BHK Luxury Manor (1,240 sq.ft)</button>
-          <button type="button" class="btn" id="f2-plan-btn-3" onclick="flow2SelectPresetPlan(3)">Plan 4: 1 BHK Minimalist Studio (483 sq.ft)</button>
-          <button type="button" class="btn" id="f2-plan-btn-4" onclick="flow2SelectPresetPlan(4)">Plan 5: 1 BHK Solar Chamfer Villa (495 sq.ft)</button>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Option B: Upload Custom 2D Blueprint (.PNG, .JPG, .SVG, .DXF)</legend>
-        <input type="file" id="f2-upload-input" accept="image/*,.dxf,.svg,.json" onchange="flow2HandleCustomUpload(event)" />
-      </fieldset>
-
-      <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 18px; margin-top: 15px;">
-        <fieldset>
-          <legend>Active 2D Floor Plan Preview</legend>
-          <div style="text-align: center; background: #fff; padding: 10px; border: 1.5px solid var(--theme-border); border-radius: var(--radius-md);">
-            <img id="f2-plan-img" src="assets/plan_1.png" alt="2D Blueprint Preview" style="max-width: 100%; max-height: 320px; object-fit: contain;" />
+    <!-- ============ STUDIO ============ -->
+    <section class="studio" id="studio" aria-labelledby="studio-title">
+      <div class="container">
+        <div class="studio-head">
+          <div>
+            <h2 id="studio-title" class="section-title">Design studio</h2>
+            <p class="studio-path">You're designing <strong id="studio-path-name">a new home</strong>. <a href="#paths" class="text-link">Change</a></p>
           </div>
-        </fieldset>
+        </div>
 
-        <fieldset>
-          <legend>Blueprint Specifications &amp; Orientation</legend>
-          <h4 id="f2-plan-title" style="margin: 0 0 8px 0; font-family: var(--font-editorial); font-size: 1.15rem; color: var(--theme-obsidian);">Plan 1: 2/3 BHK Executive Villa (1,158 sq.ft)</h4>
-          <p><strong>Vastu Alignment:</strong> <span id="f2-plan-vastu" class="confirm-badge">Vastu Score: 94/100</span></p>
-          <p><strong>Dimensions:</strong> <span id="f2-plan-dim">10.26m × 10.49m (33'-8" × 34'-5")</span></p>
-          <hr style="margin: 12px 0; border: none; border-top: 1px solid var(--theme-border);">
-          <div style="display: flex; flex-direction: column; gap: 10px;">
-            <div>
-              <label style="font-weight: 700; font-size: 0.85rem; display: block; margin-bottom: 4px;">Target Climate Zone:</label>
-              <select id="f2-climate-select" onchange="onLocationPresetChange(this.value)">
-                <option value="leh">Leh, Ladakh (Cold Arid)</option>
-                <option value="new_delhi">New Delhi (Composite)</option>
-                <option value="chennai">Chennai (Warm &amp; Humid)</option>
-                <option value="jaisalmer">Jaisalmer (Hot &amp; Dry)</option>
-                <option value="bengaluru">Bengaluru (Temperate)</option>
+        <!-- Steppers (one per flow; app-core toggles which is visible) -->
+        <nav class="stepper-wrap" id="stepper-wrap" aria-label="Design steps">
+          <div class="stepper" id="stepper-flow-1">
+            <button type="button" class="step-tab active" id="step-tab-1" onclick="goToStep(1)"><span class="step-dot">1</span><span class="step-text"><span class="step-name" id="step-tab-title-1">Pick your site</span><span class="step-sub" id="step-tab-sub-1">Climate and orientation</span></span></button>
+            <button type="button" class="step-tab locked" id="step-tab-2" onclick="goToStep(2)"><span class="step-dot">2</span><span class="step-text"><span class="step-name" id="step-tab-title-2">Shape the home</span><span class="step-sub" id="step-tab-sub-2">Plot, rooms and facing</span></span></button>
+            <button type="button" class="step-tab locked" id="step-tab-3" onclick="goToStep(3)"><span class="step-dot">3</span><span class="step-text"><span class="step-name" id="step-tab-title-3">Choose materials</span><span class="step-sub" id="step-tab-sub-3">Plan and envelope</span></span></button>
+            <button type="button" class="step-tab locked" id="step-tab-4" onclick="goToStep(4)"><span class="step-dot">4</span><span class="step-text"><span class="step-name" id="step-tab-title-4">See it in 3D</span><span class="step-sub" id="step-tab-sub-4">Sun and heat</span></span></button>
+            <button type="button" class="step-tab locked" id="step-tab-5" onclick="goToStep(5)"><span class="step-dot">5</span><span class="step-text"><span class="step-name" id="step-tab-title-5">Your report</span><span class="step-sub" id="step-tab-sub-5">Performance and specs</span></span></button>
+          </div>
+          <div class="stepper" id="stepper-flow-2" style="display:none">
+            <button type="button" class="step-tab active" id="f2-tab-1" onclick="goToStep(1)"><span class="step-dot">1</span><span class="step-text"><span class="step-name">Pick your site</span><span class="step-sub">Climate and orientation</span></span></button>
+            <button type="button" class="step-tab locked" id="f2-tab-2" onclick="goToStep(2)"><span class="step-dot">2</span><span class="step-text"><span class="step-name">Your plan</span><span class="step-sub">Upload or choose</span></span></button>
+            <button type="button" class="step-tab locked" id="f2-tab-3" onclick="goToStep(3)"><span class="step-dot">3</span><span class="step-text"><span class="step-name">See it in 3D</span><span class="step-sub">Sun and heat</span></span></button>
+            <button type="button" class="step-tab locked" id="f2-tab-4" onclick="goToStep(4)"><span class="step-dot">4</span><span class="step-text"><span class="step-name">Your report</span><span class="step-sub">Performance and specs</span></span></button>
+          </div>
+          <div class="stepper" id="stepper-flow-3" style="display:none">
+            <button type="button" class="step-tab active" id="f3-tab-1" onclick="goToStep(1)"><span class="step-dot">1</span><span class="step-text"><span class="step-name">Pick your site</span><span class="step-sub">Climate and orientation</span></span></button>
+            <button type="button" class="step-tab locked" id="f3-tab-2" onclick="goToStep(2)"><span class="step-dot">2</span><span class="step-text"><span class="step-name">Your home today</span><span class="step-sub">Plan and materials</span></span></button>
+            <button type="button" class="step-tab locked" id="f3-tab-3" onclick="goToStep(3)"><span class="step-dot">3</span><span class="step-text"><span class="step-name">Upgrade plan</span><span class="step-sub">Savings and payback</span></span></button>
+            <button type="button" class="step-tab locked" id="f3-tab-4" onclick="goToStep(4)"><span class="step-dot">4</span><span class="step-text"><span class="step-name">See it in 3D</span><span class="step-sub">Sun and heat</span></span></button>
+            <button type="button" class="step-tab locked" id="f3-tab-5" onclick="goToStep(5)"><span class="step-dot">5</span><span class="step-text"><span class="step-name">Your report</span><span class="step-sub">Before and after</span></span></button>
+          </div>
+        </nav>
+
+        <div class="panels">
+
+          <!-- ===== STEP 1: SITE (all flows) ===== -->
+          <section class="step-panel" id="flow-step-1" aria-labelledby="s1-title">
+            <header class="panel-head">
+              <h3 id="s1-title">Where is the site?</h3>
+              <p>Search for a town, click the map, or start from one of these places. The climate readout updates as you go.</p>
+            </header>
+
+            <div class="site-grid">
+              <div class="site-map-col">
+                <div class="search-row">
+                  <label class="sr-only" for="city-search">Search for a town or city</label>
+                  <input type="search" id="city-search" placeholder="Search a town or city, e.g. Shimla" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();searchCityLocation();}">
+                  <button type="button" class="btn btn-ink" onclick="searchCityLocation()">Search</button>
+                </div>
+                <div class="chip-row" id="preset-chips" role="group" aria-label="Example places">
+                  <button type="button" class="chip active" data-preset="leh" onclick="selectMapPreset('leh')">Leh</button>
+                  <button type="button" class="chip" data-preset="nubra" onclick="selectMapPreset('nubra')">Nubra</button>
+                  <button type="button" class="chip" data-preset="kargil" onclick="selectMapPreset('kargil')">Kargil</button>
+                  <button type="button" class="chip" data-preset="dras" onclick="selectMapPreset('dras')">Dras</button>
+                  <button type="button" class="chip" data-preset="pangong" onclick="selectMapPreset('pangong')">Pangong</button>
+                  <button type="button" class="chip" data-preset="spiti" onclick="selectMapPreset('spiti')">Spiti</button>
+                  <button type="button" class="chip" data-preset="new_delhi" onclick="selectMapPreset('new_delhi')">Delhi</button>
+                  <button type="button" class="chip" data-preset="chennai" onclick="selectMapPreset('chennai')">Chennai</button>
+                  <button type="button" class="chip" data-preset="jaisalmer" onclick="selectMapPreset('jaisalmer')">Jaisalmer</button>
+                  <button type="button" class="chip" data-preset="bengaluru" onclick="selectMapPreset('bengaluru')">Bengaluru</button>
+                </div>
+                <select id="location-select" class="sr-only" tabindex="-1" aria-hidden="true" onchange="onLocationPresetChange(this.value)">
+                  <option value="leh">Leh</option><option value="nubra">Nubra</option><option value="kargil">Kargil</option>
+                  <option value="dras">Dras</option><option value="pangong">Pangong</option><option value="spiti">Spiti</option>
+                  <option value="new_delhi">New Delhi</option><option value="chennai">Chennai</option>
+                  <option value="jaisalmer">Jaisalmer</option><option value="bengaluru">Bengaluru</option>
+                </select>
+                <div id="map" class="map" role="application" aria-label="Map. Click to place your site."></div>
+              </div>
+
+              <aside class="climate-card" aria-labelledby="climate-card-title">
+                <p class="climate-place" id="climate-card-title">Your site</p>
+                <p class="climate-zone" id="climate-zone">Cold &amp; cloudy, high altitude</p>
+                <p class="climate-coords" id="climate-coords">34.1526° N, 77.5771° E</p>
+
+                <div class="temp-range" aria-hidden="true">
+                  <div class="temp-track"><span class="temp-fill" id="temp-fill"></span></div>
+                  <div class="temp-scale"><span>−30 °C</span><span>0</span><span>50 °C</span></div>
+                </div>
+
+                <dl class="climate-stats">
+                  <div><dt>Winter low</dt><dd id="climate-winter-temp">-14.2 °C</dd></div>
+                  <div><dt>Summer peak</dt><dd id="climate-summer-temp">28.4 °C</dd></div>
+                  <div><dt>Sunshine</dt><dd id="climate-solar-rad">5.8 kWh/m²/day</dd></div>
+                  <div class="wind-stat"><dt>Prevailing wind</dt><dd><span class="wind-arrow" id="wind-arrow" aria-hidden="true">↑</span><span id="climate-wind">3.4 m/s (West-Northwest)</span></dd></div>
+                </dl>
+
+                <div class="guidance">
+                  <p class="guidance-title">What this climate asks for</p>
+                  <p id="climate-directive">Direct solar gain, a heavy thermal-mass wall and buffer spaces to the north.</p>
+                </div>
+              </aside>
+            </div>
+
+            <footer class="panel-actions">
+              <span></span>
+              <button type="button" class="btn btn-solar" onclick="proceedToStep2()">Continue to the next step</button>
+            </footer>
+          </section>
+
+          <!-- ===== FLOW 1 STEP 2: SHAPE THE HOME ===== -->
+          <section class="step-panel" id="flow-step-2" style="display:none" aria-labelledby="s2-title">
+            <header class="panel-head">
+              <h3 id="s2-title">Shape the home</h3>
+              <p>Set the size and which way the entrance faces. Rooms are zoned by sun and by Vastu.</p>
+            </header>
+
+            <div class="shape-grid">
+              <div class="control-stack">
+                <div class="field">
+                  <div class="field-row"><span class="field-label">Home size</span><output class="field-value" id="bhk-badge">2 BHK</output></div>
+                  <div class="segmented" id="bhk-segmented" role="group" aria-label="Home size">
+                    <button type="button" class="seg" onclick="seg(this); setBHK('1BHK','1 BHK')">1 BHK</button>
+                    <button type="button" class="seg active" onclick="seg(this); setBHK('2BHK','2 BHK')">2 BHK</button>
+                    <button type="button" class="seg" onclick="seg(this); setBHK('3BHK','3 BHK')">3 BHK</button>
+                    <button type="button" class="seg" onclick="seg(this); setBHK('4BHK','4 BHK')">4 BHK</button>
+                  </div>
+                  <select id="bhk-select" hidden onchange="updateBHKSelection(this.value)">
+                    <option value="1BHK">1 BHK</option><option value="2BHK" selected>2 BHK</option><option value="3BHK">3 BHK</option><option value="4BHK">4 BHK</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <div class="field-row"><label class="field-label" for="plot-area-slider">Built-up area</label><output class="field-value" id="area-slider-val">1,200 sq ft (111.5 m²)</output></div>
+                  <input type="range" class="range" id="plot-area-slider" min="400" max="5000" step="50" value="1200" oninput="onAreaInput(this.value)">
+                  <input type="number" id="plot-area-input" value="1200" hidden>
+                </div>
+
+                <div class="field-pair">
+                  <div class="field">
+                    <div class="field-row"><label class="field-label" for="plot-width-slider">Plot width</label><output class="field-value" id="width-slider-val">10.0 m</output></div>
+                    <input type="range" class="range" id="plot-width-slider" min="6" max="30" step="0.5" value="10" oninput="onPlotInput('width', this.value)">
+                    <input type="number" id="plot-width-input" value="10.0" hidden>
+                  </div>
+                  <div class="field">
+                    <div class="field-row"><label class="field-label" for="plot-length-slider">Plot length</label><output class="field-value" id="length-slider-val">12.0 m</output></div>
+                    <input type="range" class="range" id="plot-length-slider" min="6" max="30" step="0.5" value="12" oninput="onPlotInput('length', this.value)">
+                    <input type="number" id="plot-length-input" value="12.0" hidden>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <div class="field-row"><span class="field-label">Entrance faces</span><output class="field-value" id="facing-badge">North</output></div>
+                  <div class="segmented" id="facing-segmented" role="group" aria-label="Entrance facing">
+                    <button type="button" class="seg active" onclick="seg(this); setFacing('north')">North</button>
+                    <button type="button" class="seg" onclick="seg(this); setFacing('east')">East</button>
+                    <button type="button" class="seg" onclick="seg(this); setFacing('south')">South</button>
+                    <button type="button" class="seg" onclick="seg(this); setFacing('west')">West</button>
+                  </div>
+                  <p class="field-hint" id="facing-hint">North entrances keep the main door out of direct sun and suit most Indian climates.</p>
+                  <select id="facing-select" hidden onchange="calculateVastuScore()">
+                    <option value="north" selected>North</option><option value="east">East</option><option value="south">South</option><option value="west">West</option>
+                  </select>
+                </div>
+              </div>
+
+              <figure class="vastu" aria-labelledby="vastu-caption">
+                <div class="vastu-top">
+                  <p id="vastu-caption" class="vastu-title">Room zoning</p>
+                  <p class="vastu-score"><span id="vastu-score-badge">94% (A+ Compliant)</span></p>
+                </div>
+                <div class="vastu-grid" id="vastu-grid" data-facing="north">
+                  <span class="compass compass-n">N</span><span class="compass compass-e">E</span><span class="compass compass-s">S</span><span class="compass compass-w">W</span>
+                  <div class="vz" data-side="n w"><b>North-west</b><small>Guest room, utility</small></div>
+                  <div class="vz" data-side="n"><b>North</b><small>Living, study</small></div>
+                  <div class="vz" data-side="n e"><b>North-east</b><small>Prayer, water</small></div>
+                  <div class="vz" data-side="w"><b>West</b><small>Dining, children</small></div>
+                  <div class="vz vz-center"><b>Centre</b><small>Courtyard, open</small></div>
+                  <div class="vz" data-side="e"><b>East</b><small>Verandah, living</small></div>
+                  <div class="vz" data-side="s w"><b>South-west</b><small>Main bedroom</small></div>
+                  <div class="vz" data-side="s"><b>South</b><small>Stairs, storage</small></div>
+                  <div class="vz" data-side="s e"><b>South-east</b><small>Kitchen</small></div>
+                </div>
+                <figcaption class="vastu-note">The highlighted edge is your entrance side.</figcaption>
+              </figure>
+            </div>
+
+            <footer class="panel-actions">
+              <button type="button" class="btn btn-quiet" onclick="goToStep(1)">Back</button>
+              <button type="button" class="btn btn-solar" onclick="generate2DPlan(); proceedToStep3();">Suggest a plan and materials</button>
+            </footer>
+          </section>
+
+          <!-- ===== FLOW 4 STEP 2: HERD & SHELTER ===== -->
+          <section class="step-panel" id="animal-flow-step-2" style="display:none" aria-labelledby="a2-title">
+            <header class="panel-head">
+              <h3 id="a2-title">Herd and shelter</h3>
+              <p>Choose the animals and herd size. Floor area and roof height are sized per head.</p>
+            </header>
+
+            <div class="shape-grid">
+              <div class="control-stack">
+                <div class="field">
+                  <span class="field-label">Animals</span>
+                  <div class="segmented" id="species-segmented" role="group" aria-label="Animals">
+                    <button type="button" class="seg active" id="species-btn-cattle" onclick="seg(this); selectAnimalType('cattle')">Dairy cattle</button>
+                    <button type="button" class="seg" id="species-btn-poultry" onclick="seg(this); selectAnimalType('poultry')">Poultry</button>
+                    <button type="button" class="seg" id="species-btn-goat" onclick="seg(this); selectAnimalType('goat')">Goats and sheep</button>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="field-row"><label class="field-label" for="animal-herd-slider">Herd size</label><output class="field-value" id="animal-herd-val">20 Head</output></div>
+                  <input type="range" class="range" id="animal-herd-slider" min="5" max="150" value="20" oninput="updateAnimalHerdCapacity(this.value)">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="animal-orientation-select">Long side of the shelter runs</label>
+                  <select id="animal-orientation-select" class="select">
+                    <option value="EW" selected>East to west (best shade from overhead sun)</option>
+                    <option value="NS">North to south (more winter sun, cold climates)</option>
+                    <option value="WIND">Across the summer breeze (most airflow)</option>
+                  </select>
+                </div>
+              </div>
+
+              <dl class="sizing-card">
+                <div><dt>Covered area</dt><dd id="animal-covered-area">90.0 m²</dd></div>
+                <div><dt>Open paddock</dt><dd id="animal-open-area">180.0 m²</dd></div>
+                <div><dt>Shelter size</dt><dd id="animal-shelter-dim">15.0 m × 6.0 m</dd></div>
+                <div><dt>Ridge / eaves height</dt><dd id="animal-shelter-height">4.2 m / 2.8 m</dd></div>
+              </dl>
+            </div>
+
+            <footer class="panel-actions">
+              <button type="button" class="btn btn-quiet" onclick="goToStep(1)">Back</button>
+              <button type="button" class="btn btn-solar" onclick="updateAnimal2DLayout(); proceedToStep3();">Suggest a shelter plan</button>
+            </footer>
+          </section>
+
+          <!-- ===== FLOW 1 STEP 3: PLAN & MATERIALS ===== -->
+          <section class="step-panel" id="flow-step-3" style="display:none" aria-labelledby="s3-title">
+            <header class="panel-head">
+              <h3 id="s3-title">Plan and materials</h3>
+              <p>We picked the plan that best fits your size. Materials are pre-selected for your climate; change any of them.</p>
+            </header>
+
+            <div class="plan-picker" role="group" aria-label="Floor plans">
+              <button type="button" class="plan-thumb active" id="plan-btn-0" onclick="selectArchitecturalPlan(0)"><img src="assets/plan_1.png" alt="" loading="lazy"><span><b>Courtyard villa</b><small>2–3 BHK, 1,158 sq ft</small></span></button>
+              <button type="button" class="plan-thumb" id="plan-btn-1" onclick="selectArchitecturalPlan(1)"><img src="assets/plan_2.png" alt="" loading="lazy"><span><b>Suburban home</b><small>4 BHK, 960 sq ft</small></span></button>
+              <button type="button" class="plan-thumb" id="plan-btn-2" onclick="selectArchitecturalPlan(2)"><img src="assets/plan_3.png" alt="" loading="lazy"><span><b>Large family home</b><small>5 BHK, 1,240 sq ft</small></span></button>
+              <button type="button" class="plan-thumb" id="plan-btn-3" onclick="selectArchitecturalPlan(3)"><img src="assets/plan_4.png" alt="" loading="lazy"><span><b>Compact studio</b><small>1 BHK, 483 sq ft</small></span></button>
+              <button type="button" class="plan-thumb" id="plan-btn-4" onclick="selectArchitecturalPlan(4)"><img src="assets/plan_5.png" alt="" loading="lazy"><span><b>Solar chamfer</b><small>1 BHK, 495 sq ft</small></span></button>
+            </div>
+
+            <div class="plan-view">
+              <figure class="plan-figure">
+                <img id="fabricated-2d-plan-img" src="assets/plan_1.png" alt="Selected floor plan">
+              </figure>
+              <div class="plan-info">
+                <p class="plan-title" id="plan-title-display">Plan 1: 2/3 BHK Executive Villa (1,158 sq.ft)</p>
+                <div class="tag-row">
+                  <span class="tag tag-ok" id="plan-vastu-badge">Vastu Score: 94/100</span>
+                  <span class="tag" id="plan-dim-badge">10.26m × 10.49m</span>
+                </div>
+                <p class="mini-title">Rooms</p>
+                <ul class="room-list" id="plan-room-schedule-list">
+                  <li>Bed 1: 294 × 294 cm</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="why">
+              <p class="why-title">Why these materials</p>
+              <p id="ai-predict-rationale">Stabilised rammed earth delays the afternoon heat by about ten hours, so it reaches the rooms at night when it can be vented away.</p>
+            </div>
+
+            <div class="field">
+              <div class="field-row"><span class="field-label">Walls</span><output class="field-value" id="wall-assembly-badge">U 0.45 W/m²K, 10.2 h delay</output></div>
+              <div class="wall-grid" id="wall-assembly-grid" role="radiogroup" aria-label="Wall assembly">
+                <button type="button" role="radio" aria-checked="true" class="wall-card selected" data-wall="rammed_earth" onclick="pickWall('rammed_earth')">
+                  <span class="wall-section" aria-hidden="true"><i style="flex:1;background:#E8E1D3"></i><i style="flex:9;background:#B98A5E"></i><i style="flex:1;background:#E8E1D3"></i></span>
+                  <b>Rammed earth, 350 mm</b>
+                  <small>Heavy earth wall with lime render. Stores heat and releases it slowly.</small>
+                  <span class="wall-specs"><span>U 0.45</span><span>10.2 h delay</span></span>
+                </button>
+                <button type="button" role="radio" aria-checked="false" class="wall-card" data-wall="aac_aerogel" onclick="pickWall('aac_aerogel')">
+                  <span class="wall-section" aria-hidden="true"><i style="flex:1;background:#E8E1D3"></i><i style="flex:6;background:#C9CCCB"></i><i style="flex:1;background:#E8E1D3"></i></span>
+                  <b>AAC block, 200 mm</b>
+                  <small>Lightweight aerated blocks with insulating plaster. Quick to build.</small>
+                  <span class="wall-specs"><span>U 0.42</span><span>6.8 h delay</span></span>
+                </button>
+                <button type="button" role="radio" aria-checked="false" class="wall-card" data-wall="cavity_brick" onclick="pickWall('cavity_brick')">
+                  <span class="wall-section" aria-hidden="true"><i style="flex:3;background:#B8623C"></i><i style="flex:2;background:#E9CF6B"></i><i style="flex:3;background:#B8623C"></i></span>
+                  <b>Cavity terracotta, 300 mm</b>
+                  <small>Two clay skins with 50 mm rock wool between them.</small>
+                  <span class="wall-specs"><span>U 0.36</span><span>8.5 h delay</span></span>
+                </button>
+                <button type="button" role="radio" aria-checked="false" class="wall-card" data-wall="cseb_cork" onclick="pickWall('cseb_cork')">
+                  <span class="wall-section" aria-hidden="true"><i style="flex:4;background:#A87B55"></i><i style="flex:1.5;background:#8C6A4A"></i><i style="flex:3;background:#A87B55"></i></span>
+                  <b>Compressed earth block, 250 mm</b>
+                  <small>Local soil blocks with a cork core. Low embodied carbon.</small>
+                  <span class="wall-specs"><span>U 0.39</span><span>≈8 h delay</span></span>
+                </button>
+                <button type="button" role="radio" aria-checked="false" class="wall-card" data-wall="clt_woodfiber" onclick="pickWall('clt_woodfiber')">
+                  <span class="wall-section" aria-hidden="true"><i style="flex:4;background:#D8B27A"></i><i style="flex:3;background:#C9A77F"></i><i style="flex:1;background:#E8E1D3"></i></span>
+                  <b>Timber panel (CLT), 140 mm</b>
+                  <small>Cross-laminated timber with wood-fibre insulation. Breathable.</small>
+                  <span class="wall-specs"><span>U 0.29</span><span>≈9 h delay</span></span>
+                </button>
+              </div>
+              <select id="wall-mat-select" hidden>
+                <option value="rammed_earth" selected>Rammed earth</option><option value="aac_aerogel">AAC</option><option value="cavity_brick">Cavity terracotta</option><option value="cseb_cork">CSEB</option><option value="clt_woodfiber">CLT</option>
               </select>
             </div>
-            <div>
-              <label style="font-weight: 700; font-size: 0.85rem; display: block; margin-bottom: 4px;">Entrance Facing:</label>
-              <select id="f2-facing-select" onchange="calculateVastuScore()">
-                <option value="north" selected>North (Optimal Energy)</option>
-                <option value="east">East (Solar Morning Gain)</option>
-                <option value="south">South (High Solar Radiation)</option>
-                <option value="west">West (Afternoon Load)</option>
-              </select>
+
+            <div class="field-pair">
+              <div class="field">
+                <div class="field-row"><label class="field-label" for="roof-mat-select">Roof</label><output class="field-value" id="roof-badge">U 0.26 W/m²K</output></div>
+                <select id="roof-mat-select" class="select" onchange="syncMaterialBadges()">
+                  <option value="cool_roof" selected>White cool roof with 100 mm insulation (U 0.26)</option>
+                  <option value="green_roof">Planted green roof, 120 mm soil (U 0.22)</option>
+                  <option value="poplar_mud">Ventilated poplar-and-mud roof (U 0.24)</option>
+                  <option value="terracotta_double">Double clay tile with reflective foil (U 0.32)</option>
+                </select>
+              </div>
+              <div class="field">
+                <div class="field-row"><label class="field-label" for="glazing-mat-select">Windows</label><output class="field-value" id="glazing-badge">U 1.35, SHGC 0.32</output></div>
+                <select id="glazing-mat-select" class="select" onchange="syncMaterialBadges()">
+                  <option value="low_e_double" selected>Double glazed, low-E, argon-filled (U 1.35, SHGC 0.32)</option>
+                  <option value="krypton_triple">Triple glazed, krypton-filled (U 0.78, SHGC 0.28)</option>
+                  <option value="smart_electrochromic">Self-tinting smart glass (U 1.10, SHGC 0.09–0.45)</option>
+                  <option value="single_clear">Ordinary single glass, for comparison (U 5.70, SHGC 0.82)</option>
+                </select>
+              </div>
             </div>
-          </div>
-        </fieldset>
-      </div>
 
-      <div style="display: flex; justify-content: space-between; margin-top: 18px;">
-        <button type="button" class="btn-secondary" onclick="goToStep(1)">&larr; Back to 01 Site GIS</button>
-        <button type="button" class="btn-primary" onclick="proceedToStep3()">Confirm Plan &amp; Extrude 3D BIM Centerpiece &rarr;</button>
-      </div>
-    </section>
+            <footer class="panel-actions">
+              <button type="button" class="btn btn-quiet" onclick="goToStep(2)">Back</button>
+              <button type="button" class="btn btn-solar" onclick="proceedToStep4()">See it in 3D</button>
+            </footer>
+          </section>
 
+          <!-- ===== FLOW 4 STEP 3: SHELTER PLAN ===== -->
+          <section class="step-panel" id="animal-flow-step-3" style="display:none" aria-labelledby="a3-title">
+            <header class="panel-head">
+              <h3 id="a3-title">Shelter plan and materials</h3>
+              <p>Materials are chosen for your climate and animals. Change any of them.</p>
+            </header>
 
-    <!-- ========================================== -->
-    <!-- FLOW 3: EXISTING HOUSE AUDIT STEPS         -->
-    <!-- ========================================== -->
-    <section class="step-panel arch-card" id="flow3-step-1" style="display: none;">
-      <h2>Flow 3 - 02. Existing 2D Plan &amp; Building Materials Audit</h2>
-      <p>Configure your current wall, roof, and window materials to compute thermal losses and targeted retrofit strategies.</p>
-
-      <fieldset>
-        <legend>A. Existing 2D Floor Plan Intake</legend>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-          <div>
-            <h4 style="font-size: 0.9rem; margin-bottom: 6px;">Option 1: Upload Existing Blueprint</h4>
-            <input type="file" id="f3-upload-input" accept="image/*,.dxf,.svg,.json" onchange="flow3HandleCustomUpload(event)" />
-            <br><br>
-            <h4 style="font-size: 0.9rem; margin-bottom: 6px;">Option 2: Match from Suggested Layouts</h4>
-            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-              <button type="button" class="btn active" id="f3-plan-btn-0" onclick="flow3SelectPresetPlan(0)">Plan 1 (1,158 sq.ft)</button>
-              <button type="button" class="btn" id="f3-plan-btn-1" onclick="flow3SelectPresetPlan(1)">Plan 2 (960 sq.ft)</button>
-              <button type="button" class="btn" id="f3-plan-btn-2" onclick="flow3SelectPresetPlan(2)">Plan 3 (1,240 sq.ft)</button>
+            <div class="plan-picker plan-picker-2" role="group" aria-label="Shelter plans">
+              <button type="button" class="plan-thumb active" id="animal-plan-btn-0" onclick="selectAnimalPlan(0)"><img src="assets/animal_plan_1.png" alt="" loading="lazy"><span><b>Dairy cow shed</b><small>515 sq ft, 5 stalls and milking bay</small></span></button>
+              <button type="button" class="plan-thumb" id="animal-plan-btn-1" onclick="selectAnimalPlan(1)"><img src="assets/animal_plan_3.png" alt="" loading="lazy"><span><b>Poultry house</b><small>72 sq ft, raised roost</small></span></button>
             </div>
-          </div>
 
-          <div style="text-align: center; background: #fff; padding: 10px; border: 1.5px solid var(--theme-border); border-radius: var(--radius-md);">
-            <img id="f3-plan-img" src="assets/plan_1.png" alt="Existing Floor Plan Preview" style="max-width: 100%; max-height: 180px; object-fit: contain;" />
-            <p style="margin: 4px 0 0 0; font-size: 0.85rem;"><strong id="f3-plan-title">Plan 1: 2/3 BHK Executive Villa (1,158 sq.ft)</strong></p>
-          </div>
+            <div class="plan-view">
+              <figure class="plan-figure">
+                <img id="animal-plan-img" src="assets/animal_plan_1.png" alt="Selected shelter plan">
+              </figure>
+              <div class="plan-info">
+                <div class="why why-inline">
+                  <p class="why-title">Why these materials</p>
+                  <p id="animal-ai-predict-rationale">A layered thatch roof blocks most overhead heat. Open louvres keep air moving, so the heat-stress index stays in the comfort zone.</p>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="animal-roof-material">Roof</label>
+                  <select id="animal-roof-material" class="select">
+                    <option value="thatch" selected>Layered paddy-straw thatch, 180 mm (U 0.35)</option>
+                    <option value="white_aluminum">White aluminium with glass-wool lining (U 0.38)</option>
+                    <option value="terracotta_tiles">Clay tiles on bamboo trusses (U 0.85)</option>
+                    <option value="puff_sandwich">50 mm insulated sandwich panel (U 0.42)</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="animal-wall-material">Side walls</label>
+                  <select id="animal-wall-material" class="select">
+                    <option value="slatted_louvers" selected>Open timber louvres (about 15 air changes an hour)</option>
+                    <option value="poultry_mesh">Wire mesh with roll-up curtains (about 18)</option>
+                    <option value="rammed_half_wall">Low earth wall with bamboo screen (about 12)</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="animal-floor-material">Floor</label>
+                  <select id="animal-floor-material" class="select">
+                    <option value="grooved_concrete" selected>Grooved non-slip concrete with drain</option>
+                    <option value="slatted_timber">Raised timber slats with dung trays</option>
+                    <option value="vulcanized_rubber">Rubber comfort mats</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <footer class="panel-actions">
+              <button type="button" class="btn btn-quiet" onclick="goToStep(2)">Back</button>
+              <button type="button" class="btn btn-solar" onclick="proceedToStep4()">See it in 3D</button>
+            </footer>
+          </section>
+
+          <!-- ===== STEP 4: 3D (flows 1–3) ===== -->
+          <section class="step-panel" id="flow-step-4" style="display:none" aria-labelledby="s4-title">
+            <header class="panel-head">
+              <h3 id="s4-title">See it in 3D</h3>
+              <p>Drag to orbit. Move the sun through the day and switch to the heat view to see which walls take the most sun.</p>
+            </header>
+
+            <div class="stage">
+              <div class="stage-tabs" role="tablist" aria-label="3D view">
+                <button type="button" role="tab" class="stage-tab active" aria-selected="true" onclick="stageTab(this); switch3DViewerType('threejs')">Sun and heat</button>
+                <button type="button" role="tab" class="stage-tab" aria-selected="false" onclick="stageTab(this); switch3DViewerType('iframe')">Reference model</button>
+              </div>
+
+              <div id="viewer-3d-container">
+                <div id="viewer-3d" class="viewer-canvas"></div>
+                <div class="stage-hud" id="stage-hud" aria-live="polite">
+                  <span id="hud-time">1:00 pm</span>
+                  <span id="hud-note">South and west walls take the most sun now</span>
+                </div>
+                <div class="stage-controls">
+                  <div class="sun-control">
+                    <label for="sun-time" class="sr-only">Time of day</label>
+                    <span aria-hidden="true">6 am</span>
+                    <input type="range" id="sun-time" class="range range-dark" min="6" max="18.5" step="0.25" value="13" oninput="setSunTime(this.value)">
+                    <span aria-hidden="true">6 pm</span>
+                  </div>
+                  <div class="segmented segmented-dark" role="group" aria-label="Season">
+                    <button type="button" class="seg active" onclick="seg(this); setSeason('summer')">Summer</button>
+                    <button type="button" class="seg" onclick="seg(this); setSeason('winter')">Winter</button>
+                  </div>
+                  <div class="segmented segmented-dark" role="group" aria-label="Display">
+                    <button type="button" class="seg active" onclick="seg(this); setViewerMode('realistic')">Model</button>
+                    <button type="button" class="seg" onclick="seg(this); setViewerMode('thermal')">Heat</button>
+                    <button type="button" class="seg" onclick="seg(this); setViewerMode('wireframe')">Frame</button>
+                  </div>
+                  <button type="button" class="btn btn-ghost-light btn-sm" id="play-day" onclick="toggleSunPath()">Play the day</button>
+                </div>
+              </div>
+
+              <div id="iframe-3d-container" style="display:none">
+                <iframe id="iframe-3d-model" title="Reference 3D model of a similar home" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen loading="lazy"></iframe>
+                <p class="stage-note" id="step4-plan-name">Reference model</p>
+              </div>
+            </div>
+
+            <footer class="panel-actions">
+              <button type="button" class="btn btn-quiet" onclick="navigateStep4Back()">Back</button>
+              <button type="button" class="btn btn-solar" onclick="navigateStep4Next()">Create my report</button>
+            </footer>
+          </section>
+
+          <!-- ===== FLOW 4 STEP 4: SHELTER 3D ===== -->
+          <section class="step-panel" id="animal-flow-step-4" style="display:none" aria-labelledby="a4-title">
+            <header class="panel-head">
+              <h3 id="a4-title">See the shelter in 3D</h3>
+              <p>The raised ridge lets hot air escape at the top while cooler air enters along the sides.</p>
+            </header>
+
+            <div class="stage">
+              <div class="stage-tabs" role="tablist" aria-label="3D view">
+                <button type="button" role="tab" class="stage-tab active" aria-selected="true" onclick="stageTab(this); switchAnimal3DViewerType('threejs')">Airflow</button>
+                <button type="button" role="tab" class="stage-tab" aria-selected="false" onclick="stageTab(this); switchAnimal3DViewerType('iframe')">Reference model</button>
+              </div>
+              <div id="animal-viewer-3d-container">
+                <div id="animal-shelter-canvas" class="viewer-canvas"></div>
+                <div class="stage-hud"><span>Air enters low, leaves through the ridge</span></div>
+              </div>
+              <div id="iframe-animal-3d-container" style="display:none">
+                <iframe id="iframe-animal-3d-model" title="Reference 3D model of a similar shelter" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen loading="lazy"></iframe>
+                <p class="stage-note" id="animal-step4-plan-name">Reference model</p>
+              </div>
+            </div>
+
+            <footer class="panel-actions">
+              <button type="button" class="btn btn-quiet" onclick="navigateStep4Back()">Back</button>
+              <button type="button" class="btn btn-solar" onclick="navigateStep4Next()">Create my report</button>
+            </footer>
+          </section>
+
+          <!-- ===== STEP 5: REPORT (flows 1–3) ===== -->
+          <section class="step-panel report" id="flow-step-5" style="display:none" aria-labelledby="s5-title">
+            <header class="report-head">
+              <div>
+                <p class="report-kicker" id="report-place">Leh, Ladakh</p>
+                <h3 id="s5-title" class="report-title">Your home stays <span class="countup" id="res-temp-diff">12.3 °C</span> cooler at the hottest hour.</h3>
+                <p class="report-sub">Estimated with ThermaBuild's heat-balance model for a clear summer day. Export the model to ANSYS Fluent for a full simulation.</p>
+              </div>
+              <button type="button" class="btn btn-solar" onclick="downloadPDFDossier()">Download report (PDF)</button>
+            </header>
+
+            <div class="report-figures">
+              <div class="figure-tile figure-hot"><span>Ordinary build, peak indoors</span><strong id="res-peak-temp-base">38.4 °C</strong></div>
+              <div class="figure-tile figure-cool"><span>Your design, peak indoors</span><strong id="res-peak-temp-opt">26.1 °C</strong></div>
+              <div class="figure-tile"><span>Cooling energy saved</span><strong id="res-energy-savings">68.4%</strong></div>
+              <div class="figure-tile"><span>Fresh-air changes</span><strong id="res-ach-val">8.4 ACH</strong></div>
+              <div class="figure-tile"><span>Comfort (PMV)</span><strong id="res-pmv-val">+0.18 (Neutral / Ideal)</strong></div>
+            </div>
+
+            <figure class="chart-card">
+              <figcaption class="chart-head">
+                <p class="chart-title">Indoor temperature over 24 hours</p>
+                <div class="legend" aria-hidden="true">
+                  <span><i class="lg-out"></i>Outdoors</span>
+                  <span><i class="lg-base"></i>Ordinary build</span>
+                  <span><i class="lg-opt"></i>Your design</span>
+                </div>
+              </figcaption>
+              <div class="chart" id="report-chart" role="img" aria-label="Line chart of outdoor, ordinary build and your design temperatures over 24 hours"></div>
+              <details class="chart-table">
+                <summary>Show hourly values</summary>
+                <div id="report-chart-table"></div>
+              </details>
+            </figure>
+
+            <div class="spec-card">
+              <p class="mini-title">Envelope specification</p>
+              <div class="table-scroll">
+                <table class="spec-table">
+                  <thead>
+                    <tr><th scope="col">Part</th><th scope="col">Assembly</th><th scope="col">Thickness</th><th scope="col">U-value</th><th scope="col">Notes</th><th scope="col">ECBC</th></tr>
+                  </thead>
+                  <tbody id="flow1-materials-report-body">
+                    <tr><th scope="row">Walls</th><td id="rep-wall-name">Stabilized Rammed Earth 350mm + Lime Plaster</td><td>350 mm</td><td><strong id="rep-wall-u">0.45 W/m²K</strong></td><td>10.2 h heat delay</td><td><span class="tag tag-ok">Meets</span></td></tr>
+                    <tr><th scope="row">Roof</th><td id="rep-roof-name">Cool Roof (SRI 104) + 100mm Overdeck XPS</td><td>220 mm</td><td><strong id="rep-roof-u">0.28 W/m²K</strong></td><td>Solar reflectance index 104</td><td><span class="tag tag-ok">Meets</span></td></tr>
+                    <tr><th scope="row">Windows</th><td id="rep-glaze-name">Double Glazed Low-E Argon (6+12A+6) + uPVC Frame</td><td>24 mm unit</td><td><strong id="rep-glaze-u">1.35 W/m²K</strong></td><td>SHGC 0.32, 68% daylight</td><td><span class="tag tag-ok">Meets</span></td></tr>
+                    <tr><th scope="row">Floor</th><td>Compacted base with 50 mm cork board screed</td><td>180 mm</td><td><strong>0.42 W/m²K</strong></td><td>Coupled to cool ground</td><td><span class="tag tag-ok">Meets</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <footer class="panel-actions">
+              <button type="button" class="btn btn-quiet" onclick="navigateStep5Back()">Back</button>
+              <div class="action-group">
+                <button type="button" class="btn btn-quiet" onclick="downloadCSVReport()">Download data (CSV)</button>
+                <button type="button" class="btn btn-ink" onclick="switchMainFlow(ThermaState.activeFlow)">Start a new design</button>
+              </div>
+            </footer>
+          </section>
+
+          <!-- ===== FLOW 4 STEP 5: SHELTER REPORT ===== -->
+          <section class="step-panel report" id="animal-flow-step-5" style="display:none" aria-labelledby="a5-title">
+            <header class="report-head">
+              <div>
+                <p class="report-kicker">Livestock shelter report</p>
+                <h3 id="a5-title" class="report-title">Heat stress drops from severe to comfortable.</h3>
+                <p class="report-sub">Temperature-humidity index (THI) estimated for a hot afternoon. Below 72 is comfortable for most livestock.</p>
+              </div>
+              <button type="button" class="btn btn-solar" onclick="downloadAnimalPDFDossier()">Download report (PDF)</button>
+            </header>
+
+            <div class="report-figures">
+              <div class="figure-tile figure-hot"><span>Ordinary shed (THI)</span><strong id="animal-thi-baseline">84.2 (Severe Heat Stress)</strong></div>
+              <div class="figure-tile figure-cool"><span>Your shelter (THI)</span><strong id="animal-thi-optimized">70.1 (Optimal Comfort Zone)</strong></div>
+              <div class="figure-tile"><span>Fresh-air changes</span><strong id="animal-ach">14.8 Air Changes/Hour</strong></div>
+              <div class="figure-tile"><span>Milk or growth protected</span><strong>+18.5%</strong></div>
+            </div>
+
+            <div class="thi-scale" aria-hidden="true">
+              <div class="thi-bar"><span class="thi-marker thi-marker-base" style="left: 80%">Ordinary</span><span class="thi-marker thi-marker-opt" style="left: 34%">Yours</span></div>
+              <div class="thi-labels"><span>60 Comfortable</span><span>72 Mild stress</span><span>80 Severe</span><span>90</span></div>
+            </div>
+
+            <div class="spec-card">
+              <p class="mini-title">Shelter specification</p>
+              <div class="table-scroll">
+                <table class="spec-table">
+                  <thead><tr><th scope="col">Part</th><th scope="col">Assembly</th><th scope="col">Size</th><th scope="col">Performance</th><th scope="col">What it does</th></tr></thead>
+                  <tbody id="animal-materials-report-body">
+                    <tr><th scope="row">Roof</th><td id="rep-animal-roof-name">Multi-Layered Vernacular Thatch (Paddy Straw)</td><td>180 mm</td><td><strong id="rep-animal-roof-u">0.35 W/m²K</strong></td><td>Blocks most overhead sun</td></tr>
+                    <tr><th scope="row">Side walls</th><td id="rep-animal-wall-name">Open Slatted Hardwood Louvers (60% Porosity)</td><td>30 mm slats</td><td><strong>14.8 ACH</strong></td><td>Constant cross-breeze, clears humidity and ammonia</td></tr>
+                    <tr><th scope="row">Floor</th><td id="rep-animal-floor-name">Grooved Concrete with 1:40 Lateral Drainage</td><td>100 mm slab</td><td><strong>1.90 W/m²K</strong></td><td>Grip for hooves, drains quickly</td></tr>
+                    <tr><th scope="row">Ridge vent</th><td>Raised ridge cap with 300 mm opening</td><td>300 mm</td><td><strong>1.2 m/s</strong></td><td>Hot air rises and leaves at the top</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <footer class="panel-actions">
+              <button type="button" class="btn btn-quiet" onclick="goToStep(4)">Back</button>
+              <div class="action-group">
+                <button type="button" class="btn btn-quiet" onclick="downloadAnimalCSVReport()">Download data (CSV)</button>
+                <button type="button" class="btn btn-ink" onclick="switchMainFlow(4)">Start a new design</button>
+              </div>
+            </footer>
+          </section>
+
+          <!-- ===== FLOW 2 STEP 2: YOUR PLAN ===== -->
+          <section class="step-panel" id="flow2-step-1" style="display:none" aria-labelledby="f2-title">
+            <header class="panel-head">
+              <h3 id="f2-title">Your plan</h3>
+              <p>Upload a floor plan image, or start from one of ours.</p>
+            </header>
+
+            <label class="dropzone" for="f2-upload-input">
+              <input type="file" id="f2-upload-input" accept="image/*,.dxf,.svg,.json" onchange="flow2HandleCustomUpload(event)">
+              <span class="dropzone-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 16V4m0 0l-5 5m5-5l5 5M4 20h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span><b>Upload your floor plan</b><small>PNG, JPG, SVG or DXF. Drop it here or click to browse.</small></span>
+            </label>
+
+            <p class="or-divider"><span>or pick one of ours</span></p>
+
+            <div class="plan-picker" role="group" aria-label="Floor plans">
+              <button type="button" class="plan-thumb active" id="f2-plan-btn-0" onclick="flow2SelectPresetPlan(0)"><img src="assets/plan_1.png" alt="" loading="lazy"><span><b>Courtyard villa</b><small>1,158 sq ft</small></span></button>
+              <button type="button" class="plan-thumb" id="f2-plan-btn-1" onclick="flow2SelectPresetPlan(1)"><img src="assets/plan_2.png" alt="" loading="lazy"><span><b>Suburban home</b><small>960 sq ft</small></span></button>
+              <button type="button" class="plan-thumb" id="f2-plan-btn-2" onclick="flow2SelectPresetPlan(2)"><img src="assets/plan_3.png" alt="" loading="lazy"><span><b>Large family home</b><small>1,240 sq ft</small></span></button>
+              <button type="button" class="plan-thumb" id="f2-plan-btn-3" onclick="flow2SelectPresetPlan(3)"><img src="assets/plan_4.png" alt="" loading="lazy"><span><b>Compact studio</b><small>483 sq ft</small></span></button>
+              <button type="button" class="plan-thumb" id="f2-plan-btn-4" onclick="flow2SelectPresetPlan(4)"><img src="assets/plan_5.png" alt="" loading="lazy"><span><b>Solar chamfer</b><small>495 sq ft</small></span></button>
+            </div>
+
+            <div class="plan-view">
+              <figure class="plan-figure"><img id="f2-plan-img" src="assets/plan_1.png" alt="Selected floor plan"></figure>
+              <div class="plan-info">
+                <p class="plan-title" id="f2-plan-title">Plan 1: 2/3 BHK Executive Villa (1,158 sq.ft)</p>
+                <div class="tag-row">
+                  <span class="tag tag-ok" id="f2-plan-vastu">Vastu Score: 94/100</span>
+                  <span class="tag" id="f2-plan-dim">10.26m × 10.49m</span>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="f2-climate-select">Climate to test against</label>
+                  <select id="f2-climate-select" class="select" onchange="onLocationPresetChange(this.value)">
+                    <option value="leh">Leh, Ladakh (cold, dry)</option>
+                    <option value="new_delhi">New Delhi (hot summers, cool winters)</option>
+                    <option value="chennai">Chennai (warm, humid)</option>
+                    <option value="jaisalmer">Jaisalmer (hot, dry)</option>
+                    <option value="bengaluru">Bengaluru (mild)</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="f2-facing-select">Entrance faces</label>
+                  <select id="f2-facing-select" class="select" onchange="calculateVastuScore()">
+                    <option value="north" selected>North</option><option value="east">East</option><option value="south">South</option><option value="west">West</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <footer class="panel-actions">
+              <button type="button" class="btn btn-quiet" onclick="goToStep(1)">Back</button>
+              <button type="button" class="btn btn-solar" onclick="proceedToStep3()">See it in 3D</button>
+            </footer>
+          </section>
+
+          <!-- ===== FLOW 3 STEP 2: HOME TODAY ===== -->
+          <section class="step-panel" id="flow3-step-1" style="display:none" aria-labelledby="f3-title">
+            <header class="panel-head">
+              <h3 id="f3-title">Your home today</h3>
+              <p>Tell us what the home is built from. We'll find where it gains and loses the most heat.</p>
+            </header>
+
+            <div class="plan-view plan-view-audit">
+              <div class="control-stack">
+                <label class="dropzone dropzone-sm" for="f3-upload-input">
+                  <input type="file" id="f3-upload-input" accept="image/*,.dxf,.svg,.json" onchange="flow3HandleCustomUpload(event)">
+                  <span class="dropzone-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 16V4m0 0l-5 5m5-5l5 5M4 20h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  <span><b>Upload your floor plan</b><small>Optional. Or pick the closest match below.</small></span>
+                </label>
+                <div class="chip-row" role="group" aria-label="Closest plan">
+                  <button type="button" class="chip active" id="f3-plan-btn-0" onclick="flow3SelectPresetPlan(0)">1,158 sq ft villa</button>
+                  <button type="button" class="chip" id="f3-plan-btn-1" onclick="flow3SelectPresetPlan(1)">960 sq ft home</button>
+                  <button type="button" class="chip" id="f3-plan-btn-2" onclick="flow3SelectPresetPlan(2)">1,240 sq ft home</button>
+                </div>
+                <div class="field-pair">
+                  <div class="field">
+                    <label class="field-label" for="f3-wall-select">Walls</label>
+                    <select id="f3-wall-select" class="select" onchange="updateRetrofitCalculation()">
+                      <option value="brick_230" selected>Solid brick, 230 mm (U 2.15)</option>
+                      <option value="stone_300">Stone masonry, 300 mm (U 2.65)</option>
+                      <option value="concrete_200">Concrete block, 200 mm (U 2.45)</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label class="field-label" for="f3-roof-select">Roof</label>
+                    <select id="f3-roof-select" class="select" onchange="updateRetrofitCalculation()">
+                      <option value="rcc_uninsulated" selected>Bare concrete slab (U 2.85)</option>
+                      <option value="tin_sheet">Metal or tin sheet (U 5.80)</option>
+                      <option value="clay_tile">Single clay tiles (U 3.20)</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label class="field-label" for="f3-glazing-select">Windows</label>
+                    <select id="f3-glazing-select" class="select" onchange="updateRetrofitCalculation()">
+                      <option value="single_al" selected>Single glass, aluminium frame (U 5.70)</option>
+                      <option value="single_wood">Single glass, wooden frame (U 4.80)</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label class="field-label" for="f3-shading-select">Shading over windows</label>
+                    <select id="f3-shading-select" class="select" onchange="updateRetrofitCalculation()">
+                      <option value="none" selected>None</option>
+                      <option value="partial">Small 300 mm chhajja</option>
+                      <option value="deep">Deep 900 mm verandah</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <figure class="plan-figure">
+                <img id="f3-plan-img" src="assets/plan_1.png" alt="Your floor plan">
+                <figcaption id="f3-plan-title">Plan 1: 2/3 BHK Executive Villa (1,158 sq.ft)</figcaption>
+              </figure>
+            </div>
+
+            <footer class="panel-actions">
+              <button type="button" class="btn btn-quiet" onclick="goToStep(1)">Back</button>
+              <button type="button" class="btn btn-solar" onclick="proceedToStep3()">Find the best upgrades</button>
+            </footer>
+          </section>
+
+          <!-- ===== FLOW 3 STEP 3: UPGRADE PLAN ===== -->
+          <section class="step-panel" id="flow3-step-2" style="display:none" aria-labelledby="f3b-title">
+            <header class="panel-head">
+              <h3 id="f3b-title">Your upgrade plan</h3>
+              <p>What's wrong with each part of the home today, what to change, and how much heat it stops. Shorter bars let less heat through.</p>
+            </header>
+
+            <div class="payback">
+              <div class="payback-main">
+                <span>Pays for itself in</span>
+                <strong id="f3-payback-val">2.3 Years</strong>
+              </div>
+              <dl class="payback-stats">
+                <div><dt>Upgrade cost</dt><dd id="f3-cost-val">₹78,500</dd></div>
+                <div><dt>Saved every year</dt><dd id="f3-savings-val">₹34,200 / Year</dd></div>
+                <div><dt>Carbon avoided</dt><dd id="f3-co2-val">2.9 Tons CO₂ / Year</dd></div>
+              </dl>
+            </div>
+
+            <div class="upgrade-list">
+              <article class="upgrade" data-part="wall">
+                <h4>Walls</h4>
+                <div class="upgrade-cols">
+                  <div class="upgrade-now"><p class="upgrade-label">Today</p><p class="upgrade-name" id="f3-matrix-wall-name">Solid Clay Brick 230mm</p><p class="upgrade-text" id="f3-matrix-wall-flaw">No insulation.</p></div>
+                  <div class="upgrade-fix"><p class="upgrade-label">Upgrade</p><p class="upgrade-name" id="f3-matrix-wall-upgrade">50mm External EPS + Lime Plaster</p><p class="upgrade-text" id="f3-matrix-wall-sol">External insulation.</p></div>
+                </div>
+                <div class="u-bars">
+                  <div class="u-bar u-now"><span class="u-fill"></span><span class="u-val" id="f3-matrix-wall-u-base">U = 2.15</span></div>
+                  <div class="u-bar u-fix"><span class="u-fill"></span><span class="u-val" id="f3-matrix-wall-u-opt">U = 0.42</span></div>
+                  <p class="u-diff" id="f3-matrix-wall-diff">-80.5%</p>
+                </div>
+              </article>
+              <article class="upgrade" data-part="roof">
+                <h4>Roof</h4>
+                <div class="upgrade-cols">
+                  <div class="upgrade-now"><p class="upgrade-label">Today</p><p class="upgrade-name" id="f3-matrix-roof-name">Bare RCC Slab 150mm</p><p class="upgrade-text" id="f3-matrix-roof-flaw">Absorbs most sunlight.</p></div>
+                  <div class="upgrade-fix"><p class="upgrade-label">Upgrade</p><p class="upgrade-name" id="f3-matrix-roof-upgrade">Cool roof + 50mm XPS</p><p class="upgrade-text" id="f3-matrix-roof-sol">Reflects the sun.</p></div>
+                </div>
+                <div class="u-bars">
+                  <div class="u-bar u-now"><span class="u-fill"></span><span class="u-val" id="f3-matrix-roof-u-base">U = 2.85</span></div>
+                  <div class="u-bar u-fix"><span class="u-fill"></span><span class="u-val" id="f3-matrix-roof-u-opt">U = 0.34</span></div>
+                  <p class="u-diff" id="f3-matrix-roof-diff">-88.1%</p>
+                </div>
+              </article>
+              <article class="upgrade" data-part="glaze">
+                <h4>Windows</h4>
+                <div class="upgrade-cols">
+                  <div class="upgrade-now"><p class="upgrade-label">Today</p><p class="upgrade-name" id="f3-matrix-glaze-name">Single Clear 4mm + Al Frame</p><p class="upgrade-text" id="f3-matrix-glaze-flaw">Heat passes straight through.</p></div>
+                  <div class="upgrade-fix"><p class="upgrade-label">Upgrade</p><p class="upgrade-name" id="f3-matrix-glaze-upgrade">Double glazed low-E</p><p class="upgrade-text" id="f3-matrix-glaze-sol">Reflects infrared heat.</p></div>
+                </div>
+                <div class="u-bars">
+                  <div class="u-bar u-now"><span class="u-fill"></span><span class="u-val" id="f3-matrix-glaze-u-base">U = 5.70</span></div>
+                  <div class="u-bar u-fix"><span class="u-fill"></span><span class="u-val" id="f3-matrix-glaze-u-opt">U = 1.40</span></div>
+                  <p class="u-diff" id="f3-matrix-glaze-diff">-75.4%</p>
+                </div>
+              </article>
+              <article class="upgrade" data-part="shade">
+                <h4>Shading</h4>
+                <div class="upgrade-cols">
+                  <div class="upgrade-now"><p class="upgrade-label">Today</p><p class="upgrade-name" id="f3-matrix-shade-name">Unshaded windows</p><p class="upgrade-text" id="f3-matrix-shade-flaw">Direct sun enters.</p></div>
+                  <div class="upgrade-fix"><p class="upgrade-label">Upgrade</p><p class="upgrade-name" id="f3-matrix-shade-upgrade">External louvres</p><p class="upgrade-text" id="f3-matrix-shade-sol">Blocks summer sun.</p></div>
+                </div>
+              </article>
+            </div>
+
+            <footer class="panel-actions">
+              <button type="button" class="btn btn-quiet" onclick="goToStep(2)">Back</button>
+              <button type="button" class="btn btn-solar" onclick="proceedToStep4()">See it in 3D</button>
+            </footer>
+          </section>
+
         </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>B. Existing Building Envelope Assemblies</legend>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-          <div>
-            <p>
-              <label style="font-weight: 700; font-size: 0.85rem; display: block; margin-bottom: 4px;">Existing Wall Material:</label>
-              <select id="f3-wall-select" onchange="updateRetrofitCalculation()">
-                <option value="brick_230" selected>Solid Burnt Clay Brick 230mm (Uninsulated, U = 2.15 W/m²K)</option>
-                <option value="stone_300">Heavy Stone Masonry 300mm (U = 2.65 W/m²K)</option>
-                <option value="concrete_200">Solid Concrete Block 200mm (U = 2.45 W/m²K)</option>
-              </select>
-            </p>
-            <p>
-              <label style="font-weight: 700; font-size: 0.85rem; display: block; margin-bottom: 4px;">Existing Roof Assembly:</label>
-              <select id="f3-roof-select" onchange="updateRetrofitCalculation()">
-                <option value="rcc_uninsulated" selected>Bare Uninsulated RCC Slab 150mm (U = 2.85 W/m²K)</option>
-                <option value="tin_sheet">Corrugated Galvanized Iron / Tin Sheet (U = 5.80 W/m²K)</option>
-                <option value="clay_tile">Single Terracotta Mangalore Tiles (U = 3.20 W/m²K)</option>
-              </select>
-            </p>
-          </div>
-          <div>
-            <p>
-              <label style="font-weight: 700; font-size: 0.85rem; display: block; margin-bottom: 4px;">Existing Windows / Glazing:</label>
-              <select id="f3-glazing-select" onchange="updateRetrofitCalculation()">
-                <option value="single_al" selected>Single Clear Glass 4mm with Aluminum Frame (U = 5.70 W/m²K)</option>
-                <option value="single_wood">Single Clear Glass 4mm with Wood Frame (U = 4.80 W/m²K)</option>
-              </select>
-            </p>
-            <p>
-              <label style="font-weight: 700; font-size: 0.85rem; display: block; margin-bottom: 4px;">Existing Shading Overhangs:</label>
-              <select id="f3-shading-select" onchange="updateRetrofitCalculation()">
-                <option value="none" selected>No Shading Overhangs (100% Direct Sun Ingress)</option>
-                <option value="partial">Small 300mm Concrete Chhajja (Partial Shading)</option>
-                <option value="deep">Deep Verandah Eaves 900mm (Full Overhead Shading)</option>
-              </select>
-            </p>
-          </div>
-        </div>
-      </fieldset>
-
-      <div style="display: flex; justify-content: space-between; margin-top: 18px;">
-        <button type="button" class="btn-secondary" onclick="goToStep(1)">&larr; Back to 01 Site GIS</button>
-        <button type="button" class="btn-primary" onclick="proceedToStep3()">Analyze &amp; Generate Retrofit Matrix &rarr;</button>
       </div>
     </section>
-
-
-    <section class="step-panel arch-card" id="flow3-step-2" style="display: none;">
-      <h2>Flow 3 - 03. Retrofit Diagnostic &amp; Material Upgrade Matrix</h2>
-      <p>Prescribed bioclimatic envelope upgrades customized to your existing material assemblies.</p>
-
-      <fieldset>
-        <legend>A. Existing Envelope Flaws vs. Advanced Retrofit Engineering</legend>
-        <table class="arch-table">
-          <thead>
-            <tr>
-              <th width="14%">Assembly</th>
-              <th width="28%">Existing Flaws &amp; Failure Modes</th>
-              <th width="28%">Recommended Retrofit Upgrade</th>
-              <th width="16%">U-Value Transition</th>
-              <th width="14%">Efficiency Gain</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Exterior Walls</strong></td>
-              <td>
-                <strong id="f3-matrix-wall-name">Solid Clay Brick 230mm</strong><br>
-                <small style="color: #c62828;" id="f3-matrix-wall-flaw">Zero insulation; high thermal conductivity (k=0.81 W/m·K); releases daytime heat at night.</small>
-              </td>
-              <td>
-                <strong id="f3-matrix-wall-upgrade">50mm External EPS + Lime Plaster</strong><br>
-                <small style="color: var(--theme-emerald);" id="f3-matrix-wall-sol">Continuous exterior EIFS insulation shifts dew point outside masonry.</small>
-              </td>
-              <td>
-                <span id="f3-matrix-wall-u-base" style="color: #c62828; font-weight: bold;">U = 2.15</span> &rarr;
-                <span id="f3-matrix-wall-u-opt" style="color: var(--theme-emerald); font-weight: bold;">U = 0.42</span>
-              </td>
-              <td><strong id="f3-matrix-wall-diff" style="color: var(--theme-emerald);">-80.5%</strong></td>
-            </tr>
-            <tr>
-              <td><strong>Roof Assembly</strong></td>
-              <td>
-                <strong id="f3-matrix-roof-name">Bare RCC Slab 150mm</strong><br>
-                <small style="color: #c62828;" id="f3-matrix-roof-flaw">Absorbs 88% solar radiation; surface temp exceeds 58°C.</small>
-              </td>
-              <td>
-                <strong id="f3-matrix-roof-upgrade">High-Albedo Cool Roof SRI 104 + 50mm Overdeck XPS</strong><br>
-                <small style="color: var(--theme-emerald);" id="f3-matrix-roof-sol">Reflects 92% solar rays; stops downward conductive flux.</small>
-              </td>
-              <td>
-                <span id="f3-matrix-roof-u-base" style="color: #c62828; font-weight: bold;">U = 2.85</span> &rarr;
-                <span id="f3-matrix-roof-u-opt" style="color: var(--theme-emerald); font-weight: bold;">U = 0.34</span>
-              </td>
-              <td><strong id="f3-matrix-roof-diff" style="color: var(--theme-emerald);">-88.1%</strong></td>
-            </tr>
-            <tr>
-              <td><strong>Windows / Glazing</strong></td>
-              <td>
-                <strong id="f3-matrix-glaze-name">Single Clear 4mm + Al Frame</strong><br>
-                <small style="color: #c62828;" id="f3-matrix-glaze-flaw">Conductive bridge (U=5.70); zero Low-E coating.</small>
-              </td>
-              <td>
-                <strong id="f3-matrix-glaze-upgrade">Double Glazed Low-E Argon (6+12A+6) + uPVC Frame</strong><br>
-                <small style="color: var(--theme-emerald);" id="f3-matrix-glaze-sol">Low-E reflects infrared heat; argon cuts conductive transfer.</small>
-              </td>
-              <td>
-                <span id="f3-matrix-glaze-u-base" style="color: #c62828; font-weight: bold;">U = 5.70</span> &rarr;
-                <span id="f3-matrix-glaze-u-opt" style="color: var(--theme-emerald); font-weight: bold;">U = 1.40</span>
-              </td>
-              <td><strong id="f3-matrix-glaze-diff" style="color: var(--theme-emerald);">-75.4%</strong></td>
-            </tr>
-          </tbody>
-        </table>
-      </fieldset>
-
-      <fieldset>
-        <legend>B. Financial Payback &amp; Energy ROI Analysis</legend>
-        <table class="arch-table">
-          <tr>
-            <th>Estimated Retrofit Investment</th>
-            <td><strong id="f3-cost-val">₹78,500 – ₹94,000</strong></td>
-            <th>Annual Energy Savings</th>
-            <td><strong id="f3-savings-val" style="color: var(--theme-emerald);">₹34,200 / Year</strong></td>
-          </tr>
-          <tr>
-            <th>Estimated Payback Period</th>
-            <td><strong id="f3-payback-val" style="color: var(--theme-emerald);">2.3 Years</strong></td>
-            <th>Operational Decarbonization</th>
-            <td><strong id="f3-co2-val">2.9 Tons CO₂ / Year</strong></td>
-          </tr>
-        </table>
-      </fieldset>
-
-      <div style="display: flex; justify-content: space-between; margin-top: 18px;">
-        <button type="button" class="btn-secondary" onclick="goToStep(2)">&larr; Back to Diagnostic Audit</button>
-        <button type="button" class="btn-primary" onclick="proceedToStep4()">Proceed to 3D BIM Retrofit &rarr;</button>
-      </div>
-    </section>
-
   </main>
 
-  <!-- Theme Props, Parallax Animation Overlay & Core CAD Simulation Engine -->
-  <script src="js/theme.js?v=3.0"></script>
-  <script src="js/parallax.js?v=3.0"></script>
-  <script src="js/app-core.js?v=3.0"></script>
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="brand-name">ThermaBuild</span>
+        <p>Climate-responsive design for homes and shelters across India.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#how">How it works</a>
+        <a href="#climates">Climates</a>
+        <a href="#paths">Design paths</a>
+        <a href="#studio">Studio</a>
+      </nav>
+      <p class="footer-note">Climate data from Open-Meteo and regional weather files. Performance figures are estimates from a simplified heat-balance model; verify with a full simulation before construction.</p>
+    </div>
+  </footer>
 
+  <div class="toast-region" id="toast-region" role="status" aria-live="polite"></div>
+
+  <script src="js/app-core.js?v=4" defer></script>
+  <script src="js/viewer3d.js?v=1" defer></script>
+  <script src="js/ui.js?v=1" defer></script>
 </body>
 </html>

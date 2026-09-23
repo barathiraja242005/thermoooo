@@ -220,26 +220,26 @@ function switchMainFlow(flowNum) {
   const s2 = document.getElementById('stepper-flow-2');
   const s3 = document.getElementById('stepper-flow-3');
 
-  if (s1) s1.style.display = (flowNum === 1 || flowNum === 4) ? 'grid' : 'none';
-  if (s2) s2.style.display = flowNum === 2 ? 'grid' : 'none';
-  if (s3) s3.style.display = flowNum === 3 ? 'grid' : 'none';
+  if (s1) s1.style.display = (flowNum === 1 || flowNum === 4) ? 'flex' : 'none';
+  if (s2) s2.style.display = flowNum === 2 ? 'flex' : 'none';
+  if (s3) s3.style.display = flowNum === 3 ? 'flex' : 'none';
 
-  // Update Stepper Titles for Flow 1 (House) vs Flow 4 (Animal)
+  // Step names for the shared stepper (Flow 1: home, Flow 4: shelter)
   if (flowNum === 4) {
     setStepperTitles([
-      { num: '01', title: 'Farm GIS & Site', sub: 'Microclimate & Solar Vector' },
-      { num: '02', title: 'Livestock & Axis', sub: 'Species, Herd & Orientation' },
-      { num: '03', title: 'Vernacular Envelope', sub: 'Bio-Thermal Assemblies' },
-      { num: '04', title: '3D BIM Digital Twin', sub: 'Shelter Airflow Centerpiece' },
-      { num: '05', title: 'ANSYS Final Dossier', sub: 'THI Heat Stress Report' }
+      { title: 'Pick your site', sub: 'Climate and orientation' },
+      { title: 'Herd and shelter', sub: 'Animals, size and axis' },
+      { title: 'Shelter plan', sub: 'Roof, walls and floor' },
+      { title: 'See it in 3D', sub: 'Airflow through the ridge' },
+      { title: 'Your report', sub: 'Heat stress and specs' }
     ]);
   } else if (flowNum === 1) {
     setStepperTitles([
-      { num: '01', title: 'Intake & GIS', sub: 'Coordinates & Microclimate' },
-      { num: '02', title: 'Architecture & Vastu', sub: '2D Layout & Solar Orientation' },
-      { num: '03', title: 'Materials & Assemblies', sub: 'Thermal Mass & Explainability' },
-      { num: '04', title: '3D BIM & CFD Centerpiece', sub: 'Conjugate Temperature Field' },
-      { num: '05', title: 'ANSYS Final Dossier', sub: 'Compliance Executive Report' }
+      { title: 'Pick your site', sub: 'Climate and orientation' },
+      { title: 'Shape the home', sub: 'Plot, rooms and facing' },
+      { title: 'Choose materials', sub: 'Plan and envelope' },
+      { title: 'See it in 3D', sub: 'Sun and heat' },
+      { title: 'Your report', sub: 'Performance and specs' }
     ]);
   }
 
@@ -253,7 +253,7 @@ function setStepperTitles(tabs) {
     if (!t) continue;
     const titleEl = document.getElementById(`step-tab-title-${i}`);
     const subEl = document.getElementById(`step-tab-sub-${i}`);
-    if (titleEl) titleEl.innerText = `${t.num} ${t.title}`;
+    if (titleEl) titleEl.innerText = t.title;
     if (subEl) subEl.innerText = t.sub;
   }
 }
@@ -265,14 +265,7 @@ function goToStep(stepNum) {
   // Gating check
   const maxUnlocked = ThermaState.unlockedSteps ? (ThermaState.unlockedSteps[ThermaState.activeFlow] || 1) : 1;
   if (stepNum > maxUnlocked) {
-    const phaseNames = {
-      1: '01 Intake',
-      2: '02 Architecture',
-      3: '03 Materials',
-      4: '04 Simulation',
-      5: '05 Dossier'
-    };
-    alert(`Upcoming Engineering Phase: Please complete ${phaseNames[maxUnlocked] || 'the current phase'} before proceeding to ${phaseNames[stepNum] || 'this phase'}.`);
+    alert(`Finish step ${maxUnlocked} first, then this one unlocks.`);
     return;
   }
 
@@ -520,41 +513,41 @@ function updateRetrofitCalculation() {
   const wallData = {
     brick_230: {
       name: 'Solid Clay Brick 230mm',
-      flaw: '⚠️ Zero thermal insulation; high thermal conductivity (k=0.81 W/m·K); acts as heat sponge releasing stored daytime heat into bedrooms at night; high cold-bridge risk.',
+      flaw: 'Zero thermal insulation; high thermal conductivity (k=0.81 W/m·K); acts as heat sponge releasing stored daytime heat into bedrooms at night; high cold-bridge risk.',
       upgrade: '50mm External Expanded Polystyrene (EPS) + Lime Plaster',
-      sol: '✔ Continuous exterior EIFS insulation shifts dew point outside masonry, eliminates thermal bridging, and blocks radiant heat penetration.',
+      sol: 'Continuous exterior EIFS insulation shifts dew point outside masonry, eliminates thermal bridging, and blocks radiant heat penetration.',
       baseU: 2.15,
       optU: 0.42
     },
     stone_300: {
       name: 'Heavy Stone Masonry 300mm',
-      flaw: '⚠️ Massive thermal mass without insulation; causes extreme winter interior chilling (U=2.65 W/m²K), high drafts, and internal condensation mould.',
+      flaw: 'Massive thermal mass without insulation; causes extreme winter interior chilling (U=2.65 W/m²K), high drafts, and internal condensation mould.',
       upgrade: '75mm External Rockwool Cavity Board + Breathable Lime Wash',
-      sol: '✔ Breathable external insulation preserves stone mass benefits while adding R-2.2 continuous thermal resistance.',
+      sol: 'Breathable external insulation preserves stone mass benefits while adding R-2.2 continuous thermal resistance.',
       baseU: 2.65,
       optU: 0.40
     },
     concrete_200: {
       name: 'Solid Concrete Block 200mm',
-      flaw: '⚠️ Severe conductive thermal bridges (k=1.40 W/m·K); rapid temperature swings; ceiling/wall junction dampness.',
+      flaw: 'Severe conductive thermal bridges (k=1.40 W/m·K); rapid temperature swings; ceiling/wall junction dampness.',
       upgrade: '50mm External XPS Board with Fiber Mesh Basecoat',
-      sol: '✔ Complete thermal envelope isolation; prevents internal surface condensation and drops wall heat ingress by 84.5%.',
+      sol: 'Complete thermal envelope isolation; prevents internal surface condensation and drops wall heat ingress by 84.5%.',
       baseU: 2.45,
       optU: 0.38
     },
     mud_brick: {
       name: 'Vernacular Sun-Dried Mud Brick 350mm',
-      flaw: '⚠️ Unstabilized mud brick suffers surface erosion, micro-cracks, and unbuffered monsoon humidity ingress (U=1.85 W/m²K).',
+      flaw: 'Unstabilized mud brick suffers surface erosion, micro-cracks, and unbuffered monsoon humidity ingress (U=1.85 W/m²K).',
       upgrade: 'Lime-Stabilized Mud Plaster + 40mm Breathable Wood Fiber Board',
-      sol: '✔ Preserves natural hygroscopic breathability while improving thermal resistance by 81.1%.',
+      sol: 'Preserves natural hygroscopic breathability while improving thermal resistance by 81.1%.',
       baseU: 1.85,
       optU: 0.35
     },
     aac_150: {
       name: 'Lightweight AAC Block 150mm',
-      flaw: '⚠️ Unrendered AAC blocks absorb ambient rainwater causing loss of intrinsic thermal insulating properties.',
+      flaw: 'Unrendered AAC blocks absorb ambient rainwater causing loss of intrinsic thermal insulating properties.',
       upgrade: 'Hydrophobic Breathable Silicone Render + 30mm Mineral Wool',
-      sol: '✔ Weatherproofs exterior envelope and brings overall U-value down to ECBC super-compliant levels.',
+      sol: 'Weatherproofs exterior envelope and brings overall U-value down to ECBC super-compliant levels.',
       baseU: 0.95,
       optU: 0.32
     }
@@ -563,41 +556,41 @@ function updateRetrofitCalculation() {
   const roofData = {
     rcc_uninsulated: {
       name: 'Bare Uninsulated RCC Slab 150mm',
-      flaw: '⚠️ Absorbs 88% solar radiation; surface temp exceeds 58°C; severe radiant heating on top-floor occupants; thermal expansion cracking.',
+      flaw: 'Absorbs 88% solar radiation; surface temp exceeds 58°C; severe radiant heating on top-floor occupants; thermal expansion cracking.',
       upgrade: 'High-Albedo Cool Roof SRI 104 Coating + 50mm Overdeck XPS',
-      sol: '✔ High SRI coating reflects 92% solar rays; XPS insulation halts downward conductive heat flux into the structural slab.',
+      sol: 'High SRI coating reflects 92% solar rays; XPS insulation halts downward conductive heat flux into the structural slab.',
       baseU: 2.85,
       optU: 0.34
     },
     tin_sheet: {
       name: 'Corrugated Tin / Metal Sheet',
-      flaw: '⚠️ Extreme heat transmitter (U=5.80 W/m²K); creates intolerable oven-like indoor conditions in summer and freezing cold in winter.',
+      flaw: 'Extreme heat transmitter (U=5.80 W/m²K); creates intolerable oven-like indoor conditions in summer and freezing cold in winter.',
       upgrade: '50mm Underdeck Glasswool with Aluminum Foil + Cool Roof Paint',
-      sol: '✔ Blocks 95% of direct radiant and conductive transfer through metal sheet.',
+      sol: 'Blocks 95% of direct radiant and conductive transfer through metal sheet.',
       baseU: 5.80,
       optU: 0.30
     },
     clay_tile: {
       name: 'Single Terracotta Clay Tiles',
-      flaw: '⚠️ Uninsulated tiled roof allows air infiltration and thermal radiation leakage through gaps (U=3.20 W/m²K).',
+      flaw: 'Uninsulated tiled roof allows air infiltration and thermal radiation leakage through gaps (U=3.20 W/m²K).',
       upgrade: 'Under-Rafter Radiant Barrier Foil + 50mm Cellulose Insulation',
-      sol: '✔ Creates airtight radiant reflection and thermal blanket under timber rafters.',
+      sol: 'Creates airtight radiant reflection and thermal blanket under timber rafters.',
       baseU: 3.20,
       optU: 0.36
     },
     mud_flat: {
       name: 'Traditional Mud & Poplar Flat Roof',
-      flaw: '⚠️ Heavy mud roof suffers winter heat loss and water leakage risks during unseasonal rains (U=2.10 W/m²K).',
+      flaw: 'Heavy mud roof suffers winter heat loss and water leakage risks during unseasonal rains (U=2.10 W/m²K).',
       upgrade: 'Waterproof Elastomeric Breathable Membrane + 40mm XPS Screed',
-      sol: '✔ Preserves vernacular ceiling aesthetics while providing airtight thermal barrier.',
+      sol: 'Preserves vernacular ceiling aesthetics while providing airtight thermal barrier.',
       baseU: 2.10,
       optU: 0.28
     },
     asbestos: {
       name: 'Asbestos Cement Sheet',
-      flaw: '⚠️ Hazardous fiber degradation; high solar heat ingress (U=5.30 W/m²K) with no thermal resistance.',
+      flaw: 'Hazardous fiber degradation; high solar heat ingress (U=5.30 W/m²K) with no thermal resistance.',
       upgrade: 'Full Encapsulation Polyurea Coating + 50mm Underdeck PUF Board',
-      sol: '✔ Completely encapsulates fibers and drops solar heat ingress by 94.0%.',
+      sol: 'Completely encapsulates fibers and drops solar heat ingress by 94.0%.',
       baseU: 5.30,
       optU: 0.32
     }
@@ -606,33 +599,33 @@ function updateRetrofitCalculation() {
   const glazeData = {
     single_al: {
       name: 'Single Clear Glass 4mm + Al Frame',
-      flaw: '⚠️ Massive conductive heat loss/gain (U=5.70); uninsulated aluminum acts as direct thermal bridge; zero Low-E coating.',
+      flaw: 'Massive conductive heat loss/gain (U=5.70); uninsulated aluminum acts as direct thermal bridge; zero Low-E coating.',
       upgrade: 'Double Glazed Low-E Argon (6+12A+6) with uPVC Frame',
-      sol: '✔ Low-E coating reflects infrared heat; argon gas gap cuts conductive transfer; multi-chamber uPVC stops frame bridging.',
+      sol: 'Low-E coating reflects infrared heat; argon gas gap cuts conductive transfer; multi-chamber uPVC stops frame bridging.',
       baseU: 5.70,
       optU: 1.40
     },
     single_wood: {
       name: 'Single Clear Glass 4mm + Wood Frame',
-      flaw: '⚠️ Single 4mm glass allows 82% direct solar gain and high winter conduction loss (U=4.80 W/m²K).',
+      flaw: 'Single 4mm glass allows 82% direct solar gain and high winter conduction loss (U=4.80 W/m²K).',
       upgrade: 'Double Glazed Low-E Retrofit Sash with EPDM Dual Compression Seals',
-      sol: '✔ Reduces U-value to 1.35 W/m²K while preserving timber frame character.',
+      sol: 'Reduces U-value to 1.35 W/m²K while preserving timber frame character.',
       baseU: 4.80,
       optU: 1.35
     },
     unsealed_louver: {
       name: 'Unsealed Louvered Slats',
-      flaw: '⚠️ Unsealed louvers cause massive air infiltration (>2.5 ACH) and zero acoustic/thermal barrier (U=6.20 W/m²K).',
+      flaw: 'Unsealed louvers cause massive air infiltration (>2.5 ACH) and zero acoustic/thermal barrier (U=6.20 W/m²K).',
       upgrade: 'Airtight Double-Sealed uPVC Casement Windows with Insect Mesh',
-      sol: '✔ Eliminates drafts and reduces conductive loss by 80.6%.',
+      sol: 'Eliminates drafts and reduces conductive loss by 80.6%.',
       baseU: 6.20,
       optU: 1.20
     },
     double_clear: {
       name: 'Standard Double Glass (No Low-E)',
-      flaw: '⚠️ Clear double glass lacks solar control Low-E coating, allowing high summer greenhouse overheating.',
+      flaw: 'Clear double glass lacks solar control Low-E coating, allowing high summer greenhouse overheating.',
       upgrade: 'Solar Control Low-E Retrofit Film (SHGC 0.30)',
-      sol: '✔ Cuts radiant solar heat gain by 55% with minimal daylight loss.',
+      sol: 'Cuts radiant solar heat gain by 55% with minimal daylight loss.',
       baseU: 2.80,
       optU: 1.25
     }
@@ -641,21 +634,21 @@ function updateRetrofitCalculation() {
   const shadeData = {
     none: {
       name: 'Unshaded Apertures',
-      flaw: '⚠️ 100% direct solar radiation penetrates windows (450 W/m²); creates intense internal greenhouse overheating and AC overload.',
+      flaw: '100% direct solar radiation penetrates windows (450 W/m²); creates intense internal greenhouse overheating and AC overload.',
       upgrade: 'Operable Bamboo / Aluminum External Louver Box Overhangs',
-      sol: '✔ Intercepts direct sun before hitting the glass; provides 100% summer solar cutoff while allowing low winter solar warming.'
+      sol: 'Intercepts direct sun before hitting the glass; provides 100% summer solar cutoff while allowing low winter solar warming.'
     },
     partial: {
       name: 'Small 300mm Concrete Chhajja',
-      flaw: '⚠️ Small 300mm chhajja only shades overhead noon sun, leaving morning East and afternoon West sun unshaded.',
+      flaw: 'Small 300mm chhajja only shades overhead noon sun, leaving morning East and afternoon West sun unshaded.',
       upgrade: 'Extended Vertical Fin Louvers on East & West Windows',
-      sol: '✔ Blocks low-angle afternoon solar rays responsible for peak evening cooling load.'
+      sol: 'Blocks low-angle afternoon solar rays responsible for peak evening cooling load.'
     },
     deep: {
       name: 'Deep Verandah Eaves 900mm',
-      flaw: '⚠️ Deep fixed verandah blocks valuable daylight in winter, increasing artificial lighting energy.',
+      flaw: 'Deep fixed verandah blocks valuable daylight in winter, increasing artificial lighting energy.',
       upgrade: 'Adjustable Operable Louver Slats with Dual Summer/Winter Modes',
-      sol: '✔ Maximizes winter solar warming and daylight while maintaining full summer shading.'
+      sol: 'Maximizes winter solar warming and daylight while maintaining full summer shading.'
     }
   };
 
@@ -755,13 +748,23 @@ function initLeafletMap() {
   const mapContainer = document.getElementById('map');
   if (!mapContainer || leafletMap) return;
 
-  leafletMap = L.map('map').setView([ThermaState.lat, ThermaState.lon], 7);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: '© OpenStreetMap contributors'
+  leafletMap = L.map('map', { scrollWheelZoom: false }).setView([ThermaState.lat, ThermaState.lon], 7);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 16,
+    attribution: 'Tiles © Esri, HERE, Garmin, OpenStreetMap contributors'
+  }).addTo(leafletMap);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 16,
+    pane: 'shadowPane'
   }).addTo(leafletMap);
 
-  leafletMarker = L.marker([ThermaState.lat, ThermaState.lon], { draggable: true }).addTo(leafletMap);
+  const pin = L.divIcon({
+    className: 'site-pin',
+    html: '<svg width="34" height="44" viewBox="0 0 34 44" aria-hidden="true"><path d="M17 43C17 43 3 26 3 15a14 14 0 0 1 28 0c0 11-14 28-14 28z" fill="#F2A33A" stroke="#0E1830" stroke-width="2.5"/><circle cx="17" cy="15" r="5.5" fill="#0E1830"/></svg>',
+    iconSize: [34, 44],
+    iconAnchor: [17, 43]
+  });
+  leafletMarker = L.marker([ThermaState.lat, ThermaState.lon], { draggable: true, icon: pin }).addTo(leafletMap);
 
   leafletMap.on('click', function(e) {
     updateLocationCoords(e.latlng.lat, e.latlng.lng);
@@ -783,6 +786,7 @@ function updateLocationCoords(lat, lon) {
 
   // Predict materials automatically based on coordinates
   predictBioclimaticMaterials(ThermaState.city, ThermaState.lat, ThermaState.lon);
+  if (window.onClimateUpdate) window.onClimateUpdate(null);
 
   // Fetch from backend API
   fetch(`/api/climate?lat=${ThermaState.lat}&lon=${ThermaState.lon}`)
@@ -796,6 +800,7 @@ function updateLocationCoords(lat, lon) {
         if (summerEl) summerEl.innerText = `${s.summer_peak_temp_c || 32.0} °C`;
         const winterEl = document.getElementById('climate-winter-temp');
         if (winterEl) winterEl.innerText = `${s.winter_extreme_temp_c || 10.0} °C`;
+        if (window.onClimateUpdate) window.onClimateUpdate(null);
       }
     })
     .catch(() => console.log('Loaded offline telemetry.'));
@@ -836,6 +841,7 @@ function onLocationPresetChange(val) {
 
   // Automatically predict materials for this climate without requiring manual input
   predictBioclimaticMaterials(val, p.lat, p.lon);
+  if (window.onClimateUpdate) window.onClimateUpdate(p);
 }
 
 // Automated Climate-Driven Material Prediction Engine
@@ -975,7 +981,7 @@ function searchCityLocation() {
         if (leafletMap) leafletMap.setView([lat, lon], 10);
       }
     })
-    .catch(() => alert('Could not find location coordinates.'));
+    .catch(() => alert('Could not find that place. Try a larger town nearby, or click the map.'));
 }
 
 // ==========================================
@@ -1020,7 +1026,7 @@ function calculateVastuScore() {
 
   const badge = document.getElementById('vastu-score-badge');
   if (badge) {
-    badge.innerText = `${score}% (${score >= 90 ? 'A+ Compliant' : 'B+ Moderately Aligned'})`;
+    badge.innerText = `${score}% aligned${score >= 90 ? '' : ' — consider a north or east entrance'}`;
   }
 }
 
@@ -1411,24 +1417,13 @@ function updateLinkedAnimal3DModel() {
   const toggleBtns = document.getElementById('animal-3d-toggle-buttons');
   const canvasWrap = document.getElementById('animal-viewer-3d-container');
 
-  if (model && model.id) {
-    if (label) label.innerText = `Active 3D BIM Model: ${model.name}`;
-    if (ifrContainer) ifrContainer.style.display = 'block';
-    if (canvasWrap) canvasWrap.style.display = 'none';
-    if (toggleBtns) toggleBtns.style.display = 'block';
-    if (ifr) {
-      const targetSrc = model.embedUrl || `https://sketchfab.com/models/${model.id}/embed?autostart=1&ui_theme=dark&ui_watermark=0`;
-      if (!ifr.src || !ifr.src.includes(model.id)) {
-        ifr.src = targetSrc;
-      }
-    }
-  } else {
-    if (label) label.innerText = `Active Shelter Blueprint: ${plan.title}`;
-    if (ifrContainer) ifrContainer.style.display = 'none';
-    if (canvasWrap) canvasWrap.style.display = 'block';
-    if (toggleBtns) toggleBtns.style.display = 'none';
-    setTimeout(initAnimal3DViewer, 100);
+  if (label) label.innerText = model && model.id ? `Reference model: ${model.name}` : `Shelter plan: ${plan.title}`;
+  // Load the third-party embed only when that tab is showing; the airflow view is the default.
+  if (model && model.id && ifr && ifrContainer && ifrContainer.style.display !== 'none') {
+    const targetSrc = model.embedUrl || `https://sketchfab.com/models/${model.id}/embed?autostart=1&ui_theme=dark&ui_watermark=0`;
+    if (!ifr.src || !ifr.src.includes(model.id)) ifr.src = targetSrc;
   }
+  if (canvasWrap && canvasWrap.style.display !== 'none') setTimeout(initAnimal3DViewer, 100);
 
   const prevImg = document.getElementById('animal-step4-preview-img');
   if (prevImg) {
@@ -1499,12 +1494,14 @@ function get3DModelForState(bhk) {
 function updateLinked3DModel() {
   const model = get3DModelForState(ThermaState.bhk);
   const ifr = document.getElementById('iframe-3d-model');
-  if (ifr && (!ifr.src || !ifr.src.includes(model.id))) {
+  const wrap = document.getElementById('iframe-3d-container');
+  // Load the third-party embed only when that tab is showing; the sun-and-heat view is the default.
+  if (ifr && wrap && wrap.style.display !== 'none' && (!ifr.src || !ifr.src.includes(model.id))) {
     ifr.src = model.embedUrl;
   }
   const label = document.getElementById('step4-plan-name');
   if (label) {
-    label.innerText = `Active 3D BIM Model: ${model.name}`;
+    label.innerText = `Reference model of a similar home: ${model.name}. It is not generated from your plan.`;
   }
 }
 
@@ -1519,10 +1516,11 @@ function switch3DViewerType(type) {
   } else {
     if (ifrWrap) ifrWrap.style.display = 'none';
     if (canvasWrap) canvasWrap.style.display = 'block';
-    init3DViewer();
+    setTimeout(init3DViewer, 50);
   }
 }
 
+// The 3D viewers below are placeholders; js/viewer3d.js replaces them at load.
 let scene3D, camera3D, renderer3D, houseMesh;
 let animalScene, animalCamera, animalRenderer, shelterMesh;
 
