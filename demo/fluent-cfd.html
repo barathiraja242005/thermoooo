@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ThermaBuild — Intelligent Thermal-Aware Bioclimatic CAD</title>
+  <title>ANSYS Fluent CFD — PyFluent Ready Validation Suite</title>
 
   <!-- High-end Architectural Typography: EB Garamond, Plus Jakarta Sans & Space Grotesk -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -76,12 +76,12 @@
 
       <!-- Desktop Nav Menu -->
       <ul class="nav-menu">
-        <li><a href="index.html" class="nav-link active">Overview</a></li>
+        <li><a href="index.html" class="nav-link">Overview</a></li>
         <li><a href="workflow.html" class="nav-link">Workflow</a></li>
         <li><a href="studio.html" class="nav-link">CAD Studio</a></li>
         <li><a href="materials.html" class="nav-link">Materials</a></li>
         <li><a href="simulation.html" class="nav-link">Simulation</a></li>
-        <li><a href="fluent-cfd.html" class="nav-link">CFD Analysis</a></li>
+        <li><a href="fluent-cfd.html" class="nav-link active">CFD Analysis</a></li>
         <li><a href="studio.html#livestock" class="nav-link" style="color: #059669; font-weight: 700;">🐾 Agro-Studio</a></li>
         <li><a href="report.html" class="nav-link">Dossier</a></li>
       </ul>
@@ -117,12 +117,12 @@
       </div>
 
       <ul class="mobile-nav-links">
-        <li><a href="index.html" class="nav-link active" onclick="closeMobileMenu()"><i class="fa-solid fa-house" style="width: 20px;"></i> Overview</a></li>
+        <li><a href="index.html" class="nav-link" onclick="closeMobileMenu()"><i class="fa-solid fa-house" style="width: 20px;"></i> Overview</a></li>
         <li><a href="workflow.html" class="nav-link" onclick="closeMobileMenu()"><i class="fa-solid fa-arrows-spin" style="width: 20px;"></i> Workflow</a></li>
         <li><a href="studio.html" class="nav-link" onclick="closeMobileMenu()"><i class="fa-solid fa-cubes" style="width: 20px;"></i> CAD Studio</a></li>
         <li><a href="materials.html" class="nav-link" onclick="closeMobileMenu()"><i class="fa-solid fa-layer-group" style="width: 20px;"></i> Materials Matrix</a></li>
         <li><a href="simulation.html" class="nav-link" onclick="closeMobileMenu()"><i class="fa-solid fa-temperature-half" style="width: 20px;"></i> Thermal Simulation</a></li>
-        <li><a href="fluent-cfd.html" class="nav-link" onclick="closeMobileMenu()"><i class="fa-solid fa-wind" style="width: 20px;"></i> ANSYS Fluent CFD</a></li>
+        <li><a href="fluent-cfd.html" class="nav-link active" onclick="closeMobileMenu()"><i class="fa-solid fa-wind" style="width: 20px;"></i> ANSYS Fluent CFD</a></li>
         <li><a href="studio.html#livestock" class="nav-link" onclick="closeMobileMenu()" style="color: #059669; font-weight: 700;"><i class="fa-solid fa-paw" style="width: 20px;"></i> Agro-Studio</a></li>
         <li><a href="report.html" class="nav-link" onclick="closeMobileMenu()"><i class="fa-solid fa-file-lines" style="width: 20px;"></i> Executive Dossier</a></li>
       </ul>
@@ -135,269 +135,127 @@
       </div>
     </div>
   </div>
-  <!-- Hero Section (v2) with Floating Map & Verification Search -->
-  <section id="hero" class="hero-v2">
-    <!-- Atmospheric Ambient Layers -->
-    <div class="hero-v2__grain"></div>
-    <div class="hero-v2__grid"></div>
-    <div class="hero-orb-1"></div>
-    <div class="hero-orb-2"></div>
 
-    <!-- Skyline Silhouette at Bottom -->
-    <div class="hero-v2__skyline">
-      <img src="https://verified.realestate/assets/images/assets/chennaibg3.svg" alt="Skyline Background" onerror="this.style.display='none'" />
-    </div>
-
-    <div class="hero-v2__container">
-      <div class="hero-v2__row">
-        <!-- Left Hero Content -->
-        <div class="hero-v2__left">
-          <!-- Eyebrow Badge -->
-          <div class="hero-v2__eyebrow">
-            <span class="hero-v2__eyebrow-dot"></span>
-            <span class="hero-v2__eyebrow-text">BIOCLIMATIC CAD &amp; THERMAL INTELLIGENCE PLATFORM</span>
-          </div>
-
-          <!-- Hero Headline -->
-          <h1 class="hero-v2__heading">
-            The <em>Bioclimatic CAD</em> <span class="highlight-badge-for">for</span><br />
-            Climate-Resilient Homes
-          </h1>
-
-          <!-- Hero Subtitle -->
-          <p class="hero-v2__sub">
-            Synthesize regional microclimate vectors into parametric 2D spatial layouts, interactive 3D dollhouse CAD models, and validated conjugate heat transfer simulations.
-          </p>
-
-          <!-- Interactive Search & Action Box -->
-          <div class="hero-v2__search">
-            <div class="hero-v2__search-card">
-              <form action="#configurator" onsubmit="event.preventDefault(); document.getElementById('configurator').scrollIntoView({behavior: 'smooth'});">
-                <div class="hero-v2__search-inner">
-                  <div class="hero-v2__search-field">
-                    <span class="hero-v2__search-label">SELECT WORKFLOW MODE</span>
-                    <div class="select-wrapper">
-                      <select id="hero-action-select" class="hero-select" onchange="handleHeroSelect(this.value)">
-                        <option value="flow1" selected>🌱 Flow 1: I Don't Have a House (Full 5-Step Greenfield Pipeline)</option>
-                        <option value="flow2">📐 Flow 2: I Have a 2D Plan (Direct 3D CAD &amp; ANSYS Simulation)</option>
-                        <option value="flow3">🔍 Flow 3: I Have a House &amp; 2D Plan (Thermal Audit &amp; Material Retrofit)</option>
-                        <option value="flow4">🐾 Flow 4: Animal Husbandry Shelter (🐄 Cattle, 🐐 Goats, 🐓 Poultry)</option>
-                        <option value="#climate">Analyze regional microclimate &amp; solar radiation</option>
-                        <option value="#fluent-cfd">Validate with ANSYS Fluent CFD physics</option>
-                        <option value="#report">Compile executive thermal design dossier</option>
-                      </select>
-                      <svg class="select-chevron" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1.5L6 6.5L11 1.5" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
-                  </div>
-
-                  <button type="submit" class="hero-v2__search-btn" onclick="event.preventDefault(); handleHeroSubmit();">
-                    <span>LAUNCH STUDIO</span>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.333 8H12.667M12.667 8L8 3.333M12.667 8L8 12.667" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Floating Map Artwork -->
-        <div class="hero-v2__right">
-          <div class="hero-v2__map-wrapper">
-            <img 
-              src="https://verified.realestate/assets/images/hero1.png" 
-              alt="ThermaBuild Bioclimatic Architectural CAD Ecosystem" 
-              class="hero-v2__floating-map"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Floating Orange Quick-Action Bubble (bottom-right matching screenshot) -->
-  <a href="#configurator" class="hero-floating-bubble" title="Quick Search &amp; Assist">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="11" cy="11" r="8"></circle>
-      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-    </svg>
-  </a>
-
-
-
-  <!-- Modular Modules Grid Showcase -->
-  <section id="modules-showcase" style="padding: 40px 0 80px 0;">
-    <div class="container">
-      <div class="section-header" style="text-align: center; margin-bottom: 48px;">
-        <div class="section-pill">Modular Platform Architecture</div>
-        <h2 class="section-title">Specialized Bioclimatic Engineering Modules</h2>
-        <p class="section-desc">Access dedicated, high-performance CAD and simulation environments engineered for each stage of thermal building design.</p>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px;">
-        <!-- Card 1: CAD Studio -->
-        <div class="glass-card" style="padding: 28px; border-radius: 20px; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; justify-content: space-between;">
-          <div>
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-              <span style="font-size: 1.8rem; background: var(--theme-primary-light); width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 12px;">📐</span>
-              <span class="badge" style="background: var(--theme-primary-light); color: var(--theme-primary); font-weight: 700; padding: 4px 10px; border-radius: 9999px; font-size: 0.75rem;">CAD & 3D</span>
-            </div>
-            <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--theme-text-main); margin-bottom: 10px;">Interactive CAD Studio</h3>
-            <p style="color: var(--theme-text-secondary); font-size: 0.92rem; line-height: 1.6; margin-bottom: 20px;">
-              Tune plot dimensions, facing direction, house typology, and Vastu quadrants with live FreeCAD solid geometry and Three.js 3D dollhouse cutaways.
-            </p>
-          </div>
-          <a href="studio.html" class="btn btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
-            Launch Studio <i class="fa-solid fa-arrow-right"></i>
-          </a>
-        </div>
-
-        <!-- Card 2: Continuous Workflow -->
-        <div class="glass-card" style="padding: 28px; border-radius: 20px; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; justify-content: space-between;">
-          <div>
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-              <span style="font-size: 1.8rem; background: var(--theme-secondary-light); width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 12px;">🔄</span>
-              <span class="badge" style="background: var(--theme-secondary-light); color: var(--theme-secondary); font-weight: 700; padding: 4px 10px; border-radius: 9999px; font-size: 0.75rem;">5-Step Loop</span>
-            </div>
-            <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--theme-text-main); margin-bottom: 10px;">Continuous Engineering Loop</h3>
-            <p style="color: var(--theme-text-secondary); font-size: 0.92rem; line-height: 1.6; margin-bottom: 20px;">
-              Follow the end-to-end bioclimatic design loop from requirements to validated compliance: Spatial zoning, microclimate profiling, CAD synthesis, and CFD.
-            </p>
-          </div>
-          <a href="workflow.html" class="btn btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
-            Explore Workflow <i class="fa-solid fa-arrow-right"></i>
-          </a>
-        </div>
-
-        <!-- Card 3: Material Matrix -->
-        <div class="glass-card" style="padding: 28px; border-radius: 20px; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; justify-content: space-between;">
-          <div>
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-              <span style="font-size: 1.8rem; background: rgba(222, 114, 54, 0.1); width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 12px;">🧱</span>
-              <span class="badge" style="background: rgba(222, 114, 54, 0.1); color: var(--theme-primary); font-weight: 700; padding: 4px 10px; border-radius: 9999px; font-size: 0.75rem;">Thermal Specs</span>
-            </div>
-            <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--theme-text-main); margin-bottom: 10px;">Bioclimatic Material Matrix</h3>
-            <p style="color: var(--theme-text-secondary); font-size: 0.92rem; line-height: 1.6; margin-bottom: 20px;">
-              Thermal conductivity, U-values, and embodied carbon library for fly-ash, AAC blocks, rammed earth, cool roof coatings, and Low-E glazing.
-            </p>
-          </div>
-          <a href="materials.html" class="btn btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
-            Browse Materials <i class="fa-solid fa-arrow-right"></i>
-          </a>
-        </div>
-
-        <!-- Card 4: Simulation -->
-        <div class="glass-card" style="padding: 28px; border-radius: 20px; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; justify-content: space-between;">
-          <div>
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-              <span style="font-size: 1.8rem; background: var(--theme-secondary-light); width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 12px;">🌡️</span>
-              <span class="badge" style="background: var(--theme-secondary-light); color: var(--theme-secondary); font-weight: 700; padding: 4px 10px; border-radius: 9999px; font-size: 0.75rem;">FEA Thermal</span>
-            </div>
-            <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--theme-text-main); margin-bottom: 10px;">3D FEA Thermal Mesh</h3>
-            <p style="color: var(--theme-text-secondary); font-size: 0.92rem; line-height: 1.6; margin-bottom: 20px;">
-              Conjugate heat transfer simulation engine with 3D contour heat maps, airflow streamlines, section cuts, and 24-hr diurnal temperature balance.
-            </p>
-          </div>
-          <a href="simulation.html" class="btn btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
-            Run Thermal FEA <i class="fa-solid fa-arrow-right"></i>
-          </a>
-        </div>
-
-        <!-- Card 5: ANSYS Fluent CFD -->
-        <div class="glass-card" style="padding: 28px; border-radius: 20px; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; justify-content: space-between;">
-          <div>
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-              <span style="font-size: 1.8rem; background: #1C1F22; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 12px;">⚡</span>
-              <span class="badge" style="background: rgba(224, 108, 117, 0.15); color: #E06C75; font-weight: 700; padding: 4px 10px; border-radius: 9999px; font-size: 0.75rem;">PyFluent Ready</span>
-            </div>
-            <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--theme-text-main); margin-bottom: 10px;">ANSYS Fluent CFD Engine</h3>
-            <p style="color: var(--theme-text-secondary); font-size: 0.92rem; line-height: 1.6; margin-bottom: 20px;">
-              Automated CFD validation suite featuring live terminal simulation logs, poly-hexcore meshing, Navier-Stokes solvers, and residual convergence plots.
-            </p>
-          </div>
-          <a href="fluent-cfd.html" class="btn btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
-            Launch Fluent CFD <i class="fa-solid fa-arrow-right"></i>
-          </a>
-        </div>
-
-        <!-- Card 6: Executive Dossier -->
-        <div class="glass-card" style="padding: 28px; border-radius: 20px; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; justify-content: space-between;">
-          <div>
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-              <span style="font-size: 1.8rem; background: var(--theme-primary-light); width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 12px;">📋</span>
-              <span class="badge" style="background: var(--theme-primary-light); color: var(--theme-primary); font-weight: 700; padding: 4px 10px; border-radius: 9999px; font-size: 0.75rem;">ISO / ECBC</span>
-            </div>
-            <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--theme-text-main); margin-bottom: 10px;">Executive Thermal Dossier</h3>
-            <p style="color: var(--theme-text-secondary); font-size: 0.92rem; line-height: 1.6; margin-bottom: 20px;">
-              Client-ready architectural reports combining 2D floor blueprints, material schedules, ΔT passive reduction metrics, and print-ready PDF export.
-            </p>
-          </div>
-          <a href="report.html" class="btn btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
-            Generate Dossier <i class="fa-solid fa-arrow-right"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- Continuous Design Workflow -->
-  <section id="workflow">
+  <section style="padding: 40px 0 10px 0;">
     <div class="container">
       <div class="section-header">
-        <div class="section-pill">Continuous Engineering Loop</div>
-        <h2 class="section-title">From User Vision to Validated Thermal Comfort</h2>
-        <p class="section-desc">ThermaBuild seamlessly bridges architectural spatial planning with engineering microclimate simulation in 5 continuous steps.</p>
+        <div class="section-pill">ANSYS Fluent CFD Engine</div>
+        <h1 class="section-title" style="font-size: 2.8rem;">High-Fidelity Poly-Hexcore Mesh & Terminal Pipeline</h1>
+        <p class="section-desc" style="max-width: 780px;">Industrial CFD solver executing Navier-Stokes boundary equations, conjugate heat transfer, and solar ray-tracing with real-time terminal output.</p>
       </div>
-
-      <div class="workflow-grid">
-        <div class="glass-card workflow-step">
-          <span class="step-badge">01 · INPUT</span>
-          <div class="step-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+    </div>
+  </section>
+  <section id="fluent-cfd" style="padding: 10px 0 70px 0;">
+    <div class="container">
+      <div class="glass-card" style="padding: 36px; background: rgba(255,255,255,0.85); border: 1px solid var(--glass-border);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
+          <div>
+            <div class="section-pill" style="margin-bottom: 8px;">Tier 2 Simulation · High-Fidelity Physics Verification</div>
+            <h3 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main);">ANSYS Fluent CFD Aerothermal Validation</h3>
+            <p style="font-size: 0.92rem; color: var(--text-secondary); margin-top: 4px;">
+              Loads <code style="background:#f0eae4; padding:2px 6px; border-radius:4px;">house.step</code> solid CAD, generates polyhedral boundary inflation meshes, and solves 3D Navier-Stokes airflow & solar conjugate heat transfer.
+            </p>
           </div>
-          <h3 class="step-name">Define</h3>
-          <p class="step-description">Provide coordinates, plot dimensions, facing direction, room program, and architectural preferences.</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <span id="fluent-mode-badge" style="background: rgba(222,114,54,0.12); color: var(--accent-orange); padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; border: 1px solid rgba(222,114,54,0.3);">
+              Dual-Mode Ready (SIH Pipeline)
+            </span>
+            <button class="btn btn-primary" id="btn-run-cfd" onclick="runFluentCfd()" style="padding: 12px 24px; font-size: 0.95rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Run ANSYS Fluent CFD
+            </button>
+          </div>
         </div>
 
-        <div class="glass-card workflow-step">
-          <span class="step-badge">02 · WEATHER</span>
-          <div class="step-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <!-- 10-Stage Pipeline Progress & Live Console -->
+        <div id="cfd-pipeline-container" style="display: none; margin-bottom: 28px; background: #1C1F22; border-radius: 12px; padding: 20px; color: #f0f0f0; font-family: var(--font-mono); font-size: 0.85rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 14px; border-bottom: 1px solid #333; padding-bottom: 10px;">
+            <span style="color: #DE7236; font-weight: 700;">▶ ANSYS Fluent Meshing & Navier-Stokes Execution Pipeline</span>
+            <span id="cfd-progress-pct" style="color: #66bb6a;">0%</span>
           </div>
-          <h3 class="step-name">Analyze</h3>
-          <p class="step-description">Query diurnal temperature swings, solar radiation vectors, and prevailing winds via Open-Meteo & EPW.</p>
+          <div id="cfd-terminal-log" style="max-height: 180px; overflow-y: auto; line-height: 1.6; color: #b0bec5;">
+            Ready to initialize Watertight Geometry workflow...
+          </div>
         </div>
 
-        <div class="glass-card workflow-step">
-          <span class="step-badge">03 · GEOMETRY</span>
-          <div class="step-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        <!-- 3-Way Comparative Benchmark Table -->
+        <div style="margin-top: 16px;">
+          <h4 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">3-Way Performance Verification Matrix</h4>
+          <div style="overflow-x: auto;">
+            <table class="dossier-table" style="width: 100%; border-collapse: collapse; font-size: 0.88rem;">
+              <thead>
+                <tr>
+                  <th style="background:#F5EFEB; padding:12px; text-align:left;">Engineering Metric</th>
+                  <th style="background:#FDF2F0; padding:12px; color:#8A3B2E; text-align:left;">1. Baseline Reference House</th>
+                  <th style="background:#FDF4ED; padding:12px; color:var(--accent-orange); text-align:left;">2. ThermaBuild Recommendation</th>
+                  <th style="background:#EDF7ED; padding:12px; color:#2E7D32; text-align:left;">3. ANSYS Fluent Validation</th>
+                </tr>
+              </thead>
+              <tbody id="matrix-tbody">
+                <tr>
+                  <td style="padding:10px; font-weight:600; border-bottom:1px solid #eee;">Exterior Wall Assembly</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee;">Burnt Clay Brick 230mm (U=2.15)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:600; color:var(--accent-orange);" id="td-rec-wall">AAC Block 200mm (U=0.38)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:600; color:#2E7D32;" id="td-cfd-wall">Validated (U=0.38 W/m²K)</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; font-weight:600; border-bottom:1px solid #eee;">Roof Slab Specification</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee;">RCC 150mm Uninsulated (U=3.20)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:600; color:var(--accent-orange);" id="td-rec-roof">Cool Roof + 50mm XPS (U=0.26)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:600; color:#2E7D32;" id="td-cfd-roof">Validated (U=0.26 W/m²K)</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; font-weight:600; border-bottom:1px solid #eee;">Glazing System</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee;">Single Clear 5mm (SHGC=0.82)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:600; color:var(--accent-orange);" id="td-rec-win">Double Low-E Argon (SHGC=0.27)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:600; color:#2E7D32;" id="td-cfd-win">Validated (SHGC=0.27)</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; font-weight:600; border-bottom:1px solid #eee;">Peak Indoor Temperature</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; color:#8A3B2E;" id="td-base-temp">42.5°C</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:700; color:var(--accent-orange);" id="td-rec-temp">36.0°C (Predicted 1D-RC)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:700; color:#2E7D32;" id="td-cfd-temp">27.1°C (Aerothermal Conjugate)</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; font-weight:600; border-bottom:1px solid #eee;">Natural Ventilation Rate</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee;">0.8 ACH (Infiltration)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:600; color:var(--accent-orange);">3.5 ACH (Bernoulli Pressure)</td>
+                  <td style="padding:10px; border-bottom:1px solid #eee; font-weight:600; color:#2E7D32;" id="td-cfd-ach">7.5 ACH (Cross-Draft Navier-Stokes)</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px; font-weight:600;">ECBC 2017 Compliance</td>
+                  <td style="padding:10px; color:#C62828;">Non-Compliant</td>
+                  <td style="padding:10px; font-weight:700; color:var(--accent-orange);">ECBC+ Compliant</td>
+                  <td style="padding:10px; font-weight:700; color:#2E7D32;">Verified ECBC+ Tier</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <h3 class="step-name">Design</h3>
-          <p class="step-description">Synthesize 2D spatial layouts, Vastu compliance scores, and 3D parametric CAD solid boundaries.</p>
         </div>
 
-        <div class="glass-card workflow-step">
-          <span class="step-badge">04 · SIMULATE</span>
-          <div class="step-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--glass-border-subtle); flex-wrap: wrap; gap: 12px;">
+          <div style="font-size: 0.85rem; color: var(--text-muted);">
+            Structured CAD Model: <a id="link-step-download" href="output/project-custom/house.step" download style="color:var(--accent-orange); font-weight:600; text-decoration:none;">house.step</a> &middot; FreeCAD Script: <a id="link-cad-script" href="output/project-custom/generate_cad.py" target="_blank" style="color:var(--accent-orange); font-weight:600; text-decoration:none;">generate_cad.py</a>
           </div>
-          <h3 class="step-name">Simulate</h3>
-          <p class="step-description">Execute conjugate heat transfer analysis calculating interior operative temperatures and thermal lag.</p>
+          <button class="btn btn-secondary" onclick="openDossierModal()" style="font-size: 0.9rem; padding: 10px 22px;">
+            Open Executive Dossier Report
+          </button>
         </div>
 
-        <div class="glass-card workflow-step">
-          <span class="step-badge">05 · OPTIMIZE</span>
-          <div class="step-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-          </div>
-          <h3 class="step-name">Optimize</h3>
-          <p class="step-description">Fine-tune insulation, high-albedo roofing, and fenestration for minimal cooling load and net-zero readiness.</p>
-        </div>
       </div>
     </div>
   </section>
 
-  <!-- ==========================================================================
-       ThermaBuild Interactive Design Studio: 5-Step Hackathon Pipeline Flow
+
+
+  <div class="container" style="display: flex; justify-content: center; gap: 16px; margin: 30px auto 60px auto;">
+    <a href="simulation.html" class="btn btn-secondary" style="padding: 14px 28px; text-decoration: none;">
+      <i class="fa-solid fa-arrow-left"></i> Thermal Simulation
+    </a>
+    <a href="report.html" class="btn btn-primary" style="padding: 14px 28px; text-decoration: none;">
+      Generate Executive Dossier <i class="fa-solid fa-arrow-right"></i>
+    </a>
+  </div>
 
   <!-- Farmer Dossier Modal (Print & PDF) -->
   <div class="dossier-modal" id="farmer-dossier-modal" onclick="closeFarmerDossierOnBackdrop(event)">

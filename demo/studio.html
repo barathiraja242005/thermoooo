@@ -1,0 +1,2434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Studio — ThermaBuild Bioclimatic CAD Configurator</title>
+
+  <!-- High-end Architectural Typography: EB Garamond, Plus Jakarta Sans & Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet Interactive Maps CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Plotly.js CDN for 3D Thermal FEA Mesh Analysis -->
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
+  <!-- Three.js r160 -->
+  <script src="assets/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
+
+  <!-- ThermaBuild Theme Tokens & Color Props -->
+  <link rel="stylesheet" href="css/theme.css">
+  <!-- Shared Core Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Theme Prop Engine & Global Navigation Sync -->
+  <script src="js/theme.js"></script>
+  <script src="js/common.js"></script>
+</head>
+<body>
+
+  <!-- Ambient Spatial Lighting Orbs -->
+  <div class="spatial-glow-top"></div>
+  <div class="spatial-glow-left"></div>
+
+  <!-- Top Announcement Bar -->
+  <div class="announcement-banner">
+    <div class="container announcement-container">
+      <span class="announcement-pill">
+        <span class="announcement-dot"></span>
+        v2.4 Live
+      </span>
+      <a href="studio.html" class="announcement-link">
+        Explore <span>ThermaBuild CAD Studio</span> — Diurnal Conjugate Heat Simulation &amp; Vastu Matrix <i class="fa-solid fa-arrow-right" style="font-size: 11px; margin-left: 2px;"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="site-header">
+    <div class="navbar-container">
+      <a href="index.html" class="brand-logo" title="ThermaBuild Home">
+        <div class="brand-icon-box">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <div class="brand-text-wrap">
+          <div class="brand-title-row">
+            <span class="brand-text">ThermaBuild</span>
+            <span class="brand-badge">STUDIO</span>
+          </div>
+          <span class="brand-tagline">Bioclimatic CAD &amp; Thermal Platform</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Menu -->
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Overview</a></li>
+        <li><a href="workflow.html" class="nav-link">Workflow</a></li>
+        <li><a href="studio.html" class="nav-link active">CAD Studio</a></li>
+        <li><a href="materials.html" class="nav-link">Materials</a></li>
+        <li><a href="simulation.html" class="nav-link">Simulation</a></li>
+        <li><a href="fluent-cfd.html" class="nav-link">CFD Analysis</a></li>
+        <li><a href="studio.html#livestock" class="nav-link" style="color: #059669; font-weight: 700;">🐾 Agro-Studio</a></li>
+        <li><a href="report.html" class="nav-link">Dossier</a></li>
+      </ul>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <button class="header-theme-toggle" onclick="document.getElementById('theme-customizer-toggle') && document.getElementById('theme-customizer-toggle').click()" title="Customize Color Theme Props">
+          <i class="fa-solid fa-palette"></i>
+          <span>Theme</span>
+        </button>
+        <a href="workflow.html" class="btn-refer">Architecture</a>
+        <a href="studio.html" class="btn-corporate">Launch Studio <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        
+        <!-- Mobile Menu Toggle Button -->
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Navigation -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" onclick="if(event.target===this) closeMobileMenu()">
+    <div class="mobile-nav-content">
+      <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--theme-border); padding-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div class="brand-icon-box" style="width: 32px; height: 32px; border-radius: 8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          </div>
+          <span style="font-weight: 800; font-size: 1.1rem; color: var(--theme-text-main);">ThermaBuild</span>
+        </div>
+        <button onclick="closeMobileMenu()" style="background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--theme-text-muted);">✕</button>
+      </div>
+
+      <ul class="mobile-nav-links">
+        <li><a href="index.html" class="nav-link" onclick="closeMobileMenu()"><i class="fa-solid fa-house" style="width: 20px;"></i> Overview</a></li>
+        <li><a href="workflow.html" class="nav-link" onclick="closeMobileMenu()"><i class="fa-solid fa-arrows-spin" style="width: 20px;"></i> Workflow</a></li>
+        <li><a href="studio.html" class="nav-link active" onclick="closeMobileMenu()"><i class="fa-solid fa-cubes" style="width: 20px;"></i> CAD Studio</a></li>
+        <li><a href="materials.html" class="nav-link" onclick="closeMobileMenu()"><i class="fa-solid fa-layer-group" style="width: 20px;"></i> Materials Matrix</a></li>
+        <li><a href="simulation.html" class="nav-link" onclick="closeMobileMenu()"><i class="fa-solid fa-temperature-half" style="width: 20px;"></i> Thermal Simulation</a></li>
+        <li><a href="fluent-cfd.html" class="nav-link" onclick="closeMobileMenu()"><i class="fa-solid fa-wind" style="width: 20px;"></i> ANSYS Fluent CFD</a></li>
+        <li><a href="studio.html#livestock" class="nav-link" onclick="closeMobileMenu()" style="color: #059669; font-weight: 700;"><i class="fa-solid fa-paw" style="width: 20px;"></i> Agro-Studio</a></li>
+        <li><a href="report.html" class="nav-link" onclick="closeMobileMenu()"><i class="fa-solid fa-file-lines" style="width: 20px;"></i> Executive Dossier</a></li>
+      </ul>
+
+      <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px; padding-top: 16px; border-top: 1px solid var(--theme-border);">
+        <button class="header-theme-toggle" onclick="closeMobileMenu(); document.getElementById('theme-customizer-toggle').click()" style="justify-content: center;">
+          <i class="fa-solid fa-palette"></i> Customize Theme Props
+        </button>
+        <a href="studio.html" class="btn btn-primary" style="justify-content: center; text-decoration: none;">Launch Studio</a>
+      </div>
+    </div>
+  </div>
+       ========================================================================== -->
+  <section id="configurator" style="scroll-margin-top: 80px;">
+    <div class="container" id="studio-section">
+      <div class="section-header">
+        <div class="section-pill">Interactive Design Studio</div>
+        <h2 class="section-title">Parametric Bioclimatic Architectural Pipeline</h2>
+        <p class="section-desc">From geographic microclimate and Vedic Vastu alignment to 2D thermal blueprints, 3D digital twins, and ANSYS Fluent CFD validation.</p>
+      </div>
+
+      <!-- 3-Flow Platform Architecture Mode Switcher Hub -->
+      <div class="flow-selector-hub" id="flow-selector-hub">
+        <!-- Flow 1 -->
+        <div class="flow-card-btn active" id="flow-card-1" onclick="switchMainFlow(1)">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span class="flow-badge flow-badge-1"><i class="fa-solid fa-wand-magic-sparkles"></i> Flow 1 · Greenfield</span>
+            <span class="flow-step-count">5 Steps</span>
+          </div>
+          <h4 class="flow-card-title">🌱 I Don't Have a House</h4>
+          <p class="flow-card-desc">End-to-end design: GIS microclimate, Vedic Vastu, procedural 2D layout, 3D digital twin &amp; ANSYS CFD simulation.</p>
+          <div class="flow-card-footer">
+            <span class="flow-cta-text">Start Full Pipeline <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </div>
+
+        <!-- Flow 2 -->
+        <div class="flow-card-btn" id="flow-card-2" onclick="switchMainFlow(2)">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span class="flow-badge flow-badge-2"><i class="fa-solid fa-bolt"></i> Flow 2 · Fast Track</span>
+            <span class="flow-step-count">3 Steps · Skips 1–3</span>
+          </div>
+          <h4 class="flow-card-title">📐 I Have a 2D Plan (No House)</h4>
+          <p class="flow-card-desc">Upload or select your 2D plan directly, bypass greenfield design, synthesize 3D BIM model immediately, and run ANSYS simulation.</p>
+          <div class="flow-card-footer">
+            <span class="flow-cta-text">Direct 3D &amp; CFD <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </div>
+
+        <!-- Flow 3 -->
+        <div class="flow-card-btn" id="flow-card-3" onclick="switchMainFlow(3)">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span class="flow-badge flow-badge-3"><i class="fa-solid fa-house-chimney-crack"></i> Flow 3 · Thermal Audit</span>
+            <span class="flow-step-count">2 Steps · Diagnostic</span>
+          </div>
+          <h4 class="flow-card-title">🔍 I Have a House &amp; 2D Plan</h4>
+          <p class="flow-card-desc">Input your 2D plan + existing wall, roof &amp; glazing materials to get comparative ANSYS simulation &amp; retrofit material suggestions.</p>
+          <div class="flow-card-footer">
+            <span class="flow-cta-text">Diagnose &amp; Optimize <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </div>
+
+        <!-- Flow 4 -->
+        <div class="flow-card-btn" id="flow-card-4" onclick="switchMainFlow(4)">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span class="flow-badge flow-badge-4"><i class="fa-solid fa-cow"></i> Flow 4 · Agro-Shelter</span>
+            <span class="flow-step-count">Livestock</span>
+          </div>
+          <h4 class="flow-card-title">🐾 Animal Husbandry Shelter</h4>
+          <p class="flow-card-desc">Climate-responsive shelters for Cattle, Goats &amp; Poultry: 3D thermal heat-map, THI stress mitigation &amp; vernacular BOQ.</p>
+          <div class="flow-card-footer">
+            <span class="flow-cta-text" style="color: #059669;">Livestock 3D Studio <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flow 1 Stepper Rail (5 Steps) -->
+      <div class="studio-stepper-nav" id="stepper-flow-1">
+        <div class="studio-step-tab active" id="tab-step-1" onclick="goToStep(1)">
+          <div class="step-tab-num">1</div>
+          <div>
+            <span class="step-tab-title">
+              <i class="fa-solid fa-map-location-dot" style="font-size: 0.78rem; margin-right: 4px; color: #FF6725;"></i> Site &amp; Map
+            </span>
+            <span class="step-tab-sub">Leaflet &amp; Climate</span>
+          </div>
+        </div>
+        <div class="studio-step-tab" id="tab-step-2" onclick="goToStep(2)">
+          <div class="step-tab-num">2</div>
+          <div>
+            <span class="step-tab-title">
+              <i class="fa-solid fa-compass-drafting" style="font-size: 0.78rem; margin-right: 4px; color: #848D96;"></i> Specs &amp; Vastu
+            </span>
+            <span class="step-tab-sub">BHK, Area &amp; Facing</span>
+          </div>
+        </div>
+        <div class="studio-step-tab" id="tab-step-3" onclick="goToStep(3)">
+          <div class="step-tab-num">3</div>
+          <div>
+            <span class="step-tab-title">
+              <i class="fa-solid fa-layer-group" style="font-size: 0.78rem; margin-right: 4px; color: #848D96;"></i> 2D Plan &amp; Specs
+            </span>
+            <span class="step-tab-sub">Architectural &amp; Materials</span>
+          </div>
+        </div>
+        <div class="studio-step-tab" id="tab-step-4" onclick="goToStep(4)">
+          <div class="step-tab-num">4</div>
+          <div>
+            <span class="step-tab-title">
+              <i class="fa-solid fa-cube" style="font-size: 0.78rem; margin-right: 4px; color: #848D96;"></i> 3D BIM &amp; Tour
+            </span>
+            <span class="step-tab-sub">Digital Twin Walkthrough</span>
+          </div>
+        </div>
+        <div class="studio-step-tab" id="tab-step-5" onclick="goToStep(5)">
+          <div class="step-tab-num">5</div>
+          <div>
+            <span class="step-tab-title">
+              <i class="fa-solid fa-wind" style="font-size: 0.78rem; margin-right: 4px; color: #848D96;"></i> ANSYS CFD Report
+            </span>
+            <span class="step-tab-sub">Thermal &amp; Aerothermal</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flow 2 Stepper Rail (3 Steps - Skips Steps 1-3) -->
+      <div class="studio-stepper-nav" id="stepper-flow-2" style="display: none; grid-template-columns: repeat(3, 1fr);">
+        <div class="studio-step-tab active" id="f2-tab-1" onclick="goToFlow2Step(1)">
+          <div class="step-tab-num">1</div>
+          <div>
+            <span class="step-tab-title">
+              <i class="fa-solid fa-file-arrow-up" style="font-size: 0.78rem; margin-right: 4px; color: #FF6725;"></i> 2D Plan Intake
+            </span>
+            <span class="step-tab-sub">Upload / Select Blueprint</span>
+          </div>
+        </div>
+        <div class="studio-step-tab" id="f2-tab-2" onclick="goToFlow2Step(2)">
+          <div class="step-tab-num">2</div>
+          <div>
+            <span class="step-tab-title">
+              <i class="fa-solid fa-cube" style="font-size: 0.78rem; margin-right: 4px; color: #848D96;"></i> 3D BIM Digital Twin
+            </span>
+            <span class="step-tab-sub">Direct 3D CAD Extrusion</span>
+          </div>
+        </div>
+        <div class="studio-step-tab" id="f2-tab-3" onclick="goToFlow2Step(3)">
+          <div class="step-tab-num">3</div>
+          <div>
+            <span class="step-tab-title">
+              <i class="fa-solid fa-wind" style="font-size: 0.78rem; margin-right: 4px; color: #848D96;"></i> ANSYS CFD Report
+            </span>
+            <span class="step-tab-sub">Aerothermal &amp; Comfort Validation</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flow 3 Stepper Rail (2 Steps - Existing House Thermal Audit) -->
+      <div class="studio-stepper-nav" id="stepper-flow-3" style="display: none; grid-template-columns: repeat(2, 1fr);">
+        <div class="studio-step-tab active" id="f3-tab-1" onclick="goToFlow3Step(1)">
+          <div class="step-tab-num">1</div>
+          <div>
+            <span class="step-tab-title">
+              <i class="fa-solid fa-clipboard-check" style="font-size: 0.78rem; margin-right: 4px; color: #FF6725;"></i> House &amp; Material Audit
+            </span>
+            <span class="step-tab-sub">2D Plan + Envelope Construction</span>
+          </div>
+        </div>
+        <div class="studio-step-tab" id="f3-tab-2" onclick="goToFlow3Step(2)">
+          <div class="step-tab-num">2</div>
+          <div>
+            <span class="step-tab-title">
+              <i class="fa-solid fa-chart-line" style="font-size: 0.78rem; margin-right: 4px; color: #848D96;"></i> ANSYS Audit &amp; Retrofit
+            </span>
+            <span class="step-tab-sub">Side-by-Side CFD &amp; Materials</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flow 4 Stepper Rail (Agro-Shelter Studio) -->
+      <div class="studio-stepper-nav" id="stepper-flow-4" style="display: none; grid-template-columns: 1fr;">
+        <div class="studio-step-tab active" id="f4-tab-1">
+          <div class="step-tab-num">🐾</div>
+          <div>
+            <span class="step-tab-title">
+              <i class="fa-solid fa-cow" style="font-size: 0.78rem; margin-right: 4px; color: #059669;"></i> Bioclimatic Agro-Shelter Studio
+            </span>
+            <span class="step-tab-sub">Species THI &middot; 3D Heat-Map &middot; Natural Ventilation &middot; Vernacular BOQ</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 1: Spatial Holographic GIS Terminal Layout (Integrated Floating Glass Islands) -->
+      <div class="studio-flow-step active" id="flow-step-1">
+        <div class="glass-card" style="padding: 28px 28px 24px 28px; position: relative; overflow: hidden; border-radius: 28px;">
+          <!-- Ambient Parallax Glass Glow Accents -->
+          <div style="position: absolute; top: -60px; right: -60px; width: 320px; height: 320px; background: radial-gradient(circle, rgba(255, 103, 37, 0.14) 0%, transparent 70%); filter: blur(45px); pointer-events: none; border-radius: 50%;"></div>
+          <div style="position: absolute; bottom: -60px; left: 10%; width: 340px; height: 340px; background: radial-gradient(circle, rgba(62, 128, 116, 0.12) 0%, transparent 70%); filter: blur(50px); pointer-events: none; border-radius: 50%;"></div>
+
+          <!-- Section Header Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; position: relative; z-index: 2;">
+            <div>
+              <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: #EA580C; background: rgba(255, 241, 235, 0.95); border: 1px solid rgba(234, 88, 12, 0.25); padding: 4px 12px; border-radius: 999px; margin-bottom: 6px; box-shadow: 0 2px 8px rgba(234, 88, 12, 0.08);">
+                <i class="fa-solid fa-satellite-dish" style="font-size: 10px;"></i> Step 01 · Site Telemetry
+              </div>
+              <h3 style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; color: #0F172A; letter-spacing: -0.4px; margin: 0 0 4px 0;">
+                📍 Select Site Location &amp; Microclimate
+              </h3>
+              <p style="font-size: 0.88rem; color: #64748B; margin: 0;">
+                High-altitude Trans-Himalayan bioclimatic vectors across Ladakh &amp; cold regions. Drag the pin or click on the map to sample live telemetry.
+              </p>
+            </div>
+          </div>
+
+          <!-- Integrated Spatial Viewport -->
+          <div class="spatial-gis-viewport">
+            <!-- Leaflet Interactive Canvas -->
+            <div id="verifyMap"></div>
+
+            <!-- Map Overlay Prompt -->
+            <div class="map-overlay" id="mapOverlay" style="display: none;">
+              <div class="overlay-content">
+                <i class="fa-solid fa-hand-pointer fa-2x mb-3" style="color: #FF6725;"></i>
+                <h5>Click on the map to select your property</h5>
+                <p>Or use the search box to find a location</p>
+              </div>
+            </div>
+
+            <!-- 1. Floating Top Command Bar (Search + Ladakh Quick Presets) -->
+            <div class="spatial-top-dock">
+              <!-- Search Box -->
+              <div class="verify-map-search-container spatial-search-box" style="position: relative; top: 0; left: 0;">
+                <div class="verify-search-wrapper" style="box-shadow: 0 10px 30px rgba(0,0,0,0.12); border-radius: 999px; background: rgba(255, 255, 255, 0.9);">
+                  <i class="fa-solid fa-search search-icon" style="color: #FF6725;"></i>
+                  <input type="text" id="verifyMapSearchBox" class="verify-map-search-input" placeholder="Search Ladakh places, coords..." autocomplete="off">
+                  <button type="button" class="clear-search-btn" id="clearSearchBtn" style="display: none;" title="Clear search">
+                    <i class="fa-solid fa-times"></i>
+                  </button>
+                </div>
+                <div id="verifySearchResults" class="verify-search-results" style="display: none;">
+                  <div class="search-result-item" data-index="0" onclick="selectMapPreset('leh', 'Leh Main Bazaar, Ladakh (3,500m ASL)', 34.1526, 77.5771)"><div class="result-name">🏔️ Leh Main Bazaar, Leh, Ladakh (3,500m ASL)</div></div>
+                  <div class="search-result-item" data-index="1" onclick="selectMapPreset('nubra', 'Diskit, Nubra Valley, Ladakh (3,144m ASL)', 34.5428, 77.5619)"><div class="result-name">🏜️ Diskit, Nubra Valley, Ladakh (3,144m ASL)</div></div>
+                  <div class="search-result-item" data-index="2" onclick="selectMapPreset('kargil', 'Kargil Suru Valley, Ladakh (2,676m ASL)', 34.5539, 76.1349)"><div class="result-name">❄️ Kargil Town, Suru Valley, Ladakh (2,676m ASL)</div></div>
+                  <div class="search-result-item" data-index="3" onclick="selectMapPreset('dras', 'Dras Valley, Ladakh (Coldest Inhabited, 3,280m ASL)', 34.4294, 75.7533)"><div class="result-name">🧊 Dras Valley, Ladakh (Coldest Inhabited Region, 3,280m ASL)</div></div>
+                  <div class="search-result-item" data-index="4" onclick="selectMapPreset('pangong', 'Pangong Tso, Changthang Plateau, Ladakh (4,250m ASL)', 33.7595, 78.6674)"><div class="result-name">🌊 Pangong Tso, Changthang Plateau, Ladakh (4,250m ASL)</div></div>
+                </div>
+              </div>
+
+              <!-- Quick Presets -->
+              <div class="spatial-presets-bar">
+                <span style="font-size: 0.72rem; font-weight: 800; color: #0284C7; padding: 2px 6px; display: inline-flex; align-items: center; gap: 4px; text-transform: uppercase; letter-spacing: 0.5px;">
+                  <i class="fa-solid fa-snowflake" style="font-size: 10px;"></i> Presets:
+                </span>
+                <button class="preset-chip-btn active btn-primary" id="preset-btn-leh" onclick="selectMapPreset('leh', 'Leh Main Bazaar, Ladakh (3,500m ASL)', 34.1526, 77.5771)">🏔️ Leh</button>
+                <button class="preset-chip-btn" id="preset-btn-nubra" onclick="selectMapPreset('nubra', 'Diskit, Nubra Valley, Ladakh (3,144m ASL)', 34.5428, 77.5619)">🏜️ Nubra</button>
+                <button class="preset-chip-btn" id="preset-btn-kargil" onclick="selectMapPreset('kargil', 'Kargil Suru Valley, Ladakh (2,676m ASL)', 34.5539, 76.1349)">❄️ Kargil</button>
+                <button class="preset-chip-btn" id="preset-btn-dras" onclick="selectMapPreset('dras', 'Dras Valley, Ladakh (Coldest Inhabited, 3,280m ASL)', 34.4294, 75.7533)">🧊 Dras</button>
+                <button class="preset-chip-btn" id="preset-btn-pangong" onclick="selectMapPreset('pangong', 'Pangong Tso, Changthang Plateau, Ladakh (4,250m ASL)', 33.7595, 78.6674)">🌊 Pangong</button>
+                <button class="preset-chip-btn" id="preset-btn-spiti" onclick="selectMapPreset('spiti', 'Kaza, Spiti Valley, Himachal Pradesh (3,650m ASL)', 32.2276, 78.0710)">⛰️ Spiti</button>
+              </div>
+            </div>
+
+            <!-- 2. Floating Left Active Location Island -->
+            <div class="spatial-location-island">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span class="live-telemetry-pill">
+                  <span class="live-dot"></span> Live Telemetry
+                </span>
+                <span class="hud-elev-pill" id="hud-elev-badge" title="Terrain Elevation Above Sea Level">
+                  <i class="fa-solid fa-mountain" style="color: #0284C7; font-size: 11px;"></i>
+                  <span id="hud-elevation">3,500m ASL</span>
+                </span>
+              </div>
+              <div style="margin-bottom: 10px;">
+                <div style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #94A3B8; margin-bottom: 2px;">Selected Site Location</div>
+                <h4 id="site-loc-name" style="font-family: var(--font-heading); font-size: 1.05rem; font-weight: 800; color: #0F172A; margin: 0 0 6px 0; line-height: 1.3;">Leh Main Bazaar, Ladakh</h4>
+                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                  <span class="zone-badge-pill" id="site-zone-pill" style="font-size: 0.68rem; padding: 3px 9px;">Cold Arid Zone</span>
+                </div>
+              </div>
+              <div style="padding: 8px 12px; background: rgba(248, 250, 252, 0.85); border-radius: 12px; border: 1px solid rgba(226, 232, 240, 0.8); display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-size: 0.72rem; color: #64748B; font-weight: 600;"><i class="fa-solid fa-crosshairs" style="color: #FF6725; margin-right: 4px;"></i> Coordinates</span>
+                <span id="hud-exact-coords" style="font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; color: #1E293B;">34.1526° N, 77.5771° E</span>
+              </div>
+            </div>
+
+            <!-- 3. Floating Right Telemetry HUD Matrix -->
+            <div class="spatial-telemetry-matrix">
+              <!-- Tile 1: Summer Peak -->
+              <div class="spatial-metric-tile">
+                <div class="spatial-tile-left">
+                  <div style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #94A3B8; margin-bottom: 2px;">Summer Peak</div>
+                  <div style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; color: #DC2626; line-height: 1.1;" id="hud-temp">24.5°C</div>
+                  <div style="font-size: 0.7rem; color: #64748B; margin-top: 2px;">
+                    Diurnal swing <strong id="hud-diurnal" style="color: #B91C1C;">17.5°C</strong> (Winter: -18°C)
+                  </div>
+                </div>
+                <div class="spatial-tile-icon" style="background: rgba(239, 68, 68, 0.12);">
+                  <i class="fa-solid fa-temperature-arrow-up" style="color: #EF4444; font-size: 16px;"></i>
+                </div>
+              </div>
+
+              <!-- Tile 2: Solar Irradiance -->
+              <div class="spatial-metric-tile">
+                <div class="spatial-tile-left">
+                  <div style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #94A3B8; margin-bottom: 2px;">Solar Irradiance</div>
+                  <div style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; color: #D97706; line-height: 1.1;" id="hud-solar">1040 W/m²</div>
+                  <div style="font-size: 0.7rem; color: #64748B; margin-top: 2px;" id="hud-solar-type">Peak Direct Normal (DNI)</div>
+                </div>
+                <div class="spatial-tile-icon" style="background: rgba(245, 158, 11, 0.14);">
+                  <i class="fa-solid fa-sun" style="color: #F59E0B; font-size: 16px;"></i>
+                </div>
+              </div>
+
+              <!-- Tile 3: Prevailing Wind -->
+              <div class="spatial-metric-tile">
+                <div class="spatial-tile-left">
+                  <div style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #94A3B8; margin-bottom: 2px;">Prevailing Wind</div>
+                  <div style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; color: #0F766E; line-height: 1.1;" id="hud-wind">4.2 m/s</div>
+                  <div style="font-size: 0.7rem; color: #64748B; margin-top: 2px;">
+                    Direction: <strong id="hud-wind-dir" style="color: #0D9488;">WNW</strong> (<span id="hud-wind-kmh">15.1 km/h</span>)
+                  </div>
+                </div>
+                <div class="spatial-tile-icon" style="background: rgba(13, 148, 136, 0.14);">
+                  <i class="fa-solid fa-wind" style="color: #0D9488; font-size: 16px;"></i>
+                </div>
+              </div>
+
+              <!-- Tile 4: Relative Humidity -->
+              <div class="spatial-metric-tile">
+                <div class="spatial-tile-left">
+                  <div style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #94A3B8; margin-bottom: 2px;">Rel. Humidity</div>
+                  <div style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; color: #1D4ED8; line-height: 1.1;" id="hud-hum">22%</div>
+                  <div style="font-size: 0.7rem; color: #64748B; margin-top: 2px;" id="hud-hum-status">Sub-zero retention optimal</div>
+                </div>
+                <div class="spatial-tile-icon" style="background: rgba(37, 99, 235, 0.12);">
+                  <i class="fa-solid fa-droplet" style="color: #2563EB; font-size: 16px;"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Layer Switcher Panel -->
+            <div class="base-layer-switcher">
+              <button class="layer-toggle-btn" id="layerToggleBtn" title="Change Map Style">
+                <i class="fa-solid fa-layer-group"></i>
+              </button>
+              <div class="layer-switcher-panel" id="layerSwitcherPanel">
+                <div class="layer-switcher-title">Map Style</div>
+                <div class="layer-options">
+                  <button id="layer-light" class="layer-switch-btn" title="Light Map">
+                    <i class="fa-solid fa-sun"></i>
+                    <span>Light</span>
+                  </button>
+                  <button id="layer-standard" class="layer-switch-btn" title="Standard Map">
+                    <i class="fa-solid fa-map"></i>
+                    <span>Standard</span>
+                  </button>
+                  <button id="layer-satellite" class="layer-switch-btn active" title="Satellite View">
+                    <i class="fa-solid fa-satellite"></i>
+                    <span>Satellite</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating Map Controls -->
+            <div class="map-controls">
+              <button id="layerToggleBtnMobile" class="map-control-btn layer-toggle-mobile" title="Change Map Style">
+                <i class="fa-solid fa-layer-group"></i>
+              </button>
+              <button id="currentLocationBtn" class="map-control-btn" title="Use current location">
+                <i class="fa-solid fa-location-crosshairs"></i>
+              </button>
+              <button id="zoomInBtn" class="map-control-btn" title="Zoom in">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+              <button id="zoomOutBtn" class="map-control-btn" title="Zoom out">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+            </div>
+
+            <!-- Floating Coordinate Pill (Bottom-Left on Map) -->
+            <div style="position: absolute; bottom: 84px; left: 18px; z-index: 500; display: flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(14px); padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.95); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);">
+              <span class="popup-live-dot"></span>
+              <span style="font-size: 0.7rem; font-weight: 600; color: #475569;">Target:</span>
+              <span id="map-coords-display" style="font-family: var(--font-mono); font-weight: 700; color: #EA580C; font-size: 0.74rem;">
+                34.1526° N, 77.5771° E
+              </span>
+            </div>
+
+            <!-- 4. Floating Bottom Action Dock -->
+            <div class="spatial-bottom-dock">
+              <!-- ECBC Bioclimatic Directive Banner -->
+              <div class="spatial-directive-glass">
+                <div style="display: flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 800; color: #C2410C; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.5px;">
+                  <i class="fa-solid fa-compass-drafting"></i>
+                  <span>ECBC 2017 Bioclimatic Architecture Directive</span>
+                </div>
+                <div style="font-size: 0.8rem; color: #334155; line-height: 1.4; font-weight: 500;" id="hud-directive">
+                  Direct passive solar gain via unshaded South solarium / Trombe wall, stabilized rammed-earth mass storage, airtight triple-glazing (U &lt; 1.3), and airlock buffer vestibule.
+                </div>
+              </div>
+
+              <!-- Primary Action Button -->
+              <button class="spatial-cta-btn" onclick="goToStep(2)">
+                <span>Confirm Location &amp; Set Specs</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+
+            <!-- Frosted Loading Overlay -->
+            <div class="map-loading" id="mapLoading" style="display: none;">
+              <div class="loading-animation">
+                <div class="loading-circle"></div>
+                <div class="loading-circle"></div>
+                <div class="loading-circle"></div>
+              </div>
+              <p class="loading-text">Analyzing microclimate telemetry...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: House Specifications & Vastu Engine -->
+      <div class="studio-flow-step" id="flow-step-2">
+        <div class="glass-card" style="padding: 22px 26px;">
+          <!-- Compact Header -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px; margin: 0;">
+                <span>📐</span> House Specifications &amp; Vedic Vastu Alignment
+              </h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 3px 0 0 0;">
+                Configure bedroom program, footprint, solar facing, and Trans-Himalayan bioclimatic massing models with real-time Vastu scoring.
+              </p>
+            </div>
+            <span class="spec-pill-value" style="background:#F0FDF4; border-color:#BBF7D0; color:#15803D; font-size: 0.74rem;">
+              <i class="fa-solid fa-shield-halved" style="margin-right: 4px;"></i>ECBC 2017 &amp; Vedic Compliant
+            </span>
+          </div>
+
+          <div class="specs-vastu-layout">
+            <!-- Left Column: 3 Consolidated High-Efficiency Specification Cards -->
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+
+              <!-- 01. Spatial Program & Built-up Footprint (Combined BHK + Area) -->
+              <div class="spec-section-card">
+                <div class="spec-header-row">
+                  <div class="spec-title-group">
+                    <div class="spec-num-badge">01</div>
+                    <div>
+                      <div class="spec-title-text">Spatial Program &amp; Built-up Footprint</div>
+                      <div class="spec-sub-text">Bedroom count, continuous scale slider, and dimensional setbacks</div>
+                    </div>
+                  </div>
+                  <span class="spec-pill-value" id="bhk-label">3 BHK Executive Residence</span>
+                </div>
+
+                <!-- 5 BHK Pills Grid (1, 2, 3, 4, 5 BHK) -->
+                <div class="bhk-pill-grid">
+                  <div class="bhk-pill-btn" onclick="selectBhk(1, this)">
+                    <div class="bhk-pill-icon"><i class="fa-solid fa-bed"></i></div>
+                    <div class="bhk-pill-meta">
+                      <div class="bhk-pill-title">1 BHK</div>
+                      <div class="bhk-pill-sub">480–500 sq.ft</div>
+                    </div>
+                  </div>
+
+                  <div class="bhk-pill-btn" onclick="selectBhk(2, this)">
+                    <div class="bhk-pill-icon"><i class="fa-solid fa-people-roof"></i></div>
+                    <div class="bhk-pill-meta">
+                      <div class="bhk-pill-title">2 BHK</div>
+                      <div class="bhk-pill-sub">850 sq.ft</div>
+                    </div>
+                  </div>
+
+                  <div class="bhk-pill-btn active" onclick="selectBhk(3, this)">
+                    <div class="bhk-pill-icon"><i class="fa-solid fa-house-user"></i></div>
+                    <div class="bhk-pill-meta">
+                      <div class="bhk-pill-title">3 BHK</div>
+                      <div class="bhk-pill-sub">1,158 sq.ft</div>
+                    </div>
+                  </div>
+
+                  <div class="bhk-pill-btn" onclick="selectBhk(4, this)">
+                    <div class="bhk-pill-icon"><i class="fa-solid fa-house-chimney-window"></i></div>
+                    <div class="bhk-pill-meta">
+                      <div class="bhk-pill-title">4 BHK</div>
+                      <div class="bhk-pill-sub">960 sq.ft</div>
+                    </div>
+                  </div>
+
+                  <div class="bhk-pill-btn" onclick="selectBhk(5, this)">
+                    <div class="bhk-pill-icon"><i class="fa-solid fa-landmark-dome"></i></div>
+                    <div class="bhk-pill-meta">
+                      <div class="bhk-pill-title">5 BHK</div>
+                      <div class="bhk-pill-sub">1,240 sq.ft</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Footprint Slider & Preset Strip -->
+                <div class="footprint-inline-strip">
+                  <div class="footprint-row-top">
+                    <div class="footprint-hero-val">
+                      <span id="studio-area-label-num">1,158 <span style="font-size: 0.85rem; color: #64748B; font-weight: 600;">sq.ft</span></span>
+                      <span style="font-size: 0.74rem; color: #64748B; font-weight: 600;" id="studio-area-metric">(108 m² built-up)</span>
+                    </div>
+                    <div class="footprint-dim-pill" id="studio-dim-calc">
+                      <i class="fa-solid fa-ruler-combined" style="color: #DE7236; margin-right: 4px;"></i>Approx 10.3m × 10.5m (1:1.02 Aspect)
+                    </div>
+                  </div>
+
+                  <input type="range" class="area-slider-custom" id="studio-area-slider" min="450" max="1500" step="10" value="1158" oninput="updateStudioArea(this.value)" />
+
+                  <div class="area-presets-inline">
+                    <span style="font-size: 0.68rem; color: #64748B; font-weight: 700; text-transform: uppercase;">Presets:</span>
+                    <button type="button" class="area-preset-btn" onclick="setStudioAreaPreset(483)">483 sq.ft (1 BHK)</button>
+                    <button type="button" class="area-preset-btn" onclick="setStudioAreaPreset(495)">495 sq.ft (Angled)</button>
+                    <button type="button" class="area-preset-btn" onclick="setStudioAreaPreset(960)">960 sq.ft (4 BHK)</button>
+                    <button type="button" class="area-preset-btn" onclick="setStudioAreaPreset(1158)">1,158 sq.ft (2 BHK)</button>
+                    <button type="button" class="area-preset-btn" onclick="setStudioAreaPreset(1240)">1,240 sq.ft (5 BHK)</button>
+                  </div>
+
+                  <!-- Live Synthesizer Target Preview -->
+                  <div id="live-matching-preview" style="margin-top: 10px; font-size: 0.8rem; padding: 9px 14px; background: rgba(222, 114, 54, 0.08); border-radius: 8px; border: 1px dashed rgba(222, 114, 54, 0.35); color: #B45309; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                    <span>🎯 <strong>Synthesizer Match:</strong> <span id="live-matched-plan-name" style="font-weight: 700; color: var(--text-main);">Plan 1 — 2 BHK Compact Villa (1,158 sq.ft)</span></span>
+                    <span style="font-family: var(--font-mono); font-size: 0.76rem; background: #fff; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(222,114,54,0.2);">Vedic Score: <strong id="live-matched-vastu" style="color: #2E7D32;">94/100</strong></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 02. Orientation & Solar Alignment -->
+              <div class="spec-section-card">
+                <div class="spec-header-row">
+                  <div class="spec-title-group">
+                    <div class="spec-num-badge">02</div>
+                    <div>
+                      <div class="spec-title-text">Orientation &amp; Solar Ingress</div>
+                      <div class="spec-sub-text">8-point directional alignment mapped to Vedic energy vectors</div>
+                    </div>
+                  </div>
+                  <span class="spec-pill-value" id="facing-label">East (E) · Surya Ingress</span>
+                </div>
+
+                <div class="facing-grid-compact">
+                  <div class="facing-chip active" onclick="select8WayFacing('E', this)">
+                    <div class="facing-chip-left"><span>☀️</span> East (E)</div>
+                    <span class="facing-chip-pct">96%</span>
+                  </div>
+                  <div class="facing-chip" onclick="select8WayFacing('NE', this)">
+                    <div class="facing-chip-left"><span>🌄</span> NE (Ishanya)</div>
+                    <span class="facing-chip-pct">98%</span>
+                  </div>
+                  <div class="facing-chip" onclick="select8WayFacing('N', this)">
+                    <div class="facing-chip-left"><span>❄️</span> North (N)</div>
+                    <span class="facing-chip-pct">95%</span>
+                  </div>
+                  <div class="facing-chip" onclick="select8WayFacing('NW', this)">
+                    <div class="facing-chip-left"><span>💨</span> NW (Vayu)</div>
+                    <span class="facing-chip-pct">93%</span>
+                  </div>
+                  <div class="facing-chip" onclick="select8WayFacing('W', this)">
+                    <div class="facing-chip-left"><span>🌊</span> West (W)</div>
+                    <span class="facing-chip-pct">91%</span>
+                  </div>
+                  <div class="facing-chip" onclick="select8WayFacing('SW', this)">
+                    <div class="facing-chip-left"><span>⛰️</span> SW (Nairutya)</div>
+                    <span class="facing-chip-pct">90%</span>
+                  </div>
+                  <div class="facing-chip" onclick="select8WayFacing('S', this)">
+                    <div class="facing-chip-left"><span>🌅</span> South (S)</div>
+                    <span class="facing-chip-pct">94%</span>
+                  </div>
+                  <div class="facing-chip" onclick="select8WayFacing('SE', this)">
+                    <div class="facing-chip-left"><span>🔥</span> SE (Agni)</div>
+                    <span class="facing-chip-pct">92%</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 03. 100% AUTOMATED: Bioclimatic Architectural Typology & Massing -->
+              <div class="spec-section-card" style="background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(240,253,244,0.85) 100%); border: 1.5px solid #86EFAC;">
+                <div class="spec-header-row">
+                  <div class="spec-title-group">
+                    <div class="spec-num-badge" style="background: #15803D; color: #fff;">03</div>
+                    <div>
+                      <div class="spec-title-text" style="display: flex; align-items: center; gap: 8px;">
+                        <span>Bioclimatic Typology &amp; Massing</span>
+                        <span style="font-size: 0.72rem; font-weight: 800; background: #DCFCE7; color: #166534; padding: 2px 8px; border-radius: 20px; border: 1px solid #86EFAC;">⚡ 100% AUTOMATIC</span>
+                      </div>
+                      <div class="spec-sub-text">Autonomous microclimate geometry solver calibrated for Leh, Ladakh (-18°C sub-zero winter)</div>
+                    </div>
+                  </div>
+                  <span class="spec-pill-value" id="typology-label" style="background: #15803D; color: #fff;">Auto: Compact Thermal Cube</span>
+                </div>
+
+                <!-- Automated Bioclimatic Readout Panel -->
+                <div style="background: #ffffff; border: 1px solid rgba(34, 197, 94, 0.25); border-radius: 10px; padding: 14px 18px; margin-top: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+                    <div style="flex: 1; min-width: 240px;">
+                      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                        <span style="width: 9px; height: 9px; border-radius: 50%; background: #22C55E; box-shadow: 0 0 8px #22C55E;"></span>
+                        <strong style="font-size: 0.94rem; color: #14532D;" id="auto-typo-name">Compact Thermal Cube Envelope</strong>
+                        <span style="font-size: 0.72rem; color: #15803D; font-family: var(--font-mono); font-weight: 700; background: #DCFCE7; padding: 2px 8px; border-radius: 4px;" id="auto-typo-badge">S/V 0.68 · -42% Heat Loss</span>
+                      </div>
+                      <p style="font-size: 0.83rem; color: #334155; line-height: 1.48; margin: 0;" id="auto-typo-desc">
+                        Automatically chosen for your selected program: Minimizes exterior surface area exposure to halt sub-zero thermal dissipation while maintaining peak solar heat storage in rammed earth / AAC walls.
+                      </p>
+                    </div>
+
+                    <!-- 3 Auto-Computed Physics Badges -->
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="auto-typo-metrics">
+                      <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 6px 10px; text-align: center; min-width: 76px;">
+                        <div style="font-size: 0.64rem; color: #64748B; font-weight: 700; text-transform: uppercase;">Heat Loss</div>
+                        <div style="font-size: 0.86rem; font-weight: 800; color: #166534;" id="metric-heat-loss">-42%</div>
+                      </div>
+                      <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 6px 10px; text-align: center; min-width: 76px;">
+                        <div style="font-size: 0.64rem; color: #64748B; font-weight: 700; text-transform: uppercase;">Solar Trap</div>
+                        <div style="font-size: 0.86rem; font-weight: 800; color: #DE7236;" id="metric-solar-gain">+48%</div>
+                      </div>
+                      <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 6px 10px; text-align: center; min-width: 76px;">
+                        <div style="font-size: 0.64rem; color: #64748B; font-weight: 700; text-transform: uppercase;">Wind Shield</div>
+                        <div style="font-size: 0.86rem; font-weight: 800; color: #0284C7;" id="metric-wind-shield">88% Buffer</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right Column: Compact Vastu & BIM HUD -->
+            <div class="vastu-hud-pro">
+              <!-- Score Row -->
+              <div class="vastu-score-row">
+                <div>
+                  <span class="section-pill" style="margin: 0 0 3px 0; background: #166534; color: #FFFFFF; font-size: 0.65rem; padding: 2px 7px;">Vedic Architecture Verified</span>
+                  <h4 style="font-size: 0.95rem; font-weight: 800; color: #166534; margin: 0;">Vastu Purusha Mandala</h4>
+                  <div style="font-family: var(--font-mono); font-size: 0.7rem; color: #166534; font-weight: 700;" id="vastu-grade-badge">Grade A+ · Parametrically Harmonized</div>
+                </div>
+                <div class="vastu-score-big" id="vastu-score-val">94<span style="font-size: 1rem; color: #4B5563;">/100</span></div>
+              </div>
+
+              <!-- Side-by-side Compass & 3x3 Mandala HUD -->
+              <div class="vastu-spatial-duo">
+                <!-- Compass Dial Widget -->
+                <div class="compass-box-pro">
+                  <svg class="compass-dial-svg" viewBox="0 0 100 100" id="compass-dial-svg">
+                    <circle cx="50" cy="50" r="46" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+                    <circle cx="50" cy="50" r="39" fill="none" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="3 3"/>
+                    <text x="50" y="15" text-anchor="middle" font-size="9" font-weight="800" fill="#DE7236" font-family="sans-serif">N</text>
+                    <text x="86" y="53" text-anchor="middle" font-size="9" font-weight="800" fill="#334155" font-family="sans-serif">E</text>
+                    <text x="50" y="91" text-anchor="middle" font-size="9" font-weight="800" fill="#334155" font-family="sans-serif">S</text>
+                    <text x="14" y="53" text-anchor="middle" font-size="9" font-weight="800" fill="#334155" font-family="sans-serif">W</text>
+                    <g id="compass-needle" style="transform-origin: 50px 50px; transform: rotate(90deg); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);">
+                      <polygon points="50,18 45,50 55,50" fill="#DE7236"/>
+                      <polygon points="50,82 45,50 55,50" fill="#94A3B8"/>
+                      <circle cx="50" cy="50" r="4" fill="#1E293B"/>
+                      <circle cx="50" cy="50" r="1.5" fill="#FFFFFF"/>
+                    </g>
+                  </svg>
+                  <div style="font-size: 0.76rem; font-weight: 800; color: var(--text-main); margin-top: 2px;" id="compass-dir-title">East (90° Azimuth)</div>
+                  <div style="font-size: 0.65rem; color: #059669; font-weight: 600;" id="compass-dir-note">☀️ Optimum Morning Solar Ingress</div>
+                </div>
+
+                <!-- 3x3 Compact Mandala Grid -->
+                <div class="mandala-grid-pro">
+                  <!-- Row 1: NW, N, NE -->
+                  <div class="mandala-cell-pro" id="vq-nw">
+                    <div class="m-dir">NW</div>
+                    <div class="m-sub">Vayu 93%</div>
+                  </div>
+                  <div class="mandala-cell-pro" id="vq-n">
+                    <div class="m-dir">North</div>
+                    <div class="m-sub">Living 95%</div>
+                  </div>
+                  <div class="mandala-cell-pro" id="vq-ne">
+                    <div class="m-dir">NE</div>
+                    <div class="m-sub">Pooja 98%</div>
+                  </div>
+
+                  <!-- Row 2: W, Brahmasthan, E -->
+                  <div class="mandala-cell-pro" id="vq-w">
+                    <div class="m-dir">West</div>
+                    <div class="m-sub">Study 91%</div>
+                  </div>
+                  <div class="mandala-cell-pro brahma" id="vq-core">
+                    <div class="m-dir" style="color:#B45309;">Core</div>
+                    <div class="m-sub" style="color:#B45309;">Brahma</div>
+                  </div>
+                  <div class="mandala-cell-pro active-quad" id="vq-e">
+                    <div class="m-dir" style="color:#DE7236;">East</div>
+                    <div class="m-sub" style="color:#DE7236;">Entry 96%</div>
+                  </div>
+
+                  <!-- Row 3: SW, S, SE -->
+                  <div class="mandala-cell-pro" id="vq-sw">
+                    <div class="m-dir">SW</div>
+                    <div class="m-sub">Master 99%</div>
+                  </div>
+                  <div class="mandala-cell-pro" id="vq-s">
+                    <div class="m-dir">South</div>
+                    <div class="m-sub">Buffer 94%</div>
+                  </div>
+                  <div class="mandala-cell-pro" id="vq-se">
+                    <div class="m-dir">SE</div>
+                    <div class="m-sub">Agni 92%</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bioclimatic CAD Synthesis Strip -->
+              <div class="cad-synthesis-badge">
+                <i class="fa-solid fa-microchip" style="color: #166534; font-size: 0.9rem;"></i>
+                <span id="vastu-summary-text">
+                  Vedic solar coordinates harmonized with ECBC 2017 high-altitude envelope (-64% HVAC energy load).
+                </span>
+              </div>
+
+              <!-- Actions -->
+              <div>
+                <button class="btn-synthesize-cta" onclick="generate2DPlanStep()">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i>
+                  <span>Synthesize 2D Architectural Plan &amp; 3D Model →</span>
+                </button>
+                <div style="text-align: center; font-size: 0.7rem; color: var(--text-muted); margin-top: 5px;">
+                  ⚡ Instant FreeCAD / OpenCASCADE Parametric BIM generation (~1.2s)
+                </div>
+                <button class="btn btn-secondary" style="width: 100%; margin-top: 8px; padding: 9px; font-size: 0.82rem;" onclick="goToStep(1)">
+                  ← Back to Map &amp; Climate
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: Fabricated 2D Thermal Plan & Materials -->
+      <div class="studio-flow-step" id="flow-step-3">
+        <div class="glass-card" style="padding: 32px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                <span class="section-pill" style="margin: 0; font-size: 0.72rem; background: rgba(222, 114, 54, 0.12); color: var(--accent-orange); font-weight: 700;">Verified Architectural Dataset</span>
+                <span style="font-size: 0.76rem; color: var(--text-muted); font-family: var(--font-mono);">5 Real Engineered Floor Plans</span>
+              </div>
+              <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--text-main); margin: 0;">📋 Fabricated 2D Architectural Plan &amp; Spatial Schedule</h3>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <input type="file" id="custom-2d-file-input" accept="image/*,.svg" style="display:none;" onchange="handleCustom2DImageUpload(event)" />
+              <button class="btn btn-secondary btn-sm" onclick="document.getElementById('custom-2d-file-input').click()">
+                📂 Upload Alternate (.png/.jpg)
+              </button>
+            </div>
+          </div>
+
+          <!-- Synthesized Specification Match Card -->
+          <div style="background: linear-gradient(135deg, rgba(254, 243, 199, 0.45) 0%, rgba(255, 255, 255, 0.95) 100%); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: var(--radius-md); padding: 14px 20px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;" id="synth-match-card">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: #DE7236; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; flex-shrink: 0; box-shadow: 0 3px 10px rgba(222,114,54,0.3);">
+                <i class="fa-solid fa-compass-drafting"></i>
+              </div>
+              <div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="section-pill" style="margin: 0; font-size: 0.72rem; background: rgba(46, 125, 50, 0.12); color: #2E7D32; font-weight: 700;" id="synth-match-pill">Vedic Vastu Aligned (94/100)</span>
+                  <strong style="color: var(--text-main); font-size: 1.02rem;" id="synth-match-title">Plan 1: 2 BHK Compact Villa (1,158 sq.ft)</strong>
+                </div>
+                <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 3px;" id="synth-match-subtitle">
+                  Mapped to your specifications: <strong>2 BHK</strong> · <strong>1,158 sq.ft</strong> · <strong>East Facing</strong> · Master Bed in SW, Kitchen in SE Agni quadrant
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <button class="btn btn-secondary btn-sm" onclick="goToStep(2)" style="font-weight: 600;">
+                ← Reconfigure Specifications
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic Room Dimension Pills Banner -->
+          <div id="plan-dimension-pills" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;">
+            <div class="plan-dimension-badge">🛏️ Bed 1: <strong>294 × 294 cm (9'8" × 9'8")</strong></div>
+            <div class="plan-dimension-badge">🛏️ Master Bed 2: <strong>294 × 438 cm (9'8" × 14'4")</strong></div>
+            <div class="plan-dimension-badge">🍽️ Dining: <strong>312 × 444 cm (10'3" × 14'7")</strong></div>
+            <div class="plan-dimension-badge">🍳 Kitchen: <strong>324 × 240 cm (10'8" × 7'10")</strong></div>
+            <div class="plan-dimension-badge">🛋️ Hall: <strong>528 × 372 cm (17'4" × 12'2")</strong></div>
+            <div class="plan-dimension-badge">🚿 W/C: <strong>192 × 138 cm (6'4" × 4'6")</strong></div>
+            <div class="plan-dimension-badge">📦 Store: <strong>120 × 180 cm (3'11" × 5'11")</strong></div>
+            <div class="plan-dimension-badge">🌿 Sit-Out: <strong>312 × 138 cm (10'3" × 4'6")</strong></div>
+            <div class="plan-dimension-badge">🪜 Staircase: <strong>Internal (UP)</strong></div>
+          </div>
+
+          <!-- Grid: 2D Plan on Left, Thermal Material Schedule on Right -->
+          <div style="display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 24px;" class="configurator-grid">
+            <!-- 2D Plan Viewport -->
+            <div style="background: #FFFFFF; border: 1px solid var(--glass-border-subtle); border-radius: var(--radius-md); padding: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+              <div style="position: absolute; top: 14px; left: 16px; z-index: 5; display: flex; gap: 8px;" id="plan-badge-strip">
+                <span class="section-pill" style="margin: 0; font-size: 0.72rem; background: rgba(46, 125, 50, 0.12); color: #2E7D32; font-weight: 700;" id="plan-vastu-badge">Vastu Verified (94/100)</span>
+                <span class="section-pill" style="margin: 0; font-size: 0.72rem; background: rgba(222, 114, 54, 0.12); color: var(--accent-orange); font-weight: 700;" id="plan-footprint-badge">10.26m × 10.49m (1,158 sq.ft)</span>
+              </div>
+              <img id="fabricated-2d-plan-img" src="assets/plan_1.png" alt="2D Architectural Plan" style="width: 100%; max-height: 490px; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.06);" />
+              <div style="width: 100%; margin-top: 12px; font-size: 0.78rem; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center;">
+                <span id="plan-img-filename" style="font-weight: 600; color: var(--text-main);">Plan 1: 2 BHK Compact Villa (1,158 sq.ft)</span>
+                <span style="font-family: var(--font-mono); font-size: 0.74rem;">Scale 1:50 · Watertight Engineering Blueprint</span>
+              </div>
+            </div>
+
+            <!-- Hardcoded Best Thermal Suited Materials Schedule -->
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-main);">
+                Climate-Optimized Thermal Material Assembly (ECBC 2017)
+              </div>
+
+              <!-- Wall Material -->
+              <div class="glass-card" style="padding: 16px; background: rgba(255,255,255,0.9);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <strong style="color: var(--text-main); font-size: 0.9rem;">🧱 Exterior Wall Assembly</strong>
+                  <span style="font-family: var(--font-mono); color: var(--accent-orange); font-weight: 700; font-size: 0.85rem;">U = 0.42 W/m²K</span>
+                </div>
+                <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 4px;">
+                  <strong>230mm AAC Cavity Block + 25mm Air Gap</strong><br/>
+                  High thermal mass with an 8.8-hour thermal phase shift. Blocks solar peak transfer until nighttime cooling.
+                </div>
+              </div>
+
+              <!-- Roof Material -->
+              <div class="glass-card" style="padding: 16px; background: rgba(255,255,255,0.9);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <strong style="color: var(--text-main); font-size: 0.9rem;">☀️ Roof Thermal Barrier</strong>
+                  <span style="font-family: var(--font-mono); color: var(--accent-orange); font-weight: 700; font-size: 0.85rem;">U = 0.34 W/m²K</span>
+                </div>
+                <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 4px;">
+                  <strong>High-Albedo Cool Roof SRI 104 Tile + 50mm XPS Overdeck</strong><br/>
+                  84% solar reflectance rejects direct overhead solar irradiance and prevents thermal penetration.
+                </div>
+              </div>
+
+              <!-- Glazing Material -->
+              <div class="glass-card" style="padding: 16px; background: rgba(255,255,255,0.9);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <strong style="color: var(--text-main); font-size: 0.9rem;">🪟 High-Performance Fenestration</strong>
+                  <span style="font-family: var(--font-mono); color: var(--accent-orange); font-weight: 700; font-size: 0.85rem;">SHGC 0.27 / U=1.7</span>
+                </div>
+                <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 4px;">
+                  <strong>Low-E Double Glazed Argon Units with uPVC Frames</strong><br/>
+                  Blocks 68% of infrared radiation while transmitting 72% visible daylighting.
+                </div>
+              </div>
+
+              <!-- Shading Projections -->
+              <div class="glass-card" style="padding: 16px; background: rgba(255,255,255,0.9);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <strong style="color: var(--text-main); font-size: 0.9rem;">🌿 Passive Shading &amp; Overhangs</strong>
+                  <span style="font-family: var(--font-mono); color: #2E7D32; font-weight: 700; font-size: 0.85rem;">100% Shading</span>
+                </div>
+                <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 4px;">
+                  <strong>600mm Terracotta Louvered Box Chajjas</strong><br/>
+                  Cuts direct summer sun penetration between 10:30 AM to 4:30 PM across South and West facades.
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 12px; margin-top: 10px;">
+                <button class="btn btn-secondary" style="flex: 1; padding: 14px;" onclick="goToStep(2)">
+                  ← Back to Specs
+                </button>
+                <button class="btn btn-primary" style="flex: 2; padding: 14px; font-size: 1rem;" onclick="extrude3DStep()">
+                  🚀 Extrude 3D BIM Shell &amp; Generate 3D Model →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4: Fabricated 2D to 3D BIM & Virtual Home Tour -->
+      <div class="studio-flow-step" id="flow-step-4">
+        <div class="glass-card" style="padding: 32px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--text-main);">🏛️ Interactive 3D BIM Model &amp; Virtual Home Tour</h3>
+              <p style="font-size: 0.88rem; color: var(--text-secondary);">Photorealistic 3D architectural solid geometry. Fully interactive 360° orbit, interior flythrough, and spatial exploration.</p>
+              <div style="display: inline-flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 0.82rem; padding: 3px 10px; background: rgba(39, 201, 63, 0.12); color: #166534; border: 1px solid rgba(39, 201, 63, 0.3); border-radius: 20px; font-weight: 700;">
+                <i class="fa-solid fa-cube"></i> <span id="step4-plan-name">Active 3D Digital Twin: Photorealistic Architectural &amp; Interior Model</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <button class="btn btn-secondary btn-sm" onclick="reload3DModel()">🔄 Reset View / Reload</button>
+              <button class="btn btn-secondary btn-sm" onclick="triggerHomeTour()">▶ Start Room Walkthrough</button>
+              <a id="full-3d-tab-link" href="https://sketchfab.com/3d-models/west-branch-idea-1-66f34987790e4deaa5d3c3a20fff3256" target="_blank" class="btn btn-primary btn-sm" style="background: #15803D; border-color: #15803D;">Full 3D WebGL Tab ↗</a>
+            </div>
+          </div>
+
+          <!-- 3D Viewport Box with Photorealistic Sketchfab 3D Model -->
+          <div class="sketchfab-embed-wrapper" style="height: 560px; width: 100%; border-radius: var(--radius-md); overflow: hidden; position: relative; border: 1px solid var(--glass-border-subtle); box-shadow: 0 12px 36px rgba(0,0,0,0.14); background: #1a1a2e;">
+            <iframe id="iframe-3d-model"
+                    title="West Branch Idea 1 — 3 BHK Photorealistic 3D Architectural Model"
+                    frameborder="0"
+                    allowfullscreen
+                    mozallowfullscreen="true"
+                    webkitallowfullscreen="true"
+                    allow="autoplay; fullscreen; xr-spatial-tracking"
+                    xr-spatial-tracking
+                    execution-while-out-of-viewport
+                    execution-while-not-rendered
+                    web-share
+                    src="https://sketchfab.com/models/66f34987790e4deaa5d3c3a20fff3256/embed?autostart=1&ui_theme=dark&ui_watermark=0"
+                    style="width: 100%; height: 100%; border: none;">
+            </iframe>
+
+          </div>
+
+          <!-- User Satisfaction Confirmation Banner -->
+          <div style="margin-top: 24px; padding: 22px 28px; background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%); border: 2px solid #86EFAC; border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <div style="width: 44px; height: 44px; border-radius: 50%; background: #22C55E; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0;">✓</div>
+              <div>
+                <h4 style="font-size: 1.05rem; font-weight: 800; color: #14532D;">Are you satisfied with the 2D layout and 3D architectural plan?</h4>
+                <p style="font-size: 0.84rem; color: #166534; margin-top: 2px;">
+                  All envelope dimensions, spatial clearances, and Vastu quadrants have been verified and locked. Ready for ANSYS Fluent CFD solver.
+                </p>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 12px;">
+              <button class="btn btn-secondary" onclick="goToStep(3)" style="padding: 12px 20px;">
+                ← Adjust 2D Plan
+              </button>
+              <button class="btn btn-primary" onclick="confirmSatisfactionAndRunCFD()" style="padding: 12px 26px; font-size: 1.02rem; background: #15803D; border-color: #15803D;">
+                👍 I am Satisfied — Run ANSYS Fluent CFD Validation →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<!-- STEP 5: ANSYS CFD Thermal Validation Report + 3D Thermal House -->
+      <div class="studio-flow-step" id="flow-step-5">
+        <div class="glass-card" style="padding: 32px;">
+
+          <!-- ═══════════════════════════════════════════════════
+               SECTION A: REPORT HEADER
+          ═══════════════════════════════════════════════════ -->
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; margin-bottom:28px; padding-bottom:22px; border-bottom:2px solid #F0E9E2;">
+            <div>
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap;">
+                <span style="background:linear-gradient(135deg,#1a1a2e,#16213e); color:#FFD600; font-family:var(--font-mono); font-size:0.78rem; font-weight:800; padding:5px 14px; border-radius:6px; letter-spacing:0.8px; border:1px solid rgba(255,214,0,0.3);">ANSYS FLUENT 2024 R1</span>
+                <span style="background:#E8F5E9; color:#2E7D32; font-size:0.74rem; font-weight:700; padding:4px 11px; border-radius:20px; border:1px solid #A5D6A7;">&#9679; CONVERGED &middot; 10&#8315;&#8309; Residuals Met</span>
+                <span id="cfd-ecbc-badge" style="background:linear-gradient(135deg,#0D47A1,#1565C0); color:#fff; font-size:0.74rem; font-weight:700; padding:4px 11px; border-radius:20px;">ECBC SUPER-PRESCRIPTIVE</span>
+                <span style="background:rgba(251,146,60,0.1); color:#EA580C; border:1px solid rgba(251,146,60,0.3); font-size:0.74rem; font-weight:700; padding:4px 11px; border-radius:20px;">CHT &middot; Navier-Stokes 3D &middot; RNG k-&#949;</span>
+              </div>
+              <h3 style="font-size:1.55rem; font-weight:800; color:var(--text-main); margin-bottom:5px;">Thermal &amp; Aerothermal CFD Validation Dossier</h3>
+              <div style="font-family:var(--font-mono); font-size:0.78rem; color:#94A3B8;">Grid: <span id="cfd-mesh-cells">184,200</span> Polyhedral Cells &middot; Skewness &lt; 0.22 &middot; Location: <span id="cfd-location-label">Leh, Ladakh (3,500m ASL)</span></div>
+              <div style="font-family:var(--font-mono); font-size:0.78rem; color:#94A3B8; margin-top:2px;">Report ID: REP-THB-2024-<span id="cfd-bhk-id">3BHK</span>-LEH &middot; Generated: <span id="cfd-gen-time">&#8212;</span></div>
+            </div>
+            <div style="text-align:right; display:flex; flex-direction:column; gap:6px; align-items:flex-end;">
+              <div style="font-size:0.76rem; color:#94A3B8; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Operative Indoor Temp</div>
+              <div id="cfd-indoor-temp-big" style="font-family:var(--font-mono); font-size:2.4rem; font-weight:900; color:#00D4FF; line-height:1;">24.8&deg;C</div>
+              <div style="font-size:0.76rem; color:#94A3B8;">PMV <span id="cfd-pmv" style="color:#4ADE80; font-weight:700;">-0.1 (Neutral)</span> &middot; PPD <span id="cfd-ppd" style="color:#4ADE80; font-weight:700;">5%</span></div>
+              <div style="font-size:0.74rem; color:#60A5FA; font-family:var(--font-mono);">ISO 7730 Thermal Comfort &#10003;</div>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+               SECTION B: 4 KPI CARDS
+          ═══════════════════════════════════════════════════ -->
+          <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:28px;">
+            <div style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5); border:1.5px solid #FED7AA; border-radius:12px; padding:18px 20px;">
+              <div style="font-size:0.7rem; color:#C2410C; text-transform:uppercase; font-weight:700; letter-spacing:0.6px;">Heat Ingress Reduction</div>
+              <div id="kpi-heat-ingress" style="font-family:var(--font-mono); font-size:1.9rem; font-weight:900; color:#EA580C; margin:6px 0 2px;">&minus;41.2%</div>
+              <div style="font-size:0.73rem; color:#9A3412;">Wall + Roof transmission blocked vs baseline</div>
+            </div>
+            <div style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7); border:1.5px solid #86EFAC; border-radius:12px; padding:18px 20px;">
+              <div style="font-size:0.7rem; color:#15803D; text-transform:uppercase; font-weight:700; letter-spacing:0.6px;">Peak Operative Drop</div>
+              <div id="kpi-temp-drop" style="font-family:var(--font-mono); font-size:1.9rem; font-weight:900; color:#16A34A; margin:6px 0 2px;">&minus;7.8&deg;C</div>
+              <div style="font-size:0.73rem; color:#14532D;">Comfort maintained at peak summer load</div>
+            </div>
+            <div style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE); border:1.5px solid #93C5FD; border-radius:12px; padding:18px 20px;">
+              <div style="font-size:0.7rem; color:#1D4ED8; text-transform:uppercase; font-weight:700; letter-spacing:0.6px;">Natural Ventilation</div>
+              <div id="kpi-ach" style="font-family:var(--font-mono); font-size:1.9rem; font-weight:900; color:#2563EB; margin:6px 0 2px;">7.2 ACH</div>
+              <div style="font-size:0.73rem; color:#1E3A8A;">Bernoulli cross-draft + stack effect</div>
+            </div>
+            <div style="background:linear-gradient(135deg,#FAF5FF,#EDE9FE); border:1.5px solid #C4B5FD; border-radius:12px; padding:18px 20px;">
+              <div style="font-size:0.7rem; color:#7C3AED; text-transform:uppercase; font-weight:700; letter-spacing:0.6px;">Annual HVAC Savings</div>
+              <div id="kpi-hvac" style="font-family:var(--font-mono); font-size:1.9rem; font-weight:900; color:#7C3AED; margin:6px 0 2px;">38.4%</div>
+              <div style="font-size:0.73rem; color:#4C1D95;">Net-zero ready operational energy offset</div>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+               SECTION C: 3D SOLID THERMAL HOUSE & AEROTHERMAL FLOW
+          ═══════════════════════════════════════════════════ -->
+          <div style="background:#060C14; border:1px solid rgba(0,212,255,0.2); border-radius:16px; overflow:hidden; margin-bottom:28px; box-shadow:0 0 40px rgba(0,212,255,0.08);">
+            <!-- Toolbar -->
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 18px; background:rgba(255,255,255,0.04); border-bottom:1px solid rgba(255,255,255,0.08); flex-wrap:wrap; gap:8px;">
+              <div>
+                <div style="font-size:0.85rem; font-weight:700; color:#FFFFFF; display:flex; align-items:center; gap:8px;">
+                  <span style="width:8px; height:8px; border-radius:50%; background:#00FF88; box-shadow:0 0 8px #00FF88; display:inline-block;"></span>
+                  ANSYS Fluent 2024 R1 &mdash; 3D Solid Thermal House &amp; Aerothermal Flow
+                </div>
+                <div style="font-family:var(--font-mono); font-size:0.7rem; color:#475569; margin-top:2px;">Solid Volumetric Geometry &middot; Conjugate Heat Transfer &middot; Animated Wind Streamlines &middot; Heat Flux Vector Particles</div>
+              </div>
+              <div style="display:flex; gap:8px; align-items:center;">
+                <a href="ansys_cfd_thermal.html" target="_blank" style="background:#0284C7; color:#fff; text-decoration:none; padding:7px 14px; font-size:0.75rem; border-radius:6px; font-weight:700; display:flex; align-items:center; gap:6px; box-shadow:0 0 12px rgba(2,132,199,0.3);">
+                  <i class="fa-solid fa-up-right-from-square"></i> Open Fullscreen Interactive Lab &nearr;
+                </a>
+              </div>
+            </div>
+
+            <!-- Viewport Container with iframe -->
+            <div style="width:100%; height:720px; position:relative; background:#06111c;">
+              <iframe id="iframe-ansys-thermal" src="ansys_cfd_thermal.html" style="width:100%; height:100%; border:none; display:block;" title="ANSYS CFD 3D Thermal House"></iframe>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+               SECTION D: HEAT FLOW DIAGRAM (Visual Infographic)
+          ═══════════════════════════════════════════════════ -->
+          <div style="margin-bottom:28px;">
+            <div style="font-size:0.9rem; font-weight:700; color:var(--text-main); margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+              <span style="background:#FFF3CD; color:#92400E; border:1px solid #FDE68A; border-radius:6px; padding:3px 10px; font-size:0.75rem; font-weight:700;">HEAT FLOW ANALYSIS</span>
+              Solar Thermal Pathway &mdash; Exterior to Interior
+            </div>
+            <div style="background:linear-gradient(135deg,#FFF7ED,#F0FDF4); border:1.5px solid #E2E8F0; border-radius:14px; padding:24px; overflow-x:auto;">
+              <svg id="heat-flow-svg" viewBox="0 0 860 160" style="width:100%; min-width:600px; height:160px;">
+                <!-- Solar source -->
+                <circle cx="50" cy="80" r="36" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2.5"/>
+                <text x="50" y="76" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="10" font-weight="700" fill="#92400E">&#9728;</text>
+                <text x="50" y="90" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="9" font-weight="700" fill="#92400E">SOLAR</text>
+                <text x="50" y="130" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="9" fill="#78350F">1,040 W/m²</text>
+
+                <!-- Arrow: Solar to Facade -->
+                <path d="M 88 80 L 158 80" stroke="#F59E0B" stroke-width="3" marker-end="url(#arr-orange)" stroke-dasharray="6 3">
+                  <animate attributeName="stroke-dashoffset" values="18;0" dur="1.2s" repeatCount="indefinite"/>
+                </path>
+
+                <!-- Facade/Wall block -->
+                <rect x="160" y="44" width="90" height="72" rx="8" fill="#FECACA" stroke="#EF4444" stroke-width="2"/>
+                <text x="205" y="74" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="9" font-weight="700" fill="#7F1D1D">SOUTH</text>
+                <text x="205" y="86" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="9" font-weight="700" fill="#7F1D1D">FACADE</text>
+                <text x="205" y="102" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="11" font-weight="800" fill="#EF4444">42.4°C</text>
+
+                <!-- Arrow: Facade to AAC -->
+                <path d="M 252 80 L 322 80" stroke="#FB923C" stroke-width="3" marker-end="url(#arr-warning)" stroke-dasharray="6 3">
+                  <animate attributeName="stroke-dashoffset" values="18;0" dur="1.5s" repeatCount="indefinite"/>
+                </path>
+                <text x="287" y="72" text-anchor="middle" font-family="'Space Grotesk',monospace" font-size="8" fill="#F59E0B">k=0.72</text>
+
+                <!-- AAC Block -->
+                <rect x="324" y="44" width="90" height="72" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+                <text x="369" y="72" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="9" font-weight="700" fill="#78350F">AAC BLOCK</text>
+                <text x="369" y="84" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="8" fill="#78350F">200mm Thermal Mass</text>
+                <text x="369" y="100" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="11" font-weight="800" fill="#D97706">32°C</text>
+                <text x="369" y="112" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="8" fill="#92400E">8.8hr lag</text>
+
+                <!-- Arrow: AAC to Insulation -->
+                <path d="M 416 80 L 486 80" stroke="#22C55E" stroke-width="3" marker-end="url(#arr-green)" stroke-dasharray="6 3">
+                  <animate attributeName="stroke-dashoffset" values="18;0" dur="1.8s" repeatCount="indefinite"/>
+                </path>
+                <text x="451" y="72" text-anchor="middle" font-family="'Space Grotesk',monospace" font-size="8" fill="#16A34A">k=0.17</text>
+
+                <!-- Insulation -->
+                <rect x="488" y="44" width="90" height="72" rx="8" fill="#DCFCE7" stroke="#22C55E" stroke-width="2"/>
+                <text x="533" y="72" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="9" font-weight="700" fill="#14532D">ROCKWOOL</text>
+                <text x="533" y="83" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="8" fill="#14532D">50mm Insulation</text>
+                <text x="533" y="100" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="11" font-weight="800" fill="#16A34A">25.2°C</text>
+                <text x="533" y="112" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="8" fill="#14532D">k=0.038</text>
+
+                <!-- Arrow: Insulation to Interior -->
+                <path d="M 580 80 L 650 80" stroke="#38BDF8" stroke-width="3" marker-end="url(#arr-blue)" stroke-dasharray="6 3">
+                  <animate attributeName="stroke-dashoffset" values="18;0" dur="2.0s" repeatCount="indefinite"/>
+                </path>
+                <text x="615" y="72" text-anchor="middle" font-family="'Space Grotesk',monospace" font-size="8" fill="#0EA5E9">k=0.038</text>
+
+                <!-- Interior comfort zone -->
+                <rect x="652" y="44" width="90" height="72" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
+                <text x="697" y="72" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="9" font-weight="700" fill="#1E3A8A">INTERIOR</text>
+                <text x="697" y="83" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="8" fill="#1E3A8A">Comfort Zone</text>
+                <text x="697" y="100" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="11" font-weight="800" fill="#2563EB" id="hf-indoor">24.8°C</text>
+                <text x="697" y="112" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="8" fill="#1E3A8A">PMV: -0.1</text>
+
+                <!-- Reduction badge -->
+                <rect x="762" y="52" width="88" height="56" rx="8" fill="#F0FDF4" stroke="#4ADE80" stroke-width="2"/>
+                <text x="806" y="74" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="9" font-weight="700" fill="#14532D">HEAT</text>
+                <text x="806" y="85" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="9" font-weight="700" fill="#14532D">BLOCKED</text>
+                <text x="806" y="101" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="13" font-weight="900" fill="#16A34A" id="hf-reduction">−41.2%</text>
+
+                <!-- Defs -->
+                <defs>
+                  <marker id="arr-orange" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#F59E0B"/></marker>
+                  <marker id="arr-warning" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#FB923C"/></marker>
+                  <marker id="arr-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#22C55E"/></marker>
+                  <marker id="arr-blue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#38BDF8"/></marker>
+                </defs>
+              </svg>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+               SECTION E: ROOM TELEMETRY + ECBC GAUGES (side by side)
+          ═══════════════════════════════════════════════════ -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-bottom:28px;">
+
+            <!-- Room telemetry -->
+            <div>
+              <div style="font-size:0.88rem; font-weight:700; color:var(--text-main); margin-bottom:12px;">&#128202; Zone Thermal Comfort Telemetry <span style="font-size:0.74rem; color:#94A3B8; font-weight:400;">&middot; ISO 7730 &middot; CFD Post-Process Probes</span></div>
+              <div id="cfd-room-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;"></div>
+            </div>
+
+            <!-- ECBC Compliance Gauges -->
+            <div>
+              <div style="font-size:0.88rem; font-weight:700; color:var(--text-main); margin-bottom:12px;">&#9989; ECBC 2017 Compliance Scorecard <span style="font-size:0.74rem; color:#94A3B8; font-weight:400;">&middot; Bureau of Energy Efficiency</span></div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <div style="background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:10px; padding:14px; text-align:center;">
+                  <canvas id="gauge-roof" width="80" height="80" style="width:80px;height:80px;display:block;margin:0 auto 6px;"></canvas>
+                  <div style="font-size:0.73rem; font-weight:700; color:#15803D;">Roof U-Value</div>
+                  <div style="font-family:var(--font-mono); font-size:0.8rem; color:#16A34A; font-weight:700;" id="ecbc-roof-u">0.26 W/m²K</div>
+                  <div style="font-size:0.65rem; color:#64748B;">&le; 0.33 required &#10003;</div>
+                </div>
+                <div style="background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:10px; padding:14px; text-align:center;">
+                  <canvas id="gauge-wall" width="80" height="80" style="width:80px;height:80px;display:block;margin:0 auto 6px;"></canvas>
+                  <div style="font-size:0.73rem; font-weight:700; color:#15803D;">Wall U-Value</div>
+                  <div style="font-family:var(--font-mono); font-size:0.8rem; color:#16A34A; font-weight:700;" id="ecbc-wall-u">0.28 W/m²K</div>
+                  <div style="font-size:0.65rem; color:#64748B;">&le; 0.44 required &#10003;</div>
+                </div>
+                <div style="background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:10px; padding:14px; text-align:center;">
+                  <canvas id="gauge-shgc" width="80" height="80" style="width:80px;height:80px;display:block;margin:0 auto 6px;"></canvas>
+                  <div style="font-size:0.73rem; font-weight:700; color:#15803D;">Glazing SHGC</div>
+                  <div style="font-family:var(--font-mono); font-size:0.8rem; color:#16A34A; font-weight:700;">0.27</div>
+                  <div style="font-size:0.65rem; color:#64748B;">&le; 0.35 required &#10003;</div>
+                </div>
+                <div style="background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:10px; padding:14px; text-align:center;">
+                  <canvas id="gauge-ach" width="80" height="80" style="width:80px;height:80px;display:block;margin:0 auto 6px;"></canvas>
+                  <div style="font-size:0.73rem; font-weight:700; color:#15803D;">Natural Vent ACH</div>
+                  <div style="font-family:var(--font-mono); font-size:0.8rem; color:#16A34A; font-weight:700;" id="ecbc-ach">7.2</div>
+                  <div style="font-size:0.65rem; color:#64748B;">&ge; 2.0 required &#10003;</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+               SECTION F: CONVERGENCE + DIURNAL CHARTS
+          ═══════════════════════════════════════════════════ -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-bottom:28px;">
+            <!-- Residual convergence -->
+            <div style="background:#0A101D; border:1px solid rgba(55,65,81,0.7); border-radius:14px; overflow:hidden;">
+              <div style="padding:12px 18px; border-bottom:1px solid rgba(55,65,81,0.5);">
+                <div style="font-size:0.82rem; font-weight:700; color:#FFFFFF;">&#128201; Solver Residual Convergence</div>
+                <div style="font-family:var(--font-mono); font-size:0.68rem; color:#64748B; margin-top:1px;">150 iterations &middot; Converged at 10&#8315;&#8309; &middot; RNG k-&#949; + Energy</div>
+              </div>
+              <canvas id="cfd-convergence-canvas" width="600" height="200" style="width:100%; height:200px; display:block;"></canvas>
+              <div style="padding:8px 18px 12px; display:flex; gap:14px; flex-wrap:wrap; align-items:center;">
+                <span style="font-size:0.68rem; font-family:var(--font-mono); color:#FF6B35; display:flex; align-items:center; gap:4px;"><span style="width:16px;height:2.5px;background:#FF6B35;display:inline-block;border-radius:2px;"></span>Continuity</span>
+                <span style="font-size:0.68rem; font-family:var(--font-mono); color:#00E5FF; display:flex; align-items:center; gap:4px;"><span style="width:16px;height:2.5px;background:#00E5FF;display:inline-block;border-radius:2px;"></span>Velocity</span>
+                <span style="font-size:0.68rem; font-family:var(--font-mono); color:#76FF03; display:flex; align-items:center; gap:4px;"><span style="width:16px;height:2.5px;background:#76FF03;display:inline-block;border-radius:2px;"></span>Energy</span>
+                <span style="font-size:0.68rem; font-family:var(--font-mono); color:#FFD600; display:flex; align-items:center; gap:4px;"><span style="width:16px;height:2.5px;background:#FFD600;display:inline-block;border-radius:2px;"></span>k-&#949;</span>
+                <span style="margin-left:auto; font-family:var(--font-mono); font-size:0.7rem; color:#4ADE80; font-weight:700;">&#10003; 10&#8315;&#8309;</span>
+              </div>
+            </div>
+
+            <!-- Diurnal chart -->
+            <div style="background:#0A101D; border:1px solid rgba(55,65,81,0.7); border-radius:14px; overflow:hidden;">
+              <div style="padding:12px 18px; border-bottom:1px solid rgba(55,65,81,0.5);">
+                <div style="font-size:0.82rem; font-weight:700; color:#FFFFFF;">&#127749; 24-Hour Diurnal Temperature Curve</div>
+                <div style="font-family:var(--font-mono); font-size:0.68rem; color:#64748B; margin-top:1px;">Peak design day &middot; Outdoor vs Conventional vs ThermaBuild</div>
+              </div>
+              <canvas id="cfd-diurnal-canvas" width="600" height="200" style="width:100%; height:200px; display:block; padding:6px;"></canvas>
+              <div style="padding:8px 18px 12px; display:flex; gap:14px; flex-wrap:wrap; align-items:center;">
+                <span style="font-size:0.68rem; font-family:var(--font-mono); color:#FB923C; display:flex; align-items:center; gap:4px;"><span style="width:16px;height:2px;background:#FB923C;display:inline-block;border-radius:2px;"></span>Outdoor</span>
+                <span style="font-size:0.68rem; font-family:var(--font-mono); color:#94A3B8; display:flex; align-items:center; gap:4px;"><span style="width:16px;height:2px;background:#94A3B8;display:inline-block;border-radius:2px;border-top:1px dashed;"></span>Conventional</span>
+                <span style="font-size:0.68rem; font-family:var(--font-mono); color:#4ADE80; display:flex; align-items:center; gap:4px;"><span style="width:16px;height:2px;background:#4ADE80;display:inline-block;border-radius:2px;"></span>ThermaBuild</span>
+                <span style="margin-left:auto; font-size:0.68rem; color:#4ADE80; background:rgba(74,222,128,0.1); border:1px solid rgba(74,222,128,0.3); padding:2px 8px; border-radius:6px; font-family:var(--font-mono);">Comfort 22-27°C</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+               SECTION G: 3-WAY VALIDATION MATRIX
+          ═══════════════════════════════════════════════════ -->
+          <div style="margin-bottom:28px;">
+            <div style="font-size:0.9rem; font-weight:700; color:var(--text-main); margin-bottom:12px;">&#128203; 3-Way Validation Matrix <span style="font-size:0.75rem; color:#94A3B8; font-weight:400;">&middot; Baseline vs ThermaBuild vs ANSYS Fluent CFD Verified</span></div>
+            <div style="overflow-x:auto; border-radius:10px; border:1px solid #E2E8F0;">
+              <table style="width:100%; border-collapse:collapse; font-size:0.82rem;">
+                <thead>
+                  <tr>
+                    <th style="background:#F8FAFC; padding:12px 14px; text-align:left; font-weight:700; color:#374151; border-bottom:2px solid #E2E8F0;">Engineering Parameter</th>
+                    <th style="background:#FEF2F2; padding:12px 14px; text-align:left; font-weight:700; color:#991B1B; border-bottom:2px solid #E2E8F0;">&#9312; Baseline (Unoptimized)</th>
+                    <th style="background:#FFF7ED; padding:12px 14px; text-align:left; font-weight:700; color:#C2410C; border-bottom:2px solid #E2E8F0;">&#9313; ThermaBuild Recommendation</th>
+                    <th style="background:#F0FDF4; padding:12px 14px; text-align:left; font-weight:700; color:#15803D; border-bottom:2px solid #E2E8F0;">&#9314; ANSYS Fluent Validated &#10003;</th>
+                  </tr>
+                </thead>
+                <tbody id="cfd-matrix-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+               SECTION H: SOLVER CONFIG + BOTTOM ACTIONS
+          ═══════════════════════════════════════════════════ -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px;">
+            <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:16px 18px;">
+              <div style="font-size:0.78rem; font-weight:700; color:#374151; margin-bottom:10px; border-bottom:1px solid #E2E8F0; padding-bottom:8px;">&#9881;&#65039; Mesh &amp; Solver Settings</div>
+              <div style="display:flex; flex-direction:column; gap:5px; font-size:0.77rem;">
+                <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Mesh Type</span><span style="font-family:var(--font-mono); font-weight:600;">Polyhedral (Watertight Geometry)</span></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Total Cells</span><span style="font-family:var(--font-mono); font-weight:600;" id="solver-cells">184,200</span></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Max Skewness</span><span style="font-family:var(--font-mono); font-weight:600; color:#22C55E;">0.22 (Excellent)</span></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Turbulence Model</span><span style="font-family:var(--font-mono); font-weight:600;">RNG k-&#949; (Std Wall Fn)</span></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Energy Equation</span><span style="font-family:var(--font-mono); font-weight:600; color:#22C55E;">Enabled (CHT)</span></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Radiation</span><span style="font-family:var(--font-mono); font-weight:600;">DO (Discrete Ordinates)</span></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Iterations / Convergence</span><span style="font-family:var(--font-mono); font-weight:600; color:#22C55E;">150 / 10&#8315;&#8309; &#10003;</span></div>
+              </div>
+            </div>
+            <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:16px 18px;">
+              <div style="font-size:0.78rem; font-weight:700; color:#374151; margin-bottom:10px; border-bottom:1px solid #E2E8F0; padding-bottom:8px;">&#127968; Boundary Conditions</div>
+              <div style="display:flex; flex-direction:column; gap:5px; font-size:0.77rem;">
+                <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Design Outdoor Temp</span><span style="font-family:var(--font-mono); font-weight:600;" id="solver-outdoor">-18.2°C (Winter)</span></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Solar Irradiance (DNI)</span><span style="font-family:var(--font-mono); font-weight:600; color:#F59E0B;" id="solver-solar">1,040 W/m²</span></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Wind Speed (Inlet)</span><span style="font-family:var(--font-mono); font-weight:600;" id="solver-wind">4.2 m/s WNW</span></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Ground Temp</span><span style="font-family:var(--font-mono); font-weight:600;">15.0°C (Adiabatic)</span></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">South Facade Flux</span><span style="font-family:var(--font-mono); font-weight:600; color:#FB923C;">912 W/m² Direct</span></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Internal Heat Gain</span><span style="font-family:var(--font-mono); font-weight:600;" id="solver-ihg">8 W/m²</span></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Outlet BC</span><span style="font-family:var(--font-mono); font-weight:600;">Pressure-outlet (0 Pa)</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom actions -->
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-top:22px; border-top:1px solid var(--glass-border-subtle); flex-wrap:wrap; gap:14px;">
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn btn-secondary" onclick="goToStep(4)">&#8592; Back to 3D Tour</button>
+              <button class="btn btn-secondary" onclick="restartPipeline()">&#128260; New Project</button>
+            </div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+              <div style="font-family:var(--font-mono); font-size:0.73rem; color:#64748B;">Generated: <span id="cfd-gen-time">&#8212;</span></div>
+              <button class="btn btn-primary" onclick="openDossierModal()" style="padding:12px 28px; font-size:0.95rem; display:flex; align-items:center; gap:8px;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Download ANSYS Fluent Validation Dossier
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ==========================================================================
+           FLOW 2: STEP 1 - DIRECT 2D PLAN INTAKE & 3D BIM SYNTHESIS
+           ========================================================================== -->
+      <div class="studio-flow-step" id="flow2-step-1">
+        <div class="glass-card" style="padding: 28px 28px 24px 28px; position: relative; overflow: hidden; border-radius: 28px;">
+          <!-- Ambient Parallax Glass Glow Accents -->
+          <div style="position: absolute; top: -60px; right: -60px; width: 320px; height: 320px; background: radial-gradient(circle, rgba(2, 132, 199, 0.14) 0%, transparent 70%); filter: blur(45px); pointer-events: none; border-radius: 50%;"></div>
+
+          <!-- Section Header Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; position: relative; z-index: 2;">
+            <div>
+              <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: #0284C7; background: rgba(224, 242, 254, 0.95); border: 1px solid rgba(2, 132, 199, 0.25); padding: 4px 12px; border-radius: 999px; margin-bottom: 6px; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.08);">
+                <i class="fa-solid fa-bolt" style="font-size: 10px;"></i> Flow 02 · Fast Track Pipeline (Skips Steps 1–3)
+              </div>
+              <h3 style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; color: #0F172A; letter-spacing: -0.4px; margin: 0 0 4px 0;">
+                📐 Provide 2D Plan &amp; Synthesize 3D Digital Twin
+              </h3>
+              <p style="font-size: 0.88rem; color: #64748B; margin: 0;">
+                Directly upload your custom 2D floor plan image or select from our verified architectural library to generate 3D CAD and run ANSYS CFD simulation.
+              </p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn btn-secondary btn-sm" onclick="switchMainFlow(1)">
+                ← Switch to Greenfield (Flow 1)
+              </button>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 24px;" class="configurator-grid">
+            <!-- Left: 2D Plan Picker & Custom Upload -->
+            <div>
+              <!-- Custom Upload Box -->
+              <div style="background: #FFFFFF; border: 2px dashed #CBD5E1; border-radius: 16px; padding: 20px; text-align: center; margin-bottom: 20px; transition: all 0.2s ease;" id="flow2-dropzone">
+                <input type="file" id="flow2-upload-input" accept="image/*,.svg" style="display:none;" onchange="flow2HandleUpload(event)" />
+                <div style="width: 48px; height: 48px; border-radius: 50%; background: #EFF6FF; color: #0284C7; display: inline-flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 8px;">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                </div>
+                <h5 style="font-size: 1rem; font-weight: 700; color: #1E293B; margin: 0 0 4px 0;">Upload Custom 2D Plan Image or Blueprint</h5>
+                <p style="font-size: 0.78rem; color: #64748B; margin: 0 0 12px 0;">Supports PNG, JPG, SVG &amp; CAD blueprint exports</p>
+                <button class="btn btn-primary btn-sm" onclick="document.getElementById('flow2-upload-input').click()">
+                  <i class="fa-solid fa-folder-open"></i> Browse Files
+                </button>
+              </div>
+
+              <!-- Library Selector -->
+              <div style="font-size: 0.82rem; font-weight: 700; color: #475569; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
+                Or Select from Verified Architectural Plans:
+              </div>
+              <div class="flow2-plan-grid">
+                <div class="flow-plan-card active" id="f2-card-0" onclick="flow2SelectPlan(0)">
+                  <img src="assets/plan_1.png" class="flow-plan-thumb" alt="Plan 1" />
+                  <div style="font-weight: 700; font-size: 0.82rem; color: #0F172A;">Plan 1 (2 BHK)</div>
+                  <div style="font-size: 0.72rem; color: #64748B;">1,158 sq.ft · 94% Vastu</div>
+                </div>
+                <div class="flow-plan-card" id="f2-card-1" onclick="flow2SelectPlan(1)">
+                  <img src="assets/plan_2.png" class="flow-plan-thumb" alt="Plan 2" />
+                  <div style="font-weight: 700; font-size: 0.82rem; color: #0F172A;">Plan 2 (1 BHK)</div>
+                  <div style="font-size: 0.72rem; color: #64748B;">483 sq.ft · 96% Vastu</div>
+                </div>
+                <div class="flow-plan-card" id="f2-card-2" onclick="flow2SelectPlan(2)">
+                  <img src="assets/plan_3.png" class="flow-plan-thumb" alt="Plan 3" />
+                  <div style="font-weight: 700; font-size: 0.82rem; color: #0F172A;">Plan 3 (Angled)</div>
+                  <div style="font-size: 0.72rem; color: #64748B;">495 sq.ft · 91% Vastu</div>
+                </div>
+                <div class="flow-plan-card" id="f2-card-3" onclick="flow2SelectPlan(3)">
+                  <img src="assets/plan_4.png" class="flow-plan-thumb" alt="Plan 4" />
+                  <div style="font-weight: 700; font-size: 0.82rem; color: #0F172A;">Plan 4 (4 BHK)</div>
+                  <div style="font-size: 0.72rem; color: #64748B;">960 sq.ft · 93% Vastu</div>
+                </div>
+                <div class="flow-plan-card" id="f2-card-4" onclick="flow2SelectPlan(4)">
+                  <img src="assets/plan_5.png" class="flow-plan-thumb" alt="Plan 5" />
+                  <div style="font-weight: 700; font-size: 0.82rem; color: #0F172A;">Plan 5 (5 BHK)</div>
+                  <div style="font-size: 0.72rem; color: #64748B;">1,240 sq.ft · 95% Vastu</div>
+                </div>
+              </div>
+
+              <!-- Active Blueprint Preview Box -->
+              <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; padding: 14px; text-align: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span style="font-size: 0.78rem; font-weight: 700; color: #0F172A;" id="f2-preview-title">Active Blueprint: Plan 1 — 2 BHK Compact Villa (1,158 sq.ft)</span>
+                  <span class="section-pill" style="margin: 0; font-size: 0.68rem; background: #DCFCE7; color: #166534; font-weight: 700;" id="f2-preview-badge">Ready for 3D Extrusion</span>
+                </div>
+                <img id="f2-preview-img" src="assets/plan_1.png" alt="2D Blueprint Preview" style="width: 100%; max-height: 280px; object-fit: contain; border-radius: 8px;" />
+              </div>
+            </div>
+
+            <!-- Right: Fast Context & Direct Extrusion Trigger -->
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <div class="glass-card" style="padding: 20px; background: #FFFFFF;">
+                <h4 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; margin: 0 0 12px 0;">
+                  🧭 Building Orientation &amp; Climate Zone
+                </h4>
+
+                <!-- Facing selection -->
+                <label style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: #64748B; display: block; margin-bottom: 6px;">
+                  Entrance / Main Facade Facing:
+                </label>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 14px;">
+                  <button type="button" class="audit-option-pill active" onclick="flow2SetFacing('E', this)" style="margin: 0; justify-content: center;">East (E)</button>
+                  <button type="button" class="audit-option-pill" onclick="flow2SetFacing('NE', this)" style="margin: 0; justify-content: center;">NE</button>
+                  <button type="button" class="audit-option-pill" onclick="flow2SetFacing('N', this)" style="margin: 0; justify-content: center;">North</button>
+                  <button type="button" class="audit-option-pill" onclick="flow2SetFacing('NW', this)" style="margin: 0; justify-content: center;">NW</button>
+                  <button type="button" class="audit-option-pill" onclick="flow2SetFacing('W', this)" style="margin: 0; justify-content: center;">West (W)</button>
+                  <button type="button" class="audit-option-pill" onclick="flow2SetFacing('SW', this)" style="margin: 0; justify-content: center;">SW</button>
+                  <button type="button" class="audit-option-pill" onclick="flow2SetFacing('S', this)" style="margin: 0; justify-content: center;">South (S)</button>
+                  <button type="button" class="audit-option-pill" onclick="flow2SetFacing('SE', this)" style="margin: 0; justify-content: center;">SE</button>
+                </div>
+
+                <!-- Climate Zone -->
+                <label style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: #64748B; display: block; margin-bottom: 6px;">
+                  Geographic Climate Zone:
+                </label>
+                <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px;">
+                  <button type="button" class="audit-option-pill active" onclick="flow2SetClimate('cold', this)" style="width: 100%; justify-content: flex-start;">
+                    🏔️ <strong>Cold Arid Zone</strong> (Leh, Ladakh · -18°C Winter)
+                  </button>
+                  <button type="button" class="audit-option-pill" onclick="flow2SetClimate('composite', this)" style="width: 100%; justify-content: flex-start;">
+                    🏙️ <strong>Composite Zone</strong> (Delhi / NCR · High Diurnal Swing)
+                  </button>
+                  <button type="button" class="audit-option-pill" onclick="flow2SetClimate('hot-dry', this)" style="width: 100%; justify-content: flex-start;">
+                    ☀️ <strong>Hot-Dry Zone</strong> (Jaipur · Peak Summer 44°C)
+                  </button>
+                  <button type="button" class="audit-option-pill" onclick="flow2SetClimate('warm-humid', this)" style="width: 100%; justify-content: flex-start;">
+                    🌊 <strong>Warm-Humid Zone</strong> (Mumbai / Chennai · Aerothermal)
+                  </button>
+                </div>
+
+                <!-- Direct CTA Button -->
+                <button class="btn btn-primary" onclick="flow2ProceedTo3D()" style="width: 100%; padding: 14px; font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                  <i class="fa-solid fa-cube"></i> Extrude 3D BIM Model &amp; Proceed to CFD →
+                </button>
+                <div style="font-size: 0.7rem; color: #94A3B8; text-align: center; margin-top: 6px;">
+                  ⚡ FreeCAD OpenCASCADE Extrusion &middot; Instant Three.js BIM rendering
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================================================
+           FLOW 3: STEP 1 - EXISTING HOUSE & MATERIAL AUDIT INTAKE
+           ========================================================================== -->
+      <div class="studio-flow-step" id="flow3-step-1">
+        <div class="glass-card" style="padding: 28px 28px 24px 28px; position: relative; overflow: hidden; border-radius: 28px;">
+          <!-- Ambient Parallax Glass Glow Accents -->
+          <div style="position: absolute; top: -60px; right: -60px; width: 320px; height: 320px; background: radial-gradient(circle, rgba(234, 88, 12, 0.14) 0%, transparent 70%); filter: blur(45px); pointer-events: none; border-radius: 50%;"></div>
+
+          <!-- Section Header Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; position: relative; z-index: 2;">
+            <div>
+              <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: #EA580C; background: rgba(255, 241, 235, 0.95); border: 1px solid rgba(234, 88, 12, 0.25); padding: 4px 12px; border-radius: 999px; margin-bottom: 6px; box-shadow: 0 2px 8px rgba(234, 88, 12, 0.08);">
+                <i class="fa-solid fa-house-chimney-crack" style="font-size: 10px;"></i> Flow 03 · Thermal Audit &amp; Retrofit Optimization
+              </div>
+              <h3 style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; color: #0F172A; letter-spacing: -0.4px; margin: 0 0 4px 0;">
+                🔍 Building Envelope &amp; Material Diagnosis Intake
+              </h3>
+              <p style="font-size: 0.88rem; color: #64748B; margin: 0;">
+                Provide your 2D plan and existing wall, roof &amp; window construction details to run a comparative ANSYS simulation and receive tailored material retrofit suggestions.
+              </p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn btn-secondary btn-sm" onclick="switchMainFlow(1)">
+                ← Switch to Greenfield (Flow 1)
+              </button>
+            </div>
+          </div>
+
+          <!-- Audit Form Grid -->
+          <div class="audit-grid" style="margin-bottom: 20px;">
+            <!-- Column 1: 2D Plan & Climate -->
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <!-- 2D Plan Selector for Existing House -->
+              <div class="audit-param-box">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                  <strong style="font-size: 0.92rem; color: #0F172A;">1. Select Existing House Floor Plan</strong>
+                  <button class="btn btn-secondary btn-sm" style="padding: 4px 10px; font-size: 0.72rem;" onclick="document.getElementById('flow3-upload-input').click()">
+                    📁 Upload Custom Plan
+                  </button>
+                  <input type="file" id="flow3-upload-input" accept="image/*,.svg" style="display:none;" onchange="flow3HandleUpload(event)" />
+                </div>
+                <div class="flow2-plan-grid" style="margin-bottom: 8px;">
+                  <div class="flow-plan-card active" id="f3-card-0" onclick="flow3SelectPlan(0)">
+                    <img src="assets/plan_1.png" class="flow-plan-thumb" alt="Plan 1" />
+                    <div style="font-weight: 700; font-size: 0.78rem; color: #0F172A;">Plan 1 (2 BHK)</div>
+                    <div style="font-size: 0.68rem; color: #64748B;">1,158 sq.ft</div>
+                  </div>
+                  <div class="flow-plan-card" id="f3-card-1" onclick="flow3SelectPlan(1)">
+                    <img src="assets/plan_2.png" class="flow-plan-thumb" alt="Plan 2" />
+                    <div style="font-weight: 700; font-size: 0.78rem; color: #0F172A;">Plan 2 (1 BHK)</div>
+                    <div style="font-size: 0.68rem; color: #64748B;">483 sq.ft</div>
+                  </div>
+                  <div class="flow-plan-card" id="f3-card-2" onclick="flow3SelectPlan(2)">
+                    <img src="assets/plan_3.png" class="flow-plan-thumb" alt="Plan 3" />
+                    <div style="font-weight: 700; font-size: 0.78rem; color: #0F172A;">Plan 3 (Angled)</div>
+                    <div style="font-size: 0.68rem; color: #64748B;">495 sq.ft</div>
+                  </div>
+                  <div class="flow-plan-card" id="f3-card-3" onclick="flow3SelectPlan(3)">
+                    <img src="assets/plan_4.png" class="flow-plan-thumb" alt="Plan 4" />
+                    <div style="font-weight: 700; font-size: 0.78rem; color: #0F172A;">Plan 4 (4 BHK)</div>
+                    <div style="font-size: 0.68rem; color: #64748B;">960 sq.ft</div>
+                  </div>
+                  <div class="flow-plan-card" id="f3-card-4" onclick="flow3SelectPlan(4)">
+                    <img src="assets/plan_5.png" class="flow-plan-thumb" alt="Plan 5" />
+                    <div style="font-weight: 700; font-size: 0.78rem; color: #0F172A;">Plan 5 (5 BHK)</div>
+                    <div style="font-size: 0.68rem; color: #64748B;">1,240 sq.ft</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Climate & Orientation -->
+              <div class="audit-param-box">
+                <strong style="font-size: 0.92rem; color: #0F172A; display: block; margin-bottom: 8px;">2. Climate Zone &amp; Orientation</strong>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px;">
+                  <button type="button" class="audit-option-pill active" onclick="flow3SelectClimate('cold', this)">🏔️ Cold Arid (Leh, Ladakh -18°C)</button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectClimate('composite', this)">🏙️ Composite (Delhi / NCR)</button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectClimate('hot-dry', this)">☀️ Hot-Dry (Jaipur 44°C)</button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectClimate('warm-humid', this)">🌊 Warm-Humid (Mumbai/Chennai)</button>
+                </div>
+                <div style="font-size: 0.74rem; font-weight: 700; color: #64748B; margin-bottom: 4px;">Orientation:</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+                  <button type="button" class="audit-option-pill active" onclick="flow3SelectFacing('E', this)">East (E)</button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectFacing('NE', this)">NE</button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectFacing('N', this)">North</button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectFacing('NW', this)">NW</button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectFacing('W', this)">West</button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectFacing('SW', this)">SW</button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectFacing('S', this)">South</button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectFacing('SE', this)">SE</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 2: Existing Material Details & Discomfort Symptoms -->
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <!-- Existing Wall Material -->
+              <div class="audit-param-box">
+                <strong style="font-size: 0.92rem; color: #0F172A; display: block; margin-bottom: 6px;">3. Existing Wall Material (As-Built)</strong>
+                <div>
+                  <button type="button" class="audit-option-pill active" onclick="flow3SelectWall('brick', this)">
+                    🧱 230mm Uninsulated Red Brick (U = 2.80 W/m²K)
+                  </button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectWall('block', this)">
+                    🧱 200mm Concrete Hollow Block (U = 3.10 W/m²K)
+                  </button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectWall('stone', this)">
+                    🪨 350mm Solid Stone Masonry (U = 3.45 W/m²K)
+                  </button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectWall('mud', this)">
+                    🛖 250mm Mud / Adobe Wall (U = 2.10 W/m²K)
+                  </button>
+                </div>
+              </div>
+
+              <!-- Existing Roof Construction -->
+              <div class="audit-param-box">
+                <strong style="font-size: 0.92rem; color: #0F172A; display: block; margin-bottom: 6px;">4. Existing Roof Construction</strong>
+                <div>
+                  <button type="button" class="audit-option-pill active" onclick="flow3SelectRoof('rcc', this)">
+                    🏢 150mm Flat Bare RCC Slab (U = 3.25 W/m²K)
+                  </button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectRoof('sheet', this)">
+                    🏚️ Corrugated GI / Metal Sheet (U = 6.20 W/m²K)
+                  </button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectRoof('tile', this)">
+                    🏠 Uninsulated Clay Mangalore Tile (U = 2.90 W/m²K)
+                  </button>
+                </div>
+              </div>
+
+              <!-- Existing Window Glazing -->
+              <div class="audit-param-box">
+                <strong style="font-size: 0.92rem; color: #0F172A; display: block; margin-bottom: 6px;">5. Existing Windows &amp; Glazing</strong>
+                <div>
+                  <button type="button" class="audit-option-pill active" onclick="flow3SelectGlazing('single_al', this)">
+                    🪟 Single Clear 4mm Glass + Unsealed Aluminium Frame (U = 5.80 W/m²K)
+                  </button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectGlazing('single_wood', this)">
+                    🪟 Single Clear 4mm Glass + Wood Frame (U = 4.80 W/m²K)
+                  </button>
+                  <button type="button" class="audit-option-pill" onclick="flow3SelectGlazing('double_std', this)">
+                    🪟 Standard Double Glazing without Thermal Break (U = 2.90 W/m²K)
+                  </button>
+                </div>
+              </div>
+
+              <!-- Primary Thermal Complaints -->
+              <div class="audit-param-box" style="background: #FFFBF8; border-color: #FED7AA;">
+                <strong style="font-size: 0.92rem; color: #C2410C; display: block; margin-bottom: 6px;">6. Current Thermal Discomfort Symptoms</strong>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                  <button type="button" class="audit-option-pill active" onclick="this.classList.toggle('active')">❄️ Severe Winter Freezing</button>
+                  <button type="button" class="audit-option-pill active" onclick="this.classList.toggle('active')">🔥 Extreme Summer Overheating</button>
+                  <button type="button" class="audit-option-pill active" onclick="this.classList.toggle('active')">⚡ High Electricity / Heating Bills</button>
+                  <button type="button" class="audit-option-pill" onclick="this.classList.toggle('active')">💨 Window Drafts &amp; Condensation</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Run Audit CTA -->
+          <div style="text-align: center; padding-top: 10px; border-top: 1px solid #E2E8F0;">
+            <button class="btn btn-primary" onclick="flow3RunAudit()" style="padding: 16px 38px; font-size: 1.05rem; font-weight: 700; box-shadow: 0 6px 20px rgba(234, 88, 12, 0.35);">
+              <i class="fa-solid fa-calculator"></i> Run Comparative ANSYS Thermal Audit &amp; Material Retrofit Suggestions →
+            </button>
+            <div style="font-size: 0.72rem; color: #94A3B8; margin-top: 6px;">
+              ⚡ Solves conjugate 1D-RC Sol-Air &amp; ANSYS Fluent baseline vs optimized heat transfer deltas (~1.5s)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================================================
+           FLOW 3: STEP 2 - COMPARATIVE ANSYS THERMAL AUDIT & RETROFIT REPORT
+           ========================================================================== -->
+      <div class="studio-flow-step" id="flow3-step-2">
+        <div class="glass-card" style="padding: 28px 28px 24px 28px; position: relative; overflow: hidden; border-radius: 28px;">
+          <!-- Ambient Parallax Glass Glow Accents -->
+          <div style="position: absolute; top: -60px; right: -60px; width: 320px; height: 320px; background: radial-gradient(circle, rgba(22, 101, 52, 0.14) 0%, transparent 70%); filter: blur(45px); pointer-events: none; border-radius: 50%;"></div>
+
+          <!-- Section Header Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; position: relative; z-index: 2;">
+            <div>
+              <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: #166534; background: #DCFCE7; border: 1px solid #86EFAC; padding: 4px 12px; border-radius: 999px; margin-bottom: 6px;">
+                <i class="fa-solid fa-square-poll-vertical" style="font-size: 10px;"></i> Flow 03 · ANSYS Validation &amp; Material Retrofit Specifications
+              </div>
+              <h3 style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; color: #0F172A; letter-spacing: -0.4px; margin: 0 0 4px 0;">
+                📊 Thermal Retrofit Audit &amp; Prescriptive Material Schedule
+              </h3>
+              <p style="font-size: 0.88rem; color: #64748B; margin: 0;">
+                Comparative performance audit: <strong style="color: #DC2626;">Existing As-Built Baseline</strong> vs <strong style="color: #166534;">ThermaBuild Retrofit Envelope</strong>.
+              </p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn btn-secondary btn-sm" onclick="goToFlow3Step(1)">
+                ← Edit House Parameters
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="openRetrofitDossier()">
+                📥 Export Retrofit Dossier
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 Summary KPI Cards -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px;">
+            <!-- KPI 1 -->
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; padding: 14px 16px; border-left: 4px solid #166534;">
+              <div style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #64748B;">Thermal Comfort Score</div>
+              <div style="font-family: var(--font-heading); font-size: 1.45rem; font-weight: 800; color: #166534; margin: 2px 0;" id="audit-score-val">95<span style="font-size: 0.85rem; color: #64748B;">/100</span></div>
+              <div style="font-size: 0.72rem; color: #15803D;">Baseline: <strong style="color: #DC2626;" id="audit-base-score">36/100</strong> (+59 pts)</div>
+            </div>
+
+            <!-- KPI 2 -->
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; padding: 14px 16px; border-left: 4px solid #EA580C;">
+              <div style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #64748B;">Winter Temp Lift (Passive)</div>
+              <div style="font-family: var(--font-heading); font-size: 1.45rem; font-weight: 800; color: #EA580C; margin: 2px 0;" id="audit-temp-lift">+15.6°C</div>
+              <div style="font-size: 0.72rem; color: #64748B;">Lifts indoor from 5.2°C to <strong>20.8°C</strong></div>
+            </div>
+
+            <!-- KPI 3 -->
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; padding: 14px 16px; border-left: 4px solid #0284C7;">
+              <div style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #64748B;">HVAC Energy Reduction</div>
+              <div style="font-family: var(--font-heading); font-size: 1.45rem; font-weight: 800; color: #0284C7; margin: 2px 0;" id="audit-energy-save">-68.4%</div>
+              <div style="font-size: 0.72rem; color: #64748B;">Heating &amp; cooling power drop</div>
+            </div>
+
+            <!-- KPI 4 -->
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; padding: 14px 16px; border-left: 4px solid #8B5CF6;">
+              <div style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: #64748B;">Annual Bill Savings</div>
+              <div style="font-family: var(--font-heading); font-size: 1.45rem; font-weight: 800; color: #8B5CF6; margin: 2px 0;" id="audit-bill-save">₹84,500/yr</div>
+              <div style="font-size: 0.72rem; color: #64748B;">Estimated Payback: <strong>2.4 Years</strong></div>
+            </div>
+          </div>
+
+          <!-- Side-by-Side Comparison & Prescriptive Material Table -->
+          <div style="margin-bottom: 24px;">
+            <div style="font-size: 0.95rem; font-weight: 700; color: #0F172A; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+              <span>📋 Prescriptive Material Upgrade Schedule for Thermal Comfort Improvement</span>
+              <span class="section-pill" style="margin: 0; font-size: 0.68rem; background: #DCFCE7; color: #166534; font-weight: 700;">ECBC 2017 &amp; GRIHA Compliant</span>
+            </div>
+
+            <div style="overflow-x: auto;">
+              <table class="retrofit-table">
+                <thead>
+                  <tr>
+                    <th style="width: 22%;">Building Envelope Component</th>
+                    <th style="width: 26%; background: #FEF2F2; color: #991B1B;">① Existing As-Built Schedule</th>
+                    <th style="width: 32%; background: #F0FDF4; color: #166534;">② Recommended Material Retrofit</th>
+                    <th style="width: 20%; background: #F8FAFC; color: #0284C7;">Thermal Impact</th>
+                  </tr>
+                </thead>
+                <tbody id="retrofit-matrix-tbody">
+                  <tr>
+                    <td><strong>🧱 Exterior Walls</strong><br/><span style="font-size: 0.72rem; color: #64748B;">Thermal envelope boundary</span></td>
+                    <td style="color: #991B1B;"><strong id="f3-row-exist-wall">230mm Red Clay Brick</strong><br/><span style="font-family: var(--font-mono); font-size: 0.74rem;">U = 2.80 W/m²K</span></td>
+                    <td style="color: #166534;"><strong id="f3-row-rec-wall">50mm Extruded Polystyrene (XPS) + Lime Render</strong><br/><span style="font-family: var(--font-mono); font-size: 0.74rem;">New U = 0.36 W/m²K</span></td>
+                    <td><span class="section-pill" style="margin: 0; font-size: 0.7rem; background: #DCFCE7; color: #166534; font-weight: 700;">-87.1% Heat Loss</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>☀️ Roof &amp; Ceiling</strong><br/><span style="font-size: 0.72rem; color: #64748B;">Solar radiation boundary</span></td>
+                    <td style="color: #991B1B;"><strong id="f3-row-exist-roof">150mm Flat Bare RCC Slab</strong><br/><span style="font-family: var(--font-mono); font-size: 0.74rem;">U = 3.25 W/m²K</span></td>
+                    <td style="color: #166534;"><strong id="f3-row-rec-roof">75mm Polyurethane Spray Foam + High-Albedo Solar Tile (SRI 104)</strong><br/><span style="font-family: var(--font-mono); font-size: 0.74rem;">New U = 0.31 W/m²K</span></td>
+                    <td><span class="section-pill" style="margin: 0; font-size: 0.7rem; background: #DCFCE7; color: #166534; font-weight: 700;">-90.5% Heat Loss</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>🪟 Windows &amp; Glazing</strong><br/><span style="font-size: 0.72rem; color: #64748B;">Fenestration ingress</span></td>
+                    <td style="color: #991B1B;"><strong id="f3-row-exist-win">Single Clear 4mm Glass (Al Frame)</strong><br/><span style="font-family: var(--font-mono); font-size: 0.74rem;">U = 5.80 W/m²K (Drafts)</span></td>
+                    <td style="color: #166534;"><strong id="f3-row-rec-win">Argon-Filled Triple Glazed Low-E Glass + Thermal Break UPVC</strong><br/><span style="font-family: var(--font-mono); font-size: 0.74rem;">New U = 1.32 W/m²K</span></td>
+                    <td><span class="section-pill" style="margin: 0; font-size: 0.7rem; background: #DCFCE7; color: #166534; font-weight: 700;">-77.2% Glazing Loss</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>🚪 Air Infiltration &amp; Passive</strong><br/><span style="font-size: 0.72rem; color: #64748B;">Cross-ventilation &amp; buffer</span></td>
+                    <td style="color: #991B1B;"><span>Unsealed Single Door (High Infiltration)</span><br/><span style="font-family: var(--font-mono); font-size: 0.74rem;">ACH = 2.8</span></td>
+                    <td style="color: #166534;"><span>Double-Door Airlock Vestibule + EPDM Weatherstripping + South Trombe Solar Wall</span><br/><span style="font-family: var(--font-mono); font-size: 0.74rem;">ACH = 0.5 (Airtight)</span></td>
+                    <td><span class="section-pill" style="margin: 0; font-size: 0.7rem; background: #DCFCE7; color: #166534; font-weight: 700;">+48% Solar Gain</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Bottom Actions -->
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 18px; border-top: 1px solid #E2E8F0; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; gap: 10px;">
+              <button class="btn btn-secondary" onclick="goToFlow3Step(1)">
+                ← Back to House Audit Intake
+              </button>
+              <button class="btn btn-secondary" onclick="switchMainFlow(1)">
+                🌱 Switch to Greenfield (Flow 1)
+              </button>
+            </div>
+            <button class="btn btn-primary" onclick="openRetrofitDossier()" style="padding: 12px 28px;">
+              <i class="fa-solid fa-file-pdf"></i> Download Complete Retrofit Thermal Dossier
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ==========================================================================
+           FLOW 4: Climate-Responsive Animal Husbandry Bioclimatic Shelter Studio
+           ========================================================================== -->
+      <div class="studio-flow-step" id="flow4-step-1">
+        <div class="glass-card" style="padding: 28px; border-radius: 28px; position: relative; overflow: hidden;">
+          
+          <!-- Section Header Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--glass-border-subtle);">
+            <div>
+              <div class="section-pill" style="margin-bottom: 8px; font-size: 0.72rem; background: rgba(16, 185, 129, 0.12); color: #059669; border-color: rgba(16, 185, 129, 0.3);">
+                🐾 Flow 4 &middot; Agro-Bioclimatic Engineering Studio
+              </div>
+              <h2 style="font-size: 1.85rem; font-weight: 800; color: var(--text-main); margin-bottom: 4px; letter-spacing: -0.02em;">
+                Animal Husbandry Bioclimatic Shelter
+              </h2>
+              <p style="color: var(--text-secondary); font-size: 0.95rem; max-width: 680px;">
+                Design thermal-resilient, naturally ventilated shelters for Cattle, Goats &amp; Poultry with 3D thermal heat-map simulation and species-specific THI stress mitigation.
+              </p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-secondary btn-sm" onclick="switchMainFlow(1)">
+                🌱 Switch to Greenfield
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="openFarmerDossierModal()">
+                📋 Export BOQ Dossier
+              </button>
+            </div>
+          </div>
+
+          <!-- Species Selection Glass Cards -->
+          <div class="animal-cards-grid">
+            
+            <!-- Cattle Card -->
+            <div class="animal-glass-card active" id="card-animal-cattle" onclick="selectAnimalType('cattle')">
+              <div class="animal-card-header">
+                <div>
+                  <div class="animal-card-title">🐄 Dairy &amp; Beef Cattle</div>
+                  <div class="animal-card-sub">Bovine &middot; Bos Taurus / Indicus</div>
+                </div>
+                <div class="animal-icon-badge">🐄</div>
+              </div>
+              <div class="animal-spec-pills">
+                <span class="animal-spec-pill highlight">THI Threshold: 72</span>
+                <span class="animal-spec-pill">Height: 3.8m+</span>
+                <span class="animal-spec-pill emerald">Ridge Stack Chimney</span>
+                <span class="animal-spec-pill">Grooved Dung Gutter</span>
+              </div>
+              <p class="animal-card-desc">
+                Heavy metabolic body heat (1000W/head) requires continuous high-ridge thermal chimney exhaust and &gt;1.2m shaded eaves to avert milk yield drop.
+              </p>
+              <div class="animal-card-action">
+                <span>Configure Bovine Shelter</span>
+                <span style="font-size: 1.1rem;">&rarr;</span>
+              </div>
+            </div>
+
+            <!-- Goat Card -->
+            <div class="animal-glass-card" id="card-animal-goats" onclick="selectAnimalType('goats')">
+              <div class="animal-card-header">
+                <div>
+                  <div class="animal-card-title">🐐 Goats &amp; Sheep</div>
+                  <div class="animal-card-sub">Caprine &middot; Small Ruminants</div>
+                </div>
+                <div class="animal-icon-badge" style="background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3);">🐐</div>
+              </div>
+              <div class="animal-spec-pills">
+                <span class="animal-spec-pill highlight">Elevated Slatted Floor</span>
+                <span class="animal-spec-pill">Height: 2.8m</span>
+                <span class="animal-spec-pill emerald">Pneumonia Draft Shield</span>
+                <span class="animal-spec-pill">Dung Clearance</span>
+              </div>
+              <p class="animal-card-desc">
+                Elevated bamboo/timber slats (0.5m clearance) prevent foot rot and ammonia buildup while adjustable side baffles shield against cold evening drafts.
+              </p>
+              <div class="animal-card-action" style="color: #059669;">
+                <span>Configure Caprine Shelter</span>
+                <span style="font-size: 1.1rem;">&rarr;</span>
+              </div>
+            </div>
+
+            <!-- Poultry Card -->
+            <div class="animal-glass-card" id="card-animal-poultry" onclick="selectAnimalType('poultry')">
+              <div class="animal-card-header">
+                <div>
+                  <div class="animal-card-title">🐓 Poultry Broilers &amp; Layers</div>
+                  <div class="animal-card-sub">Avian &middot; Gallus Domesticus</div>
+                </div>
+                <div class="animal-icon-badge" style="background: rgba(6, 182, 212, 0.12); border-color: rgba(6, 182, 212, 0.3);">🐓</div>
+              </div>
+              <div class="animal-spec-pills">
+                <span class="animal-spec-pill highlight">Tunnel Cross-Draft</span>
+                <span class="animal-spec-pill">Height: 2.6m</span>
+                <span class="animal-spec-pill emerald">Ammonia Evacuation</span>
+                <span class="animal-spec-pill">Cool Roof Paint</span>
+              </div>
+              <p class="animal-card-desc">
+                High bird density demands long East-West orientation, high windward air velocity (1.5-2.2 m/s), and reflective low-mass roofing to safeguard egg lay rate.
+              </p>
+              <div class="animal-card-action" style="color: #0284C7;">
+                <span>Configure Avian Shelter</span>
+                <span style="font-size: 1.1rem;">&rarr;</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bioclimatic Shelter Workbench: Control Deck + 3D Viewport -->
+          <div class="shelter-workbench-grid">
+            
+            <!-- Left: Glass Control Deck -->
+            <div class="shelter-controls-deck">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--glass-border-subtle);">
+                <div style="font-weight: 800; font-size: 1.05rem; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+                  <span>🎛️</span> Bioclimatic Parameters
+                </div>
+                <span id="shelter-species-badge" style="font-size: 0.75rem; font-weight: 700; background: rgba(222, 114, 54, 0.1); color: var(--accent-orange); padding: 3px 9px; border-radius: 20px;">
+                  Cattle Mode
+                </span>
+              </div>
+
+              <!-- Climate Zone Preset -->
+              <div class="shelter-ctrl-group">
+                <div class="shelter-ctrl-header">
+                  <label class="shelter-ctrl-label" for="shelter-climate-select">
+                    🌍 Climate Zone &amp; Microclimate
+                  </label>
+                </div>
+                <select id="shelter-climate-select" class="shelter-select" onchange="onShelterClimateChange()">
+                  <option value="hot_dry" selected>🔥 Hot &amp; Dry (Rajasthan / Thar Desert - 42°C Peak)</option>
+                  <option value="warm_humid">🌊 Warm &amp; Humid (Coastal Kerala / Bengal - 34°C, 82% RH)</option>
+                  <option value="composite">🌾 Composite Plains (Central India / Deccan - 38°C)</option>
+                  <option value="cold_arid">🏔️ Cold &amp; High-Altitude (Ladakh / Leh Arid - 22°C Summer / -12°C)</option>
+                </select>
+              </div>
+
+              <!-- Ambient Temperature Slider -->
+              <div class="shelter-ctrl-group">
+                <div class="shelter-ctrl-header">
+                  <label class="shelter-ctrl-label" for="slider-shelter-temp">
+                    🌡️ Ambient Outdoor Temp
+                  </label>
+                  <span class="shelter-ctrl-val" id="val-shelter-temp">38.0°C</span>
+                </div>
+                <input type="range" id="slider-shelter-temp" class="shelter-slider" min="15" max="48" step="0.5" value="38" oninput="onShelterParamChange()" />
+              </div>
+
+              <!-- Relative Humidity Slider -->
+              <div class="shelter-ctrl-group">
+                <div class="shelter-ctrl-header">
+                  <label class="shelter-ctrl-label" for="slider-shelter-rh">
+                    💧 Relative Humidity (RH)
+                  </label>
+                  <span class="shelter-ctrl-val" id="val-shelter-rh">40%</span>
+                </div>
+                <input type="range" id="slider-shelter-rh" class="shelter-slider" min="10" max="95" step="1" value="40" oninput="onShelterParamChange()" />
+              </div>
+
+              <!-- Direct Solar Radiation -->
+              <div class="shelter-ctrl-group">
+                <div class="shelter-ctrl-header">
+                  <label class="shelter-ctrl-label" for="slider-shelter-solar">
+                    ☀️ Peak Solar Irradiance
+                  </label>
+                  <span class="shelter-ctrl-val" id="val-shelter-solar">850 W/m²</span>
+                </div>
+                <input type="range" id="slider-shelter-solar" class="shelter-slider" min="200" max="1100" step="25" value="850" oninput="onShelterParamChange()" />
+              </div>
+
+              <!-- Roof Material Selection -->
+              <div class="shelter-ctrl-group">
+                <div class="shelter-ctrl-header">
+                  <label class="shelter-ctrl-label" for="shelter-roof-mat">
+                    🏗️ Roof Thermal Envelope
+                  </label>
+                </div>
+                <select id="shelter-roof-mat" class="shelter-select" onchange="onShelterParamChange()">
+                  <option value="terracotta_tile" selected>🧱 Mangalore Clay Tile (U=1.25 W/m²K &middot; Breathable)</option>
+                  <option value="thatch_bamboo">🌿 Natural Thatch &amp; Bamboo (U=0.55 W/m²K &middot; Zero Re-radiation)</option>
+                  <option value="insulated_puf">🛡️ Insulated White PUF Panel (U=0.42 W/m²K &middot; High Albedo)</option>
+                  <option value="adobe_rammed_earth">🏺 Stabilized Earth &amp; Adobe (U=0.85 W/m²K &middot; High Lag)</option>
+                  <option value="galvanized_uninsulated">⚠️ Corrugated Metal (Uninsulated U=5.80 &middot; Heat Trap)</option>
+                </select>
+              </div>
+
+              <!-- Overhang Eave Depth -->
+              <div class="shelter-ctrl-group">
+                <div class="shelter-ctrl-header">
+                  <label class="shelter-ctrl-label" for="slider-shelter-overhang">
+                    ⛱️ Eave Shading Overhang
+                  </label>
+                  <span class="shelter-ctrl-val" id="val-shelter-overhang">1.2 m</span>
+                </div>
+                <input type="range" id="slider-shelter-overhang" class="shelter-slider" min="0.4" max="2.2" step="0.1" value="1.2" oninput="onShelterParamChange()" />
+              </div>
+
+              <!-- Continuous Ridge Chimney Vent -->
+              <div class="shelter-ctrl-group">
+                <div class="shelter-ctrl-header">
+                  <label class="shelter-ctrl-label" for="slider-shelter-ridge">
+                    💨 Ridge Chimney Vent Opening
+                  </label>
+                  <span class="shelter-ctrl-val" id="val-shelter-ridge">75%</span>
+                </div>
+                <input type="range" id="slider-shelter-ridge" class="shelter-slider" min="0" max="100" step="5" value="75" oninput="onShelterParamChange()" />
+              </div>
+
+              <!-- Herd / Flock Size -->
+              <div class="shelter-ctrl-group" style="margin-bottom: 0;">
+                <div class="shelter-ctrl-header">
+                  <label class="shelter-ctrl-label" for="slider-shelter-herd">
+                    🐾 Herd / Flock Head Count
+                  </label>
+                  <span class="shelter-ctrl-val" id="val-shelter-herd">12 Head</span>
+                </div>
+                <input type="range" id="slider-shelter-herd" class="shelter-slider" min="2" max="120" step="1" value="12" oninput="onShelterParamChange()" />
+              </div>
+
+            </div>
+
+            <!-- Right: 3D Livestock Shelter & Thermal Heat-Map Viewport -->
+            <div class="shelter-3d-card">
+              
+              <!-- Viewport Header Toolbar -->
+              <div class="shelter-3d-toolbar">
+                
+                <!-- Mode Switchers -->
+                <div class="shelter-mode-pills">
+                  <button class="shelter-mode-btn active" id="btn-shelter-mode-thermal" onclick="setShelterViewMode('thermal')">
+                    <span>🌡️</span> Thermal Heat-Map
+                  </button>
+                  <button class="shelter-mode-btn" id="btn-shelter-mode-pbr" onclick="setShelterViewMode('pbr')">
+                    <span>🪵</span> Realistic PBR
+                  </button>
+                  <button class="shelter-mode-btn" id="btn-shelter-mode-airflow" onclick="setShelterViewMode('airflow')">
+                    <span>💨</span> Airflow Vectors
+                  </button>
+                  <button class="shelter-mode-btn" id="btn-shelter-mode-cutaway" onclick="setShelterViewMode('cutaway')">
+                    <span>📐</span> Cutaway Stalls
+                  </button>
+                </div>
+
+                <!-- Camera Presets -->
+                <div class="shelter-cam-pills">
+                  <button class="shelter-cam-btn active" id="cam-shelter-iso" onclick="setShelterCamPreset('iso')">3D ISO</button>
+                  <button class="shelter-cam-btn" id="cam-shelter-elev" onclick="setShelterCamPreset('elev')">ELEVATION</button>
+                  <button class="shelter-cam-btn" id="cam-shelter-cut" onclick="setShelterCamPreset('cut')">SECTION</button>
+                  <button class="shelter-cam-btn" id="cam-shelter-top" onclick="setShelterCamPreset('top')">TOP PLAN</button>
+                </div>
+
+              </div>
+
+              <!-- 3D Canvas -->
+              <canvas id="animal-shelter-canvas"></canvas>
+
+              <!-- Floating Thermal Legend -->
+              <div class="shelter-3d-overlay-legend" id="shelter-heat-legend">
+                <span style="font-weight: 700; color: #60A5FA;">22°C (Cool Zone)</span>
+                <div class="heat-gradient-bar"></div>
+                <span style="font-weight: 700; color: #F87171;">44°C+ (Solar Peak)</span>
+              </div>
+
+              <!-- Floating Model Live Badge -->
+              <div class="shelter-3d-overlay-badge">
+                <div style="color: #F8FAFC; font-weight: 700;" id="badge-shelter-summary">🐄 Bovine Bioclimatic Barn</div>
+                <div style="font-size: 0.7rem; color: #38BDF8;" id="badge-shelter-vent">Stack Chimney + 1.2m Shaded Eaves</div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Real-Time Bioclimatic Analytics & Stress HUD -->
+          <div class="shelter-hud-grid">
+            
+            <!-- THI Gauge Card -->
+            <div class="shelter-hud-card">
+              <div class="hud-metric-label">
+                <span>Thermal Heat Stress (THI)</span>
+                <span id="hud-thi-badge" style="background: rgba(16, 185, 129, 0.15); color: #059669; font-weight: 800; padding: 2px 7px; border-radius: 6px; font-size: 0.7rem;">
+                  COMFORT
+                </span>
+              </div>
+              <div class="hud-metric-val" id="hud-thi-val" style="color: #059669;">68.4</div>
+              <div class="thi-meter-container">
+                <div class="thi-meter-fill" id="thi-meter-bar" style="width: 42%; background: #10B981;"></div>
+              </div>
+              <div class="hud-metric-sub" id="hud-thi-desc">
+                Optimal metabolic zone. Zero heat stress.
+              </div>
+            </div>
+
+            <!-- Temperature Differential -->
+            <div class="shelter-hud-card">
+              <div class="hud-metric-label">
+                <span>Interior Operative Temp</span>
+                <span style="color: #2F6F66; font-weight: 700; font-size: 0.72rem;">ΔT Sol-Air</span>
+              </div>
+              <div class="hud-metric-val" id="hud-temp-val" style="color: #2F6F66;">33.8°C</div>
+              <div class="hud-metric-sub" id="hud-temp-sub" style="color: #059669; font-weight: 700;">
+                ⬇ -4.2°C cooler than outdoor peak
+              </div>
+            </div>
+
+            <!-- Natural Ventilation ACH -->
+            <div class="shelter-hud-card">
+              <div class="hud-metric-label">
+                <span>Ventilation Exchange</span>
+                <span style="color: #0284C7; font-weight: 700; font-size: 0.72rem;">Bernoulli + Stack</span>
+              </div>
+              <div class="hud-metric-val" id="hud-ach-val" style="color: #0284C7;">78.5 ACH</div>
+              <div class="hud-metric-sub" id="hud-ach-sub">
+                💨 1.65 m/s animal breathing breeze
+              </div>
+            </div>
+
+            <!-- Productivity Preservation Shield -->
+            <div class="shelter-hud-card">
+              <div class="hud-metric-label">
+                <span id="hud-yield-title">Milk Yield Preserved</span>
+                <span style="background: rgba(222, 114, 54, 0.1); color: var(--accent-orange); font-weight: 800; padding: 2px 7px; border-radius: 6px; font-size: 0.7rem;">
+                  PROTECTED
+                </span>
+              </div>
+              <div class="hud-metric-val" id="hud-yield-val" style="color: var(--accent-orange);">+3.9 L/day</div>
+              <div class="hud-metric-sub" id="hud-yield-sub">
+                🛡️ 88% Solar heat ingress blocked
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Actions -->
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 18px; border-top: 1px solid #E2E8F0; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; gap: 10px;">
+              <button class="btn btn-secondary" onclick="switchMainFlow(1)">
+                🌱 Switch to House Greenfield (Flow 1)
+              </button>
+            </div>
+            <button class="btn btn-primary" onclick="openFarmerDossierModal()" style="padding: 12px 28px;">
+              <i class="fa-solid fa-file-pdf"></i> Download Livestock Bioclimatic Dossier &amp; BOQ
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ==========================================================================
+           Live Fabricated Engineering Terminal / Automated Pipeline Console
+           ========================================================================== -->
+      <div class="studio-terminal">
+        <div class="terminal-titlebar">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="terminal-dots">
+              <span class="t-dot t-red"></span>
+              <span class="t-dot t-yellow"></span>
+              <span class="t-dot t-green"></span>
+            </div>
+            <span style="font-size: 0.78rem; color: #94A3B8; font-family: var(--font-mono);">ThermaBuild Engineering Pipeline Console · FreeCAD 0.22 / PyFluent gRPC Bridge</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #4CAF50; animation: pulseGlow 1.5s infinite;"></span>
+            <span style="font-size: 0.72rem; color: #4CAF50; font-weight: 700;">PIPELINE ACTIVE</span>
+            <button onclick="clearTerminalLogs()" style="background: transparent; border: 1px solid #333; color: #888; border-radius: 4px; padding: 2px 8px; font-size: 0.7rem; cursor: pointer; margin-left: 8px;">Clear</button>
+          </div>
+        </div>
+
+        <div class="terminal-body" id="studio-terminal-body">
+          <div class="terminal-line"><span class="t-tag tag-sys">SYS</span> <span style="color: #61AFEF;">[Kernel]</span> ThermaBuild Bioclimatic CAD &amp; Aerothermal Solver Engine v2.4 initialized.</div>
+          <div class="terminal-line"><span class="t-tag tag-sys">SYS</span> <span style="color: #98C379;">[Ready]</span> Open-Meteo API, Vedic Vastu Mandala Solver, FreeCAD OpenCASCADE, and PyFluent gRPC daemon ready.</div>
+          <div class="terminal-line"><span class="t-tag tag-bim">BIM</span> Awaiting user site location and house specifications... <span class="t-cursor"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+  <!-- Farmer Dossier Modal (Print & PDF) -->
+  <div class="dossier-modal" id="farmer-dossier-modal" onclick="closeFarmerDossierOnBackdrop(event)">
+    <div class="dossier-sheet" id="farmer-dossier-sheet" style="max-width: 860px;">
+      <button class="dossier-close-btn" onclick="closeFarmerDossierModal()" title="Close Dossier">✕</button>
+
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 24px; border-bottom: 2px solid #EFEAE4; margin-bottom: 28px;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+            <span style="font-weight: 800; color: var(--accent-orange); font-size: 1.15rem;">ThermaBuild™ Agro-Studio</span>
+            <span style="font-size: 0.82rem; color: #8A949C;">| Climate-Responsive Livestock Housing</span>
+          </div>
+          <h1 style="font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em;" id="modal-farmer-title">
+            Bovine Shelter Bioclimatic Specification Dossier
+          </h1>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;" id="modal-farmer-subtitle">
+            Hot-Dry Climate Zone &middot; Clay Tile with 1.2m Eave &middot; Continuous Ridge Vent
+          </div>
+        </div>
+        <div style="text-align: right;">
+          <div style="background: rgba(16, 185, 129, 0.15); color: #059669; font-weight: 800; padding: 6px 12px; border-radius: 8px; font-size: 0.85rem;" id="modal-farmer-thi-status">
+            THI 68.4 &middot; COMFORT
+          </div>
+        </div>
+      </div>
+
+      <!-- Metric Highlights in Modal -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px;">
+        <div style="background: #FAF7F2; padding: 14px 16px; border-radius: 12px; border: 1px solid #EFEAE4;">
+          <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Peak Indoor Temp</div>
+          <div style="font-size: 1.4rem; font-weight: 800; color: #2F6F66; margin-top: 2px;" id="modal-indoor-temp">33.8°C (-4.2°C)</div>
+        </div>
+        <div style="background: #FAF7F2; padding: 14px 16px; border-radius: 12px; border: 1px solid #EFEAE4;">
+          <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Ventilation Exchange</div>
+          <div style="font-size: 1.4rem; font-weight: 800; color: #0284C7; margin-top: 2px;" id="modal-ach">78.5 ACH</div>
+        </div>
+        <div style="background: #FAF7F2; padding: 14px 16px; border-radius: 12px; border: 1px solid #EFEAE4;">
+          <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Solar Heat Reduction</div>
+          <div style="font-size: 1.4rem; font-weight: 800; color: var(--accent-orange); margin-top: 2px;" id="modal-solar-red">-88.2%</div>
+        </div>
+      </div>
+
+      <!-- Bill of Quantities (BOQ) -->
+      <div>
+        <div class="section-pill" style="margin-bottom: 10px; font-size: 0.75rem;">01. Bill of Quantities (BOQ) &middot; Vernacular Materials</div>
+        <table class="dossier-table">
+          <thead>
+            <tr>
+              <th width="30%">Component</th>
+              <th width="50%">Specification &amp; Detailing</th>
+              <th width="20%">Estimated Qty</th>
+            </tr>
+          </thead>
+          <tbody id="modal-boq-body">
+            <tr>
+              <td><strong>Roofing Framework</strong></td>
+              <td>Terracotta Mangalore Clay Tiles on bamboo truss</td>
+              <td>150 m²</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Vernacular Guidelines -->
+      <div style="margin-top: 18px;">
+        <div class="section-pill" style="margin-bottom: 10px; font-size: 0.75rem;">02. Key Bioclimatic Architectural Directives</div>
+        <ul style="font-size: 0.88rem; color: #4B5563; line-height: 1.65; padding-left: 20px;" id="modal-advisory-list">
+          <li>Maintain roof ridge chimney clearance (min 400mm width) to evacuate hot buoyant air.</li>
+          <li>Extend roof eave overhangs at least 1.2m to block direct solar radiation from striking resting stalls.</li>
+        </ul>
+      </div>
+
+      <div class="dossier-actions" style="display: flex; justify-content: flex-end; gap: 14px; margin-top: 32px; padding-top: 20px; border-top: 1px solid #EFEAE4;">
+        <button class="btn btn-secondary" onclick="closeFarmerDossierModal()">Close</button>
+        <button class="btn btn-primary" onclick="window.print()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          Print / Save Farmer Dossier
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Full-Screen Dossier Modal (Print & PDF) -->
+  <div class="dossier-modal" id="dossier-modal" onclick="closeDossierOnBackdrop(event)">
+    <div class="dossier-sheet" id="dossier-sheet">
+      <button class="dossier-close-btn" onclick="closeDossierModal()" title="Close Dossier">✕</button>
+
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 28px; border-bottom: 2px solid #EFEAE4; margin-bottom: 32px;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+            <span style="font-weight: 800; color: var(--accent-orange); font-size: 1.15rem;">ThermaBuild</span>
+            <span style="font-size: 0.82rem; color: #8A949C;">| Architectural Thermal Intelligence</span>
+          </div>
+          <h1 style="font-size: 1.85rem; font-weight: 800; letter-spacing: -0.02em;">Thermal Performance & Specification Dossier</h1>
+          <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">DOC-TB-2026-DEL-0412 · ISO 13790 / ECBC 2017</div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-size: 0.82rem; color: #8A949C;">Date Generated</div>
+          <div style="font-weight: 700; font-family: var(--font-mono);" id="dos-date">2026-09-08</div>
+          <div style="font-size: 0.78rem; color: #2E7D32; font-weight: 700; margin-top: 4px;">● CFD Verified</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-pill" style="margin-bottom: 12px; font-size: 0.75rem;">01. Project Summary & Microclimate Profile</div>
+        <table class="dossier-table">
+          <tbody>
+            <tr>
+              <th width="25%">Location</th>
+              <td width="25%" id="dos-loc">New Delhi (Composite)</td>
+              <th width="25%">Total Area</th>
+              <td width="25%" id="dos-area">2,400 sq.ft (223 m²)</td>
+            </tr>
+            <tr>
+              <th>Building Typology</th>
+              <td id="dos-typology">Detached Villa (G+1)</td>
+              <th>Bedrooms</th>
+              <td id="dos-bhk">3BHK Suite</td>
+            </tr>
+            <tr>
+              <th>Peak Ambient Temp</th>
+              <td id="dos-amb-temp">42.4°C</td>
+              <th>Peak Solar Load</th>
+              <td id="dos-solar-load">885 W/m²</td>
+            </tr>
+            <tr>
+              <th>Orientation</th>
+              <td id="dos-orientation">East Entry (South Shaded)</td>
+              <th>Vastu Score</th>
+              <td id="dos-vastu-score">89/100 (Optimal)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <div class="section-pill" style="margin-bottom: 12px; font-size: 0.75rem;">02. Envelope Material Schedule & U-Values</div>
+        <table class="dossier-table">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Specified Assembly</th>
+              <th>Design U-Value</th>
+              <th>Code Max</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Roof</strong></td>
+              <td id="dos-mat-roof">Cool Roof Tiles + 50mm XPS Insulation</td>
+              <td style="font-family: var(--font-mono);" id="dos-mat-roof-u">0.34 W/m²K</td>
+              <td style="font-family: var(--font-mono);">0.40 W/m²K</td>
+              <td><span style="color: #2E7D32; font-weight: 700;">Compliant (-15%)</span></td>
+            </tr>
+            <tr>
+              <td><strong>External Wall</strong></td>
+              <td id="dos-mat-wall">230mm AAC Block with 25mm Cavity</td>
+              <td style="font-family: var(--font-mono);" id="dos-mat-wall-u">0.42 W/m²K</td>
+              <td style="font-family: var(--font-mono);">0.63 W/m²K</td>
+              <td><span style="color: #2E7D32; font-weight: 700;">Compliant (-33%)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Fenestration</strong></td>
+              <td id="dos-mat-win">Double Glazed Low-E (SHGC 0.27)</td>
+              <td style="font-family: var(--font-mono);" id="dos-mat-win-u">1.70 W/m²K</td>
+              <td style="font-family: var(--font-mono);">3.00 W/m²K</td>
+              <td><span style="color: #2E7D32; font-weight: 700;">Compliant (-43%)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Junctions</strong></td>
+              <td id="dos-mat-ins">Expanded cork thermal break</td>
+              <td style="font-family: var(--font-mono);">k = 0.038 W/m·K</td>
+              <td style="font-family: var(--font-mono);">Thermal Break Req</td>
+              <td><span style="color: #2E7D32; font-weight: 700;">Pass</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <div class="section-pill" style="margin-bottom: 12px; font-size: 0.75rem;">03. Conjugate Heat Transfer Verdict</div>
+        <table class="dossier-table">
+          <tbody>
+            <tr>
+              <th width="35%">Peak Unmitigated Indoor Temp</th>
+              <td width="65%" style="color: #C62828; font-weight: 700;" id="dos-base-peak">36.4°C (Severe Overheating)</td>
+            </tr>
+            <tr>
+              <th>Peak ThermaBuild Indoor Temp</th>
+              <td style="color: #2E7D32; font-weight: 800; font-size: 1.1rem;" id="dos-peak-indoor">26.8°C (Within Comfort Envelope)</td>
+            </tr>
+            <tr>
+              <th>Net Temperature Differential (ΔT)</th>
+              <td style="font-weight: 700; color: #2F6F66;" id="dos-dt">-7.6°C passive drop</td>
+            </tr>
+            <tr>
+              <th>Annual Cooling Demand Offset</th>
+              <td style="font-weight: 800; color: #2E7D32;" id="dos-offset">38.4% energy reduction</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 18px;">
+        <div class="section-pill" style="margin-bottom: 10px; font-size: 0.75rem;">04. Architectural Directives</div>
+        <p style="font-size: 0.9rem; color: #586169; line-height: 1.65;" id="dos-recommendations">
+          1. Maintain 600mm continuous concrete chajjas over all south and west facing windows.<br />
+          2. Ensure high-level clerestory operable vents in the central courtyard to induce passive night-flush thermal buoyancy.<br />
+          3. Seal perimeter junction between AAC blocks and floor slabs with silicone-free elastomer insulation tapes to avoid thermal leakage.
+        </p>
+      </div>
+
+      <div class="dossier-actions" style="display: flex; justify-content: flex-end; gap: 14px; margin-top: 36px; padding-top: 24px; border-top: 1px solid #EFEAE4;">
+        <button class="btn btn-secondary" onclick="closeDossierModal()">Close</button>
+        <button class="btn btn-primary" onclick="window.print()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          Print / Save as PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="brand-mark" style="width: 24px; height: 24px;">
+          <svg viewBox="0 0 24 24" style="width: 13px; height: 13px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        </div>
+        <span style="font-weight: 700; color: var(--text-main);">ThermaBuild</span>
+        <span style="font-size: 0.82rem; color: var(--text-muted);">— Open-Source Bioclimatic CAD & Thermal Platform</span>
+      </div>
+
+      <div style="font-size: 0.82rem; color: var(--text-muted);">
+        Powered by FreeCAD, Three.js, PyFluent Ready, and Vedic Vastu Intelligence.
+      </div>
+    </div>
+  </footer>
+
+
+
+  <!-- Core CAD & Simulation Engine -->
+  <script src="js/app-core.js"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+/* ==========================================================================
+   ThermaBuild Theme Design Tokens & Color Props
+   ==========================================================================
+   Edit these CSS variables directly, or use ThermaTheme.setTheme({...}) in JS,
+   or use the live floating Theme Customizer widget to tweak colors in real time.
+   ========================================================================== */
+
+:root {
+  /* --------------------------------------------------------------------------
+     Core Theme Color Props
+     -------------------------------------------------------------------------- */
+  --theme-primary: #DE7236;                 /* Main Accent / Terracotta Brand */
+  --theme-primary-hover: #CF6124;           /* Primary Hover state */
+  --theme-primary-glow: rgba(222, 114, 54, 0.28); /* Luminous glow */
+  --theme-primary-light: #FFF8F4;          /* Soft light tint */
+  --theme-primary-border: rgba(222, 114, 54, 0.25);
+
+  --theme-secondary: #3E8074;               /* Bioclimatic Cool Accent (Sage/Teal) */
+  --theme-secondary-hover: #2F6F66;         /* Secondary Hover state */
+  --theme-secondary-glow: rgba(62, 128, 116, 0.22);
+  --theme-secondary-light: #EBF4F2;        /* Fresh Ventilation Sage Tint */
+
+  --theme-accent-peach: #FDE7DA;           /* Warm Ambient Peach */
+  --theme-accent-peach-subtle: rgba(253, 231, 218, 0.45);
+  --theme-accent-apricot: #F8B185;
+
+  --theme-bg-canvas: #FAF7F2;              /* Page Background Canvas */
+  --theme-bg-surface: #FFFFFF;             /* Crisp Surface Background */
+  --theme-bg-card: rgba(255, 255, 255, 0.72); /* Glass Card Surface */
+  --theme-bg-card-hover: rgba(255, 255, 255, 0.88);
+
+  --theme-text-main: #1C1F22;              /* High-Contrast Editorial Headings */
+  --theme-text-secondary: #525960;         /* Body and Description Text */
+  --theme-text-muted: #848D96;             /* Subtitles and Metadata */
+  --theme-text-subtle: #B0B8C0;
+
+  --theme-border: rgba(0, 0, 0, 0.08);     /* Neutral Card & Divider Border */
+  --theme-border-subtle: rgba(218, 208, 198, 0.45);
+  --theme-glass-border: rgba(255, 255, 255, 0.82);
+  --theme-glass-blur: 24px;
+
+  /* --------------------------------------------------------------------------
+     Shadow Design Tokens
+     -------------------------------------------------------------------------- */
+  --theme-shadow-sm: 0 2px 10px rgba(180, 150, 130, 0.05);
+  --theme-shadow-glass: 0 12px 36px -4px rgba(190, 160, 135, 0.12), 0 2px 8px -2px rgba(190, 160, 135, 0.06);
+  --theme-shadow-glass-hover: 0 20px 48px -6px rgba(190, 160, 135, 0.18), 0 4px 14px -2px rgba(190, 160, 135, 0.08);
+  --theme-shadow-dossier: 0 32px 72px -12px rgba(45, 30, 20, 0.22);
+
+  /* --------------------------------------------------------------------------
+     Radii & Spatial Tokens
+     -------------------------------------------------------------------------- */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 9999px;
+  --max-width: 1260px;
+
+  /* --------------------------------------------------------------------------
+     Typography Fonts
+     -------------------------------------------------------------------------- */
+  --font-primary: 'Aroflit', 'Arfolit', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Aroflit', 'Arfolit', 'EB Garamond', Georgia, serif;
+  --font-serif: 'Aroflit', 'Arfolit', 'EB Garamond', Georgia, serif;
+  --font-mono: 'Space Grotesk', monospace;
+
+  /* --------------------------------------------------------------------------
+     Backward Compatibility Mappings (maps existing tokens to theme props)
+     -------------------------------------------------------------------------- */
+  --accent-orange: var(--theme-primary);
+  --accent-orange-hover: var(--theme-primary-hover);
+  --accent-orange-glow: var(--theme-primary-glow);
+  --accent-peach: var(--theme-accent-peach);
+  --accent-peach-subtle: var(--theme-accent-peach-subtle);
+  --accent-apricot: var(--theme-accent-apricot);
+
+  --accent-teal: var(--theme-secondary);
+  --accent-teal-glow: var(--theme-secondary-glow);
+  --accent-sage-light: var(--theme-secondary-light);
+
+  --bg-canvas: var(--theme-bg-canvas);
+  --bg-surface: var(--theme-bg-surface);
+  --bg-card: var(--theme-bg-card);
+  --bg-card-hover: var(--theme-bg-card-hover);
+
+  --text-main: var(--theme-text-main);
+  --text-secondary: var(--theme-text-secondary);
+  --text-muted: var(--theme-text-muted);
+  --text-subtle: var(--theme-text-subtle);
+
+  --glass-border: var(--theme-glass-border);
+  --glass-border-subtle: var(--theme-border-subtle);
+  --glass-border-focus: var(--theme-primary);
+  --glass-blur: var(--theme-glass-blur);
+
+  --shadow-sm: var(--theme-shadow-sm);
+  --shadow-glass: var(--theme-shadow-glass);
+  --shadow-glass-hover: var(--theme-shadow-glass-hover);
+  --shadow-dossier: var(--theme-shadow-dossier);
+
+  --vre-orange: var(--theme-primary);
+  --vre-orange-hover: var(--theme-primary-hover);
+  --vre-orange-light: var(--theme-primary-light);
+  --vre-orange-border: var(--theme-primary-border);
+  --vre-text-dark: var(--theme-text-main);
+  --vre-text-muted: var(--theme-text-muted);
+  --vre-border: var(--theme-border);
+  --vre-card-bg: var(--theme-bg-surface);
+}
+
+/* Base resets & theme application */
+input, textarea {
+  caret-color: var(--theme-primary) !important;
+}
+
+::selection {
+  background-color: var(--theme-primary);
+  color: #FFFFFF;
+}
