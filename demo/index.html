@@ -5,48 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ThermaBuild — Climate-responsive home design</title>
   <meta name="description" content="Pick a site anywhere in India. ThermaBuild reads its sun, wind and temperature, suggests a plan and materials, and shows how the home will perform before it is built.">
-  <meta name="theme-color" content="#0E1830">
-  <link rel="icon" href="assets/thermabuild_logo.png">
+  <meta name="theme-color" content="#F7F7F4">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="apple-touch-icon" href="assets/thermabuild_logo.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
   <script src="assets/three.min.js" defer></script>
 
-  <link rel="stylesheet" href="css/site.css?v=1">
+  <link rel="stylesheet" href="css/site.css?v=13">
 </head>
 <body>
 
-  <!-- Thermal "heat view" filter used by the hero compare slider -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-    <filter id="heat-view" color-interpolation-filters="sRGB">
-      <feColorMatrix type="matrix" values="0.33 0.5 0.17 0 0  0.33 0.5 0.17 0 0  0.33 0.5 0.17 0 0  0 0 0 1 0"/>
-      <feComponentTransfer>
-        <feFuncR type="linear" slope="1.25" intercept="-0.08"/>
-        <feFuncG type="linear" slope="1.25" intercept="-0.08"/>
-        <feFuncB type="linear" slope="1.25" intercept="-0.08"/>
-      </feComponentTransfer>
-      <feComponentTransfer>
-        <feFuncR type="table" tableValues="0.06 0.20 0.55 0.86 0.96 0.99 1"/>
-        <feFuncG type="table" tableValues="0.05 0.08 0.12 0.30 0.56 0.84 0.97"/>
-        <feFuncB type="table" tableValues="0.22 0.50 0.58 0.35 0.10 0.30 0.84"/>
-      </feComponentTransfer>
-    </filter>
-  </svg>
 
   <a class="skip-link" href="#studio">Skip to the design studio</a>
 
+  <!-- Paper grid: faint everywhere, brighter around the cursor, one cell lit under it -->
+  <div class="paper" aria-hidden="true">
+    <div class="paper-grid"></div>
+    <div class="paper-glow"></div>
+    <div class="paper-cell" id="paper-cell"></div>
+  </div>
+
   <!-- ============ HEADER ============ -->
-  <header class="site-header" id="site-header" data-state="over-hero">
+  <header class="site-header" id="site-header" data-state="top">
     <div class="header-inner">
       <a href="#top" class="brand" aria-label="ThermaBuild home">
         <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
-          <circle cx="23" cy="9" r="4.5" fill="var(--solar)"/>
-          <path d="M4 27V15.5L14 8l10 7.5V27z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
-          <path d="M11 27v-6.5h6V27" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+          <path d="M3 19 12 9l6 6.5L22 12l7 7" fill="none" stroke="var(--ember)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+          <path d="M19 19h4v4h-4z" fill="var(--ember)"/>
         </svg>
         <span class="brand-name">ThermaBuild</span>
       </a>
@@ -63,7 +54,7 @@
         <span class="header-status-step" id="header-status-step">Step 1 of 5</span>
       </div>
 
-      <a href="#studio" class="btn btn-solar header-cta" id="header-cta">Start designing</a>
+      <a href="#studio" class="btn btn-ember header-cta" id="header-cta">Start designing</a>
 
       <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">
         <span></span><span></span>
@@ -76,41 +67,53 @@
 
     <!-- ============ HERO ============ -->
     <section class="hero" id="hero" aria-labelledby="hero-title">
-      <div class="hero-sky" aria-hidden="true"></div>
+      <!-- floating line icons, decorative -->
+
       <div class="hero-inner">
-        <div class="hero-copy" data-parallax-copy>
-          <p class="hero-kicker load-in" style="--d:0">Climate-responsive home design for India</p>
+        <div class="hero-copy">
+          <p class="hero-kicker load-in" style="--d:0">Passive solar homes for India’s cold regions</p>
           <h1 id="hero-title" class="hero-title">
-            <span class="line"><span class="load-in" style="--d:1">Design a home</span></span>
-            <span class="line"><span class="load-in" style="--d:2">that works with</span></span>
-            <span class="line"><span class="load-in" style="--d:3">its climate.</span></span>
+            <span class="line"><span class="load-in" style="--d:1">Store the sun.</span></span>
+            <span class="line"><span class="load-in" style="--d:2">Stay warm</span></span>
+            <span class="line"><span class="load-in" style="--d:3">all night.</span></span>
           </h1>
-          <p class="hero-lead load-in" style="--d:4">Pick a site anywhere in India. ThermaBuild reads its sun, wind and temperature, suggests a plan and materials, and shows how warm or cool the home will stay, before anything is built.</p>
+          <p class="hero-lead load-in" style="--d:4">Walls that soak up winter sun by day and release it after dark. Pick a cold site and see how warm your home stays, before you build.</p>
           <div class="hero-actions load-in" style="--d:5">
-            <a href="#paths" class="btn btn-solar btn-lg">Start designing</a>
-            <a href="#how" class="btn btn-ghost-light btn-lg">See how it works</a>
+            <a href="#paths" class="btn btn-ember btn-lg">Start designing</a>
+            <a href="#how" class="btn btn-line btn-lg">See how it works</a>
+          </div>
+          <div class="hero-starts load-in" style="--d:6">
+            <span class="hero-starts-label">Or start from a cold site</span>
+            <div class="hero-start-row">
+              <button type="button" class="start-chip" data-start="leh"><i class="dot dot-cold"></i>Leh, −18 °C winters</button>
+              <button type="button" class="start-chip" data-start="dras"><i class="dot dot-cold"></i>Dras, −28 °C winters</button>
+              <button type="button" class="start-chip" data-start="spiti"><i class="dot dot-cold"></i>Kaza, Spiti, −20 °C winters</button>
+            </div>
           </div>
         </div>
 
-        <figure class="hero-visual load-wipe" data-parallax-visual>
-          <div class="compare" id="heat-compare" style="--pos:50%">
-            <img class="compare-img" src="assets/hero_house.jpg" alt="Two-storey home with timber louvres, deep overhangs and a planted roof" fetchpriority="high" width="1200" height="896">
-            <div class="compare-heat" aria-hidden="true">
-              <img class="compare-img" src="assets/hero_house.jpg" alt="" width="1200" height="896">
+        <div class="build-stage load-in" style="--d:3">
+          <ol class="sr-only">
+            <li>User requirements: house size, type, location, occupancy, comfort target</li>
+            <li>Climate data: temperature, solar radiation, wind and humidity from the climate API</li>
+            <li>Design selection model: picks a verified 2D CAD house plan</li>
+            <li>Extract 2D geometry: DXF validated with ezdxf; walls, rooms, doors, windows</li>
+            <li>Material recommendation: thermal mass, insulation and south glazing for this climate</li>
+            <li>FreeCAD + Python: 3D house generated, materials assigned, STEP exported</li>
+            <li>PyFluent → ANSYS Fluent: mesh, boundary conditions and solar setup</li>
+            <li>Thermal simulation: high-fidelity run, thermal results</li>
+            <li>Report + 3D visualisation: temperatures, heat flow, comparisons</li>
+          </ol>
+          <div class="blocks" id="blocks">
+            <svg class="blocks-svg" id="blocks-svg" aria-hidden="true"></svg>
+            <div class="bk-caption" id="bk-caption" aria-live="off">
+              <span class="bk-num" id="bk-num">01</span>
+              <div class="bk-text"><p class="bk-layer" id="bk-layer">Foundation · inputs</p><p class="bk-title" id="bk-title">User requirements</p><p class="bk-detail" id="bk-detail">House size, type, location, occupancy, winter comfort target</p></div>
+              <button type="button" class="bk-toggle" id="bk-toggle" aria-pressed="true" aria-label="Pause"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path class="ico-pause" d="M4 3h3v10H4zM9 3h3v10H9z"/><path class="ico-play" d="M5 3l8 5-8 5z"/></svg></button>
             </div>
-            <div class="compare-handle" aria-hidden="true"><span></span></div>
-            <input type="range" class="compare-range" id="heat-range" min="0" max="100" value="50" aria-label="Drag to compare the photo with the heat view">
-            <span class="compare-tag compare-tag-left" aria-hidden="true">Heat view</span>
-            <span class="compare-tag compare-tag-right" aria-hidden="true">Photo</span>
           </div>
-          <figcaption class="hero-caption">
-            <span class="thermal-legend" aria-hidden="true"><i></i></span>
-            <span>Cooler surfaces</span>
-            <span class="hero-caption-end">Hotter surfaces. Drag to compare. Heat view is illustrative.</span>
-          </figcaption>
-        </figure>
+        </div>
       </div>
-      <a href="#how" class="scroll-cue" aria-label="Scroll to how it works"><span></span></a>
     </section>
 
     <!-- ============ HOW IT WORKS ============ -->
@@ -141,8 +144,8 @@
           <li class="how-step reveal">
             <span class="how-num">3</span>
             <div>
-              <h3>Choose the envelope</h3>
-              <p>Walls, roof and glazing are suggested for your climate, from rammed earth in Ladakh to cool roofs in Rajasthan, with the reasoning shown.</p>
+              <h3>Get the envelope</h3>
+              <p>Walls, roof and glazing are chosen for your region, from rammed earth in Ladakh to cool roofs in Rajasthan, with the reasoning shown.</p>
             </div>
           </li>
           <li class="how-step reveal">
@@ -161,10 +164,16 @@
       <div class="container">
         <div class="climates-head reveal">
           <h2 id="climates-title" class="section-title">From −28 °C in Dras to 46 °C in Jaisalmer.</h2>
-          <p class="section-lead">One house design can't serve all of India. Each bar shows a place's yearly range, from winter extreme to summer peak. Pick one to start designing there.</p>
+          <p class="section-lead">One house design can't serve all of India. Each thermometer is filled from a place's winter extreme to its summer peak. Pick one to start designing there.</p>
         </div>
-        <div class="climate-chart reveal" id="climate-chart" role="list" aria-label="Yearly temperature range by location"></div>
-        <div class="climate-axis reveal" id="climate-axis" aria-hidden="true"></div>
+        <div class="skyline reveal" id="skyline">
+          <div class="sky-plot" id="sky-plot" role="list" aria-label="Yearly temperature range by place, shown as thermometers"></div>
+          <div class="sky-names" id="sky-names" aria-hidden="true"></div>
+          <div class="sky-foot">
+            <p class="sky-legend"><i class="sky-key sky-key-lo"></i>Winter extreme <i class="sky-key sky-key-hi"></i>Summer peak <i class="sky-key sky-key-band"></i>Comfortable indoors, 22–27 °C</p>
+            <p class="sky-hint" id="sky-hint">Hover a thermometer for its numbers. Click one to design there.</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -201,7 +210,7 @@
             </span>
           </button>
           <button type="button" class="path-card reveal" id="flow-card-4" onclick="choosePath(4)" aria-pressed="false">
-            <span class="path-media path-media-plan"><img src="assets/animal_plan_1.png" alt="" loading="lazy" data-parallax-inner></span>
+            <span class="path-media"><img src="assets/livestock_changthang_herd.jpg" alt="" loading="lazy" data-parallax-inner style="object-position: 50% 70%"></span>
             <span class="path-body">
               <strong>A shelter for livestock</strong>
               <small>Cattle, goats or poultry. Keep heat stress down with shelter shape, roofing and airflow.</small>
@@ -309,7 +318,7 @@
 
             <footer class="panel-actions">
               <span></span>
-              <button type="button" class="btn btn-solar" onclick="proceedToStep2()">Continue to the next step</button>
+              <button type="button" class="btn btn-ember" onclick="proceedToStep2()">Continue to the next step</button>
             </footer>
           </section>
 
@@ -392,7 +401,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(1)">Back</button>
-              <button type="button" class="btn btn-solar" onclick="generate2DPlan(); proceedToStep3();">Suggest a plan and materials</button>
+              <button type="button" class="btn btn-ember" onclick="generate2DPlan(); proceedToStep3();">Suggest a plan and materials</button>
             </footer>
           </section>
 
@@ -437,7 +446,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(1)">Back</button>
-              <button type="button" class="btn btn-solar" onclick="updateAnimal2DLayout(); proceedToStep3();">Suggest a shelter plan</button>
+              <button type="button" class="btn btn-ember" onclick="updateAnimal2DLayout(); proceedToStep3();">Suggest a shelter plan</button>
             </footer>
           </section>
 
@@ -445,7 +454,7 @@
           <section class="step-panel" id="flow-step-3" style="display:none" aria-labelledby="s3-title">
             <header class="panel-head">
               <h3 id="s3-title">Plan and materials</h3>
-              <p>We picked the plan that best fits your size. Materials are pre-selected for your climate; change any of them.</p>
+              <p>We picked the plan that best fits your size, and the envelope that suits your region. Pick a different plan if you prefer.</p>
             </header>
 
             <div class="plan-picker" role="group" aria-label="Floor plans">
@@ -473,74 +482,38 @@
               </div>
             </div>
 
-            <div class="why">
-              <p class="why-title">Why these materials</p>
-              <p id="ai-predict-rationale">Stabilised rammed earth delays the afternoon heat by about ten hours, so it reaches the rooms at night when it can be vented away.</p>
-            </div>
-
-            <div class="field">
-              <div class="field-row"><span class="field-label">Walls</span><output class="field-value" id="wall-assembly-badge">U 0.45 W/m²K, 10.2 h delay</output></div>
-              <div class="wall-grid" id="wall-assembly-grid" role="radiogroup" aria-label="Wall assembly">
-                <button type="button" role="radio" aria-checked="true" class="wall-card selected" data-wall="rammed_earth" onclick="pickWall('rammed_earth')">
-                  <span class="wall-section" aria-hidden="true"><i style="flex:1;background:#E8E1D3"></i><i style="flex:9;background:#B98A5E"></i><i style="flex:1;background:#E8E1D3"></i></span>
-                  <b>Rammed earth, 350 mm</b>
-                  <small>Heavy earth wall with lime render. Stores heat and releases it slowly.</small>
-                  <span class="wall-specs"><span>U 0.45</span><span>10.2 h delay</span></span>
-                </button>
-                <button type="button" role="radio" aria-checked="false" class="wall-card" data-wall="aac_aerogel" onclick="pickWall('aac_aerogel')">
-                  <span class="wall-section" aria-hidden="true"><i style="flex:1;background:#E8E1D3"></i><i style="flex:6;background:#C9CCCB"></i><i style="flex:1;background:#E8E1D3"></i></span>
-                  <b>AAC block, 200 mm</b>
-                  <small>Lightweight aerated blocks with insulating plaster. Quick to build.</small>
-                  <span class="wall-specs"><span>U 0.42</span><span>6.8 h delay</span></span>
-                </button>
-                <button type="button" role="radio" aria-checked="false" class="wall-card" data-wall="cavity_brick" onclick="pickWall('cavity_brick')">
-                  <span class="wall-section" aria-hidden="true"><i style="flex:3;background:#B8623C"></i><i style="flex:2;background:#E9CF6B"></i><i style="flex:3;background:#B8623C"></i></span>
-                  <b>Cavity terracotta, 300 mm</b>
-                  <small>Two clay skins with 50 mm rock wool between them.</small>
-                  <span class="wall-specs"><span>U 0.36</span><span>8.5 h delay</span></span>
-                </button>
-                <button type="button" role="radio" aria-checked="false" class="wall-card" data-wall="cseb_cork" onclick="pickWall('cseb_cork')">
-                  <span class="wall-section" aria-hidden="true"><i style="flex:4;background:#A87B55"></i><i style="flex:1.5;background:#8C6A4A"></i><i style="flex:3;background:#A87B55"></i></span>
-                  <b>Compressed earth block, 250 mm</b>
-                  <small>Local soil blocks with a cork core. Low embodied carbon.</small>
-                  <span class="wall-specs"><span>U 0.39</span><span>≈8 h delay</span></span>
-                </button>
-                <button type="button" role="radio" aria-checked="false" class="wall-card" data-wall="clt_woodfiber" onclick="pickWall('clt_woodfiber')">
-                  <span class="wall-section" aria-hidden="true"><i style="flex:4;background:#D8B27A"></i><i style="flex:3;background:#C9A77F"></i><i style="flex:1;background:#E8E1D3"></i></span>
-                  <b>Timber panel (CLT), 140 mm</b>
-                  <small>Cross-laminated timber with wood-fibre insulation. Breathable.</small>
-                  <span class="wall-specs"><span>U 0.29</span><span>≈9 h delay</span></span>
-                </button>
+            <div class="best-materials" id="best-materials">
+              <div class="best-head">
+                <div>
+                  <p class="best-title">Best materials for your region</p>
+                  <p class="best-sub" id="best-sub">Chosen for Leh's cold, dry climate. The report below is calculated on exactly these.</p>
+                </div>
+                <span class="best-mark"><svg viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><path d="m4 10.5 4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Recommended</span>
               </div>
+              <div class="best-grid" id="best-grid">
+                <article class="best-card" id="best-wall"></article>
+                <article class="best-card" id="best-roof"></article>
+                <article class="best-card" id="best-glazing"></article>
+              </div>
+              <div class="why">
+                <p class="why-title">Why these</p>
+                <p id="ai-predict-rationale">Stabilised rammed earth delays the afternoon heat by about ten hours, so it reaches the rooms at night when it can be vented away.</p>
+              </div>
+              <p class="best-note">Materials are fixed to the suggestion so the performance figures stay honest.</p>
               <select id="wall-mat-select" hidden>
                 <option value="rammed_earth" selected>Rammed earth</option><option value="aac_aerogel">AAC</option><option value="cavity_brick">Cavity terracotta</option><option value="cseb_cork">CSEB</option><option value="clt_woodfiber">CLT</option>
               </select>
-            </div>
-
-            <div class="field-pair">
-              <div class="field">
-                <div class="field-row"><label class="field-label" for="roof-mat-select">Roof</label><output class="field-value" id="roof-badge">U 0.26 W/m²K</output></div>
-                <select id="roof-mat-select" class="select" onchange="syncMaterialBadges()">
-                  <option value="cool_roof" selected>White cool roof with 100 mm insulation (U 0.26)</option>
-                  <option value="green_roof">Planted green roof, 120 mm soil (U 0.22)</option>
-                  <option value="poplar_mud">Ventilated poplar-and-mud roof (U 0.24)</option>
-                  <option value="terracotta_double">Double clay tile with reflective foil (U 0.32)</option>
-                </select>
-              </div>
-              <div class="field">
-                <div class="field-row"><label class="field-label" for="glazing-mat-select">Windows</label><output class="field-value" id="glazing-badge">U 1.35, SHGC 0.32</output></div>
-                <select id="glazing-mat-select" class="select" onchange="syncMaterialBadges()">
-                  <option value="low_e_double" selected>Double glazed, low-E, argon-filled (U 1.35, SHGC 0.32)</option>
-                  <option value="krypton_triple">Triple glazed, krypton-filled (U 0.78, SHGC 0.28)</option>
-                  <option value="smart_electrochromic">Self-tinting smart glass (U 1.10, SHGC 0.09–0.45)</option>
-                  <option value="single_clear">Ordinary single glass, for comparison (U 5.70, SHGC 0.82)</option>
-                </select>
-              </div>
+              <select id="roof-mat-select" hidden>
+                <option value="cool_roof" selected>Cool roof</option><option value="green_roof">Green roof</option><option value="poplar_mud">Poplar mud</option><option value="terracotta_double">Double tile</option>
+              </select>
+              <select id="glazing-mat-select" hidden>
+                <option value="low_e_double" selected>Low-E double</option><option value="krypton_triple">Krypton triple</option><option value="smart_electrochromic">Electrochromic</option><option value="single_clear">Single clear</option>
+              </select>
             </div>
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(2)">Back</button>
-              <button type="button" class="btn btn-solar" onclick="proceedToStep4()">See it in 3D</button>
+              <button type="button" class="btn btn-ember" onclick="proceedToStep4()">See it in 3D</button>
             </footer>
           </section>
 
@@ -548,7 +521,7 @@
           <section class="step-panel" id="animal-flow-step-3" style="display:none" aria-labelledby="a3-title">
             <header class="panel-head">
               <h3 id="a3-title">Shelter plan and materials</h3>
-              <p>Materials are chosen for your climate and animals. Change any of them.</p>
+              <p>The shelter plan is matched to your herd. Roof, walls and floor are chosen for your region and animals.</p>
             </header>
 
             <div class="plan-picker plan-picker-2" role="group" aria-label="Shelter plans">
@@ -561,33 +534,31 @@
                 <img id="animal-plan-img" src="assets/animal_plan_1.png" alt="Selected shelter plan">
               </figure>
               <div class="plan-info">
-                <div class="why why-inline">
-                  <p class="why-title">Why these materials</p>
-                  <p id="animal-ai-predict-rationale">A layered thatch roof blocks most overhead heat. Open louvres keep air moving, so the heat-stress index stays in the comfort zone.</p>
-                </div>
-                <div class="field">
-                  <label class="field-label" for="animal-roof-material">Roof</label>
-                  <select id="animal-roof-material" class="select">
-                    <option value="thatch" selected>Layered paddy-straw thatch, 180 mm (U 0.35)</option>
-                    <option value="white_aluminum">White aluminium with glass-wool lining (U 0.38)</option>
-                    <option value="terracotta_tiles">Clay tiles on bamboo trusses (U 0.85)</option>
-                    <option value="puff_sandwich">50 mm insulated sandwich panel (U 0.42)</option>
+                <div class="best-materials best-materials-compact">
+                  <div class="best-head">
+                    <div>
+                      <p class="best-title">Best materials for your region</p>
+                      <p class="best-sub" id="animal-best-sub">Chosen for this climate and your animals.</p>
+                    </div>
+                    <span class="best-mark"><svg viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><path d="m4 10.5 4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Recommended</span>
+                  </div>
+                  <div class="best-list" id="animal-best-list">
+                    <article class="best-row" id="best-animal-roof"></article>
+                    <article class="best-row" id="best-animal-wall"></article>
+                    <article class="best-row" id="best-animal-floor"></article>
+                  </div>
+                  <div class="why why-inline">
+                    <p class="why-title">Why these</p>
+                    <p id="animal-ai-predict-rationale">A layered thatch roof blocks most overhead heat. Open louvres keep air moving, so the heat-stress index stays in the comfort zone.</p>
+                  </div>
+                  <select id="animal-roof-material" hidden>
+                    <option value="thatch" selected>Thatch</option><option value="white_aluminum">White aluminium</option><option value="terracotta_tiles">Clay tiles</option><option value="puff_sandwich">Sandwich panel</option>
                   </select>
-                </div>
-                <div class="field">
-                  <label class="field-label" for="animal-wall-material">Side walls</label>
-                  <select id="animal-wall-material" class="select">
-                    <option value="slatted_louvers" selected>Open timber louvres (about 15 air changes an hour)</option>
-                    <option value="poultry_mesh">Wire mesh with roll-up curtains (about 18)</option>
-                    <option value="rammed_half_wall">Low earth wall with bamboo screen (about 12)</option>
+                  <select id="animal-wall-material" hidden>
+                    <option value="slatted_louvers" selected>Louvres</option><option value="poultry_mesh">Mesh</option><option value="rammed_half_wall">Earth half wall</option>
                   </select>
-                </div>
-                <div class="field">
-                  <label class="field-label" for="animal-floor-material">Floor</label>
-                  <select id="animal-floor-material" class="select">
-                    <option value="grooved_concrete" selected>Grooved non-slip concrete with drain</option>
-                    <option value="slatted_timber">Raised timber slats with dung trays</option>
-                    <option value="vulcanized_rubber">Rubber comfort mats</option>
+                  <select id="animal-floor-material" hidden>
+                    <option value="grooved_concrete" selected>Grooved concrete</option><option value="slatted_timber">Timber slats</option><option value="vulcanized_rubber">Rubber mats</option>
                   </select>
                 </div>
               </div>
@@ -595,7 +566,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(2)">Back</button>
-              <button type="button" class="btn btn-solar" onclick="proceedToStep4()">See it in 3D</button>
+              <button type="button" class="btn btn-ember" onclick="proceedToStep4()">See it in 3D</button>
             </footer>
           </section>
 
@@ -646,7 +617,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="navigateStep4Back()">Back</button>
-              <button type="button" class="btn btn-solar" onclick="navigateStep4Next()">Create my report</button>
+              <button type="button" class="btn btn-ember" onclick="navigateStep4Next()">Create my report</button>
             </footer>
           </section>
 
@@ -674,7 +645,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="navigateStep4Back()">Back</button>
-              <button type="button" class="btn btn-solar" onclick="navigateStep4Next()">Create my report</button>
+              <button type="button" class="btn btn-ember" onclick="navigateStep4Next()">Create my report</button>
             </footer>
           </section>
 
@@ -686,7 +657,7 @@
                 <h3 id="s5-title" class="report-title">Your home stays <span class="countup" id="res-temp-diff">12.3 °C</span> cooler at the hottest hour.</h3>
                 <p class="report-sub">Estimated with ThermaBuild's heat-balance model for a clear summer day. Export the model to ANSYS Fluent for a full simulation.</p>
               </div>
-              <button type="button" class="btn btn-solar" onclick="downloadPDFDossier()">Download report (PDF)</button>
+              <button type="button" class="btn btn-ember" onclick="downloadPDFDossier()">Download report (PDF)</button>
             </header>
 
             <div class="report-figures">
@@ -747,7 +718,7 @@
                 <h3 id="a5-title" class="report-title">Heat stress drops from severe to comfortable.</h3>
                 <p class="report-sub">Temperature-humidity index (THI) estimated for a hot afternoon. Below 72 is comfortable for most livestock.</p>
               </div>
-              <button type="button" class="btn btn-solar" onclick="downloadAnimalPDFDossier()">Download report (PDF)</button>
+              <button type="button" class="btn btn-ember" onclick="downloadAnimalPDFDossier()">Download report (PDF)</button>
             </header>
 
             <div class="report-figures">
@@ -840,7 +811,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(1)">Back</button>
-              <button type="button" class="btn btn-solar" onclick="proceedToStep3()">See it in 3D</button>
+              <button type="button" class="btn btn-ember" onclick="proceedToStep3()">See it in 3D</button>
             </footer>
           </section>
 
@@ -905,7 +876,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(1)">Back</button>
-              <button type="button" class="btn btn-solar" onclick="proceedToStep3()">Find the best upgrades</button>
+              <button type="button" class="btn btn-ember" onclick="proceedToStep3()">Find the best upgrades</button>
             </footer>
           </section>
 
@@ -976,7 +947,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(2)">Back</button>
-              <button type="button" class="btn btn-solar" onclick="proceedToStep4()">See it in 3D</button>
+              <button type="button" class="btn btn-ember" onclick="proceedToStep4()">See it in 3D</button>
             </footer>
           </section>
 
@@ -999,6 +970,7 @@
         <a href="#studio">Studio</a>
       </nav>
       <p class="footer-note">Climate data from Open-Meteo and regional weather files. Performance figures are estimates from a simplified heat-balance model; verify with a full simulation before construction.</p>
+      <p class="footer-note footer-credit">Livestock photo: “Himalayan Herd” by Koshyk, <a href="https://www.flickr.com/photos/97235261@N00/7941423960" target="_blank" rel="noopener">Flickr</a>, <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a>.</p>
     </div>
   </footer>
 
@@ -1006,6 +978,6 @@
 
   <script src="js/app-core.js?v=4" defer></script>
   <script src="js/viewer3d.js?v=1" defer></script>
-  <script src="js/ui.js?v=1" defer></script>
+  <script src="js/ui.js?v=11" defer></script>
 </body>
 </html>
