@@ -9,15 +9,13 @@
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="apple-touch-icon" href="assets/thermabuild_logo.png">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/vendor/fonts/fonts.css">
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+  <link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css">
+  <script src="assets/vendor/leaflet/leaflet.js" defer></script>
   <script src="assets/three.min.js" defer></script>
 
-  <link rel="stylesheet" href="css/site.css?v=13">
+  <link rel="stylesheet" href="css/site.css?v=15">
 </head>
 <body>
 
@@ -229,6 +227,11 @@
             <h2 id="studio-title" class="section-title">Design studio</h2>
             <p class="studio-path">You're designing <strong id="studio-path-name">a new home</strong>. <a href="#paths" class="text-link">Change</a></p>
           </div>
+          <div class="live-pill" id="live-pill" aria-live="polite" hidden>
+            <span class="live-dot" aria-hidden="true"></span>
+            <span class="live-text"><span class="live-label" id="live-label">Dawn indoors</span><span class="live-sub" id="live-sub"></span></span>
+            <strong class="live-value" id="live-value">…</strong>
+          </div>
         </div>
 
         <!-- Steppers (one per flow; app-core toggles which is visible) -->
@@ -296,6 +299,7 @@
                 <p class="climate-place" id="climate-card-title">Your site</p>
                 <p class="climate-zone" id="climate-zone">Cold &amp; cloudy, high altitude</p>
                 <p class="climate-coords" id="climate-coords">34.1526° N, 77.5771° E</p>
+                <p class="climate-source" id="climate-source">NASA POWER 2001–2020 monthly means.</p>
 
                 <div class="temp-range" aria-hidden="true">
                   <div class="temp-track"><span class="temp-fill" id="temp-fill"></span></div>
@@ -331,6 +335,17 @@
 
             <div class="shape-grid">
               <div class="control-stack">
+                <div class="field">
+                  <div class="field-row"><span class="field-label">What you're building</span><output class="field-value" id="btype-badge">Family home</output></div>
+                  <div class="segmented" id="btype-segmented" role="group" aria-label="Building type">
+                    <button type="button" class="seg active" onclick="seg(this); setBuildingType('home')">Home</button>
+                    <button type="button" class="seg" onclick="seg(this); setBuildingType('school')">School</button>
+                    <button type="button" class="seg" onclick="seg(this); setBuildingType('shelter')">Relief shelter</button>
+                    <button type="button" class="seg" onclick="seg(this); setBuildingType('post')">Border post</button>
+                  </div>
+                  <p class="field-hint" id="btype-hint">Family home: occupied mostly evenings and nights.</p>
+                </div>
+
                 <div class="field">
                   <div class="field-row"><span class="field-label">Home size</span><output class="field-value" id="bhk-badge">2 BHK</output></div>
                   <div class="segmented" id="bhk-segmented" role="group" aria-label="Home size">
@@ -420,6 +435,7 @@
                     <button type="button" class="seg active" id="species-btn-cattle" onclick="seg(this); selectAnimalType('cattle')">Dairy cattle</button>
                     <button type="button" class="seg" id="species-btn-poultry" onclick="seg(this); selectAnimalType('poultry')">Poultry</button>
                     <button type="button" class="seg" id="species-btn-goat" onclick="seg(this); selectAnimalType('goat')">Goats and sheep</button>
+                    <button type="button" class="seg" id="species-btn-yak" onclick="seg(this); selectAnimalType('yak')">Yak</button>
                   </div>
                 </div>
                 <div class="field">
@@ -511,6 +527,23 @@
               </select>
             </div>
 
+            <section class="search-card" id="search-card" aria-labelledby="search-title" hidden>
+              <div class="search-head">
+                <div>
+                  <p class="best-title" id="search-title">How we chose</p>
+                  <p class="best-sub" id="search-sub">Every combination simulated through a winter night.</p>
+                </div>
+                <dl class="search-stats" id="search-stats"></dl>
+              </div>
+              <div class="search-progress" id="search-progress" aria-hidden="true"><span></span></div>
+              <div class="search-body">
+                <figure class="pareto" id="pareto"></figure>
+                <div class="picks" id="picks"></div>
+              </div>
+              <p class="best-note" id="search-alt"></p>
+              <p class="best-note" id="search-note"></p>
+            </section>
+
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(2)">Back</button>
               <button type="button" class="btn btn-ember" onclick="proceedToStep4()">See it in 3D</button>
@@ -574,16 +607,22 @@
           <section class="step-panel" id="flow-step-4" style="display:none" aria-labelledby="s4-title">
             <header class="panel-head">
               <h3 id="s4-title">See it in 3D</h3>
-              <p>Drag to orbit. Move the sun through the day and switch to the heat view to see which walls take the most sun.</p>
+              <p>Your design, built layer by layer from the simulation. Drag to orbit, click any part for its numbers, pull the house apart, take the roof off to see each room's temperature, or switch to the infrared view to see where heat escapes.</p>
             </header>
 
             <div class="stage">
               <div class="stage-tabs" role="tablist" aria-label="3D view">
-                <button type="button" role="tab" class="stage-tab active" aria-selected="true" onclick="stageTab(this); switch3DViewerType('threejs')">Sun and heat</button>
-                <button type="button" role="tab" class="stage-tab" aria-selected="false" onclick="stageTab(this); switch3DViewerType('iframe')">Reference model</button>
+                <button type="button" role="tab" class="stage-tab active" aria-selected="true" onclick="stageTab(this); showDrawings(false); switch3DViewerType('threejs')">Your design in 3D</button>
+                <button type="button" role="tab" class="stage-tab" aria-selected="false" onclick="stageTab(this); document.getElementById('viewer-3d-container').style.display='none'; document.getElementById('iframe-3d-container').style.display='none'; showDrawings(true)">Drawings</button>
+                <button type="button" role="tab" class="stage-tab" aria-selected="false" onclick="stageTab(this); showDrawings(false); switch3DViewerType('iframe')">Reference model</button>
               </div>
 
               <div id="viewer-3d-container">
+                <div class="stage-tools" role="group" aria-label="Camera">
+                  <button type="button" onclick="zoom3D(0.85)" aria-label="Zoom in">+</button>
+                  <button type="button" onclick="zoom3D(1.18)" aria-label="Zoom out">−</button>
+                  <button type="button" onclick="zoom3D(0)" aria-label="Reset the view"><svg viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><path d="M3 9.5 10 3l7 6.5M5 8v8h10V8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+                </div>
                 <div id="viewer-3d" class="viewer-canvas"></div>
                 <div class="stage-hud" id="stage-hud" aria-live="polite">
                   <span id="hud-time">1:00 pm</span>
@@ -596,17 +635,31 @@
                     <input type="range" id="sun-time" class="range range-dark" min="6" max="18.5" step="0.25" value="13" oninput="setSunTime(this.value)">
                     <span aria-hidden="true">6 pm</span>
                   </div>
-                  <div class="segmented segmented-dark" role="group" aria-label="Season">
-                    <button type="button" class="seg active" onclick="seg(this); setSeason('summer')">Summer</button>
-                    <button type="button" class="seg" onclick="seg(this); setSeason('winter')">Winter</button>
+                  <div class="segmented segmented-dark" role="group" aria-label="Season" id="season-seg">
+                    <button type="button" class="seg" data-season="summer" onclick="seg(this); setSeason('summer')">Summer</button>
+                    <button type="button" class="seg active" data-season="winter" onclick="seg(this); setSeason('winter')">Winter</button>
                   </div>
                   <div class="segmented segmented-dark" role="group" aria-label="Display">
                     <button type="button" class="seg active" onclick="seg(this); setViewerMode('realistic')">Model</button>
-                    <button type="button" class="seg" onclick="seg(this); setViewerMode('thermal')">Heat</button>
+                    <button type="button" class="seg" onclick="seg(this); setViewerMode('thermal')">Infrared</button>
                     <button type="button" class="seg" onclick="seg(this); setViewerMode('wireframe')">Frame</button>
                   </div>
+                  <div class="segmented segmented-dark" role="group" aria-label="View">
+                    <button type="button" class="seg active" onclick="seg(this); set3DView('whole')">Whole</button>
+                    <button type="button" class="seg" onclick="seg(this); set3DView('exploded')">Exploded</button>
+                    <button type="button" class="seg" onclick="seg(this); set3DView('cut')">Roof off</button>
+                  </div>
+                  <button type="button" class="btn btn-ghost-light btn-sm is-on" id="labels-btn" aria-pressed="true" onclick="toggle3DLabels(this)">Labels</button>
                   <button type="button" class="btn btn-ghost-light btn-sm" id="play-day" onclick="toggleSunPath()">Play the day</button>
                 </div>
+              </div>
+
+              <div id="drawings-container" class="drawings" style="display:none">
+                <div class="drawings-bar">
+                  <p>Plan, section and elevations drawn from the same design as the 3D model and the report.</p>
+                  <div class="action-group"><button type="button" class="btn btn-quiet btn-sm" id="dw-svg-dl">Download SVG</button><button type="button" class="btn btn-ink btn-sm" id="dw-print">Print drawings</button></div>
+                </div>
+                <div id="drawings-sheet" class="drawings-sheet"></div>
               </div>
 
               <div id="iframe-3d-container" style="display:none">
@@ -614,6 +667,36 @@
                 <p class="stage-note" id="step4-plan-name">Reference model</p>
               </div>
             </div>
+
+            <section class="tune-card" id="tune-card" aria-labelledby="tune-title" hidden>
+              <div class="tune-head">
+                <div>
+                  <h4 id="tune-title">Fine-tune the design</h4>
+                  <p>Materials stay as recommended. Turning the house, the share of south glass and the overhang re-run the simulation, rebuild the model and carry into your report.</p>
+                </div>
+                <button type="button" class="btn btn-quiet btn-sm" id="tune-reset" disabled>Back to recommended</button>
+              </div>
+              <div class="tune-grid">
+                <div class="tune-dial-wrap" id="tune-orient">
+                  <p class="field-label">Which way the long side faces</p>
+                  <div id="tune-dial" class="tune-dial" role="slider" tabindex="0" aria-label="Building orientation, degrees from due south" aria-valuemin="-45" aria-valuemax="45" aria-valuenow="0"></div>
+                  <output class="field-value" id="tune-orient-v">Due south</output>
+                </div>
+                <div class="control-stack">
+                  <div class="field" id="tune-wwr-field">
+                    <div class="field-row"><label class="field-label" for="tune-wwr">South wall that is glass</label><output class="field-value" id="tune-wwr-v">35 %</output></div>
+                    <input type="range" class="range" id="tune-wwr" min="10" max="60" step="5" value="35">
+                  </div>
+                  <div class="field">
+                    <div class="field-row"><label class="field-label" for="tune-oh">Overhang over the windows</label><output class="field-value" id="tune-oh-v">None</output></div>
+                    <input type="range" class="range" id="tune-oh" min="0" max="1.2" step="0.1" value="0">
+                    <p class="field-hint">Low winter sun passes under a short overhang; high summer sun is blocked. See the section in Drawings.</p>
+                  </div>
+                  <p class="field-hint" id="tune-status" aria-live="polite"></p>
+                </div>
+                <dl class="tune-out" id="tune-out"></dl>
+              </div>
+            </section>
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="navigateStep4Back()">Back</button>
@@ -657,12 +740,20 @@
                 <h3 id="s5-title" class="report-title">Your home stays <span class="countup" id="res-temp-diff">12.3 °C</span> cooler at the hottest hour.</h3>
                 <p class="report-sub">Estimated with ThermaBuild's heat-balance model for a clear summer day. Export the model to ANSYS Fluent for a full simulation.</p>
               </div>
-              <button type="button" class="btn btn-ember" onclick="downloadPDFDossier()">Download report (PDF)</button>
+              <div class="report-actions">
+                <div class="segmented lang-toggle" role="group" aria-label="Report language">
+                  <button type="button" class="seg active" data-lang="en">English</button>
+                  <button type="button" class="seg" data-lang="hi" lang="hi">हिन्दी</button>
+                </div>
+                <button type="button" class="btn btn-ember" onclick="downloadPDFDossier()">Download report (PDF)</button>
+              </div>
             </header>
+
+            <p class="report-loading" id="report-loading" hidden><span class="spinner" aria-hidden="true"></span>Simulating your design room by room…</p>
 
             <div class="report-figures">
               <div class="figure-tile figure-hot"><span>Ordinary build, peak indoors</span><strong id="res-peak-temp-base">38.4 °C</strong></div>
-              <div class="figure-tile figure-cool"><span>Your design, peak indoors</span><strong id="res-peak-temp-opt">26.1 °C</strong></div>
+              <div class="figure-tile figure-cool"><span>Your design, peak indoors</span><strong id="res-peak-temp-opt">26.1 °C</strong><small class="tile-range" id="res-range"></small></div>
               <div class="figure-tile"><span>Cooling energy saved</span><strong id="res-energy-savings">68.4%</strong></div>
               <div class="figure-tile"><span>Fresh-air changes</span><strong id="res-ach-val">8.4 ACH</strong></div>
               <div class="figure-tile"><span>Comfort (PMV)</span><strong id="res-pmv-val">+0.18 (Neutral / Ideal)</strong></div>
@@ -670,14 +761,20 @@
 
             <figure class="chart-card">
               <figcaption class="chart-head">
-                <p class="chart-title">Indoor temperature over 24 hours</p>
-                <div class="legend" aria-hidden="true">
-                  <span><i class="lg-out"></i>Outdoors</span>
-                  <span><i class="lg-base"></i>Ordinary build</span>
-                  <span><i class="lg-opt"></i>Your design</span>
+                <p class="chart-title" id="chart-title">Indoor temperature over three nights</p>
+                <div class="segmented chart-tabs" id="chart-tabs" role="group" aria-label="Weather">
+                  <button type="button" class="seg active" data-v="typ" id="tab-typ">Typical</button>
+                  <button type="button" class="seg" data-v="snap" id="tab-snap">Cold snap</button>
                 </div>
               </figcaption>
-              <div class="chart" id="report-chart" role="img" aria-label="Line chart of outdoor, ordinary build and your design temperatures over 24 hours"></div>
+              <div class="legend" id="report-legend" aria-hidden="true">
+                <span data-l="lg_out"><i class="lg-out"></i>Outdoors</span>
+                <span data-l="lg_base"><i class="lg-base"></i>Ordinary build</span>
+                <span data-l="lg_opt"><i class="lg-opt"></i>Your design</span>
+                <span data-l="lg_band"><i class="lg-band"></i>Likely range (P10–P90)</span>
+                <span class="lg-night-k"><i class="lg-night"></i>Night</span>
+              </div>
+              <div class="chart chart-tall" id="report-chart" role="img" aria-label="Line chart of outdoor, ordinary build and your design temperatures"></div>
               <details class="chart-table">
                 <summary>Show hourly values</summary>
                 <div id="report-chart-table"></div>
@@ -701,10 +798,67 @@
               </div>
             </div>
 
+            <div class="rep-grid rep-extra">
+              <section class="rep-card rep-wide" id="rep-rooms" aria-labelledby="rooms-title">
+                <div class="rep-card-head"><div><h4 id="rooms-title" data-i18n="rooms_title">Room by room</h4><p data-i18n="rooms_sub">Drag the timeline to see each room through the nights.</p></div>
+                  <button type="button" class="btn btn-quiet btn-sm" id="rooms-play">Play the nights</button></div>
+                <div class="rooms-wrap">
+                  <div class="rooms-plan"><div id="rooms-svg"></div>
+                    <label class="rooms-scrub"><span class="sr-only">Time</span><input type="range" class="range" id="rooms-slider" min="0" max="287" value="0"><span id="rooms-time"></span></label>
+                  </div>
+                  <ul class="rooms-list" id="rooms-list"></ul>
+                </div>
+              </section>
+
+              <section class="rep-card" id="rep-flows" aria-labelledby="flows-title">
+                <h4 id="flows-title" data-i18n="flows_title">Where the heat goes</h4><p class="rep-sub" data-i18n="flows_sub">Heat in and out on a typical day.</p>
+                <div id="flows-chart" class="flows"></div>
+              </section>
+
+              <section class="rep-card" id="rep-why" aria-labelledby="why-title">
+                <h4 id="why-title" data-i18n="why_title">Why this design works</h4><p class="rep-sub" data-i18n="why_sub">Each feature switched off in turn.</p>
+                <ul id="why-list" class="why-list"></ul>
+              </section>
+
+              <section class="rep-card rep-wide" id="rep-safety" aria-labelledby="safety-title">
+                <h4 id="safety-title" data-i18n="safety_title">Safety checks</h4><p class="rep-sub" data-i18n="safety_sub">Checked on every design.</p>
+                <ul id="safety-list" class="safety-list"></ul>
+              </section>
+
+              <section class="rep-card rep-wide" id="rep-calendar" aria-labelledby="cal-title">
+                <div class="rep-card-head"><div><h4 id="cal-title" data-i18n="cal_title">All year, hour by hour</h4><p data-i18n="cal_sub">Indoor temperature with no heating or cooling.</p></div>
+                  <div class="segmented" id="cal-toggle" role="group" aria-label="Which building"><button type="button" class="seg active" data-v="design">Your design</button><button type="button" class="seg" data-v="base">Ordinary build</button></div></div>
+                <div class="cal-grid" id="cal-grid" role="img" aria-label="Twelve months by twenty-four hours of indoor temperature"></div>
+                <div class="cal-foot"><p class="cal-stat" id="cal-stat"></p><p class="cal-scale" aria-hidden="true"><span>−15°</span><i></i><span>35°</span></p></div>
+              </section>
+
+              <section class="rep-card rep-wide" id="rep-fuel" aria-labelledby="fuel-title">
+                <h4 id="fuel-title">Fuel over a winter</h4><p class="rep-sub" id="fuel-sub"></p>
+                <div id="fuel-body"></div>
+              </section>
+
+              <section class="rep-card rep-wide" id="rep-bom" aria-labelledby="bom-title">
+                <h4 id="bom-title" data-i18n="bom_title">Bill of materials</h4><p class="rep-sub" data-i18n="bom_sub">Quantities from the plan.</p>
+                <div id="bom-body"></div>
+              </section>
+
+              <section class="rep-card rep-wide" id="rep-build" aria-labelledby="build-title">
+                <div class="rep-card-head"><div><h4 id="build-title" data-i18n="build_title">Build it: steps for the mason</h4><p data-i18n="build_sub">Print these cards for the site.</p></div>
+                  <button type="button" class="btn btn-quiet btn-sm" id="print-cards">Print mason cards</button></div>
+                <div class="mason-grid" id="build-cards"></div>
+              </section>
+
+              <section class="rep-card rep-wide rep-method" id="rep-method" aria-labelledby="method-title">
+                <h4 id="method-title" data-i18n="method_title">How this was calculated</h4>
+                <div id="method-body"></div>
+              </section>
+            </div>
+
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="navigateStep5Back()">Back</button>
               <div class="action-group">
                 <button type="button" class="btn btn-quiet" onclick="downloadCSVReport()">Download data (CSV)</button>
+                <button type="button" class="btn btn-quiet" onclick="downloadJSONReport()">Download data (JSON)</button>
                 <button type="button" class="btn btn-ink" onclick="switchMainFlow(ThermaState.activeFlow)">Start a new design</button>
               </div>
             </footer>
@@ -727,6 +881,13 @@
               <div class="figure-tile"><span>Fresh-air changes</span><strong id="animal-ach">14.8 Air Changes/Hour</strong></div>
               <div class="figure-tile"><span>Milk or growth protected</span><strong>+18.5%</strong></div>
             </div>
+
+            <figure class="chart-card" id="animal-cold-card" hidden>
+              <figcaption class="chart-head"><p class="chart-title">Inside the shelter through a three-day cold snap</p>
+                <div class="legend" aria-hidden="true"><span><i class="lg-out"></i>Outdoors</span><span><i class="lg-base"></i>Open stone pen</span><span><i class="lg-opt"></i>Your shelter</span></div></figcaption>
+              <div class="chart" id="animal-chart" role="img" aria-label="Line chart of shelter temperatures through a cold snap"></div>
+              <p class="best-note" id="animal-feed"></p>
+            </figure>
 
             <div class="thi-scale" aria-hidden="true">
               <div class="thi-bar"><span class="thi-marker thi-marker-base" style="left: 80%">Ordinary</span><span class="thi-marker thi-marker-opt" style="left: 34%">Yours</span></div>
@@ -769,8 +930,27 @@
               <span class="dropzone-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 16V4m0 0l-5 5m5-5l5 5M4 20h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
-              <span><b>Upload your floor plan</b><small>PNG, JPG, SVG or DXF. Drop it here or click to browse.</small></span>
+              <span><b>Upload your floor plan</b><small>DXF from AutoCAD, LibreCAD or FreeCAD: rooms are read as closed polylines. PNG or JPG: trace the rooms by hand.</small></span>
             </label>
+            <div class="import-row">
+              <button type="button" class="btn btn-quiet btn-sm" id="f2-sample">Try a sample DXF</button>
+              <label class="import-north"><span>Up on the drawing is</span>
+                <select id="f2-north" class="select select-sm"><option value="N" selected>North</option><option value="E">East</option><option value="S">South</option><option value="W">West</option></select>
+              </label>
+            </div>
+            <p class="import-info" id="f2-import-info" hidden></p>
+
+            <div class="trace-wrap" id="trace-wrap" hidden>
+              <div class="trace-head"><p><b>Trace your rooms.</b> Drag a box over each room, name it, then give the real width of the whole drawing.</p></div>
+              <div class="trace-body">
+                <div class="trace-stage"><img id="trace-img" alt="Your uploaded plan"><svg id="trace-svg" class="trace-svg" aria-label="Drag to mark a room"></svg></div>
+                <div class="trace-side">
+                  <ol class="trace-list" id="trace-list"></ol>
+                  <label class="field"><span class="field-label">Width of the drawing (m)</span><input type="number" id="trace-width" class="select" min="3" max="80" step="0.1" placeholder="e.g. 12.5"></label>
+                  <div class="trace-actions"><button type="button" class="btn btn-quiet btn-sm" id="trace-cancel">Cancel</button><button type="button" class="btn btn-ink btn-sm" id="trace-done">Use these rooms</button></div>
+                </div>
+              </div>
+            </div>
 
             <p class="or-divider"><span>or pick one of ours</span></p>
 
@@ -898,6 +1078,7 @@
                 <div><dt>Carbon avoided</dt><dd id="f3-co2-val">2.9 Tons CO₂ / Year</dd></div>
               </dl>
             </div>
+            <p class="best-note f3-note" id="f3-note"></p>
 
             <div class="upgrade-list">
               <article class="upgrade" data-part="wall">
@@ -969,15 +1150,32 @@
         <a href="#paths">Design paths</a>
         <a href="#studio">Studio</a>
       </nav>
-      <p class="footer-note">Climate data from Open-Meteo and regional weather files. Performance figures are estimates from a simplified heat-balance model; verify with a full simulation before construction.</p>
+      <p class="footer-note">Climate: NASA POWER 2001–2020 monthly means, corrected to each site's elevation; elevation for map points from Open-Meteo. Performance is computed in your browser by ThermaBuild's multi-room heat-balance engine, checked against the ISO 13790 reference procedure. <a href="methodology.html">Method, equations and limits</a>. Costs are indicative; have a local engineer check the design before you build.</p>
       <p class="footer-note footer-credit">Livestock photo: “Himalayan Herd” by Koshyk, <a href="https://www.flickr.com/photos/97235261@N00/7941423960" target="_blank" rel="noopener">Flickr</a>, <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a>.</p>
     </div>
   </footer>
 
   <div class="toast-region" id="toast-region" role="status" aria-live="polite"></div>
 
-  <script src="js/app-core.js?v=4" defer></script>
+  <script src="js/app-core.js?v=5" defer></script>
   <script src="js/viewer3d.js?v=1" defer></script>
-  <script src="js/ui.js?v=11" defer></script>
+  <script src="js/ui.js?v=12" defer></script>
+  <script src="data/climate.js?v=1" defer></script>
+  <script src="data/test-results.js?v=1" defer></script>
+  <script src="data/parity.js?v=1" defer></script>
+  <script src="js/engine/materials.js?v=1" defer></script>
+  <script src="js/engine/climate.js?v=1" defer></script>
+  <script src="js/engine/thermal.js?v=1" defer></script>
+  <script src="js/engine/design.js?v=1" defer></script>
+  <script src="js/engine/safety.js?v=1" defer></script>
+  <script src="js/engine/optimise.js?v=1" defer></script>
+  <script src="js/engine/analyse.js?v=1" defer></script>
+  <script src="js/i18n.js?v=1" defer></script>
+  <script src="assets/samples/ladakh_passive_house.dxf.js?v=1" defer></script>
+  <script src="js/plan-import.js?v=1" defer></script>
+  <script src="js/report.js?v=2" defer></script>
+  <script src="js/tune.js?v=1" defer></script>
+  <script src="js/drawings.js?v=1" defer></script>
+  <script src="js/house3d.js?v=1" defer></script>
 </body>
 </html>

@@ -384,16 +384,19 @@
   const row = (part, m) => `${section(m.layers)}<div><p class="best-part">${part}</p><p class="best-name">${m.name}</p><p class="best-why">${m.why}</p></div>`;
 
   function renderMaterialCards() {
-    const w = WALLS[ThermaState.wallMat] || WALLS.rammed_earth, r = ROOFS[ThermaState.roofMat] || ROOFS.cool_roof, g = GLAZING[ThermaState.glazingMat] || GLAZING.low_e_double;
+    const eng = window.TBApp && window.TBApp.engineCards ? window.TBApp.engineCards() : null;
+    const w = eng ? eng.wall : WALLS[ThermaState.wallMat] || WALLS.rammed_earth, r = eng ? eng.roof : ROOFS[ThermaState.roofMat] || ROOFS.cool_roof, g = eng ? eng.glazing : GLAZING[ThermaState.glazingMat] || GLAZING.low_e_double;
     if ($('best-wall')) { $('best-wall').innerHTML = card('Walls', w); $('best-roof').innerHTML = card('Roof', r); $('best-glazing').innerHTML = card('Windows', g); }
-    if ($('best-sub')) $('best-sub').textContent = `Chosen for ${placeName()}'s ${climateWords()} climate. The report is calculated on exactly these.`;
-    const ar = A_ROOFS[$('animal-roof-material')?.value] || A_ROOFS.thatch, aw = A_WALLS[$('animal-wall-material')?.value] || A_WALLS.slatted_louvers, af = A_FLOORS[$('animal-floor-material')?.value] || A_FLOORS.grooved_concrete;
+    if ($('best-sub')) $('best-sub').textContent = eng ? `Chosen by simulation for ${placeName()}'s ${climateWords()} climate. The report is calculated on exactly these.` : `Chosen for ${placeName()}'s ${climateWords()} climate. The report is calculated on exactly these.`;
+    if (eng && $('ai-predict-rationale')) $('ai-predict-rationale').textContent = eng.rationale;
+    const ea = window.TBApp && window.TBApp.engineAnimalCards ? window.TBApp.engineAnimalCards() : null;
+    const ar = ea ? ea.roof : A_ROOFS[$('animal-roof-material')?.value] || A_ROOFS.thatch, aw = ea ? ea.wall : A_WALLS[$('animal-wall-material')?.value] || A_WALLS.slatted_louvers, af = ea ? ea.floor : A_FLOORS[$('animal-floor-material')?.value] || A_FLOORS.grooved_concrete;
     if ($('best-animal-roof')) { $('best-animal-roof').innerHTML = row('Roof', ar); $('best-animal-wall').innerHTML = row('Side walls', aw); $('best-animal-floor').innerHTML = row('Floor', af); }
     const species = { cattle: 'dairy cattle', poultry: 'poultry', goat: 'goats and sheep' }[ThermaState.animalSpecies] || 'your animals';
     if ($('animal-best-sub')) $('animal-best-sub').textContent = `Chosen for ${placeName()}'s ${climateWords()} climate and ${species}.`;
     // the engine's own rationale, tidied for reading
-    const rat = $('ai-predict-rationale'); if (rat) rat.textContent = rat.textContent.replace(/^Predicted for [^:]+:\s*/, '');
-    const arat = $('animal-ai-predict-rationale'); if (arat) arat.textContent = arat.textContent.replace(/^[^:]+:\s*/, '');
+    const rat = $('ai-predict-rationale'); if (rat && !eng) rat.textContent = rat.textContent.replace(/^Predicted for [^:]+:\s*/, '');
+    const arat = $('animal-ai-predict-rationale'); if (arat) arat.textContent = ea ? ea.rationale : arat.textContent.replace(/^[^:]+:\s*/, '');
   }
   window.renderMaterialCards = renderMaterialCards;
   const _updRes = window.updateResidentialMaterialsReport, _updLive = window.updateLivestockMaterialsReport;
@@ -419,69 +422,10 @@
     if (window.rebuild3DHouse) rebuild3DHouse();
   };
 
-  // ---------- report: hero figure, 24-hour chart ----------
-  function dayCurves() {
-    const p = LOCATION_PRESETS[ThermaState.city] || {};
-    const peak = parseTemp(p.summerTemp) || 34;
-    const swing = Math.min(16, Math.max(8, peak * 0.32));
-    const mean = peak - swing / 2;
-    const wallU = { rammed_earth: 0.45, aac_aerogel: 0.42, cavity_brick: 0.36, cseb_cork: 0.39, clt_woodfiber: 0.29 }[ThermaState.wallMat] || 0.45;
-    const roofU = { cool_roof: 0.26, green_roof: 0.22, poplar_mud: 0.24, terracotta_double: 0.32 }[ThermaState.roofMat] || 0.26;
-    const glazeU = { low_e_double: 1.35, krypton_triple: 0.78, smart_electrochromic: 1.1, single_clear: 5.7 }[ThermaState.glazingMat] || 1.35;
-    const envelope = (wallU + roofU + glazeU * 0.35) / (2.15 + 2.85 + 5.7 * 0.35); // vs. an ordinary build
-    const hours = Array.from({ length: 25 }, (_, h) => h);
-    const out = hours.map((h) => mean + (swing / 2) * Math.sin(((h - 9) / 24) * Math.PI * 2));
-    const base = hours.map((h) => mean + 2.4 + (swing / 2) * 0.85 * Math.sin(((h - 10) / 24) * Math.PI * 2));
-    const lagH = 3 + (1 - envelope) * 5;
-    const opt = hours.map((h) => mean - 1.2 + (swing / 2) * (0.15 + envelope * 0.55) * Math.sin(((h - 9 - lagH) / 24) * Math.PI * 2));
-    return { hours, out, base, opt };
-  }
-
+  // ---------- report: computed by the engine (js/report.js) ----------
   function renderReport() {
     if (ThermaState.activeFlow === 4) return;
-    const { hours, out, base, opt } = dayCurves();
-    const bPeak = Math.max(...base), oPeak = Math.max(...opt), diff = oPeak - bPeak;
-    $('res-peak-temp-base').textContent = `${bPeak.toFixed(1)} °C`;
-    $('res-peak-temp-opt').textContent = `${oPeak.toFixed(1)} °C`;
-    const savings = Math.max(28, Math.min(74, Math.round(-diff * 4.6 + 22)));
-    $('res-energy-savings').textContent = `${savings}%`;
-    const pmv = (0.35 - Math.min(0.3, -diff * 0.02)).toFixed(2);
-    $('res-pmv-val').textContent = `+${pmv} (comfortable)`;
-    $('res-ach-val').textContent = `${(6 + (parseFloat((LOCATION_PRESETS[ThermaState.city] || {}).wind) || 3) * 0.8).toFixed(1)} ACH`;
-    countUp($('res-temp-diff'), Math.abs(diff), (v) => `${v.toFixed(1)} °C`);
-
-    const el = $('report-chart'); el.innerHTML = '';
-    const W = el.clientWidth || 800, H = el.clientHeight || 300, m = { t: 16, r: 16, b: 28, l: 36 };
-    const all = [...out, ...base, ...opt]; const yMin = Math.floor(Math.min(...all) - 2), yMax = Math.ceil(Math.max(...all) + 2);
-    const x = (h) => m.l + (h / 24) * (W - m.l - m.r), y = (t) => m.t + (1 - (t - yMin) / (yMax - yMin)) * (H - m.t - m.b);
-    const path = (arr) => arr.map((t, i) => `${i ? 'L' : 'M'}${x(hours[i]).toFixed(1)},${y(t).toFixed(1)}`).join('');
-    const ns = 'http://www.w3.org/2000/svg';
-    const svg = document.createElementNS(ns, 'svg'); svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    const yTicks = []; for (let t = Math.ceil(yMin / 5) * 5; t <= yMax; t += 5) yTicks.push(t);
-    const cLo = Math.max(yMin, 22), cHi = Math.min(yMax, 27);
-    svg.innerHTML = `
-      ${cHi > cLo ? `<rect class="comfort" x="${m.l}" y="${y(cHi)}" width="${W - m.l - m.r}" height="${y(cLo) - y(cHi)}" rx="3"/><text class="comfort-label" x="${m.l + 8}" y="${y(cHi) + 14}">Comfort band 22–27 °C</text>` : ''}
-      <g class="grid">${yTicks.map((t) => `<line x1="${m.l}" x2="${W - m.r}" y1="${y(t)}" y2="${y(t)}"/>`).join('')}</g>
-      <g class="axis">${yTicks.map((t) => `<text x="${m.l - 8}" y="${y(t) + 4}" text-anchor="end">${t}°</text>`).join('')}${[0, 6, 12, 18, 24].map((h) => `<text x="${x(h)}" y="${H - 8}" text-anchor="middle">${h === 0 || h === 24 ? '12 am' : h === 12 ? '12 pm' : h < 12 ? `${h} am` : `${h - 12} pm`}</text>`).join('')}</g>
-      <path class="series s-out" d="${path(out)}"/>
-      <path class="series s-base ${reduceMotion ? '' : 'draw'}" d="${path(base)}"/>
-      <path class="series s-opt ${reduceMotion ? '' : 'draw'}" d="${path(opt)}"/>
-      <g class="peak"><circle cx="${x(base.indexOf(bPeak))}" cy="${y(bPeak)}" r="5" fill="#E4572E"/><text x="${x(base.indexOf(bPeak)) + 8}" y="${y(bPeak) - 8}">${bPeak.toFixed(1)}° ordinary</text></g>
-      <g class="peak"><circle cx="${x(opt.indexOf(oPeak))}" cy="${y(oPeak)}" r="5" fill="#3D7BD9"/><text x="${x(opt.indexOf(oPeak)) + 8}" y="${y(oPeak) + 16}">${oPeak.toFixed(1)}° yours</text></g>
-      <line class="crosshair" x1="0" x2="0" y1="${m.t}" y2="${H - m.b}"/>
-      <rect class="hover-rect" x="${m.l}" y="${m.t}" width="${W - m.l - m.r}" height="${H - m.t - m.b}"/>`;
-    el.appendChild(svg);
-    svg.querySelectorAll('.draw').forEach((p, i) => { const len = p.getTotalLength(); p.style.strokeDasharray = len; p.style.strokeDashoffset = len; requestAnimationFrame(() => { p.style.transition = `stroke-dashoffset 1.5s cubic-bezier(.16,1,.3,1) ${0.2 + i * 0.3}s`; p.style.strokeDashoffset = 0; }); });
-    const tip = document.createElement('div'); tip.className = 'chart-tip'; el.appendChild(tip);
-    const cross = svg.querySelector('.crosshair'), hr = svg.querySelector('.hover-rect');
-    hr.addEventListener('pointermove', (e) => {
-      const r = svg.getBoundingClientRect(); const px = ((e.clientX - r.left) / r.width) * W; const h = Math.round(((px - m.l) / (W - m.l - m.r)) * 24); if (h < 0 || h > 24) return;
-      cross.setAttribute('x1', x(h)); cross.setAttribute('x2', x(h)); cross.style.opacity = 1;
-      tip.style.left = `${(x(h) / W) * 100}%`; tip.style.top = `${(y(Math.max(out[h], base[h], opt[h])) / H) * 100}%`; tip.style.opacity = 1;
-      tip.innerHTML = `${h % 24}:00<br>Outdoors <b>${out[h].toFixed(1)}°</b><br>Ordinary <b>${base[h].toFixed(1)}°</b><br>Yours <b>${opt[h].toFixed(1)}°</b>`;
-    });
-    hr.addEventListener('pointerleave', () => { cross.style.opacity = 0; tip.style.opacity = 0; });
-    $('report-chart-table').innerHTML = `<table><thead><tr><th>Hour</th><th>Outdoors</th><th>Ordinary build</th><th>Your design</th></tr></thead><tbody>${hours.filter((h) => h % 3 === 0 && h < 24).map((h) => `<tr><td>${h}:00</td><td>${out[h].toFixed(1)} °C</td><td>${base[h].toFixed(1)} °C</td><td>${opt[h].toFixed(1)} °C</td></tr>`).join('')}</tbody></table>`;
+    if (window.TBApp && window.TBApp.renderHouse) window.TBApp.renderHouse();
   }
   window.renderReport = renderReport;
 
@@ -492,6 +436,7 @@
     const step = (now) => { if (t0 === null) t0 = now; const p = Math.max(0, Math.min(1, (now - t0) / dur)); const e = 1 - Math.pow(1 - p, 3); el.textContent = fmt(target * e); if (p < 1) requestAnimationFrame(step); };
     el.textContent = fmt(0); requestAnimationFrame(step);
   }
+  window.countUp = countUp;
 
   // ---------- flow 3: U-value bars ----------
   function updateUBars() {
@@ -507,7 +452,6 @@
 
   // ---------- header progress init ----------
   if (progressBar) progressBar.style.width = '20%';
-  window.addEventListener('resize', () => { if ($('flow-step-5').style.display !== 'none') renderReport(); });
 })();
 
 // Deep links for demos and testing: index.html?path=3&step=5 opens that step directly.

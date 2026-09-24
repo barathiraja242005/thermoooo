@@ -788,22 +788,7 @@ function updateLocationCoords(lat, lon) {
   predictBioclimaticMaterials(ThermaState.city, ThermaState.lat, ThermaState.lon);
   if (window.onClimateUpdate) window.onClimateUpdate(null);
 
-  // Fetch from backend API
-  fetch(`/api/climate?lat=${ThermaState.lat}&lon=${ThermaState.lon}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data && data.climate_summary) {
-        const s = data.climate_summary;
-        const zoneEl = document.getElementById('climate-zone');
-        if (zoneEl) zoneEl.innerText = s.zone_name || 'Calculated Microclimate';
-        const summerEl = document.getElementById('climate-summer-temp');
-        if (summerEl) summerEl.innerText = `${s.summer_peak_temp_c || 32.0} °C`;
-        const winterEl = document.getElementById('climate-winter-temp');
-        if (winterEl) winterEl.innerText = `${s.winter_extreme_temp_c || 10.0} °C`;
-        if (window.onClimateUpdate) window.onClimateUpdate(null);
-      }
-    })
-    .catch(() => console.log('Loaded offline telemetry.'));
+  // Climate for the new point is fetched from NASA POWER by report.js (loadClimateFor).
 }
 
 function onLocationPresetChange(val) {
@@ -1665,51 +1650,12 @@ function setAnimalViewMode(mode) {
 // ==========================================
 // 8. STEP 5: SIMULATIONS & EXPORTS
 // ==========================================
-function runCFDSimulation() {
-  fetch('/api/simulate-thermal', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      bhk: ThermaState.bhk,
-      lat: ThermaState.lat,
-      lon: ThermaState.lon,
-      wall: ThermaState.wallMat,
-      roof: ThermaState.roofMat,
-      glazing: ThermaState.glazingMat
-    })
-  })
-    .then(r => r.json())
-    .then(data => {
-      if (data && data.peak_indoor_temp_c) {
-        const peak = data.peak_indoor_temp_c.toFixed(1);
-        const optEl = document.getElementById('res-peak-temp-opt');
-        if (optEl) optEl.innerText = `${peak} °C`;
-      }
-    })
-    .catch(() => console.log('Loaded offline thermal simulation metrics.'));
-}
+// The reports are computed in the browser by the heat-balance engine (js/engine, js/report.js)
+// when their step opens; these names stay for the existing buttons and step handlers.
+function runCFDSimulation() { /* report.js renders the house report when step 5 opens */ }
 
 function runAnimalSimulation() {
-  fetch('/api/animal-shelter/simulate', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      species: ThermaState.animalSpecies,
-      herd_count: ThermaState.animalHerdCount,
-      orientation: ThermaState.animalOrientation,
-      roof: ThermaState.animalRoof
-    })
-  })
-    .then(r => r.json())
-    .then(data => {
-      if (data) {
-        const thiEl = document.getElementById('animal-thi-optimized');
-        if (thiEl && data.indoor_thi) thiEl.innerText = `${data.indoor_thi.toFixed(1)} (Optimal Comfort Zone)`;
-        const achEl = document.getElementById('animal-ach');
-        if (achEl && data.natural_ach) achEl.innerText = `${data.natural_ach.toFixed(1)} Air Changes/Hour`;
-      }
-    })
-    .catch(() => console.log('Loaded offline livestock THI evaluation.'));
+  if (window.TBApp) setTimeout(() => window.TBApp.renderAnimal(), 0);
 }
 
 function downloadSTEPFile() {
@@ -1749,164 +1695,18 @@ function downloadAnimalPDFDossier() {
   window.print();
 }
 
-function downloadCSVReport() {
-  const wall = document.getElementById('rep-wall-name')?.innerText || 'Stabilized Rammed Earth 350mm';
-  const wallU = document.getElementById('rep-wall-u')?.innerText || '0.45 W/m²K';
-  const roof = document.getElementById('rep-roof-name')?.innerText || 'High-Albedo Cool Roof (SRI 104)';
-  const roofU = document.getElementById('rep-roof-u')?.innerText || '0.26 W/m²K';
-  const glaze = document.getElementById('rep-glaze-name')?.innerText || 'Double Glazed Low-E Argon';
-  const glazeU = document.getElementById('rep-glaze-u')?.innerText || '1.35 W/m²K';
-  const climate = ThermaState.climate || 'Composite';
-  const city = ThermaState.city || 'New Delhi';
+function downloadCSVReport() { if (window.TBApp) window.TBApp.exportCSV(); }
 
-  const rows = [
-    ['ThermaBuild Engineering & Bioclimatic Thermal Compliance Schedule'],
-    ['Generated Date', new Date().toISOString()],
-    ['Project Flow', ThermaState.activeFlow || 'Flow 1: AI Prompted'],
-    ['Typology / BHK', ThermaState.bhk || '2BHK'],
-    ['Location / Climate', `${city} (${climate})`],
-    ['Latitude / Longitude', `${ThermaState.lat || '28.6139'}, ${ThermaState.lon || '77.2090'}`],
-    [],
-    ['Envelope Component', 'Predicted Material Assembly', 'Design Thermal Transmittance (U-Value)', 'ECBC 2024 Compliance Status'],
-    ['External Wall Envelope', `"${wall}"`, `"${wallU}"`, 'Pass (Exceeds ECBC Plus)'],
-    ['Roof System', `"${roof}"`, `"${roofU}"`, 'Pass (Exceeds SuperECBC)'],
-    ['Fenestration / Glazing', `"${glaze}"`, `"${glazeU}"`, 'Pass (Solar Heat Gain Controlled)'],
-    ['Foundation / Ground Slab', 'Cast-in-place Reinforced Concrete + Gravel Capillary Break', '0.42 W/m²K', 'Pass (Thermal Bridge Free)'],
-    [],
-    ['Key Thermal Metrics', 'Value', 'Baseline Benchmark', 'Net Improvement'],
-    ['Indoor Peak Temperature Drop', '5.4 °C', '41.2 °C', '-13.1% Thermal Load'],
-    ['Active Cooling Energy Savings', '44.8 kWh/m²/yr', '124.0 kWh/m²/yr', '36.1% HVAC Reduction'],
-    ['Embodied Carbon Reduction', '38.2 kg CO₂e/m²', '98.5 kg CO₂e/m²', '61.2% Decarbonization']
-  ];
+function downloadJSONReport() { if (window.TBApp) window.TBApp.exportJSON(); }
 
-  const csvContent = rows.map(r => r.join(',')).join('\n');
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `ThermaBuild_${ThermaState.bhk || 'Project'}_Thermal_Compliance_Report.csv`;
-  a.click();
-}
-
-function downloadJSONReport() {
-  const data = {
-    project: 'ThermaBuild Bioclimatic Architecture Platform',
-    timestamp: new Date().toISOString(),
-    flow: ThermaState.activeFlow,
-    typology: ThermaState.bhk,
-    climateZone: ThermaState.climate || 'Composite',
-    coordinates: {
-      latitude: ThermaState.lat || 28.6139,
-      longitude: ThermaState.lon || 77.2090,
-      city: ThermaState.city || 'New Delhi'
-    },
-    materials: {
-      wall: {
-        key: ThermaState.wallMat || 'rammed_earth',
-        spec: document.getElementById('rep-wall-name')?.innerText || 'Stabilized Rammed Earth 350mm + Lime Render',
-        uValue: document.getElementById('rep-wall-u')?.innerText || '0.45 W/m²K'
-      },
-      roof: {
-        key: ThermaState.roofMat || 'cool_roof',
-        spec: document.getElementById('rep-roof-name')?.innerText || 'High-Albedo Cool Roof (SRI 104) + 100mm Overdeck XPS',
-        uValue: document.getElementById('rep-roof-u')?.innerText || '0.26 W/m²K'
-      },
-      glazing: {
-        key: ThermaState.glazingMat || 'low_e_double',
-        spec: document.getElementById('rep-glaze-name')?.innerText || 'Double Glazed Low-E Argon 6+12A+6 (SHGC=0.32) + uPVC Frame',
-        uValue: document.getElementById('rep-glaze-u')?.innerText || '1.35 W/m²K'
-      }
-    },
-    thermalPerformance: {
-      peakIndoorTemperatureDrop_C: 5.4,
-      hvacEnergySavings_pct: 36.1,
-      carbonPayback_years: 3.2,
-      complianceStandard: 'ECBC 2024 / NBC 2016 Bioclimatic Standards',
-      complianceScore_pct: 98.4
-    }
-  };
-
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `ThermaBuild_${ThermaState.bhk || 'Project'}_Simulation_Dataset.json`;
-  a.click();
-}
-
-function downloadAnimalCSVReport() {
-  const roof = document.getElementById('animal-rep-roof-name')?.innerText || 'Multi-Layered Vernacular Thatch (Paddy Straw 180mm)';
-  const roofU = document.getElementById('animal-rep-roof-u')?.innerText || '0.35 W/m²K';
-  const wall = document.getElementById('animal-rep-wall-name')?.innerText || 'Slatted Bamboo Louver Screens (65% Porosity)';
-  const wallU = document.getElementById('animal-rep-wall-u')?.innerText || '0.90 W/m²K';
-  const floor = document.getElementById('animal-rep-floor-name')?.innerText || 'Grooved Impervious Concrete + Rubber Bedding';
-  const floorU = document.getElementById('animal-rep-floor-u')?.innerText || '1.10 W/m²K';
-  const animalType = document.getElementById('animal-type')?.value || 'dairy_cattle';
-  const herdCount = document.getElementById('animal-headcount')?.value || '25';
-
-  const rows = [
-    ['ThermaBuild Agro-Livestock THI & Microclimate Performance Report'],
-    ['Generated Date', new Date().toISOString()],
-    ['Livestock Typology', animalType],
-    ['Herd Headcount', herdCount],
-    ['Baseline Shelter THI', '84.2 (Severe Heat Stress)'],
-    ['ThermaBuild Optimized THI', '70.1 (Optimal Comfort Zone)'],
-    ['Ridge Ventilation Stack Velocity', '1.2 m/s'],
-    ['Air Changes per Hour (ACH)', '14.8 ACH'],
-    ['Estimated Milk / Growth Yield Preservation', '+18.5%'],
-    [],
-    ['Agro-Shelter Envelope Component', 'Vernacular Material Assembly', 'Design Thermal Metric', 'Bioclimatic Function'],
-    ['Roof System', `"${roof}"`, `"${roofU}"`, 'Blocks overhead solar radiance with evaporative thatch micro-porosity'],
-    ['Side Aeration Walls', `"${wall}"`, `"${wallU}"`, 'Permits prevailing cross-breezes while shading herd from solar angles'],
-    ['Flooring System', `"${floor}"`, `"${floorU}"`, 'Conductive ground cooling and high hygiene drainage'],
-    ['Ridge Stack Exhaust', 'Aerodynamic Raised Ridge Vent Cap (300mm Throat)', '1.2 m/s stack velocity', 'Thermal siphon natural buoyancy heat exhaustion']
-  ];
-
-  const csvContent = rows.map(r => r.join(',')).join('\n');
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `ThermaBuild_Livestock_${animalType}_THI_Report.csv`;
-  a.click();
-}
+function downloadAnimalCSVReport() { if (window.TBApp) window.TBApp.exportAnimalCSV(); }
 
 function downloadAnimalJSONReport() {
-  const data = {
-    project: 'ThermaBuild Agro-Livestock Bioclimatic Engine',
-    timestamp: new Date().toISOString(),
-    livestock: {
-      type: document.getElementById('animal-type')?.value || 'dairy_cattle',
-      herdCount: parseInt(document.getElementById('animal-headcount')?.value || '25', 10),
-      baselineTHI: 84.2,
-      optimizedTHI: 70.1,
-      thiReduction: 14.1,
-      comfortStatus: 'Optimal Thermal Comfort Zone (THI < 72)',
-      yieldProtectionPct: 18.5,
-      airChangesPerHour: 14.8,
-      ridgeVentVelocity_ms: 1.2
-    },
-    vernacularMaterials: {
-      roof: {
-        spec: document.getElementById('animal-rep-roof-name')?.innerText || 'Multi-Layered Vernacular Thatch (Paddy Straw 180mm)',
-        uValue: document.getElementById('animal-rep-roof-u')?.innerText || '0.35 W/m²K'
-      },
-      wall: {
-        spec: document.getElementById('animal-rep-wall-name')?.innerText || 'Slatted Bamboo Louver Screens (65% Porosity)',
-        uValue: document.getElementById('animal-rep-wall-u')?.innerText || '0.90 W/m²K'
-      },
-      floor: {
-        spec: document.getElementById('animal-rep-floor-name')?.innerText || 'Grooved Impervious Concrete + Rubber Bedding',
-        uValue: document.getElementById('animal-rep-floor-u')?.innerText || '1.10 W/m²K'
-      }
-    }
-  };
-
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
+  const A = window.TBApp && window.TBApp.animal; if (!A) return;
+  const out = { generated: new Date().toISOString(), species: A.species, herd: A.ctx.herd, mode: A.mode, month: A.monthName, areaM2: A.area, ach: A.ach, cold: A.cold, thi: A.thi };
   const a = document.createElement('a');
-  a.href = url;
-  a.download = 'ThermaBuild_Livestock_Bioclimatic_Dataset.json';
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' }));
+  a.download = 'ThermaBuild_livestock_shelter.json';
   a.click();
 }
 

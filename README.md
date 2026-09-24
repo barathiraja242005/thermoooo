@@ -2,126 +2,138 @@
 
 # 🏛️ ThermaBuild
 
-**Intelligent Thermal-Aware Bioclimatic House Design & Simulation Platform**
+**Passive-solar design for India's cold regions, computed room by room in the browser**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-E07A43?style=for-the-badge)](LICENSE)
-[![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](requirements.txt)
-[![Three.js](https://img.shields.io/badge/Three.js-WebGL-000000?style=for-the-badge&logo=three.js&logoColor=white)](demo/viewer/)
-[![FreeCAD](https://img.shields.io/badge/FreeCAD-BIM_STEP-CB333B?style=for-the-badge&logo=freecad&logoColor=white)](scripts/freecad_build.py)
-[![PyFluent Ready](https://img.shields.io/badge/ANSYS_Fluent-PyFluent_Bridge-FFB71B?style=for-the-badge)](scripts/thermal_engine.py)
-
-<br/>
-
-*Design Better Homes. Build for the Climate.*
+[![Physics checks](https://img.shields.io/badge/physics_checks-46%2F46-2E7D4F?style=for-the-badge)](demo/js/engine/engine.test.mjs)
+[![ISO 13790 parity](https://img.shields.io/badge/ISO_13790_Annex_C-within_0.21_°C-3D7BD9?style=for-the-badge)](scripts/check_engine_parity.py)
 
 <br/>
 
 ```bash
-# Clone & install dependencies
-./install.sh
-
-# Run the unified ThermaBuild platform
-source .venv/bin/activate
-python scripts/server.py
+cd demo && python3 -m http.server 8811
 ```
 
-Open **http://localhost:8765/demo/index.html** in your browser.
+Open **http://localhost:8811/index.html**. The studio, its engine and its data all load from this folder, so it works offline. The map tiles and live climate for arbitrary map points need internet; the ten preset sites do not.
 
 </div>
 
 ---
 
-## ✨ Highlights
+## ✨ What it does
 
-- **Guided Bioclimatic Configurator** — Tune plot dimensions, facing direction, house typology (Villa, Courtyard, Row House), bedrooms, and passive design constraints.
-- **Hyper-Local Climate Intelligence** — Automated microclimate analysis for ambient temperature swings, solar radiation, humidity, and wind vectors (integrated with Open-Meteo API & regional EPW data).
-- **Procedural 2D Architectural Plans** — Dynamic generation of spatial layouts with furniture placement, window openings, and thermal room zoning in scalable SVG format.
-- **Parametric 3D CAD & FreeCAD STEP Export** — OpenCASCADE solid geometry generation exporting standard `house.step` boundary files ready for CFD mesh generation.
-- **Interactive Three.js 3D Dollhouse** — Real-time WebGL walkthroughs with cutaway walls, PBR materials, doors, and animated ceiling fans.
-- **Conjugate Heat Transfer & Diurnal Simulation** — 24-hour diurnal thermal heat balance solver computing indoor operative temperatures, heat ingress mitigation (-40%+), and passive cooling energy savings.
-- **Future-Proof PyFluent Bridge** — Clean decoupled driver interface ready to connect to local or remote ANSYS Fluent instances via gRPC.
-- **Vedic Vastu Alignment** — Integrated room quadrant orientation analysis (NE pooja/water, SE kitchen/fire, SW master bed/earth).
-- **Executive Thermal Design Dossier** — One-click generation of full-screen, print-ready client reports with U-value schedules and thermal compliance verdicts.
-- **Glassmorphic Animal Husbandry Bioclimatic Studio** — Dedicated livestock shelter engineering suite for Cattle (🐄), Goats (🐐), and Poultry (🐓) featuring 3D thermal heat-map WebGL visualization, species-specific THI stress modeling, continuous ridge chimney CFD ventilation, and vernacular BOQ dossiers.
+- **Real climate, corrected for altitude.** It uses NASA POWER monthly means for 2001–2020, stored for ten sites (Leh, Nubra, Kargil, Dras, Pangong, Kaza, Delhi, Chennai, Jaisalmer, Bengaluru). Any other map point is fetched live. Temperatures are shifted from the reanalysis grid cell's elevation to the site's own with the 6.5 K/km lapse rate. The Leh cell is about 1,000 m above the town.
+- **Room-by-room heat balance.** Each room uses the ISO 13790 / ISO 52016 simple hourly (5R1C) network, and rooms are linked through their internal walls. The model covers:
+  - sun on each wall, using solar geometry and the Erbs diffuse split;
+  - night-sky radiation (Swinbank);
+  - thinner air at altitude;
+  - ground heat loss per ISO 13370;
+  - Trombe walls and night shutters.
+
+  It is solved with implicit Euler in 15-minute steps, and energy is conserved exactly.
+- **Design search.** 20,412 combinations are simulated per site in about 1 second in a Web Worker:
+  - wall and insulation, roof and glazing;
+  - share of south glass;
+  - Trombe wall;
+  - airtightness;
+  - plan proportion;
+  - shutters.
+
+  Orientation is then refined on the best designs. A Pareto front on dawn temperature, cost and embodied carbon gives Budget, Recommended and Warmest picks, using materials a local mason can source.
+- **Safety is enforced.**
+  - Fresh air never drops below what people and the stove need; a vent is sized instead.
+  - The design keeps CO₂ at or below 1,400 ppm.
+  - Designs at risk of mould on the inside walls (ISO 13788) are rejected.
+  - A worst-case CO check covers an unflued heater.
+  - Cold-snap risk is rated in bands.
+- **Night-by-night report.** It covers:
+  - three nights, typical or cold snap, with a likely-range band from 80 Monte Carlo runs;
+  - a plan with each room coloured by its temperature through the night;
+  - where the heat goes;
+  - what each feature is worth;
+  - a 12 × 24 year calendar;
+  - winter fuel in litres, ₹ and CO₂, plus a village-impact slider;
+  - a bill of materials and payback;
+  - printable mason build cards, in English or Hindi;
+  - CSV and JSON exports.
+- **Beyond houses.** Schools, disaster-relief shelters and high-altitude posts have their own occupancy and heating patterns. Livestock shelters are sized for cattle, yak, goats and sheep, and poultry:
+  - cold stress for adults and newborns at cold sites;
+  - THI heat stress at hot sites.
+- **Your own plan.** You can import a DXF: closed polylines become rooms, and the tool finds which walls face outside, which way they face, and which walls are shared. Alternatively, trace rooms over a plan image.
+- **Upgrade an existing home.** Before and after, over a full season, with the payback of each upgrade.
+- **The design in 3D.** The house in step 4 is built from the simulated design:
+  - rooms and every wall, roof and floor layer at its real thickness;
+  - windows with Ladakhi black surrounds, the Trombe wall and night shutters that close at dusk;
+  - overhangs, the bukhari flue, the sized fresh-air vent, poplar rafters, the stone plinth and snowy mountains;
+  - the sun on its real path for the site and month.
+
+  Views: an exploded view with each layer labelled; roof off, with each room coloured by its simulated temperature; infrared, showing the heat escaping through each surface in W/m²; and wireframe. Labels carry the engine's numbers, and clicking any part explains it.
+- **Fine-tuning.** An orientation dial and sliders for the south glass share and the overhang re-run the simulation and carry into the report. Overhang shading uses the sun's profile angle. Materials stay as recommended.
+- **Drawings.** An A3 sheet with a plan, section A–A with winter and summer noon sun angles, south and north elevations, a hatched material legend and a title block. It can be printed or downloaded as SVG.
+
+Method, equations, verification and limits: [`demo/methodology.html`](demo/methodology.html).
 
 ---
 
-## 🧭 Architecture Flow
+## ✅ Verification
+
+```bash
+node --test demo/js/engine/engine.test.mjs            # 46 physics checks; writes demo/data/test-results.js
+python3 scripts/check_engine_parity.py # engine vs ISO 13790 Annex C, hour by hour; writes demo/data/parity.js
+python3 scripts/fetch_nasa_power.py    # refresh the stored climate (needs internet)
+python3 scripts/make_sample_dxf.py     # regenerate the sample DXF plan
+```
+
+The checks cover:
+- energy balance at six sites;
+- hand-calculated steady state;
+- the free-cooling time constant against the network's own eigenvalue;
+- time-step convergence;
+- design responses that must only move one way (insulation, Trombe wall, shutters, airtightness);
+- weather synthesis;
+- safety rules;
+- ISO 7730 PMV reference cases;
+- Pareto optimality;
+- determinism.
+
+**Not yet done:** calibration against temperatures measured in Ladakhi buildings. The engine is verified for physics and for agreement with the ISO reference method, not against field data.
+
+---
+
+## 🧭 How it fits together
 
 ```mermaid
 flowchart TD
-  subgraph Input ["1. House Requirements"]
-    REQ[Location, Dimensions, Facing, BHK, Typology, Passive Options]
-  end
-
-  subgraph Climate ["2. Climate Intelligence"]
-    API[Open-Meteo API / Regional EPW Data]
-    VEC[Solar Irradiance, Diurnal Range, Wind, Humidity]
-    REQ --> API --> VEC
-  end
-
-  subgraph Geometry ["3. Spatial & CAD Generation"]
-    PROC[layout_generator.py]
-    SVG[2D Floor Plan SVG]
-    FC[FreeCAD 3D Solid & STEP Export]
-    TJ[Three.js WebGL Dollhouse]
-    VEC --> PROC
-    PROC --> SVG
-    PROC --> FC
-    PROC --> TJ
-  end
-
-  subgraph Thermal ["4. Simulation & Materials"]
-    MAT[Prescriptive Material Schedule: ECBC 2017]
-    SIM[thermal_engine.py: 1D-RC & PyFluent Bridge]
-    DIUR[24-Hour Diurnal Operative Temp Curves]
-    FC --> SIM
-    MAT --> SIM
-    SIM --> DIUR
-  end
-
-  subgraph Output ["5. Validation & Reporting"]
-    DOS[ThermaBuild Thermal Specification Dossier]
-    DIUR --> DOS
-  end
+  A[Site: preset or map point] --> B[NASA POWER monthly means, lapse-rate corrected]
+  B --> C[Design-day weather: sun on each wall, night sky, cold snap]
+  D[Building type, size, plan or DXF] --> E[Rooms and shared walls]
+  C --> F[Design search, 20,412 designs, Web Worker]
+  E --> F
+  F --> G[Safety filter: fresh air, CO₂, mould]
+  G --> H[Pareto front and recommended design]
+  H --> I[Room-by-room simulation, uncertainty, season fuel]
+  I --> J[Report, bill of materials, mason cards, exports]
 ```
+
+| Part | File |
+|---|---|
+| Materials and assemblies | `demo/js/engine/materials.js` |
+| Weather synthesis | `demo/js/engine/climate.js` |
+| Heat-balance network | `demo/js/engine/thermal.js` |
+| Building types and room layouts | `demo/js/engine/design.js` |
+| Safety, comfort, fuel, livestock | `demo/js/engine/safety.js` |
+| Search and uncertainty | `demo/js/engine/optimise.js`, `optimise.worker.js` |
+| Report analysis | `demo/js/engine/analyse.js` |
+| Studio wiring and report UI | `demo/js/report.js`, `demo/js/plan-import.js`, `demo/js/i18n.js` |
+| 3D house, fine-tuning, drawings | `demo/js/house3d.js`, `demo/js/tune.js`, `demo/js/drawings.js` |
+
+The Python back end in `scripts/`, described below, is older and is not used by the studio. It includes the Flask server, FreeCAD and Blender generators, and the PyFluent script writer. PyFluent only writes journal files; it does not run Fluent.
 
 ---
 
-## 🚀 Quick Start
+## 📦 Legacy API endpoints
 
-### 1. Prerequisites & Installation
-
-```bash
-# Make scripts executable and run setup
-chmod +x install.sh
-./install.sh
-
-# Sanity check installed tools
-./scripts/verify_tools.sh
-```
-
-### 2. Launch the Unified Platform
-
-```bash
-source .venv/bin/activate
-python scripts/server.py
-```
-
-### 3. Open Web Interfaces
-
-| Interface | URL |
-|-----------|-----|
-| **ThermaBuild SaaS Studio** | http://localhost:8765/demo/index.html |
-| **2D Floor Plan Builder** | http://localhost:8765/demo/floor-plan-viewer/index.html |
-| **3D Interactive Dollhouse** | http://localhost:8765/demo/viewer/index.html |
-| **System Health API** | http://localhost:8765/api/health |
-
----
-
-## 📦 API Endpoints
-
-ThermaBuild provides a future-proof REST API for external integrations:
+The older Flask server (`scripts/server.py`) still exposes these. The studio no longer calls them.
 
 ### `POST /api/generate`
 Generates a complete parametric 2D/3D house plan and solves the thermal simulation.
@@ -162,12 +174,11 @@ Returns driver readiness for Python, FreeCAD, Blender, and PyFluent.
 
 | Layer | Technologies |
 |-------|--------------|
-| **Frontend** | Vanilla JS, Modern CSS Glassmorphism, Arfolit / Plus Jakarta Sans Typography |
-| **3D WebGL** | Three.js, OrbitControls, GLTFLoader, PBR Shaders |
-| **CAD / BIM** | FreeCAD (Python OpenCASCADE API), STEP Export, SVG Generators |
-| **Thermal & CFD** | lumped parameter 1D-RC solver, PyFluent (`ansys.fluent.core`) Bridge |
-| **Climate API** | Open-Meteo REST API, Swiss Ephemeris (`pyswisseph`) |
-| **Backend** | Python 3.12, Flask, Flask-CORS |
+| **Studio** | Vanilla JS, Instrument Serif and Manrope (stored locally), Leaflet (stored locally), Three.js |
+| **Engine** | Plain JavaScript: multi-room 5R1C heat balance, LU solver, Web Worker search, Monte Carlo |
+| **Climate** | NASA POWER climatology (stored), Open-Meteo elevation for map points |
+| **Checks** | Node's built-in test runner; Python ISO 13790 Annex C parity script |
+| **Legacy back end** | Python, Flask, FreeCAD and Blender scripts (not needed by the studio) |
 
 ---
 

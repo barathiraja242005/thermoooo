@@ -1,0 +1,2 @@
+// Written by scripts/check_engine_parity.py
+window.TB_PARITY = {"worst": 0.205, "cases": 4, "passed": true, "rows": [{"site": "leh", "wall": "mud_brick", "max_diff_K": 0.088, "mean_engine": 0.34, "mean_iso": 0.36}, {"site": "dras", "wall": "rammed_earth", "max_diff_K": 0.061, "mean_engine": -3.92, "mean_iso": -3.91}, {"site": "leh", "wall": "conc_block", "max_diff_K": 0.205, "mean_engine": -7.76, "mean_iso": -7.76}, {"site": "chennai", "wall": "cavity_brick", "max_diff_K": 0.07, "mean_engine": 33.51, "mean_iso": 33.51}]};

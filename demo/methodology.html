@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThermaBuild Method</title>
+  <meta name="description" content="How ThermaBuild computes indoor temperatures: climate data, the multi-room heat-balance network, the design search, safety checks, uncertainty, verification and limits.">
+  <meta name="theme-color" content="#F7F7F4">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="assets/vendor/fonts/fonts.css">
+  <link rel="stylesheet" href="css/site.css?v=14">
+  <style>
+    .m-header { position: sticky; top: 0; z-index: 20; background: rgba(247, 247, 244, .88); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+    .m-header .container { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
+    .m-brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--display); font-size: 1.45rem; }
+    .m-brand svg { width: 26px; height: 26px; }
+    .m-hero { padding: clamp(48px, 7vw, 90px) 0 24px; }
+    .m-hero h1 { font-size: clamp(2.6rem, 5.6vw, 4.6rem); max-width: 16ch; }
+    .m-hero p { color: var(--ink-2); max-width: 66ch; margin-top: 16px; font-size: 1.05rem; }
+    .m-proof { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 30px; }
+    .m-proof div { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+    .m-proof dt { font-size: .8rem; color: var(--ink-3); }
+    .m-proof dd { font-family: var(--display); font-size: 2rem; line-height: 1.1; }
+    .m-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 40px; padding: 30px 0 80px; }
+    .m-toc { position: sticky; top: 90px; align-self: start; display: grid; gap: 4px; font-size: .88rem; }
+    .m-toc a { text-decoration: none; color: var(--ink-2); padding: 5px 10px; border-radius: 8px; }
+    .m-toc a:hover { background: var(--paper-2); color: var(--ink); }
+    .m-sec { padding: 28px 0; border-top: 1px solid var(--line); }
+    .m-sec:first-child { border-top: 0; padding-top: 0; }
+    .m-sec h2 { font-size: clamp(1.9rem, 3vw, 2.5rem); margin-bottom: 12px; }
+    .m-sec h3 { font-size: 1.35rem; margin: 22px 0 8px; }
+    .m-sec p, .m-sec li { color: var(--ink-2); max-width: 78ch; line-height: 1.65; }
+    .m-sec ul.dots { list-style: disc; padding-left: 20px; display: grid; gap: 4px; }
+    .m-sec p + p { margin-top: 10px; }
+    .eq { display: block; margin: 14px 0; padding: 14px 18px; background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow-x: auto; font-size: 1.12rem; }
+    .eq math { font-size: 1.1em; }
+    .eq small { display: block; font-size: .8rem; color: var(--ink-3); margin-top: 6px; font-family: var(--body); }
+    .net { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin: 16px 0; }
+    .net svg { width: 100%; height: auto; display: block; }
+    .net text { font-family: var(--body); font-size: 13px; fill: var(--ink); }
+    .net .lbl { font-size: 11.5px; fill: var(--ink-2); }
+    .net .res { fill: #fff; stroke: var(--ink); stroke-width: 1.5; }
+    .net .wire { stroke: var(--ink); stroke-width: 1.5; fill: none; }
+    .net .node { fill: var(--ember); }
+    .net .bnd { fill: var(--cool); }
+    .m-table { width: 100%; border-collapse: collapse; font-size: .88rem; margin: 12px 0; min-width: 560px; }
+    .m-table th, .m-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .m-table thead th { font-size: .76rem; color: var(--ink-3); font-weight: 600; }
+    .m-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .pass { color: var(--ok); font-weight: 700; } .fail { color: #B3261E; font-weight: 700; }
+    .tests { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 20px; font-size: .84rem; margin: 10px 0; }
+    .tests li { color: var(--ink-2); padding-left: 20px; position: relative; list-style: none; }
+    .tests li::before { content: "✓"; position: absolute; left: 0; color: var(--ok); font-weight: 700; }
+    .tests li.bad::before { content: "✕"; color: #B3261E; }
+    .drive { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 22px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 22px; margin-top: 14px; }
+    .drive .controls { display: grid; gap: 16px; align-content: start; }
+    .drive-out { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .drive-out div { background: var(--paper); border-radius: 12px; padding: 12px; }
+    .drive-out dt { font-size: .76rem; color: var(--ink-3); }
+    .drive-out dd { font-family: var(--display); font-size: 1.7rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .drive-out .cool dd { color: var(--cool); } .drive-out .hot dd { color: var(--hot); }
+    .toggle-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .run-btn-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+    #live-checks { font-size: .86rem; color: var(--ink-2); }
+    @media (max-width: 900px) { .m-layout { grid-template-columns: 1fr; } .m-toc { position: static; grid-template-columns: repeat(2, 1fr); } .m-proof { grid-template-columns: 1fr 1fr; } .drive { grid-template-columns: 1fr; } .tests { grid-template-columns: 1fr; } }
+    @media (max-width: 520px) { .drive-out { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="paper" aria-hidden="true"><div class="paper-grid"></div></div>
+  <header class="m-header">
+    <div class="container">
+      <a class="m-brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 19 12 9l6 6.5L22 12l7 7" fill="none" stroke="#E4572E" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M19 19h4v4h-4z" fill="#E4572E"/></svg>ThermaBuild</a>
+      <a class="btn btn-ink btn-sm" href="index.html#studio">Back to the studio</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="m-hero">
+      <p class="report-kicker">Method, equations and limits</p>
+      <h1>How every number is calculated.</h1>
+      <p>ThermaBuild does not use lookup tables or a language model to predict comfort. Each home, school, shelter or post is simulated hour by hour through real climate data with a room-by-room heat-balance network. The same engine searches thousands of designs, checks safety, and writes the report. Everything below runs in your browser.</p>
+      <dl class="m-proof" id="proof">
+        <div><dt>Physics checks passing</dt><dd id="p-tests">–</dd></div>
+        <div><dt>Worst hourly gap to ISO 13790 Annex C</dt><dd id="p-parity">–</dd></div>
+        <div><dt>Designs searched per site</dt><dd id="p-grid">–</dd></div>
+        <div><dt>Climate sites stored offline</dt><dd id="p-sites">–</dd></div>
+      </dl>
+    </section>
+
+    <div class="m-layout">
+      <nav class="m-toc" aria-label="On this page">
+        <a href="#data">1. Climate data</a><a href="#weather">2. Hourly weather</a><a href="#network">3. Heat balance</a><a href="#numerics">4. Solving it</a>
+        <a href="#search">5. Design search</a><a href="#safety">6. Safety and comfort</a><a href="#uncertainty">7. Uncertainty</a><a href="#verify">8. Verification</a>
+        <a href="#drive">9. Drive the model</a><a href="#limits">10. Limits</a><a href="#sources">11. Sources</a>
+      </nav>
+      <div>
+        <section class="m-sec" id="data">
+          <h2>1. Climate data</h2>
+          <p>Monthly means for 2001–2020 from the NASA POWER climatology API (MERRA-2 reanalysis and CERES satellite radiation): mean temperature, mean daily range, all-sky and clear-sky daily sunshine on a flat surface, relative humidity and wind at 2 m. Stored in the page so it works offline; any other map point is fetched live.</p>
+          <p>Reanalysis cells average large areas of mountain. The Leh cell sits about 1,000 m above the town, so temperatures are moved to the site's own elevation with the standard lapse rate:</p>
+          <div class="eq"><math display="block"><msub><mi>T</mi><mtext>site</mtext></msub><mo>=</mo><msub><mi>T</mi><mtext>grid</mtext></msub><mo>+</mo><mn>0.0065</mn><mo>·</mo><mo>(</mo><msub><mi>z</mi><mtext>grid</mtext></msub><mo>−</mo><msub><mi>z</mi><mtext>site</mtext></msub><mo>)</mo></math><small>6.5 K per km, the international standard atmosphere. Site elevations for map points come from Open-Meteo.</small></div>
+          <div class="table-scroll"><table class="m-table" id="climate-table"><thead><tr><th>Site</th><th class="num">Site m</th><th class="num">Grid m</th><th class="num">Jan mean</th><th class="num">Jan night low</th><th class="num">Jan sun kWh/m²/day</th><th class="num">Heating degree-days</th></tr></thead><tbody></tbody></table></div>
+        </section>
+
+        <section class="m-sec" id="weather">
+          <h2>2. From monthly means to an hourly design day</h2>
+          <h3>Temperature</h3>
+          <p>The coldest moment is at sunrise and the warmest at 14:00, joined by half-cosines (a standard shape for design days). Mean daily minimum and maximum come from the monthly mean and range. A cold snap lowers both by 8 K for three days and cuts sunshine to 45 %.</p>
+          <h3>Sun</h3>
+          <p>Declination and the equation of time use Spencer's series; sunrise, sunset and every sun angle follow Duffie and Beckman. The day's sunshine is spread over the hours with the Collares-Pereira and Rabl ratio, then split into direct and diffuse with the Erbs correlation:</p>
+          <div class="eq"><math display="block"><msub><mi>r</mi><mi>t</mi></msub><mo>=</mo><mfrac><mi>π</mi><mn>24</mn></mfrac><mo>(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mi>cos</mi><mi>ω</mi><mo>)</mo><mfrac><mrow><mi>cos</mi><mi>ω</mi><mo>−</mo><mi>cos</mi><msub><mi>ω</mi><mi>s</mi></msub></mrow><mrow><mi>sin</mi><msub><mi>ω</mi><mi>s</mi></msub><mo>−</mo><msub><mi>ω</mi><mi>s</mi></msub><mi>cos</mi><msub><mi>ω</mi><mi>s</mi></msub></mrow></mfrac></math><small>ω is the hour angle and ω<sub>s</sub> the sunset hour angle. The hourly values are renormalised so that each day adds back up to the NASA POWER total exactly.</small></div>
+          <p>Sun on each wall and on the roof uses the isotropic-sky model with ground reflection (albedo 0.3 when the month averages below −2 °C, for patchy snow). The building can be rotated; the search tries ±20°.</p>
+          <div class="eq"><math display="block"><msub><mi>I</mi><mi>β</mi></msub><mo>=</mo><msub><mi>I</mi><mi>b</mi></msub><mi>cos</mi><mi>θ</mi><mo>+</mo><msub><mi>I</mi><mi>d</mi></msub><mfrac><mrow><mn>1</mn><mo>+</mo><mi>cos</mi><mi>β</mi></mrow><mn>2</mn></mfrac><mo>+</mo><mi>I</mi><msub><mi>ρ</mi><mi>g</mi></msub><mfrac><mrow><mn>1</mn><mo>−</mo><mi>cos</mi><mi>β</mi></mrow><mn>2</mn></mfrac></math></div>
+          <h3>Night sky</h3>
+          <p>A clear high-altitude sky is far colder than the air. Roofs lose heat to it all night. Sky temperature follows Swinbank, blended toward air temperature by the cloud fraction implied by the all-sky to clear-sky sunshine ratio:</p>
+          <div class="eq"><math display="block"><msub><mi>T</mi><mtext>sky</mtext></msub><mo>=</mo><msup><mrow><mo>[</mo><mi>c</mi><msubsup><mi>T</mi><mi>a</mi><mn>4</mn></msubsup><mo>+</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>c</mi><mo>)</mo><msup><mrow><mo>(</mo><mn>0.0552</mn><msubsup><mi>T</mi><mi>a</mi><mn>1.5</mn></msubsup><mo>)</mo></mrow><mn>4</mn></msup><mo>]</mo></mrow><mrow><mn>1</mn><mo>/</mo><mn>4</mn></mrow></msup></math><small>Temperatures in kelvin.</small></div>
+          <h3>Thin air</h3>
+          <div class="eq"><math display="block"><mi>ρ</mi><mo>(</mo><mi>z</mi><mo>)</mo><mo>=</mo><mn>1.225</mn><mspace width="0.2em"/><msup><mi>e</mi><mrow><mo>−</mo><mi>z</mi><mo>/</mo><mn>8434</mn></mrow></msup></math><small>At 3,500 m the air is about 66 % as dense, so each air change carries away a third less heat than at sea level.</small></div>
+        </section>
+
+        <section class="m-sec" id="network">
+          <h2>3. The heat balance, room by room</h2>
+          <p>Each room is the five-resistance, one-capacitance network of ISO 13790 (kept in ISO 52016-1 as the simple hourly method). Rooms are joined through their internal walls and doorways, so a sunny south bedroom and a north store are simulated separately.</p>
+          <figure class="net" aria-label="Diagram of the room network">
+            <svg viewBox="0 0 800 270" role="img" aria-label="Five-resistance one-capacitance network: outdoor air, ventilation to the air node, air to surface node, windows from surface to outdoors, surface to mass node, mass node to sol-air temperature, mass capacity">
+              <path class="wire" d="M60 40 H170 M230 40 H330"/><rect class="res" x="170" y="30" width="60" height="20" rx="3"/><text x="200" y="22" text-anchor="middle" class="lbl">H_ve: air changes, ρ at altitude</text>
+              <circle class="bnd" cx="50" cy="40" r="9"/><text x="50" y="70" text-anchor="middle" class="lbl">θe outdoor</text>
+              <circle class="node" cx="340" cy="40" r="10"/><text x="358" y="36">θair</text><text x="358" y="54" class="lbl">½ internal gains</text>
+              <path class="wire" d="M340 50 V85 M340 125 V150"/><rect class="res" x="330" y="85" width="20" height="40" rx="3"/><text x="320" y="110" text-anchor="end" class="lbl">H_tr,is = 3.45·A_t</text>
+              <circle class="node" cx="340" cy="160" r="10"/><text x="352" y="146">θs</text><text x="328" y="186" text-anchor="end" class="lbl">sun through glass + ½ internal gains</text>
+              <path class="wire" d="M330 160 H230 M170 160 H60"/><rect class="res" x="170" y="150" width="60" height="20" rx="3"/><text x="200" y="142" text-anchor="middle" class="lbl">H_tr,w: windows, shutters at night</text><circle class="bnd" cx="50" cy="160" r="9"/><text x="50" y="146" text-anchor="middle" class="lbl">θe</text>
+              <path class="wire" d="M350 160 H440 M500 160 H560"/><rect class="res" x="440" y="150" width="60" height="20" rx="3"/><text x="470" y="142" text-anchor="middle" class="lbl">H_tr,ms = 9.1·A_m</text>
+              <circle class="node" cx="570" cy="160" r="10"/><text x="570" y="140" text-anchor="middle">θm</text>
+              <path class="wire" d="M580 160 H640 M700 160 H735"/><rect class="res" x="640" y="150" width="60" height="20" rx="3"/><text x="670" y="142" text-anchor="middle" class="lbl">H_tr,em</text><circle class="bnd" cx="745" cy="160" r="9"/><text x="745" y="190" text-anchor="middle" class="lbl">sol-air,</text><text x="745" y="205" text-anchor="middle" class="lbl">ground</text>
+              <path class="wire" d="M570 170 V205 M552 205 H588 M552 213 H588 M570 213 V240"/><text x="544" y="213" text-anchor="end" class="lbl">C_m: inner layers (ISO 13786)</text>
+              <path class="wire" d="M340 170 V240 H300"/><text x="292" y="244" text-anchor="end" class="lbl">to the next room's θs, through the internal wall</text>
+            </svg>
+          </figure>
+          <div class="eq"><math display="block"><msub><mi>C</mi><mi>m</mi></msub><mfrac><mrow><mi>d</mi><msub><mi>θ</mi><mi>m</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><msub><mi>H</mi><mrow><mtext>tr,ms</mtext></mrow></msub><mo>(</mo><msub><mi>θ</mi><mi>s</mi></msub><mo>−</mo><msub><mi>θ</mi><mi>m</mi></msub><mo>)</mo><mo>+</mo><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>H</mi><mrow><mtext>em</mtext><mo>,</mo><mi>j</mi></mrow></msub><mo>(</mo><msub><mi>θ</mi><mrow><mtext>sa</mtext><mo>,</mo><mi>j</mi></mrow></msub><mo>−</mo><msub><mi>θ</mi><mi>m</mi></msub><mo>)</mo><mo>+</mo><msub><mi>Φ</mi><mi>m</mi></msub></math></div>
+          <div class="eq"><math display="block"><msub><mi>θ</mi><mrow><mtext>sa</mtext><mo>,</mo><mi>j</mi></mrow></msub><mo>=</mo><msub><mi>θ</mi><mi>e</mi></msub><mo>+</mo><mfrac><mrow><msub><mi>α</mi><mi>j</mi></msub><msub><mi>I</mi><mi>j</mi></msub><mo>−</mo><msub><mi>F</mi><mrow><mtext>sky</mtext><mo>,</mo><mi>j</mi></mrow></msub><msub><mi>h</mi><mi>r</mi></msub><mo>(</mo><msub><mi>θ</mi><mi>e</mi></msub><mo>−</mo><msub><mi>θ</mi><mtext>sky</mtext></msub><mo>)</mo></mrow><msub><mi>h</mi><mtext>se</mtext></msub></mfrac></math><small>Sol-air temperature of each wall and the roof: sun absorbed outside, minus long-wave loss to the sky (h<sub>r</sub> = 4.5, h<sub>se</sub> = 25 W/m²K; F<sub>sky</sub> = 1 for the roof and 0.5 for walls).</small></div>
+          <ul class="dots">
+            <li>U-values from the layers (ISO 6946 surface resistances); areal heat capacity from the inner layers up to 100 mm or the first insulation layer (ISO 13786 simplified); effective mass area A<sub>m</sub> = C<sub>m</sub>²/Σ A<sub>j</sub>κ<sub>j</sub>² (ISO 13790 eq. 65).</li>
+            <li>Floor to ground: ISO 13370 slab-on-ground U-value from the floor area and exposed perimeter, clay soil λ = 1.5 W/mK, to a ground temperature between the annual and monthly mean.</li>
+            <li>Windows: U and g for each glazing, a 25 % frame share, and the ISO 52016 sky-radiation term. Insulated night shutters add R = 0.6 m²K/W from 17:30 to 08:30.</li>
+            <li>Trombe wall: a 300 mm mass wall behind glazing, as two capacitive layers, charged by transmitted sun (τα) and linked to the room's surface node.</li>
+            <li>Ventilation: the chosen air-change rate, scaled by √(0.5 + 0.125·wind), with ρ·c<sub>p</sub> at altitude.</li>
+            <li>Gains: 75 W per person with an occupancy schedule for each building type, appliances and cooking; livestock sensible heat from CIGR (2002), 0.75·1.2·5.6·m<sup>0.75</sup> W a head.</li>
+          </ul>
+        </section>
+
+        <section class="m-sec" id="numerics">
+          <h2>4. Solving it</h2>
+          <p>All rooms form one linear system. It is advanced with backward (implicit) Euler, which is stable at any step, using an LU factorisation that is computed once per matrix (day and night, when shutters change the window conductance). Reports use 15-minute steps after a week of warm-up that starts from the steady state of the first day; the search uses 1-hour steps. Because the network is linear, an ideal heater or cooler is solved exactly by superposing each room's unit response, with an active set for rooms that need no heat.</p>
+          <div class="eq"><math display="block"><mrow><mo>(</mo><mfrac><mi>C</mi><mrow><mi>Δ</mi><mi>t</mi></mrow></mfrac><mo>+</mo><mi>K</mi><mo>)</mo></mrow><msup><mi>θ</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msup><mo>=</mo><mfrac><mi>C</mi><mrow><mi>Δ</mi><mi>t</mi></mrow></mfrac><msup><mi>θ</mi><mi>n</mi></msup><mo>+</mo><msub><mi>H</mi><mi>b</mi></msub><msub><mi>θ</mi><mi>b</mi></msub><mo>+</mo><mi>Φ</mi></math><small>Energy is conserved exactly by construction; the tests check it independently from the returned heat flows.</small></div>
+        </section>
+
+        <section class="m-sec" id="search">
+          <h2>5. The design search</h2>
+          <p>For cold sites, every combination below is simulated free-running through the coldest month's design night. The best 60 designs are then re-run at four other orientations.</p>
+          <div class="table-scroll"><table class="m-table" id="grid-table"><thead><tr><th>Variable</th><th>Options</th></tr></thead><tbody></tbody></table></div>
+          <ul class="dots">
+            <li><b>Fresh air is never traded away.</b> If a design is more airtight than people and the stove need (at least 0.5 air changes an hour with a stove, and enough to hold CO₂ at 1,400 ppm), it gets a sized vent. It is never simulated below the limit.</li>
+            <li><b>Mould risk rejects a design.</b> The inside of the outer wall is checked at the coldest hour, with indoor humidity from the moisture people produce diluted by the fresh air (ISO 13788). If surface humidity reaches 80 %, the design is dropped.</li>
+            <li>Survivors form a Pareto front on dawn temperature, envelope cost and embodied carbon. <b>Recommended</b> is the cheapest design within 1.5 °C of the warmest; <b>Budget</b> is the cheapest that closes half the gap from an ordinary build; <b>Warmest</b> is the warmest.</li>
+            <li>Picks use materials a local mason can source. Straw bale is reported separately because bales compete with winter fodder.</li>
+          </ul>
+        </section>
+
+        <section class="m-sec" id="safety">
+          <h2>6. Safety and comfort</h2>
+          <ul class="dots">
+            <li><b>CO₂:</b> steady state with 0.0052 L/s per sedentary adult and 420 ppm outdoors.</li>
+            <li><b>Carbon monoxide, worst case:</b> the steady-state level if the heating came from a kerosene heater with no flue, at an assumed 50 mg CO per MJ of fuel, compared with the WHO 24-hour indoor guideline of 7 mg/m³. The recommendation is always a flued bukhari.</li>
+            <li><b>Condensation and mould:</b> ISO 13788 surface humidity, with the 1.1 safety factor on the vapour excess.</li>
+            <li><b>Cold:</b> free-running cold-snap temperatures against 0, 8 and 14 °C bands; the WHO Housing and Health Guidelines recommend at least 18 °C.</li>
+            <li><b>Comfort:</b> PMV per ISO 7730 (Fanger); 1.5 clo and 1.2 met for a Ladakhi winter evening.</li>
+            <li><b>Livestock:</b> hours below approximate lower critical temperatures (NRC 1981) for adults and newborns; THI (NRC 1971) with the shaded operative temperature for hot sites.</li>
+            <li><b>Fuel:</b> kerosene at 34.5 MJ/L, a 55 % stove, 2.5 kg CO₂ per litre (IPCC 2006).</li>
+          </ul>
+        </section>
+
+        <section class="m-sec" id="uncertainty">
+          <h2>7. Uncertainty</h2>
+          <p>Inputs are never exact. The recommended design is re-run 80 times with seeded random changes: wall and roof U ±8 %, heat capacity ±10 %, air leakage ±30 % (log-normal), internal gains ±20 %, temperature ±1 K and sunshine 80–115 %. The report shades the 10th to 90th percentile band and quotes the likely dawn range. The same inputs always give the same band.</p>
+        </section>
+
+        <section class="m-sec" id="verify">
+          <h2>8. Verification</h2>
+          <h3>Physics checks</h3>
+          <p id="tests-sum">Run <code>node --test demo/js/engine/engine.test.mjs</code> to regenerate.</p>
+          <ul class="tests" id="tests-list"></ul>
+          <h3>Against the ISO 13790 reference procedure</h3>
+          <p>An independent Python script (<code>scripts/check_engine_parity.py</code>) reruns the same inputs through the closed-form Crank–Nicolson equations of ISO 13790 Annex C, written from the standard with no shared code, and compares the air temperature hour by hour.</p>
+          <div class="table-scroll"><table class="m-table" id="parity-table"><thead><tr><th>Case</th><th class="num">Worst hourly gap</th><th class="num">3-day mean, engine</th><th class="num">3-day mean, ISO</th></tr></thead><tbody></tbody></table></div>
+          <h3>Run a check yourself</h3>
+          <p>This runs the full engine for every stored site in your browser and prints how far the energy balance is from closing.</p>
+          <div class="run-btn-row"><button type="button" class="btn btn-ink btn-sm" id="run-checks">Check energy balance at all sites</button><span id="live-checks"></span></div>
+        </section>
+
+        <section class="m-sec" id="drive">
+          <h2>9. Drive the model</h2>
+          <p>Pick a scenario and change the design. Every change re-simulates a week of weather and three nights, room by room.</p>
+          <div class="chip-row" id="scenarios">
+            <button type="button" class="chip active" data-s="leh-home">Leh home</button>
+            <button type="button" class="chip" data-s="dras-school">Dras school</button>
+            <button type="button" class="chip" data-s="pangong-post">Changthang post, 4,250 m</button>
+            <button type="button" class="chip" data-s="kaza-shelter">Kaza relief shelter</button>
+          </div>
+          <div class="drive">
+            <div class="controls">
+              <label class="field"><span class="field-row"><span class="field-label">Wall</span></span>
+                <select class="select" id="d-wall"><option value="mud_brick">Mud brick 450 mm</option><option value="rammed_earth">Rammed earth 450 mm</option><option value="stone">Stone 450 mm</option><option value="conc_block">Concrete block 200 mm</option><option value="cgi_hut">Sheet metal</option></select></label>
+              <label class="field"><span class="field-row"><span class="field-label">Wall insulation</span><output class="field-value" id="d-ins-v">100 mm</output></span><input type="range" class="range" id="d-ins" min="0" max="200" step="25" value="100"></label>
+              <label class="field"><span class="field-row"><span class="field-label">South glass</span><output class="field-value" id="d-wwr-v">35 %</output></span><input type="range" class="range" id="d-wwr" min="5" max="60" step="5" value="35"></label>
+              <label class="field"><span class="field-row"><span class="field-label">Air changes per hour</span><output class="field-value" id="d-ach-v">0.6</output></span><input type="range" class="range" id="d-ach" min="0.3" max="3" step="0.1" value="0.6"></label>
+              <div class="toggle-row"><button type="button" class="chip active" id="d-trombe" aria-pressed="true">Trombe wall</button><button type="button" class="chip active" id="d-shut" aria-pressed="true">Night shutters</button><button type="button" class="chip active" id="d-roof" aria-pressed="true">Insulated roof</button><button type="button" class="chip" id="d-snap" aria-pressed="false">Cold snap</button></div>
+            </div>
+            <div>
+              <dl class="drive-out"><div class="cool"><dt>Coldest hour inside</dt><dd id="d-min">–</dd></div><div class="hot"><dt>Ordinary build</dt><dd id="d-base">–</dd></div><div><dt>Coldest outdoors</dt><dd id="d-out">–</dd></div></dl>
+              <div class="chart" id="d-chart" style="height:260px" role="img" aria-label="Indoor temperature over three nights"></div>
+              <p class="best-note" id="d-note"></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="m-sec" id="limits">
+          <h2>10. Limits</h2>
+          <ul class="dots">
+            <li>Weather is a synthetic design day built from 20-year monthly means, not a measured year. Real cold spells can be longer and colder than the modelled snap.</li>
+            <li>Satellite sunshine for high mountains can read low when snow is mistaken for cloud. If so, our warmth figures err on the cautious side.</li>
+            <li>The engine has not yet been calibrated against measured temperatures from Ladakhi buildings. That is the next step, and we would welcome logged data from DIHAR, LEDeG or GERES houses. Until then, it is verified for physics and for agreement with the ISO reference method, not against the field.</li>
+            <li>Air moves between rooms by a fixed doorway exchange; there is no CFD, and nothing on warm air collecting under the ceiling.</li>
+            <li>There is no moisture storage in walls, no freezing of damp earth walls, and no snow load on the roof.</li>
+            <li>Costs are indicative Leh-area figures for comparing options, not quotes. Livestock critical temperatures are approximate literature values.</li>
+            <li>A local engineer should check structure, earthquake safety (Ladakh is in seismic zone IV to V) and the fire safety of the stove and flue before anything is built.</li>
+          </ul>
+        </section>
+
+        <section class="m-sec" id="sources">
+          <h2>11. Sources</h2>
+          <ul class="dots">
+            <li>NASA POWER climatology API v2, MERRA-2 and CERES, 2001–2020 (power.larc.nasa.gov). Elevation for map points: Open-Meteo elevation API (Copernicus DEM).</li>
+            <li>ISO 13790:2008 and ISO 52016-1:2017, simple hourly method; ISO 6946; ISO 13786; ISO 13370; ISO 13788; ISO 7730.</li>
+            <li>Duffie and Beckman, Solar Engineering of Thermal Processes, 4th ed.; Spencer (1971); Collares-Pereira and Rabl (1979); Erbs, Klein and Duffie (1982); Swinbank (1963).</li>
+            <li>CIBSE Guide A (2015) and ASHRAE Fundamentals (2021) material properties; Minke, Building with Earth (2012); ICE database v3.0 (embodied carbon).</li>
+            <li>WHO guidelines for indoor air quality: selected pollutants (2010); WHO Housing and Health Guidelines (2018); ASHRAE 62.1 (CO₂ generation).</li>
+            <li>CIGR (2002) heat and moisture production of livestock; NRC (1981) Effect of Environment on Nutrient Requirements of Domestic Animals; NRC (1971) THI.</li>
+            <li>IPCC 2006 Guidelines, stationary combustion emission factors.</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="data/climate.js"></script>
+  <script src="data/test-results.js"></script>
+  <script src="data/parity.js"></script>
+  <script src="js/engine/materials.js"></script>
+  <script src="js/engine/climate.js"></script>
+  <script src="js/engine/thermal.js"></script>
+  <script src="js/engine/design.js"></script>
+  <script src="js/engine/safety.js"></script>
+  <script src="js/engine/optimise.js"></script>
+  <script src="js/engine/analyse.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    const $ = (id) => document.getElementById(id);
+    const fmtT = (x) => `${x < 0 ? '−' : ''}${Math.abs(x).toFixed(1)} °C`;
+    const T = window.TB_TESTS, P = window.TB_PARITY;
+    $('p-tests').textContent = T ? `${T.passed}/${T.total}` : '–';
+    $('p-parity').textContent = P ? `${P.worst.toFixed(2)} °C` : '–';
+    $('p-grid').textContent = (TB.optimise.gridSize()).toLocaleString('en-IN');
+    const sites = TB_CLIMATE.sites; $('p-sites').textContent = Object.keys(sites).length;
+    $('climate-table').tBodies[0].innerHTML = Object.entries(sites).map(([k, c]) => { const d = TB.climate.degreeDays(k); return `<tr><td>${c.name}</td><td class="num">${c.elev_m.toLocaleString('en-IN')}</td><td class="num">${Math.round(c.grid_elev_m).toLocaleString('en-IN')}</td><td class="num">${fmtT(c.t_mean[0])}</td><td class="num">${fmtT(c.t_min[0])}</td><td class="num">${c.ghi_kwh[0].toFixed(2)}</td><td class="num">${Math.round(d.hdd).toLocaleString('en-IN')}</td></tr>`; }).join('');
+    const G = TB.optimise.GRID, M = TB.materials;
+    $('grid-table').tBodies[0].innerHTML = [
+      ['Wall system and insulation', G.wallIns.map(([w, i]) => `${M.WALLS[w].label}${i ? ` + ${i * 1000} mm` : ''}`).join(', ')],
+      ['Roof', G.roof.map((r) => M.ROOFS[r].label).join(', ')], ['Glazing', G.glazing.map((g) => M.GLAZING[g].label).join(', ')],
+      ['South wall that is glass', G.wwrS.map((x) => `${x * 100} %`).join(', ')], ['Trombe wall', 'No, yes'], ['Airtightness (air changes an hour)', G.airtight.join(', ')],
+      ['Plan length : depth', G.aspect.join(', ')], ['Night shutters', 'No, yes'], ['Orientation (best 60 only)', '−20°, −10°, 0°, +10°, +20°'],
+    ].map(([a, b]) => `<tr><th scope="row">${a}</th><td>${b}</td></tr>`).join('') + `<tr><th scope="row">Total</th><td><b>${TB.optimise.gridSize().toLocaleString('en-IN')}</b> designs plus 240 orientation runs</td></tr>`;
+    if (T) { $('tests-sum').innerHTML = `<b class="${T.passed === T.total ? 'pass' : 'fail'}">${T.passed} of ${T.total} passing</b>, run with Node ${T.node} on ${new Date(T.at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}. Regenerate with <code>node --test demo/js/engine/engine.test.mjs</code>.`; $('tests-list').innerHTML = T.results.map((r) => `<li class="${r.ok ? '' : 'bad'}">${r.name}</li>`).join(''); }
+    if (P) $('parity-table').tBodies[0].innerHTML = P.rows.map((r) => `<tr><td>${TB_CLIMATE.sites[r.site].name}, ${M.WALLS[r.wall].label.toLowerCase()}</td><td class="num">${r.max_diff_K.toFixed(2)} K</td><td class="num">${fmtT(r.mean_engine)}</td><td class="num">${fmtT(r.mean_iso)}</td></tr>`).join('');
+
+    $('run-checks').addEventListener('click', () => {
+      const out = [];
+      const v = { wall: 'mud_brick', ins: 0.1, roof: 'mud_poplar_ins', floor: 'earth_ins', glazing: 'double_lowe', wwrS: 0.35, trombe: true, ach: 0.6, shutters: true, aspect: 1.6 };
+      const t0 = performance.now();
+      Object.keys(sites).forEach((k) => {
+        const wx = TB.climate.weather({ site: k, month: 0, days: 8, dt: 900 });
+        const r = TB.thermal.simulate(TB.design.spec(v, { area: 100, type: 'home', layout: TB.design.layout({ width: 12.6, depth: 7.9, bedrooms: 2 }) }), wx, { reportDays: 3 });
+        const f = r.flowsKWh, bal = f.windows + f.walls + f.roof + f.floor + f.vent + f.sky + f.solarOpaque + f.trombeGlass + f.solarWin + f.solarTrombe + f.internal + f.heater + f.cooler - f.stored;
+        out.push(`${sites[k].name.split(',')[0]} ${Math.abs(bal).toExponential(1)} kWh`);
+      });
+      $('live-checks').textContent = `Imbalance over three days, five rooms each: ${out.join(' · ')} (${Math.round(performance.now() - t0)} ms).`;
+    });
+
+    // ---------- drive the model ----------
+    const SC = {
+      'leh-home': { site: 'leh', type: 'home', area: 100 }, 'dras-school': { site: 'dras', type: 'school', area: 120 },
+      'pangong-post': { site: 'pangong', type: 'post', area: 50 }, 'kaza-shelter': { site: 'spiti', type: 'shelter', area: 60 },
+    };
+    let sc = SC['leh-home'];
+    const state = () => ({ wall: $('d-wall').value, ins: +$('d-ins').value / 1000, roof: $('d-roof').classList.contains('active') ? 'mud_poplar_ins' : 'mud_poplar', floor: 'earth_ins', glazing: 'double_lowe', wwrS: +$('d-wwr').value / 100, trombe: $('d-trombe').classList.contains('active'), ach: +$('d-ach').value, shutters: $('d-shut').classList.contains('active'), aspect: 1.6 });
+    function chart(el, t, lines) {
+      const W = el.clientWidth || 600, H = el.clientHeight || 260, m = { t: 12, r: 10, b: 22, l: 34 };
+      const all = lines.flatMap((l) => Array.from(l.y)); const y0 = Math.floor(Math.min(...all) - 2), y1 = Math.ceil(Math.max(...all) + 2);
+      const X = (i) => m.l + (i / (t - 1)) * (W - m.l - m.r), Y = (v) => m.t + (1 - (v - y0) / (y1 - y0)) * (H - m.t - m.b);
+      const ticks = []; for (let v = Math.ceil(y0 / 5) * 5; v <= y1; v += 5) ticks.push(v);
+      el.innerHTML = `<svg viewBox="0 0 ${W} ${H}"><g class="grid">${ticks.map((v) => `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}"/>`).join('')}</g><g class="axis">${ticks.map((v) => `<text x="${m.l - 6}" y="${Y(v) + 4}" text-anchor="end">${v}°</text>`).join('')}</g>${lines.map((l) => `<path class="series ${l.cls}" d="${Array.from(l.y).map((v, i) => `${i ? 'L' : 'M'}${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join('')}"/>`).join('')}</svg>`;
+    }
+    function run() {
+      $('d-ins-v').textContent = `${$('d-ins').value} mm`; $('d-wwr-v').textContent = `${$('d-wwr').value} %`; $('d-ach-v').textContent = (+$('d-ach').value).toFixed(1);
+      const snap = $('d-snap').classList.contains('active'), v = state();
+      const ctx = Object.assign({ month: TB.climate.season(sc.site).month }, sc);
+      const lay = TB.design.layout(Object.assign(TB.design.footprint(sc.area, 1.6), { bedrooms: 2 }));
+      const t0 = performance.now();
+      const wx = TB.climate.weather({ site: sc.site, month: ctx.month, days: 10, dt: 900, coldSnap: snap });
+      const sp = TB.design.spec(v, { area: sc.area, type: sc.type, layout: lay }); sp.ach = Math.max(v.ach, TB.optimise.requiredACH(sc.type, sp.occupants, sp.area * 2.7));
+      const r = TB.thermal.simulate(sp, wx, { reportDays: 3 });
+      const bsp = TB.design.spec(TB.design.BASELINE[sc.type], { area: sc.area, type: sc.type, layout: TB.design.layout(Object.assign(TB.design.footprint(sc.area, 1.6), { bedrooms: 2 })) });
+      const b = TB.thermal.simulate(bsp, wx, { reportDays: 3 });
+      const ms = performance.now() - t0;
+      $('d-min').textContent = fmtT(r.minOp); $('d-base').textContent = fmtT(b.minOp); $('d-out').textContent = fmtT(Math.min(...r.series.te));
+      chart($('d-chart'), r.series.hour.length, [{ y: r.series.te, cls: 's-out' }, { y: b.series.wholeOp, cls: 's-base' }, { y: r.series.wholeOp, cls: 's-opt' }]);
+      const need = TB.optimise.requiredACH(sc.type, sp.occupants, sp.area * 2.7);
+      const sc2 = TB.safety.surfaceCheck(sp.wall.U, TB.design.TYPES[sc.type].setpoint || 12, Math.min(...r.series.te), TB.climate.site(sc.site).rh[ctx.month], 3, TB.safety.moisture(sp.occupants, sc.type), Math.max(v.ach, need) * sp.area * 2.7);
+      $('d-note').innerHTML = `${TB.climate.site(sc.site).name}, ${TB.analyse.MONTHS[ctx.month]}, ${sp.occupants} people, ${lay.zones.length} rooms. Simulated in ${Math.round(ms)} ms. ${v.ach < need - 1e-9 ? `Fresh air raised from ${v.ach.toFixed(1)} to ${need.toFixed(2)} air changes an hour with a sized vent, as the studio does. ` : ''}${sc2.mould ? '<b class="fail">Mould risk on the inside of the walls: the search would reject this design.</b>' : `Inside wall surface ${fmtT(sc2.tsi)} at the coldest hour, ${Math.round(sc2.rhs)} % surface humidity.`}`;
+    }
+    document.querySelectorAll('#scenarios .chip').forEach((c) => c.addEventListener('click', () => { document.querySelectorAll('#scenarios .chip').forEach((x) => x.classList.toggle('active', x === c)); sc = SC[c.dataset.s]; run(); }));
+    ['d-wall', 'd-ins', 'd-wwr', 'd-ach'].forEach((id) => $(id).addEventListener('input', run));
+    ['d-trombe', 'd-shut', 'd-roof', 'd-snap'].forEach((id) => $(id).addEventListener('click', () => { const b = $(id); b.classList.toggle('active'); b.setAttribute('aria-pressed', b.classList.contains('active')); run(); }));
+    run();
+  })();
+  </script>
+</body>
+</html>
