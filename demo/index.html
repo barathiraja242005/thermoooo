@@ -5,17 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ThermaBuild — Climate-responsive home design</title>
   <meta name="description" content="Pick a site anywhere in India. ThermaBuild reads its sun, wind and temperature, suggests a plan and materials, and shows how the home will perform before it is built.">
-  <meta name="theme-color" content="#F7F7F4">
+  <meta name="theme-color" content="#F8F7FB">
+  <script>try{var t=new URLSearchParams(location.search).get('theme')||localStorage.getItem('tb-theme');if(t&&t!=='iris')document.documentElement.dataset.theme=t;}catch(e){}</script>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="apple-touch-icon" href="assets/thermabuild_logo.png">
+  <link rel="apple-touch-icon" href="assets/touch-icon.png">
 
-  <link rel="stylesheet" href="assets/vendor/fonts/fonts.css">
+  <link rel="preload" href="assets/vendor/fonts/IBMPlexSans-300-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/vendor/fonts/Fraunces-300-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/vendor/fonts/fonts.css?v=3">
 
   <link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css">
   <script src="assets/vendor/leaflet/leaflet.js" defer></script>
   <script src="assets/three.min.js" defer></script>
 
-  <link rel="stylesheet" href="css/site.css?v=15">
+  <link rel="stylesheet" href="css/site.css?v=27">
 </head>
 <body>
 
@@ -34,8 +37,8 @@
     <div class="header-inner">
       <a href="#top" class="brand" aria-label="ThermaBuild home">
         <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
-          <path d="M3 19 12 9l6 6.5L22 12l7 7" fill="none" stroke="var(--ember)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
-          <path d="M19 19h4v4h-4z" fill="var(--ember)"/>
+          <path d="M3 19 12 9l6 6.5L22 12l7 7" fill="none" stroke="var(--brand)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+          <path d="M19 19h4v4h-4z" fill="var(--brand)"/>
         </svg>
         <span class="brand-name">ThermaBuild</span>
       </a>
@@ -52,7 +55,7 @@
         <span class="header-status-step" id="header-status-step">Step 1 of 5</span>
       </div>
 
-      <a href="#studio" class="btn btn-ember header-cta" id="header-cta">Start designing</a>
+      <a href="#paths" class="btn btn-primary header-cta" id="header-cta">Start designing</a>
 
       <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">
         <span></span><span></span>
@@ -77,7 +80,7 @@
           </h1>
           <p class="hero-lead load-in" style="--d:4">Walls that soak up winter sun by day and release it after dark. Pick a cold site and see how warm your home stays, before you build.</p>
           <div class="hero-actions load-in" style="--d:5">
-            <a href="#paths" class="btn btn-ember btn-lg">Start designing</a>
+            <a href="#paths" class="btn btn-primary btn-lg">Start designing</a>
             <a href="#how" class="btn btn-line btn-lg">See how it works</a>
           </div>
           <div class="hero-starts load-in" style="--d:6">
@@ -162,14 +165,36 @@
       <div class="container">
         <div class="climates-head reveal">
           <h2 id="climates-title" class="section-title">From −28 °C in Dras to 46 °C in Jaisalmer.</h2>
-          <p class="section-lead">One house design can't serve all of India. Each thermometer is filled from a place's winter extreme to its summer peak. Pick one to start designing there.</p>
+          <p class="section-lead">One house design can't serve all of India. Each thermometer is filled from a place's winter nights to its summer afternoons; the thin line reaches the extremes of the last ten years. Pick one to start designing there.</p>
         </div>
         <div class="skyline reveal" id="skyline">
-          <div class="sky-plot" id="sky-plot" role="list" aria-label="Yearly temperature range by place, shown as thermometers"></div>
-          <div class="sky-names" id="sky-names" aria-hidden="true"></div>
+          <div class="sky-top">
+            <div class="segmented sky-filter" id="sky-filter" role="group" aria-label="Show places">
+              <button type="button" class="seg active" data-g="all" aria-pressed="true">All places <span></span></button>
+              <button type="button" class="seg" data-g="cold" aria-pressed="false">Cold regions <span></span></button>
+              <button type="button" class="seg" data-g="city" aria-pressed="false">Cities <span></span></button>
+            </div>
+            <div class="sky-nav">
+              <button type="button" class="sky-arrow" id="sky-prev" aria-label="Scroll places left" aria-controls="sky-scroll"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+              <button type="button" class="sky-arrow" id="sky-next" aria-label="Scroll places right" aria-controls="sky-scroll"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </div>
+          <div class="sky-frame" id="sky-frame">
+            <div class="sky-axis" id="sky-axis" aria-hidden="true"></div>
+            <div class="sky-view">
+              <div class="sky-bg" id="sky-bg" aria-hidden="true"></div>
+              <div class="sky-scroll" id="sky-scroll">
+                <div class="sky-track" id="sky-track" role="list" aria-label="Places by yearly temperature range, shown as thermometers"></div>
+              </div>
+              <span class="sky-fade sky-fade-l" aria-hidden="true"></span>
+              <span class="sky-fade sky-fade-r" aria-hidden="true"></span>
+            </div>
+          </div>
+          <div class="sky-progress" aria-hidden="true"><span id="sky-thumb"></span></div>
+          <div class="sky-read" id="sky-read" aria-live="polite"></div>
           <div class="sky-foot">
-            <p class="sky-legend"><i class="sky-key sky-key-lo"></i>Winter extreme <i class="sky-key sky-key-hi"></i>Summer peak <i class="sky-key sky-key-band"></i>Comfortable indoors, 22–27 °C</p>
-            <p class="sky-hint" id="sky-hint">Hover a thermometer for its numbers. Click one to design there.</p>
+            <p class="sky-legend"><i class="sky-key sky-key-lo"></i>Winter nights <i class="sky-key sky-key-hi"></i>Summer afternoons <i class="sky-key sky-key-rec"></i>10-year extremes <i class="sky-key sky-key-band"></i>Comfortable indoors, 22–27 °C</p>
+            <p class="sky-src">ERA5 reanalysis, 2014–2023</p>
           </div>
         </div>
       </div>
@@ -222,6 +247,7 @@
     <!-- ============ STUDIO ============ -->
     <section class="studio" id="studio" aria-labelledby="studio-title">
       <div class="container">
+        <button type="button" class="studio-back" id="studio-back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back to home</button>
         <div class="studio-head">
           <div>
             <h2 id="studio-title" class="section-title">Design studio</h2>
@@ -270,9 +296,14 @@
             <div class="site-grid">
               <div class="site-map-col">
                 <div class="search-row">
-                  <label class="sr-only" for="city-search">Search for a town or city</label>
-                  <input type="search" id="city-search" placeholder="Search a town or city, e.g. Shimla" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();searchCityLocation();}">
-                  <button type="button" class="btn btn-ink" onclick="searchCityLocation()">Search</button>
+                  <div class="place-search" id="place-search">
+                    <label class="sr-only" for="city-search">Search for an address, landmark, PIN code or town</label>
+                    <svg class="ps-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+                    <input type="search" id="city-search" placeholder="Search an address, landmark, PIN code or town" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="place-suggest">
+                    <span class="ps-spin" aria-hidden="true"></span>
+                    <ul class="place-suggest" id="place-suggest" role="listbox" aria-label="Suggested places" hidden></ul>
+                  </div>
+                  <button type="button" class="btn btn-ink" id="city-search-btn">Search</button>
                 </div>
                 <div class="chip-row" id="preset-chips" role="group" aria-label="Example places">
                   <button type="button" class="chip active" data-preset="leh" onclick="selectMapPreset('leh')">Leh</button>
@@ -292,7 +323,18 @@
                   <option value="new_delhi">New Delhi</option><option value="chennai">Chennai</option>
                   <option value="jaisalmer">Jaisalmer</option><option value="bengaluru">Bengaluru</option>
                 </select>
-                <div id="map" class="map" role="application" aria-label="Map. Click to place your site."></div>
+                <div class="map-wrap">
+                  <div id="map" class="map" role="application" aria-label="Map. Click to place your site."></div>
+                  <div class="map-layers" role="group" aria-label="Map style">
+                    <button type="button" class="ml" data-layer="map" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 6 6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg>Map</button>
+                    <button type="button" class="ml active" data-layer="satellite" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 7 4-4 4 4-4 4zM3 17l4-4 4 4-4 4zM8.5 15.5l7-7"/><path d="M14 21a7 7 0 0 0 7-7"/></svg>Satellite</button>
+                  </div>
+                  <div class="map-readout" aria-live="polite">
+                    <span class="mr-pin" aria-hidden="true"></span>
+                    <span class="mr-text"><strong id="map-place">Leh</strong><span id="map-coords">34.1526° N, 77.5771° E</span></span>
+                  </div>
+                  <p class="map-tip" aria-hidden="true">Click anywhere or drag the pin</p>
+                </div>
               </div>
 
               <aside class="climate-card" aria-labelledby="climate-card-title">
@@ -322,7 +364,7 @@
 
             <footer class="panel-actions">
               <span></span>
-              <button type="button" class="btn btn-ember" onclick="proceedToStep2()">Continue to the next step</button>
+              <button type="button" class="btn btn-primary" onclick="proceedToStep2()">Continue to the next step</button>
             </footer>
           </section>
 
@@ -339,14 +381,45 @@
                   <div class="field-row"><span class="field-label">What you're building</span><output class="field-value" id="btype-badge">Family home</output></div>
                   <div class="segmented" id="btype-segmented" role="group" aria-label="Building type">
                     <button type="button" class="seg active" onclick="seg(this); setBuildingType('home')">Home</button>
-                    <button type="button" class="seg" onclick="seg(this); setBuildingType('school')">School</button>
                     <button type="button" class="seg" onclick="seg(this); setBuildingType('shelter')">Relief shelter</button>
                     <button type="button" class="seg" onclick="seg(this); setBuildingType('post')">Border post</button>
                   </div>
                   <p class="field-hint" id="btype-hint">Family home: occupied mostly evenings and nights.</p>
                 </div>
 
-                <div class="field">
+                <div class="field" data-for="shelter" hidden>
+                  <div class="field-row"><label class="field-label" for="shelter-people-slider">People to shelter</label><output class="field-value" id="shelter-people-val">40 people</output></div>
+                  <input type="range" class="range" id="shelter-people-slider" min="10" max="110" step="5" value="40" oninput="setOccupants('shelter', this.value)">
+                  <p class="field-hint" id="shelter-people-hint">4 m² a person, above the Sphere minimum of 3.5 m²: 160 m² of floor.</p>
+                </div>
+
+                <div class="field" data-for="shelter" hidden>
+                  <div class="field-row"><span class="field-label">Sleeping layout</span><output class="field-value" id="shelter-bays-val">Open hall</output></div>
+                  <div class="segmented" role="group" aria-label="Sleeping layout">
+                    <button type="button" class="seg active" onclick="seg(this); setBays('shelter', 1, 'Open hall')">Open hall</button>
+                    <button type="button" class="seg" onclick="seg(this); setBays('shelter', 2, '2 family bays')">2 family bays</button>
+                    <button type="button" class="seg" onclick="seg(this); setBays('shelter', 3, '3 family bays')">3 family bays</button>
+                  </div>
+                  <p class="field-hint">Bays give families privacy; one open hall is quickest to put up and shares heat best.</p>
+                </div>
+
+                <div class="field" data-for="post" hidden>
+                  <div class="field-row"><label class="field-label" for="post-people-slider">Personnel on duty</label><output class="field-value" id="post-people-val">12 people</output></div>
+                  <input type="range" class="range" id="post-people-slider" min="4" max="40" step="1" value="12" oninput="setOccupants('post', this.value)">
+                  <p class="field-hint" id="post-people-hint">5 m² a person for bunks, kit and a stove: 60 m² of floor.</p>
+                </div>
+
+                <div class="field" data-for="post" hidden>
+                  <div class="field-row"><span class="field-label">Bunk rooms</span><output class="field-value" id="post-bays-val">2 rooms</output></div>
+                  <div class="segmented" role="group" aria-label="Bunk rooms">
+                    <button type="button" class="seg" onclick="seg(this); setBays('post', 1, '1 room')">1</button>
+                    <button type="button" class="seg active" onclick="seg(this); setBays('post', 2, '2 rooms')">2</button>
+                    <button type="button" class="seg" onclick="seg(this); setBays('post', 3, '3 rooms')">3</button>
+                  </div>
+                  <p class="field-hint">Bunk rooms sit on the sunny south side; the store and kitchen buffer the north.</p>
+                </div>
+
+                <div class="field" data-for="home">
                   <div class="field-row"><span class="field-label">Home size</span><output class="field-value" id="bhk-badge">2 BHK</output></div>
                   <div class="segmented" id="bhk-segmented" role="group" aria-label="Home size">
                     <button type="button" class="seg" onclick="seg(this); setBHK('1BHK','1 BHK')">1 BHK</button>
@@ -359,7 +432,7 @@
                   </select>
                 </div>
 
-                <div class="field">
+                <div class="field" data-for="home">
                   <div class="field-row"><label class="field-label" for="plot-area-slider">Built-up area</label><output class="field-value" id="area-slider-val">1,200 sq ft (111.5 m²)</output></div>
                   <input type="range" class="range" id="plot-area-slider" min="400" max="5000" step="50" value="1200" oninput="onAreaInput(this.value)">
                   <input type="number" id="plot-area-input" value="1200" hidden>
@@ -416,7 +489,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(1)">Back</button>
-              <button type="button" class="btn btn-ember" onclick="generate2DPlan(); proceedToStep3();">Suggest a plan and materials</button>
+              <button type="button" class="btn btn-primary" onclick="generate2DPlan(); proceedToStep3();">Suggest a plan and materials</button>
             </footer>
           </section>
 
@@ -462,7 +535,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(1)">Back</button>
-              <button type="button" class="btn btn-ember" onclick="updateAnimal2DLayout(); proceedToStep3();">Suggest a shelter plan</button>
+              <button type="button" class="btn btn-primary" onclick="updateAnimal2DLayout(); proceedToStep3();">Suggest a shelter plan</button>
             </footer>
           </section>
 
@@ -546,7 +619,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(2)">Back</button>
-              <button type="button" class="btn btn-ember" onclick="proceedToStep4()">See it in 3D</button>
+              <button type="button" class="btn btn-primary" onclick="proceedToStep4()">See it in 3D</button>
             </footer>
           </section>
 
@@ -599,7 +672,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(2)">Back</button>
-              <button type="button" class="btn btn-ember" onclick="proceedToStep4()">See it in 3D</button>
+              <button type="button" class="btn btn-primary" onclick="proceedToStep4()">See it in 3D</button>
             </footer>
           </section>
 
@@ -700,7 +773,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="navigateStep4Back()">Back</button>
-              <button type="button" class="btn btn-ember" onclick="navigateStep4Next()">Create my report</button>
+              <button type="button" class="btn btn-primary" onclick="navigateStep4Next()">Create my report</button>
             </footer>
           </section>
 
@@ -728,7 +801,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="navigateStep4Back()">Back</button>
-              <button type="button" class="btn btn-ember" onclick="navigateStep4Next()">Create my report</button>
+              <button type="button" class="btn btn-primary" onclick="navigateStep4Next()">Create my report</button>
             </footer>
           </section>
 
@@ -745,7 +818,7 @@
                   <button type="button" class="seg active" data-lang="en">English</button>
                   <button type="button" class="seg" data-lang="hi" lang="hi">हिन्दी</button>
                 </div>
-                <button type="button" class="btn btn-ember" onclick="downloadPDFDossier()">Download report (PDF)</button>
+                <button type="button" class="btn btn-primary" onclick="downloadPDFDossier()">Download report (PDF)</button>
               </div>
             </header>
 
@@ -842,12 +915,6 @@
                 <div id="bom-body"></div>
               </section>
 
-              <section class="rep-card rep-wide" id="rep-build" aria-labelledby="build-title">
-                <div class="rep-card-head"><div><h4 id="build-title" data-i18n="build_title">Build it: steps for the mason</h4><p data-i18n="build_sub">Print these cards for the site.</p></div>
-                  <button type="button" class="btn btn-quiet btn-sm" id="print-cards">Print mason cards</button></div>
-                <div class="mason-grid" id="build-cards"></div>
-              </section>
-
               <section class="rep-card rep-wide rep-method" id="rep-method" aria-labelledby="method-title">
                 <h4 id="method-title" data-i18n="method_title">How this was calculated</h4>
                 <div id="method-body"></div>
@@ -872,7 +939,7 @@
                 <h3 id="a5-title" class="report-title">Heat stress drops from severe to comfortable.</h3>
                 <p class="report-sub">Temperature-humidity index (THI) estimated for a hot afternoon. Below 72 is comfortable for most livestock.</p>
               </div>
-              <button type="button" class="btn btn-ember" onclick="downloadAnimalPDFDossier()">Download report (PDF)</button>
+              <button type="button" class="btn btn-primary" onclick="downloadAnimalPDFDossier()">Download report (PDF)</button>
             </header>
 
             <div class="report-figures">
@@ -991,7 +1058,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(1)">Back</button>
-              <button type="button" class="btn btn-ember" onclick="proceedToStep3()">See it in 3D</button>
+              <button type="button" class="btn btn-primary" onclick="proceedToStep3()">See it in 3D</button>
             </footer>
           </section>
 
@@ -1056,7 +1123,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(1)">Back</button>
-              <button type="button" class="btn btn-ember" onclick="proceedToStep3()">Find the best upgrades</button>
+              <button type="button" class="btn btn-primary" onclick="proceedToStep3()">Find the best upgrades</button>
             </footer>
           </section>
 
@@ -1128,7 +1195,7 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(2)">Back</button>
-              <button type="button" class="btn btn-ember" onclick="proceedToStep4()">See it in 3D</button>
+              <button type="button" class="btn btn-primary" onclick="proceedToStep4()">See it in 3D</button>
             </footer>
           </section>
 
@@ -1157,9 +1224,11 @@
 
   <div class="toast-region" id="toast-region" role="status" aria-live="polite"></div>
 
-  <script src="js/app-core.js?v=5" defer></script>
+  <script src="js/themes.js?v=1" defer></script>
+  <script src="js/app-core.js?v=12" defer></script>
   <script src="js/viewer3d.js?v=1" defer></script>
-  <script src="js/ui.js?v=12" defer></script>
+  <script src="data/places.js?v=2" defer></script>
+  <script src="js/ui.js?v=21" defer></script>
   <script src="data/climate.js?v=1" defer></script>
   <script src="data/test-results.js?v=1" defer></script>
   <script src="data/parity.js?v=1" defer></script>
@@ -1172,10 +1241,12 @@
   <script src="js/engine/analyse.js?v=1" defer></script>
   <script src="js/i18n.js?v=1" defer></script>
   <script src="assets/samples/ladakh_passive_house.dxf.js?v=1" defer></script>
-  <script src="js/plan-import.js?v=1" defer></script>
-  <script src="js/report.js?v=2" defer></script>
+  <script src="js/plan-import.js?v=2" defer></script>
+  <script src="js/report.js?v=7" defer></script>
+  <script src="js/site-search.js?v=4" defer></script>
   <script src="js/tune.js?v=1" defer></script>
-  <script src="js/drawings.js?v=1" defer></script>
-  <script src="js/house3d.js?v=1" defer></script>
+  <script src="js/drawings.js?v=3" defer></script>
+  <script src="js/house3d.js?v=4" defer></script>
+  <script src="js/work-loader.js?v=1" defer></script>
 </body>
 </html>

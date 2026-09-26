@@ -74,7 +74,7 @@
   }
   function spriteText(txt, color) {
     const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d');
-    g.font = '700 72px Manrope, sans-serif'; g.fillStyle = color; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(txt, 64, 68);
+    g.font = '600 72px "IBM Plex Sans", system-ui, sans-serif'; g.fillStyle = color; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(txt, 64, 68);
     const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), depthWrite: false })); s.scale.set(2.2, 2.2, 1); return s;
   }
 
@@ -159,9 +159,9 @@
     const bm = mat({ color: '#4E4C49', flatShading: true });
     for (let i = 0; i < 14; i++) { const a = rnd() * Math.PI * 2, R = 13 + rnd() * 22, s = 0.4 + rnd() * 0.9; const b = new THREE.Mesh(new THREE.DodecahedronGeometry(s, 0), bm); b.position.set(Math.cos(a) * R, s * 0.45, Math.sin(a) * R); b.scale.y = 0.6; b.castShadow = true; b.receiveShadow = true; g.add(b); }
     // compass ring with N E S W
-    const ring = new THREE.Mesh(new THREE.RingGeometry(11.6, 11.75, 96), new THREE.MeshBasicMaterial({ color: '#15171B', transparent: true, opacity: 0.35 })); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.03; g.add(ring);
-    for (let k = 0; k < 36; k++) { const a = (k / 36) * Math.PI * 2, L = k % 9 === 0 ? 0.9 : 0.4; const t = new THREE.Mesh(new THREE.PlaneGeometry(0.06, L), new THREE.MeshBasicMaterial({ color: '#15171B', transparent: true, opacity: 0.4 })); t.rotation.x = -Math.PI / 2; t.rotation.z = -a; t.position.set(Math.sin(a) * (11.7 - L / 2), 0.035, -Math.cos(a) * (11.7 - L / 2)); g.add(t); }
-    [['N', 0, '#E4572E'], ['E', 90, '#15171B'], ['S', 180, '#15171B'], ['W', 270, '#15171B']].forEach(([s, deg, col]) => { const sp = spriteText(s, col); const a = deg * D2R; sp.position.set(Math.sin(a) * 13, 0.9, -Math.cos(a) * 13); g.add(sp); });
+    const ring = new THREE.Mesh(new THREE.RingGeometry(11.6, 11.75, 96), new THREE.MeshBasicMaterial({ color: '#17152A', transparent: true, opacity: 0.35 })); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.03; g.add(ring);
+    for (let k = 0; k < 36; k++) { const a = (k / 36) * Math.PI * 2, L = k % 9 === 0 ? 0.9 : 0.4; const t = new THREE.Mesh(new THREE.PlaneGeometry(0.06, L), new THREE.MeshBasicMaterial({ color: '#17152A', transparent: true, opacity: 0.4 })); t.rotation.x = -Math.PI / 2; t.rotation.z = -a; t.position.set(Math.sin(a) * (11.7 - L / 2), 0.035, -Math.cos(a) * (11.7 - L / 2)); g.add(t); }
+    [['N', 0, window.TBTheme ? TBTheme.shades().brand : '#6D3FE0'], ['E', 90, '#17152A'], ['S', 180, '#17152A'], ['W', 270, '#17152A']].forEach(([s, deg, col]) => { const sp = spriteText(s, col); const a = deg * D2R; sp.position.set(Math.sin(a) * 13, 0.9, -Math.cos(a) * 13); g.add(sp); });
     drawSunPath();
   }
   function drawSunPath() {
@@ -591,6 +591,7 @@
   }
   window.init3DViewer = function () { const c = $('viewer-3d'); if (!c) return; H.loading = load(); return H.loading; };
   window.rebuild3DHouse = function () { if (H.ready) H.loading = load(); };
+  window.addEventListener('thermabuild:theme', () => window.rebuild3DHouse()); // compass colour follows the theme
   window.setViewerMode = function (m) { H.mode = m; if (typeof ThermaState !== 'undefined') ThermaState.viewerMode = m; if (H.ready) applyMode(); };
   window.setSunTime = function (v) { H.time = parseFloat(v); if (H.ready) updateTime(); };
   window.setSeason = function (s) { H.season = s; if (H.ready) updateTime(); };

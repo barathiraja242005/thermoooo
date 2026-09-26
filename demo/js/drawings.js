@@ -24,7 +24,7 @@
     <pattern id="h-steel" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="4" fill="#7E858C"/></pattern>
     <pattern id="h-air" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="4" fill="#F4F8FB"/></pattern>
     <pattern id="h-dark" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="#3A302A"/><line x1="0" y1="0" x2="0" y2="5" stroke="#1C1612" stroke-width="1.5"/></pattern>
-    <marker id="dim-t" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M2 8 L8 2" stroke="#15171B" stroke-width="1.4"/></marker>
+    <marker id="dim-t" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M2 8 L8 2" stroke="#17152A" stroke-width="1.4"/></marker>
     <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="#D9A21B"/></marker>
   </defs>`;
   const hatch = (k) => `url(#h-${PAT[k] || 'plaster'})`;
@@ -89,7 +89,7 @@
       // dimensions and north arrow
       g += dim(X(minX) - wT * k, Y(minY) + wT * k + 10, X(maxX) + wT * k, Y(minY) + wT * k + 10, `${(Wm + 2 * wT).toFixed(2)} m`, 12);
       g += dim(X(minX) - wT * k - 16, Y(maxY) - wT * k, X(minX) - wT * k - 16, Y(minY) + wT * k, `${(Dm + 2 * wT).toFixed(2)} m`, 12, true);
-      g += `<g transform="translate(${bx + bw - 30} ${by + 20})"><circle r="16" class="dw-na"/><path d="M0 -14 L6 8 L0 3 L-6 8z" fill="#E4572E"/><text y="-20" text-anchor="middle" class="dw-small">N</text></g>`;
+      g += `<g transform="translate(${bx + bw - 30} ${by + 20})"><circle r="16" class="dw-na"/><path d="M0 -14 L6 8 L0 3 L-6 8z" style="fill:var(--brand)"/><text y="-20" text-anchor="middle" class="dw-small">N</text></g>`;
       // section line A–A through the largest south room
       const sr = P.polys.map((p, i) => ({ p, i, a: sp.zones[i] ? sp.zones[i].area : 0, s: sp.zones[i] ? sp.zones[i].fac.S : 0 })).filter((r) => r.s > 0).sort((a, b) => b.a - a.a)[0] || { p: P.polys[0] };
       const secX = sr.p.reduce((a, q) => a + q[0], 0) / sr.p.length;
@@ -168,10 +168,10 @@
           const xa = X(s.pa[0] + ux * o.u), xb = X(s.pa[0] + ux * (o.u + o.w)), l = Math.min(xa, xb), w = Math.abs(xb - xa);
           if (o.kind === 'win') {
             if (cold) g += `<path d="M${l - 0.32 * k} ${Yh(pl + P.sill - 0.23)} L${l + w + 0.32 * k} ${Yh(pl + P.sill - 0.23)} L${l + w + 0.18 * k} ${Yh(pl + P.sill + P.winH + 0.18)} L${l - 0.18 * k} ${Yh(pl + P.sill + P.winH + 0.18)}z" fill="#1C1B1A"/><rect x="${l - 0.4 * k}" y="${Yh(pl + P.sill + P.winH + 0.34)}" width="${w + 0.8 * k}" height="${0.12 * k}" fill="#6B4A2B"/>`;
-            g += `<rect x="${l}" y="${Yh(pl + P.sill + P.winH)}" width="${w}" height="${P.winH * k}" fill="#CFE2F2" stroke="#15171B" stroke-width=".8"/><line x1="${l + w / 2}" y1="${Yh(pl + P.sill + P.winH)}" x2="${l + w / 2}" y2="${Yh(pl + P.sill)}" stroke="#15171B" stroke-width=".6"/>`;
+            g += `<rect x="${l}" y="${Yh(pl + P.sill + P.winH)}" width="${w}" height="${P.winH * k}" fill="#CFE2F2" stroke="#17152A" stroke-width=".8"/><line x1="${l + w / 2}" y1="${Yh(pl + P.sill + P.winH)}" x2="${l + w / 2}" y2="${Yh(pl + P.sill)}" stroke="#17152A" stroke-width=".6"/>`;
             if (v.overhang > 0 && face !== 'N') g += `<rect x="${l - 0.3 * k}" y="${Yh(pl + P.sill + P.winH + 0.38)}" width="${w + 0.6 * k}" height="${0.08 * k}" fill="#7A5B3E"/>`;
-          } else if (o.kind === 'trombe') g += `<rect x="${l}" y="${Yh(pl + 2.55)}" width="${w}" height="${2.4 * k}" fill="#2A211C" stroke="#15171B"/><path d="M${l + 4} ${Yh(pl + 2.4)} l${w * 0.3} ${w * 0.3}" stroke="#8FB3D0" stroke-width="1.2" opacity=".7"/>`;
-          else if (o.kind === 'door') g += `<rect x="${l}" y="${Yh(pl + 2.1)}" width="${w}" height="${2.1 * k}" fill="#5A3B22" stroke="#15171B"/>`;
+          } else if (o.kind === 'trombe') g += `<rect x="${l}" y="${Yh(pl + 2.55)}" width="${w}" height="${2.4 * k}" fill="#2A211C" stroke="#17152A"/><path d="M${l + 4} ${Yh(pl + 2.4)} l${w * 0.3} ${w * 0.3}" stroke="#8FB3D0" stroke-width="1.2" opacity=".7"/>`;
+          else if (o.kind === 'door') g += `<rect x="${l}" y="${Yh(pl + 2.1)}" width="${w}" height="${2.1 * k}" fill="#5A3B22" stroke="#17152A"/>`;
         });
       });
       // chimney
@@ -195,9 +195,9 @@
       let g = `<text x="${bx}" y="${by}" class="dw-title">Materials</text>`; let y = by + 18;
       rows.forEach((r) => {
         if (r.t) { g += `<text x="${bx}" y="${y + 10}" class="dw-leg-h">${esc(r.t)}</text>`; y += 16; return; }
-        g += `<rect x="${bx}" y="${y}" width="22" height="11" fill="${hatch(r.key)}" stroke="#15171B" stroke-width=".6"/><text x="${bx + 30}" y="${y + 9.5}" class="dw-leg">${esc(r.name)}, ${Math.round(r.d * 1000)} mm</text>`; y += 15;
+        g += `<rect x="${bx}" y="${y}" width="22" height="11" fill="${hatch(r.key)}" stroke="#17152A" stroke-width=".6"/><text x="${bx + 30}" y="${y + 9.5}" class="dw-leg">${esc(r.name)}, ${Math.round(r.d * 1000)} mm</text>`; y += 15;
       });
-      g += `<rect x="${bx}" y="${y + 2}" width="22" height="11" fill="#CFE2F2" stroke="#15171B" stroke-width=".6"/><text x="${bx + 30}" y="${y + 11.5}" class="dw-leg">${esc(M.GLAZING[v.glazing].label)}, U ${M.GLAZING[v.glazing].U.toFixed(2)}, g ${M.GLAZING[v.glazing].g.toFixed(2)}</text>`;
+      g += `<rect x="${bx}" y="${y + 2}" width="22" height="11" fill="#CFE2F2" stroke="#17152A" stroke-width=".6"/><text x="${bx + 30}" y="${y + 11.5}" class="dw-leg">${esc(M.GLAZING[v.glazing].label)}, U ${M.GLAZING[v.glazing].U.toFixed(2)}, g ${M.GLAZING[v.glazing].g.toFixed(2)}</text>`;
       out += `<g class="dw-panel">${g}</g>`;
     }
 

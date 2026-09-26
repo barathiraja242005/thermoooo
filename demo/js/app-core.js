@@ -152,6 +152,8 @@ function selectMapPreset(key) {
 }
 
 let leafletMap = null;
+// Sites open on satellite imagery, close enough to see individual houses
+const SITE_ZOOM = 17;
 let leafletMarker = null;
 
 // ==========================================
@@ -748,32 +750,175 @@ function initLeafletMap() {
   const mapContainer = document.getElementById('map');
   if (!mapContainer || leafletMap) return;
 
-  leafletMap = L.map('map', { scrollWheelZoom: false }).setView([ThermaState.lat, ThermaState.lon], 7);
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-    maxZoom: 16,
-    attribution: 'Tiles © Esri, HERE, Garmin, OpenStreetMap contributors'
-  }).addTo(leafletMap);
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
-    maxZoom: 16,
-    pane: 'shadowPane'
-  }).addTo(leafletMap);
+  leafletMap = L.map('map', { scrollWheelZoom: false, zoomControl: false, attributionControl: false, maxZoom: 19 }).setView([ThermaState.lat, ThermaState.lon], SITE_ZOOM);
+  L.control.zoom({ position: 'topleft' }).addTo(leafletMap);
+  L.control.attribution({ position: 'bottomright', prefix: false }).addTo(leafletMap);
+
+  const esri = (path, opts) => L.tileLayer(`https://server.arcgisonline.com/ArcGIS/rest/services/${path}/MapServer/tile/{z}/{y}/{x}`, Object.assign({ maxZoom: 19 }, opts));
+  // Esri's light-gray canvas has no buildings and ends at z16, so from z16 the map layer draws
+  // OpenStreetMap building footprints itself (buildingsLayer below). Esri imagery is real down to
+  // z18 across India; z19 is an upscale rather than Esri's "Map data not yet available" tiles.
+  const buildings = buildingsLayer();
+  const baseLayers = {
+    map: L.layerGroup([
+      esri('Canvas/World_Light_Gray_Base', { maxNativeZoom: 16, attribution: 'Tiles © Esri, HERE, Garmin, OpenStreetMap contributors' }),
+      esri('Canvas/World_Light_Gray_Reference', { maxNativeZoom: 16, pane: 'shadowPane' }),
+      buildings
+    ]),
+    satellite: L.layerGroup([
+      esri('World_Imagery', { maxNativeZoom: 18, attribution: 'Imagery © Esri, Maxar, Earthstar Geographics' }),
+      esri('Reference/World_Transportation', { minZoom: 13, maxNativeZoom: 18, pane: 'shadowPane' }),
+      esri('Reference/World_Boundaries_and_Places', { maxNativeZoom: 18, pane: 'shadowPane' })
+    ])
+  };
+  let activeLayer = 'satellite';
+  baseLayers.satellite.addTo(leafletMap);
+  mapContainer.classList.add('is-sat');
+  window.setMapLayer = function (name) {
+    if (!baseLayers[name] || name === activeLayer) return;
+    leafletMap.removeLayer(baseLayers[activeLayer]);
+    baseLayers[name].addTo(leafletMap);
+    activeLayer = name;
+    mapContainer.classList.toggle('is-sat', name === 'satellite');
+    document.querySelectorAll('.map-layers .ml').forEach((b) => {
+      const on = b.dataset.layer === name;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', on);
+    });
+  };
+  document.querySelectorAll('.map-layers .ml').forEach((b) => b.addEventListener('click', () => window.setMapLayer(b.dataset.layer)));
+
+  // "Use my location" button under the zoom buttons
+  const Locate = L.Control.extend({
+    options: { position: 'topleft' },
+    onAdd() {
+      const bar = L.DomUtil.create('div', 'leaflet-bar map-locate');
+      const a = L.DomUtil.create('a', '', bar);
+      a.href = '#'; a.title = 'Use my location'; a.setAttribute('role', 'button'); a.setAttribute('aria-label', 'Use my location');
+      a.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r="7.5"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg>';
+      L.DomEvent.disableClickPropagation(bar);
+      L.DomEvent.on(a, 'click', (e) => {
+        L.DomEvent.preventDefault(e);
+        if (!navigator.geolocation) return;
+        bar.classList.add('is-busy');
+        navigator.geolocation.getCurrentPosition((pos) => {
+          bar.classList.remove('is-busy');
+          const { latitude, longitude } = pos.coords;
+          leafletMap.flyTo([latitude, longitude], SITE_ZOOM, { duration: 1.2 });
+          setSiteLabel(null);
+          updateLocationCoords(latitude, longitude);
+          reverseLabelSite(latitude, longitude);
+        }, () => bar.classList.remove('is-busy'), { timeout: 10000 });
+      });
+      return bar;
+    }
+  });
+  new Locate().addTo(leafletMap);
 
   const pin = L.divIcon({
     className: 'site-pin',
-    html: '<svg width="34" height="44" viewBox="0 0 34 44" aria-hidden="true"><path d="M17 43C17 43 3 26 3 15a14 14 0 0 1 28 0c0 11-14 28-14 28z" fill="#F2A33A" stroke="#0E1830" stroke-width="2.5"/><circle cx="17" cy="15" r="5.5" fill="#0E1830"/></svg>',
+    html: '<span class="pin-pulse"></span><svg width="34" height="44" viewBox="0 0 34 44" aria-hidden="true"><path d="M17 43C17 43 3 26 3 15a14 14 0 0 1 28 0c0 11-14 28-14 28z" style="fill:var(--brand)" stroke="#fff" stroke-width="2.5"/><circle cx="17" cy="15" r="5.5" fill="#fff"/></svg>',
     iconSize: [34, 44],
     iconAnchor: [17, 43]
   });
-  leafletMarker = L.marker([ThermaState.lat, ThermaState.lon], { draggable: true, icon: pin }).addTo(leafletMap);
+  leafletMarker = L.marker([ThermaState.lat, ThermaState.lon], { draggable: true, icon: pin, keyboard: false }).addTo(leafletMap);
 
   leafletMap.on('click', function(e) {
+    setSiteLabel(null);
     updateLocationCoords(e.latlng.lat, e.latlng.lng);
+    reverseLabelSite(e.latlng.lat, e.latlng.lng);
   });
 
   leafletMarker.on('dragend', function(e) {
     const latlng = e.target.getLatLng();
+    setSiteLabel(null);
     updateLocationCoords(latlng.lat, latlng.lng);
+    reverseLabelSite(latlng.lat, latlng.lng);
   });
+
+  // Wheel zoom only once the map has been clicked, so the page still scrolls past it
+  leafletMap.on('focus click', () => leafletMap.scrollWheelZoom.enable());
+  leafletMap.on('blur mouseout', () => leafletMap.scrollWheelZoom.disable());
+}
+
+// OpenStreetMap building footprints for the light map at z16+, fetched from Overpass per z15 tile
+// and drawn on one canvas. Nothing is fetched or drawn further out.
+function buildingsLayer() {
+  const MIN_ZOOM = 16, TZ = 15;
+  const group = L.layerGroup(), shapes = L.layerGroup();
+  const renderer = L.canvas({ padding: 0.4 });
+  const style = { renderer, color: '#B4B0A6', weight: 0.8, fillColor: '#DAD7CF', fillOpacity: 0.95, interactive: false };
+  const loaded = new Set(), pending = new Set(), drawn = new Set();
+  let map = null, timer = null;
+
+  const tileOf = (lat, lon) => {
+    const n = 2 ** TZ, r = lat * Math.PI / 180;
+    return [Math.floor((lon + 180) / 360 * n), Math.floor((1 - Math.asinh(Math.tan(r)) / Math.PI) / 2 * n)];
+  };
+  const tileBox = (x, y) => {
+    const n = 2 ** TZ, lat = (t) => Math.atan(Math.sinh(Math.PI * (1 - 2 * t / n))) * 180 / Math.PI;
+    return [lat(y + 1), x / n * 360 - 180, lat(y), (x + 1) / n * 360 - 180].map((v) => v.toFixed(5)).join(',');
+  };
+
+  function load() {
+    if (!map || map.getZoom() < MIN_ZOOM) return;
+    const b = map.getBounds(), [x0, y0] = tileOf(b.getNorth(), b.getWest()), [x1, y1] = tileOf(b.getSouth(), b.getEast());
+    const want = [];
+    for (let x = x0; x <= x1; x++) for (let y = y0; y <= y1; y++) { const k = x + '/' + y; if (!loaded.has(k) && !pending.has(k)) want.push([k, x, y]); }
+    if (!want.length) return;
+    want.forEach(([k]) => pending.add(k));
+    const q = `[out:json][timeout:20];(${want.map(([, x, y]) => `way["building"](${tileBox(x, y)});`).join('')});out geom;`;
+    fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: 'data=' + encodeURIComponent(q), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+      .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then((d) => {
+        (d.elements || []).forEach((el) => {
+          if (drawn.has(el.id) || !el.geometry) return;
+          drawn.add(el.id);
+          L.polygon(el.geometry.map((g) => [g.lat, g.lon]), style).addTo(shapes);
+        });
+        want.forEach(([k]) => loaded.add(k));
+      })
+      .catch(() => {})
+      .finally(() => want.forEach(([k]) => pending.delete(k)));
+  }
+  const schedule = () => {
+    const show = map && map.getZoom() >= MIN_ZOOM;
+    if (show !== group.hasLayer(shapes)) show ? group.addLayer(shapes) : group.removeLayer(shapes);
+    clearTimeout(timer); timer = setTimeout(load, 350);
+  };
+
+  group.on('add', function () { map = this._map; map.on('moveend', schedule); schedule(); });
+  group.on('remove', function () { if (map) map.off('moveend', schedule); map = null; group.removeLayer(shapes); });
+  return group;
+}
+
+// Name shown for a custom (non-preset) site: from a search pick or a reverse lookup of a map click.
+function setSiteLabel(name) {
+  ThermaState.siteLabel = name || null;
+  const label = name || 'Dropped pin';
+  const mp = document.getElementById('map-place');
+  if (mp) mp.textContent = label;
+  if (name) {
+    const t = document.getElementById('climate-card-title');
+    if (t) t.textContent = name;
+    const rp = document.getElementById('report-place');
+    if (rp) rp.textContent = name;
+  }
+}
+
+let reverseSeq = 0;
+function reverseLabelSite(lat, lon) {
+  const seq = ++reverseSeq;
+  fetch(`https://photon.komoot.io/reverse?lat=${lat}&lon=${lon}&lang=en`)
+    .then((r) => r.json())
+    .then((d) => {
+      if (seq !== reverseSeq) return;
+      const p = d && d.features && d.features[0] && d.features[0].properties;
+      if (!p) return;
+      const place = p.city || p.town || p.village || p.county || p.name;
+      setSiteLabel([place, p.state].filter(Boolean).filter((x, i, a) => a.indexOf(x) === i).join(', '));
+    })
+    .catch(() => {});
 }
 
 function updateLocationCoords(lat, lon) {
@@ -783,6 +928,8 @@ function updateLocationCoords(lat, lon) {
 
   const coordsEl = document.getElementById('climate-coords');
   if (coordsEl) coordsEl.innerText = `${ThermaState.lat}° N, ${ThermaState.lon}° E`;
+  const mapCoords = document.getElementById('map-coords');
+  if (mapCoords) mapCoords.textContent = `${ThermaState.lat.toFixed(4)}° N, ${ThermaState.lon.toFixed(4)}° E`;
 
   // Predict materials automatically based on coordinates
   predictBioclimaticMaterials(ThermaState.city, ThermaState.lat, ThermaState.lon);
@@ -798,13 +945,21 @@ function onLocationPresetChange(val) {
   ThermaState.lat = p.lat;
   ThermaState.lon = p.lon;
 
+  ThermaState.siteLabel = null;
+
   if (leafletMap) {
-    leafletMap.setView([p.lat, p.lon], 8);
+    // flyTo needs a laid-out map; while the studio page is hidden, jump instead
+    if (leafletMap.getSize().x) leafletMap.flyTo([p.lat, p.lon], SITE_ZOOM, { duration: 1.4 });
+    else leafletMap.setView([p.lat, p.lon], SITE_ZOOM, { animate: false });
     if (leafletMarker) leafletMarker.setLatLng([p.lat, p.lon]);
   }
 
   const coordsEl = document.getElementById('climate-coords');
   if (coordsEl) coordsEl.innerText = `${p.lat}° N, ${p.lon}° E`;
+  const mapPlace = document.getElementById('map-place');
+  if (mapPlace) mapPlace.textContent = p.name.split('(')[0].trim();
+  const mapCoords = document.getElementById('map-coords');
+  if (mapCoords) mapCoords.textContent = `${p.lat.toFixed(4)}° N, ${p.lon.toFixed(4)}° E`;
 
   const zoneEl = document.getElementById('climate-zone');
   if (zoneEl) zoneEl.innerText = p.zone;
@@ -963,7 +1118,7 @@ function searchCityLocation() {
         const lat = parseFloat(data[0].lat);
         const lon = parseFloat(data[0].lon);
         updateLocationCoords(lat, lon);
-        if (leafletMap) leafletMap.setView([lat, lon], 10);
+        if (leafletMap) leafletMap.setView([lat, lon], SITE_ZOOM);
       }
     })
     .catch(() => alert('Could not find that place. Try a larger town nearby, or click the map.'));

@@ -13,7 +13,7 @@
 (function () {
   'use strict';
   const $ = (id) => document.getElementById(id);
-  const t = (k, v) => window.TBi18n.t(k, v);
+  const t = (k, v) => (window.TBi18n ? window.TBi18n.t(k, v) : k);
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fmtT = (x, d = 1) => `${x < 0 ? '−' : ''}${Math.abs(x).toFixed(d)} °C`;
   const fmtN = (x, d = 0) => Number(x).toLocaleString('en-IN', { maximumFractionDigits: d, minimumFractionDigits: d });
@@ -21,7 +21,7 @@
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   const S = {
-    type: 'home', searches: {}, pending: {}, worker: null, workerOk: true, jobId: 0,
+    type: 'home', people: { shelter: 40, post: 12 }, bays: { shelter: 1, post: 2 }, searches: {}, pending: {}, worker: null, workerOk: true, jobId: 0,
     analysis: null, analysisKey: null, animal: null, animalKey: null, view: 'typ', calView: 'design', villageN: 50, hour: null,
   };
   window.TBApp = S;
@@ -34,7 +34,7 @@
     if (c && ThermaState.useCustom && Math.abs(c.lat - ThermaState.lat) < 1e-3 && Math.abs(c.lon - ThermaState.lon) < 1e-3) return 'custom';
     return window.TB_CLIMATE.sites[ThermaState.city] ? ThermaState.city : 'leh';
   }
-  function placeName() { const c = TB.climate.site(siteKey()); return c.name.split(',')[0]; }
+  function placeName() { const k = siteKey(); if (k === 'custom' && ThermaState.siteLabel) return ThermaState.siteLabel.split(',')[0]; return TB.climate.site(k).name.split(',')[0]; }
 
   function paintClimateCard() {
     const key = siteKey(), c = TB.climate.site(key), se = TB.climate.season(key);
@@ -67,7 +67,7 @@
       ThermaState.useCustom = true;
       const zone = $('climate-zone'), se = TB.climate.season('custom');
       if (zone) zone.textContent = se.mode === 'heating' ? `Heating climate, ${fmtN(elev)} m` : `Cooling climate, ${fmtN(elev)} m`;
-      const t = $('climate-card-title'); if (t) t.textContent = 'Your site';
+      const t = $('climate-card-title'); if (t) t.textContent = ThermaState.siteLabel || 'Your site';
       paintClimateCard(); siteChanged();
     } catch (e) {
       ThermaState.useCustom = false;
@@ -88,10 +88,11 @@
     const site = siteKey(), se = TB.climate.season(site);
     const beds = parseInt(String(ThermaState.bhk || '2').replace(/\D/g, ''), 10) || 2;
     const c = { site, type: ThermaState.activeFlow === 1 ? S.type : 'home', area: Math.round(areaM2()), bedrooms: beds, month: se.month, mode: se.mode };
+    if (S.people[c.type]) { c.occupants = S.people[c.type]; c.bedrooms = S.bays[c.type]; }
     if (ThermaState.activeFlow === 2 && ThermaState.planLayout) c.layout = ThermaState.planLayout;
     return c;
   }
-  const searchKey = (c) => `${c.site}|${c.type}|${c.area}`;
+  const searchKey = (c) => `${c.site}|${c.type}|${c.area}|${c.occupants || ''}|${c.bedrooms}`;
 
   function getWorker() {
     if (S.worker || !S.workerOk) return S.worker;
@@ -237,7 +238,7 @@
   // ======================================================================
   // Engine-backed material cards (step 3) and the search panel
   // ======================================================================
-  const LAYER_COL = { rammed_earth: '#B98A5E', mud_brick: '#A87B55', stone: '#8D8A82', cseb: '#A87B55', straw_bale: '#E1C878', conc_block: '#B5B5AE', brick: '#B8623C', eps: '#F2EFA8', wool_felt: '#EFE6D2', lime_plaster: '#E8E1D3', mud_plaster: '#D9C7A8', mud_screed: '#9C7A55', grass_twig: '#C9B27A', poplar: '#D8B27A', rcc: '#A9A9A2', gravel: '#C4C0B6', steel_sheet: '#7E858C', aac: '#D5D8D6', rock_wool: '#E9CF6B', cork: '#B98B5E', clt: '#D8B27A', wood_fibre: '#C9A77F', soil: '#6E5237', clay_tile: '#B8623C', air_gap: '#F7F7F4', timber_floor: '#C9A77F' };
+  const LAYER_COL = { rammed_earth: '#B98A5E', mud_brick: '#A87B55', stone: '#8D8A82', cseb: '#A87B55', straw_bale: '#E1C878', conc_block: '#B5B5AE', brick: '#B8623C', eps: '#F2EFA8', wool_felt: '#EFE6D2', lime_plaster: '#E8E1D3', mud_plaster: '#D9C7A8', mud_screed: '#9C7A55', grass_twig: '#C9B27A', poplar: '#D8B27A', rcc: '#A9A9A2', gravel: '#C4C0B6', steel_sheet: '#7E858C', aac: '#D5D8D6', rock_wool: '#E9CF6B', cork: '#B98B5E', clt: '#D8B27A', wood_fibre: '#C9A77F', soil: '#6E5237', clay_tile: '#B8623C', air_gap: '#F8F7FB', timber_floor: '#C9A77F' };
   const layersOf = (list) => list.map(([k, d]) => [Math.max(0.6, d * 40), LAYER_COL[k] || '#ccc']);
   function engineCards() {
     const c = ctx(); if (c.mode !== 'heating' || ThermaState.activeFlow !== 1) return null;
@@ -356,6 +357,13 @@
   // ======================================================================
   // Report (flows 1–3)
   // ======================================================================
+  // "−1.04 (slightly cool)" → big number, qualifier on its own smaller line
+  function setTileValue(el, value) {
+    const m = /^(.*?)\s*\(([^)]+)\)$/.exec(String(value));
+    el.textContent = m ? m[1] : value;
+    if (m) { const q = document.createElement('small'); q.className = 'tile-q'; q.textContent = m[2]; el.appendChild(q); }
+  }
+
   function showLoading(on) {
     const el = $('report-loading'); if (el) el.hidden = !on;
     document.querySelectorAll('#flow-step-5 .rep-extra, #flow-step-5 .report-figures, #flow-step-5 .chart-card, #flow-step-5 .spec-card').forEach((n) => n.classList.toggle('is-loading', on));
@@ -389,7 +397,7 @@
     if (sub) sub.textContent = t((heat ? 'sub_heat' : 'sub_cool') + retro, { place, out: fmtT(heat ? A.outMin : A.outMax), yours: fmtT(heat ? A.dawn : A.peak), base: fmtT(heat ? A.baseDawn : A.basePeak) });
     if (window.countUp) countUp($('res-temp-diff'), Math.abs(diff), (v) => fmtT(v));
     // --- tiles
-    const tile = (id, label, value) => { const el = $(id); if (!el) return; el.textContent = value; const s = el.parentElement.querySelector('span'); if (s) s.textContent = label; };
+    const tile = (id, label, value) => { const el = $(id); if (!el) return; setTileValue(el, value); const s = el.parentElement.querySelector('span'); if (s) s.textContent = label; };
     const u = A.uncertainty;
     tile('res-peak-temp-base', t((heat ? 'tile_base_dawn' : 'tile_base_peak') + retro), fmtT(heat ? A.baseDawn : A.basePeak));
     tile('res-peak-temp-opt', t((heat ? 'tile_opt_dawn' : 'tile_opt_peak') + retro), fmtT(heat ? A.dawn : A.peak));
@@ -419,6 +427,7 @@
     drawRooms(A); drawFlows(A); drawWhy(A); drawSafety(A); drawCalendar(A); drawFuel(A); drawBom(A); drawBuild(A); drawMethod(A);
     document.querySelectorAll('#flow-step-5 [data-i18n]').forEach((el) => { el.textContent = t(el.dataset.i18n, { month, sp: TB.design.TYPES[A.ctx.type].setpoint || 16, sb: TB.design.TYPES[A.ctx.type].setback || TB.design.TYPES[A.ctx.type].setpoint || 16, price: A.ctx.price || 85 }); });
     document.querySelectorAll('.lang-toggle .seg').forEach((b) => b.classList.toggle('active', b.dataset.lang === lang));
+    $('flow-step-5').lang = lang; // Devanagari fonts, line height and wrapping via :lang(hi)
   }
 
   function nightsFor(wx) { const out = []; for (let d = -1; d <= 3; d++) out.push([d * 24 + wx.sunset, (d + 1) * 24 + wx.sunrise]); return out; }
@@ -620,7 +629,7 @@
     const key = `${c.site}|${ThermaState.animalSpecies}|${ThermaState.animalHerdCount}|${ThermaState.animalRoof}`;
     if (S.animalKey !== key) { S.animal = TB.analyse.livestock({ site: c.site, species: ThermaState.animalSpecies, herd: ThermaState.animalHerdCount, roof: $('animal-roof-material')?.value }); S.animalKey = key; }
     const A = S.animal, sp = A.species, place = placeName();
-    const tile = (id, label, value) => { const el = $(id); if (!el) return; el.textContent = value; const s = el.parentElement.querySelector('span'); if (s) s.textContent = label; };
+    const tile = (id, label, value) => { const el = $(id); if (!el) return; setTileValue(el, value); const s = el.parentElement.querySelector('span'); if (s) s.textContent = label; };
     const tiles = panel.querySelectorAll('.figure-tile');
     const kicker = panel.querySelector('.report-kicker'), sub = panel.querySelector('.report-sub');
     const coldCard = $('animal-cold-card'), thiScale = panel.querySelector('.thi-scale');
@@ -745,12 +754,41 @@
   // ======================================================================
   // Page wiring
   // ======================================================================
+  // Floor area per person for the types sized by headcount (matches TYPES.per10m2).
+  const M2_PER = { shelter: 4, post: 5 };
+  const TYPE_COPY = {
+    home: ['Shape the home', 'Set the size and which way the entrance faces. Rooms are zoned by sun and by Vastu.'],
+    shelter: ['Size the shelter', 'Say how many people it must hold and how they sleep. Floor area follows from the headcount.'],
+    post: ['Size the post', 'Set the personnel on duty and the bunk rooms. Floor area follows from the headcount.'],
+  };
   window.setBuildingType = function (type) {
     S.type = type;
     const T = TB.design.TYPES[type];
     $('btype-badge').textContent = T.label;
-    const hint = { home: 'Family home: occupied mostly evenings and nights.', school: 'School: full in the day, empty at night; about one pupil per 2.5 m².', shelter: 'Relief shelter: crowded day and night, about one person per 4 m²; needs fast, cheap build.', post: 'High-altitude post: occupied round the clock, a stove always lit.' }[type];
+    document.querySelectorAll('#flow-step-2 [data-for]').forEach((el) => { el.hidden = el.dataset.for !== type; });
+    const copy = TYPE_COPY[type];
+    $('s2-title').textContent = copy[0]; document.querySelector('#flow-step-2 .panel-head p').textContent = copy[1];
+    const hint = { home: 'Family home: occupied mostly evenings and nights.', shelter: 'Relief shelter: crowded day and night; needs fast, cheap build.', post: 'High-altitude post: occupied round the clock, a stove always lit.' }[type];
+    if (M2_PER[type]) { $('btype-hint').textContent = hint; setOccupants(type, S.people[type]); return; }
+    // back to a home: area follows the chosen BHK again
+    const bhk = ThermaState.bhk || '2BHK';
+    setBHK(bhk, bhk.replace('BHK', ' BHK'));
     $('btype-hint').textContent = `${hint} About ${Math.max(1, Math.round((areaM2() / 10) * T.per10m2))} people.`;
+    S.analysisKey = null; siteChanged();
+  };
+  window.setOccupants = function (type, n) {
+    n = parseInt(n, 10); S.people[type] = n;
+    const m2 = n * M2_PER[type];
+    $(`${type}-people-slider`).value = n;
+    $(`${type}-people-val`).textContent = `${n} people`;
+    $(`${type}-people-hint`).textContent = type === 'shelter'
+      ? `4 m² a person, above the Sphere minimum of 3.5 m²: ${m2} m² of floor.`
+      : `5 m² a person for bunks, kit and a stove: ${m2} m² of floor.`;
+    onAreaInput(Math.round(m2 / 0.092903));
+    S.analysisKey = null; siteChanged();
+  };
+  window.setBays = function (type, n, label) {
+    S.bays[type] = n; $(`${type}-bays-val`).textContent = label;
     S.analysisKey = null; siteChanged();
   };
 

@@ -74,9 +74,9 @@
 
   function onScroll() {
     const y = window.scrollY;
-    const studioTop = studio ? studio.offsetTop - 120 : Infinity;
+    const inStudio = document.body.classList.contains('studio-only');
     let state = 'top';
-    if (y > studioTop) state = 'studio';
+    if (inStudio) state = 'studio';
     else if (y > 24) state = 'scrolled';
     if (header.dataset.state !== state) header.dataset.state = state;
 
@@ -99,13 +99,15 @@
     const U = 36, C = 0.866, S = 0.5;
     const iso = (x, y, z) => [+((x - y) * C * U).toFixed(1), +((x + y) * S * U - z * U).toFixed(1)];
     const pts = (list) => list.map((p) => iso(...p).join(',')).join(' ');
-    const face = (k, fill, list) => `<polygon class="${k === 'top' ? 'top' : ''}" data-k="${k}" data-base="${fill}" fill="${fill}" points="${pts(list)}"/>`;
-    const win = (list, door) => { const [a, b, c, d] = list.map((p) => iso(...p)); return `<polygon class="${door ? 'door' : 'win'}" ${door ? 'style="fill:#8F2F10"' : ''} points="${[a, b, c, d].map((p) => p.join(',')).join(' ')}"/>${door ? '' : `<path class="win-glint" d="M${(a[0] * .7 + c[0] * .3).toFixed(1)} ${(a[1] * .7 + c[1] * .3 - 2).toFixed(1)} L${(a[0] * .45 + c[0] * .55).toFixed(1)} ${(a[1] * .45 + c[1] * .55 - 6).toFixed(1)}"/>`}`; };
+    // '@b1'..'@b5' are brand shades from the active theme (js/themes.js), filled in by applyBrand()
+    const paint = (c) => (c[0] === '@' ? `data-tok="${c.slice(1)}" data-base="#999" fill="#999"` : `data-base="${c}" fill="${c}"`);
+    const face = (k, fill, list) => `<polygon class="${k === 'top' ? 'top' : ''}" data-k="${k}" ${paint(fill)} points="${pts(list)}"/>`;
+    const win = (list, door) => { const [a, b, c, d] = list.map((p) => iso(...p)); return `<polygon class="${door ? 'door' : 'win'}" points="${[a, b, c, d].map((p) => p.join(',')).join(' ')}"/>${door ? '' : `<path class="win-glint" d="M${(a[0] * .7 + c[0] * .3).toFixed(1)} ${(a[1] * .7 + c[1] * .3 - 2).toFixed(1)} L${(a[0] * .45 + c[0] * .55).toFixed(1)} ${(a[1] * .45 + c[1] * .55 - 6).toFixed(1)}"/>`}`; };
     const winY = (y, a, b, c, d, door) => win([[a, y, c], [b, y, c], [b, y, d], [a, y, d]], door);
     const winX = (x, a, b, c, d) => win([[x, a, c], [x, b, c], [x, b, d], [x, a, d]]);
     const stud = (x, y, z, col) => {
       const r = 0.17, h = 0.13, rx = 1.2247 * r * U, ry = 0.7071 * r * U, [cx, yb] = iso(x, y, z), yt = yb - h * U;
-      return `<path class="stud-side" data-k="right" data-base="${col[2]}" fill="${col[2]}" d="M${cx - rx} ${yt} L${cx - rx} ${yb} A${rx} ${ry} 0 0 0 ${cx + rx} ${yb} L${cx + rx} ${yt} Z"/><ellipse data-k="top" data-base="${col[0]}" fill="${col[0]}" cx="${cx}" cy="${yt}" rx="${rx}" ry="${ry}"/>`;
+      return `<path class="stud-side" data-k="right" ${paint(col[2])} d="M${cx - rx} ${yt} L${cx - rx} ${yb} A${rx} ${ry} 0 0 0 ${cx + rx} ${yb} L${cx + rx} ${yt} Z"/><ellipse data-k="top" ${paint(col[0])} cx="${cx}" cy="${yt}" rx="${rx}" ry="${ry}"/>`;
     };
     const box = (x0, x1, y0, y1, z0, z1, col) =>
       face('top', col[0], [[x0, y0, z1], [x1, y0, z1], [x1, y1, z1], [x0, y1, z1]]) +
@@ -116,8 +118,8 @@
     const INK = ['#4A4E57', '#2E3138', '#22252A'], WHITE = ['#FFFFFF', '#F2F0EA', '#DEDBD2'], TERRA = ['#F6C3A8', '#EDA07E', '#D8805C'], SAND = ['#FBEBDD', '#F2D6BF', '#E0BC9E'];
     const Z1 = 0.7, Z2 = 2.3, Z3 = 3.4, ZR = 4.9;
     const underWalls = (x, y) => x > 0.5 && x < 6.5 && y > 0.5 && y < 4.5;
-    const roofBack = (x0, x1) => face('back', '#F07B55', [[x0, 0.1, Z3], [x1, 0.1, Z3], [x1, 2.5, ZR], [x0, 2.5, ZR]]) + face('gable', '#C94A22', [[x1, 0.1, Z3], [x1, 2.5, Z3], [x1, 2.5, ZR]]);
-    const roofFront = (x0, x1) => face('slope', '#E4572E', [[x0, 2.5, ZR], [x1, 2.5, ZR], [x1, 4.9, Z3], [x0, 4.9, Z3]]) + face('gable', '#B8431E', [[x1, 2.5, Z3], [x1, 4.9, Z3], [x1, 2.5, ZR]]) + face('left', '#9E3818', [[x0, 4.9, Z3 - 0.18], [x1, 4.9, Z3 - 0.18], [x1, 4.9, Z3], [x0, 4.9, Z3]]);
+    const roofBack = (x0, x1) => face('back', '@b1', [[x0, 0.1, Z3], [x1, 0.1, Z3], [x1, 2.5, ZR], [x0, 2.5, ZR]]) + face('gable', '@b3', [[x1, 0.1, Z3], [x1, 2.5, Z3], [x1, 2.5, ZR]]);
+    const roofFront = (x0, x1) => face('slope', '@b2', [[x0, 2.5, ZR], [x1, 2.5, ZR], [x1, 4.9, Z3], [x0, 4.9, Z3]]) + face('gable', '@b4', [[x1, 2.5, Z3], [x1, 4.9, Z3], [x1, 2.5, ZR]]) + face('left', '@b5', [[x0, 4.9, Z3 - 0.18], [x1, 4.9, Z3 - 0.18], [x1, 4.9, Z3], [x0, 4.9, Z3]]);
 
     const steps = [
       { layer: 'Foundation · inputs', title: 'User requirements', detail: 'House size, type, location, occupancy, winter comfort target', z: 0,
@@ -137,7 +139,7 @@
       { layer: 'Roof · simulation', title: 'Thermal simulation', detail: 'High-fidelity run, thermal results', z: 3,
         draw: () => roofFront(0.1, 6.9), badge: [3.5, 3.7, 4.12] },
       { layer: 'Roof · simulation', title: 'Report + 3D visualisation', detail: 'Temperatures, heat flow, comparisons', z: 4,
-        draw: () => box(4.85, 5.6, 1.0, 1.7, 3.8, 5.55, INK) + box(4.75, 5.7, 0.9, 1.8, 5.55, 5.75, ['#F07B55', '#E4572E', '#C2431C']) + stud(5.22, 1.35, 5.75, ['#F07B55', '#E4572E', '#C2431C']), badge: [5.22, 1.7, 5.05] },
+        draw: () => box(4.85, 5.6, 1.0, 1.7, 3.8, 5.55, INK) + box(4.75, 5.7, 0.9, 1.8, 5.55, 5.75, ['@b1', '@b2', '@b3']) + stud(5.22, 1.35, 5.75, ['@b1', '@b2', '@b3']), badge: [5.22, 1.7, 5.05] },
     ];
     const N = steps.length, paintOrder = [0, 1, 2, 3, 4, 5, 6, 8, 7];
 
@@ -186,9 +188,19 @@
     const numEl = $('bk-num'), layerEl = $('bk-layer'), titleEl = $('bk-title'), detailEl = $('bk-detail'), textEl = titleEl.parentElement, toggle = $('bk-toggle'), caption = $('bk-caption');
 
     // day: the sun-facing mass warms up; night: the walls glow as they hand the heat back
-    const DAY = { top: '#FFE6C9', left: '#FBD0A2', right: '#F7A866', slope: '#E4572E', back: '#F07B55', gable: '#B8431E' };
-    const NIGHT = { top: '#F09A63', left: '#D9713F', right: '#E4804A', slope: '#4B3027', back: '#5A3A2E', gable: '#3A241C' };
-    const paintMode = (pal) => faces.forEach((f) => f.setAttribute('fill', pal ? pal[f.dataset.k] || f.dataset.base : f.dataset.base));
+    const DAY = { top: '#FFE6C9', left: '#FBD0A2', right: '#F7A866', slope: '#6D3FE0', back: '#9B7BFF', gable: '#4F25B5' };
+    const NIGHT = { top: '#F09A63', left: '#D9713F', right: '#E4804A', slope: '#2E1F5C', back: '#3A2A70', gable: '#22164A' };
+    let curPal = null;
+    const paintMode = (pal) => { curPal = pal; faces.forEach((f) => f.setAttribute('fill', pal ? pal[f.dataset.k] || f.dataset.base : f.dataset.base)); };
+    function applyBrand() {
+      const s = window.TBTheme ? TBTheme.shades() : { b1: '#9B7BFF', b2: '#6D3FE0', b3: '#5A2DC7', b4: '#4F25B5', b5: '#3F1D96', n1: '#2E1F5C', n2: '#3A2A70', n3: '#22164A' };
+      svg.querySelectorAll('[data-tok]').forEach((f) => { f.dataset.base = s[f.dataset.tok]; });
+      Object.assign(DAY, { slope: s.b2, back: s.b1, gable: s.b4 });
+      Object.assign(NIGHT, { slope: s.n1, back: s.n2, gable: s.n3 });
+      paintMode(curPal);
+    }
+    applyBrand();
+    window.addEventListener('thermabuild:theme', applyBrand);
 
     let shownKey = '';
     function say(num, layer, title, detail, pct) {
@@ -242,7 +254,7 @@
     chip.addEventListener('click', () => {
       choosePath(1, true);
       selectMapPreset(chip.dataset.start);
-      $('studio').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      enterStudio();
     });
   });
 
@@ -266,27 +278,134 @@
     window.addEventListener('scroll', upd, { passive: true }); upd();
   }
 
-  // ---------- climates: thermometer skyline ----------
+  // ---------- climates: thermometer skyline (scrolls sideways) ----------
   (function skyline() {
-    const plot = $('sky-plot'), names = $('sky-names'), sky = $('skyline'); if (!plot || typeof LOCATION_PRESETS === 'undefined') return;
-    const MIN = -30, MAX = 50, pct = (t) => `${((t - MIN) / (MAX - MIN)) * 100}%`;
-    const short = { leh: ['Leh', 'Ladakh'], dras: ['Dras', 'Ladakh'], kargil: ['Kargil', 'Ladakh'], nubra: ['Diskit', 'Nubra'], spiti: ['Kaza', 'Spiti'], pangong: ['Pangong', 'Ladakh'], new_delhi: ['Delhi', 'Composite'], chennai: ['Chennai', 'Humid coast'], jaisalmer: ['Jaisalmer', 'Desert'], bengaluru: ['Bengaluru', 'Plateau'] };
-    const rows = Object.entries(LOCATION_PRESETS).map(([key, p]) => ({ key, name: (short[key] || [p.name.split(',')[0]])[0], sub: (short[key] || ['', p.zone.split('/')[0]])[1], lo: parseTemp(p.winterTemp), hi: parseTemp(p.summerTemp) })).sort((a, b) => (a.lo + a.hi) - (b.lo + b.hi));
-    const fmt = (t) => `${t < 0 ? '−' : ''}${Math.abs(t)}°`;
-    plot.style.setProperty('--n', rows.length); names.style.setProperty('--n', rows.length);
-    plot.innerHTML =
-      `<div class="sky-band" style="--lo:${pct(22)};--hi:${pct(27)}"><span>Comfortable indoors</span></div>` +
-      [-30, -20, -10, 0, 10, 20, 30, 40, 50].map((t) => `<div class="sky-grid ${t === 0 ? 'zero' : ''}" style="--y:${pct(t)}"><span>${fmt(t)}</span></div>`).join('') +
-      `<div class="sky-cols">${rows.map((r, i) => `
-        <button type="button" class="sky-col" role="listitem" data-key="${r.key}" style="--lo:${pct(r.lo)};--hi:${pct(r.hi)};--lo-f:${((r.lo - MIN) / (MAX - MIN)).toFixed(4)};--hi-f:${((r.hi - MIN) / (MAX - MIN)).toFixed(4)};--d:${i * 0.07}s" aria-label="${r.name}: ${r.lo} to ${r.hi} degrees. Design here.">
-          <span class="sky-tube"><span class="sky-fill"></span><i class="sky-dot lo"></i><i class="sky-dot hi"></i></span>
-          <span class="sky-val hi">${fmt(r.hi)}</span><span class="sky-val lo">${fmt(r.lo)}</span>
-        </button>`).join('')}</div>`;
-    names.innerHTML = rows.map((r) => `<span data-key="${r.key}">${r.name}<small>${r.sub}</small></span>`).join('');
-    const mark = (key) => { plot.querySelectorAll('.sky-col').forEach((b) => b.classList.toggle('active', b.dataset.key === key)); names.querySelectorAll('span').forEach((s) => s.classList.toggle('active', s.dataset.key === key)); };
-    mark(ThermaState.city);
-    plot.addEventListener('click', (e) => { const b = e.target.closest('.sky-col'); if (!b) return; mark(b.dataset.key); choosePath(1, true); selectMapPreset(b.dataset.key); toast(`Site set to ${rows.find((x) => x.key === b.dataset.key).name}`); $('studio').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' }); });
-    window.addEventListener('thermabuild:site', () => mark(ThermaState.city));
+    const track = $('sky-track'), scroller = $('sky-scroll'), sky = $('skyline'), axis = $('sky-axis'), bg = $('sky-bg'), read = $('sky-read');
+    if (!track || !window.TB_PLACES) return;
+    const MIN = -40, MAX = 50, frac = (t) => (t - MIN) / (MAX - MIN), pct = (t) => `${(frac(t) * 100).toFixed(2)}%`;
+    const deg = (t, d = 0) => `${t < 0 ? '−' : ''}${Math.abs(t).toFixed(d)}`;
+    const GROUPS = { cold: 'Cold regions', city: 'Cities' };
+    const mid = (r) => (r.lo + r.hi) / 2;
+    const rows = window.TB_PLACES.slice().sort((a, b) => (a.group === b.group ? mid(a) - mid(b) : a.group === 'cold' ? -1 : 1));
+    const byKey = Object.fromEntries(rows.map((r) => [r.key, r]));
+
+    // Headline from the data: the coldest and hottest days on the chart
+    const coldest = rows.reduce((a, b) => (b.rlo < a.rlo ? b : a)), hottest = rows.reduce((a, b) => (b.rhi > a.rhi ? b : a));
+    const title = $('climates-title');
+    if (title) title.textContent = `From ${deg(coldest.rlo)} °C in ${coldest.name} to ${deg(hottest.rhi)} °C in ${hottest.name}.`;
+
+    // Scale (fixed on the left) and the grid and comfort band behind the scroller
+    const ticks = [-40, -30, -20, -10, 0, 10, 20, 30, 40, 50];
+    axis.innerHTML = ticks.map((t) => `<span style="--yf:${frac(t).toFixed(4)}">${deg(t)}°</span>`).join('');
+    bg.innerHTML = `<div class="sky-band" style="--lo:${pct(22)};--hi:${pct(27)}"></div>` + ticks.map((t) => `<i class="sky-grid${t === 0 ? ' zero' : ''}" style="--y:${pct(t)}"></i>`).join('');
+
+    const col = (r, i) => `
+      <button type="button" class="sky-col" role="listitem" data-key="${r.key}"
+        style="--lo:${pct(r.lo)};--hi:${pct(r.hi)};--rlo:${pct(r.rlo)};--rhi:${pct(r.rhi)};--lo-f:${frac(r.lo).toFixed(4)};--hi-f:${frac(r.hi).toFixed(4)};--d:${Math.min(i, 12) * 0.06}s"
+        aria-label="${r.name}, ${r.sub}: winter nights ${deg(r.lo, 1)} °C, summer afternoons ${deg(r.hi, 1)} °C. Design here.">
+        <span class="sky-plotcol">
+          <span class="sky-tube"><i class="sky-rec"></i><span class="sky-fill"></span><i class="sky-dot lo"></i><i class="sky-dot hi"></i></span>
+          <span class="sky-val hi">${deg(r.hi)}°</span><span class="sky-val lo">${deg(r.lo)}°</span>
+        </span>
+        <span class="sky-name">${r.name}<small>${r.sub}</small></span>
+      </button>`;
+    let i = 0;
+    track.innerHTML = Object.keys(GROUPS).map((g) => {
+      const list = rows.filter((r) => r.group === g);
+      return `<div class="sky-grp" data-g="${g}"><p class="sky-grp-h">${GROUPS[g]}<span>${list.length}</span></p><div class="sky-grp-cols">${list.map((r) => col(r, i++)).join('')}</div></div>`;
+    }).join('');
+    document.querySelectorAll('#sky-filter .seg').forEach((b) => { const n = b.dataset.g === 'all' ? rows.length : rows.filter((r) => r.group === b.dataset.g).length; b.querySelector('span').textContent = n; });
+
+    // Readout under the chart: the hovered or focused place, else the selected one
+    let selected = byKey[ThermaState.city] ? ThermaState.city : 'leh';
+    function show(key) {
+      const r = byKey[key]; if (!r) return;
+      read.innerHTML = `
+        <div class="sr-place"><strong>${r.name}</strong><span>${r.sub} · ${fmtInt(r.elev)} m</span></div>
+        <dl class="sr-stats">
+          <div><dt>${r.loM} nights</dt><dd class="c">${deg(r.lo, 1)} °C</dd></div>
+          <div><dt>${r.hiM} afternoons</dt><dd class="h">${deg(r.hi, 1)} °C</dd></div>
+          <div><dt>10-year extremes</dt><dd>${deg(r.rlo, 1)} to ${deg(r.rhi, 1)} °C</dd></div>
+        </dl>
+        <button type="button" class="btn btn-primary btn-sm sr-go" data-key="${r.key}">Design in ${r.name}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>`;
+    }
+    const fmtInt = (n) => Math.round(n).toLocaleString('en-IN');
+    function mark(key) {
+      selected = key;
+      track.querySelectorAll('.sky-col').forEach((b) => { const on = b.dataset.key === key; b.classList.toggle('active', on); b.setAttribute('aria-current', on ? 'true' : 'false'); });
+      show(key);
+    }
+    mark(selected);
+
+    // Start designing at a place: stored studio climate for presets, live NASA POWER for the rest
+    function design(key) {
+      const r = byKey[key]; if (!r) return;
+      mark(key);
+      choosePath(1, true);
+      if (r.preset) selectMapPreset(r.preset);
+      else {
+        setSiteLabel(`${r.name}, ${r.sub.split(',').pop().trim()}`);
+        updateLocationCoords(r.lat, r.lon);
+        if (typeof leafletMap !== 'undefined' && leafletMap) leafletMap.setView([r.lat, r.lon], SITE_ZOOM, { animate: false });
+        document.querySelectorAll('#preset-chips .chip').forEach((c) => c.classList.remove('active'));
+      }
+      toast(`Site set to ${r.name}`);
+      enterStudio();
+    }
+
+    // Mouse: click designs straight away. Touch: the first tap selects (shows the readout), a second tap or the button designs.
+    let lastPointer = 'mouse', dragged = false;
+    track.addEventListener('pointerdown', (e) => { lastPointer = e.pointerType; }, true);
+    track.addEventListener('click', (e) => {
+      const b = e.target.closest('.sky-col'); if (!b) return;
+      if (dragged) { e.preventDefault(); return; }
+      if (lastPointer === 'touch' && b.dataset.key !== selected) { mark(b.dataset.key); return; }
+      design(b.dataset.key);
+    });
+    read.addEventListener('click', (e) => { const b = e.target.closest('.sr-go'); if (b) design(b.dataset.key); });
+    track.addEventListener('pointerover', (e) => { const b = e.target.closest('.sky-col'); if (b && e.pointerType === 'mouse') show(b.dataset.key); });
+    track.addEventListener('focusin', (e) => { const b = e.target.closest('.sky-col'); if (b) show(b.dataset.key); });
+    track.addEventListener('pointerleave', () => show(selected));
+    track.addEventListener('focusout', (e) => { if (!track.contains(e.relatedTarget)) show(selected); });
+
+    // Filter
+    document.querySelectorAll('#sky-filter .seg').forEach((b) => b.addEventListener('click', () => {
+      document.querySelectorAll('#sky-filter .seg').forEach((x) => { const on = x === b; x.classList.toggle('active', on); x.setAttribute('aria-pressed', String(on)); });
+      track.querySelectorAll('.sky-grp').forEach((g) => { g.hidden = b.dataset.g !== 'all' && g.dataset.g !== b.dataset.g; });
+      scroller.scrollTo({ left: 0, behavior: 'instant' });
+      update();
+    }));
+
+    // Arrows, progress bar, edge fades
+    const prev = $('sky-prev'), next = $('sky-next'), thumb = $('sky-thumb'), frame = $('sky-frame');
+    function update() {
+      const max = scroller.scrollWidth - scroller.clientWidth, x = scroller.scrollLeft;
+      prev.disabled = x <= 2; next.disabled = x >= max - 2;
+      frame.classList.toggle('at-start', x <= 2); frame.classList.toggle('at-end', x >= max - 2);
+      const w = max > 0 ? scroller.clientWidth / scroller.scrollWidth : 1;
+      thumb.style.width = `${w * 100}%`; thumb.style.transform = `translateX(${max > 0 ? (x / max) * ((1 - w) / w) * 100 : 0}%)`;
+      thumb.parentElement.hidden = max <= 2;
+    }
+    const page = (dir) => scroller.scrollBy({ left: dir * Math.max(200, scroller.clientWidth * 0.8), behavior: reduceMotion ? 'auto' : 'smooth' });
+    prev.addEventListener('click', () => page(-1));
+    next.addEventListener('click', () => page(1));
+    scroller.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+
+    // Drag to scroll with a mouse (touch and trackpads scroll natively)
+    let down = null;
+    scroller.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse' || e.button !== 0) return; down = { x: e.clientX, left: scroller.scrollLeft }; dragged = false; });
+    window.addEventListener('pointermove', (e) => {
+      if (!down) return;
+      const dx = e.clientX - down.x;
+      if (!dragged && Math.abs(dx) > 6) { dragged = true; scroller.classList.add('is-dragging'); }
+      if (dragged) scroller.scrollLeft = down.left - dx;
+    });
+    window.addEventListener('pointerup', () => { if (!down) return; down = null; scroller.classList.remove('is-dragging'); setTimeout(() => { dragged = false; }, 0); });
+
+    window.addEventListener('thermabuild:site', () => { if (!ThermaState.siteLabel && byKey[ThermaState.city]) mark(ThermaState.city); });
+    sky.classList.add('ready');
   })();
 
   // ---------- paths ----------
@@ -297,8 +416,54 @@
     const short = { 1: 'New home', 2: 'Your plan', 3: 'Upgrade', 4: 'Shelter' };
     $('studio-path-name').textContent = names[n];
     $('header-status-path').textContent = short[n];
-    if (!quiet) $('studio').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    if (!quiet) enterStudio();
   };
+
+  // ---------- studio as its own page ----------
+  // The landing page (hero, how it works, paths, climates) and the studio never scroll into each
+  // other: choosing a path swaps to the studio view, Back (or the browser back button) returns.
+  const LANDING = ['top', 'hero', 'how', 'paths', 'climates'];
+  function showStudio(on) {
+    document.body.classList.toggle('studio-only', on);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    onScroll();
+    if (on) setTimeout(() => { if (typeof leafletMap !== 'undefined' && leafletMap) leafletMap.invalidateSize(); window.dispatchEvent(new Event('resize')); }, 60);
+  }
+  function enterStudio(push = true) {
+    if (!document.body.classList.contains('studio-only')) showStudio(true);
+    else window.scrollTo({ top: 0, behavior: 'instant' });
+    if (push) history.pushState({ tb: 'studio' }, '', `?view=studio&path=${ThermaState.activeFlow}`);
+  }
+  function exitStudio(target = 'top', push = true) {
+    if (document.body.classList.contains('studio-only')) showStudio(false);
+    if (push) {
+      if (history.state && history.state.tb === 'studio') { history.back(); return; } // popstate finishes
+      history.replaceState({ tb: 'home' }, '', location.pathname);
+    }
+    const el = $(target);
+    if (el && target !== 'top' && target !== 'hero') el.scrollIntoView({ block: 'start', behavior: 'instant' });
+  }
+  window.enterStudio = enterStudio;
+  window.exitStudio = exitStudio;
+  let exitTarget = 'top';
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; // we place the scroll ourselves
+  window.addEventListener('popstate', (e) => {
+    if (e.state && e.state.tb === 'studio') enterStudio(false);
+    else { const t = exitTarget; exitTarget = 'top'; exitStudio(t, false); }
+  });
+  $('studio-back')?.addEventListener('click', () => { exitTarget = 'top'; exitStudio('top'); });
+  // In-page links: landing anchors leave the studio, studio anchors enter it (keeping progress)
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]'); if (!a) return;
+    const id = a.getAttribute('href').slice(1);
+    const inStudio = document.body.classList.contains('studio-only');
+    if (id === 'studio') { e.preventDefault(); enterStudio(!inStudio); return; }
+    if (inStudio && LANDING.includes(id)) {
+      e.preventDefault(); exitTarget = id;
+      if (history.state && history.state.tb === 'studio') history.back();
+      else exitStudio(id);
+    }
+  });
 
   // ---------- step navigation wrapper ----------
   const _goToStep = window.goToStep;
@@ -368,13 +533,13 @@
     puff_sandwich: { name: '50 mm insulated sandwich panel', why: 'Sealed insulated panel for controlled sheds.', layers: [[1, '#D9D9D2'], [2, '#F0E7B6'], [1, '#D9D9D2']] }
   };
   const A_WALLS = {
-    slatted_louvers: { name: 'Open timber louvres', why: 'About 15 air changes an hour. Breeze in, heat and ammonia out.', layers: [[1, '#C9A77F'], [1, '#F7F7F4'], [1, '#C9A77F'], [1, '#F7F7F4'], [1, '#C9A77F']] },
-    poultry_mesh: { name: 'Wire mesh with roll-up curtains', why: 'About 18 air changes an hour for humid coasts. Curtains drop in storms.', layers: [[1, '#B9BDC2'], [1, '#F7F7F4'], [1, '#B9BDC2']] },
+    slatted_louvers: { name: 'Open timber louvres', why: 'About 15 air changes an hour. Breeze in, heat and ammonia out.', layers: [[1, '#C9A77F'], [1, '#F8F7FB'], [1, '#C9A77F'], [1, '#F8F7FB'], [1, '#C9A77F']] },
+    poultry_mesh: { name: 'Wire mesh with roll-up curtains', why: 'About 18 air changes an hour for humid coasts. Curtains drop in storms.', layers: [[1, '#B9BDC2'], [1, '#F8F7FB'], [1, '#B9BDC2']] },
     rammed_half_wall: { name: 'Low earth wall with bamboo screen', why: 'Earth shields animals from cold wind. The screen above still lets air move.', layers: [[2, '#B98A5E'], [1, '#C9A77F']] }
   };
   const A_FLOORS = {
     grooved_concrete: { name: 'Grooved non-slip concrete with drain', why: 'Grip for hooves and a slope that drains quickly.', layers: [[1, '#9A9A93'], [1, '#B5B5AE']] },
-    slatted_timber: { name: 'Raised timber slats with dung trays', why: 'Keeps birds and small stock off the wet floor.', layers: [[1, '#C9A77F'], [1, '#F7F7F4'], [1, '#C9A77F']] },
+    slatted_timber: { name: 'Raised timber slats with dung trays', why: 'Keeps birds and small stock off the wet floor.', layers: [[1, '#C9A77F'], [1, '#F8F7FB'], [1, '#C9A77F']] },
     vulcanized_rubber: { name: 'Rubber comfort mats', why: 'Soft, warm footing that cleans easily.', layers: [[1, '#3A3D42']] }
   };
   const CLIMATE_WORDS = { leh: 'cold, dry, high-altitude', dras: 'cold, dry, high-altitude', kargil: 'cold, dry, high-altitude', nubra: 'cold, dry, high-altitude', spiti: 'cold, dry, high-altitude', pangong: 'cold, dry, high-altitude', jaisalmer: 'hot, dry desert', chennai: 'warm, humid coastal', bengaluru: 'mild plateau', new_delhi: 'composite' };
@@ -415,8 +580,8 @@
     const key = Object.keys(dirs).sort((a, b) => b.length - a.length).find((k) => windText.toLowerCase().includes(k));
     const arrow = $('wind-arrow'); if (arrow) arrow.style.transform = `rotate(${key ? dirs[key] + 180 : 0}deg)`; // wind blows *from* the direction
     document.querySelectorAll('#preset-chips .chip').forEach((c) => c.classList.toggle('active', c.dataset.preset === ThermaState.city));
-    $('climate-card-title').textContent = preset ? preset.name.split('(')[0].trim() : 'Your site';
-    $('report-place').textContent = preset ? preset.name.split('(')[0].trim() : `${ThermaState.lat}° N, ${ThermaState.lon}° E`;
+    $('climate-card-title').textContent = preset ? preset.name.split('(')[0].trim() : (ThermaState.siteLabel || 'Your site');
+    $('report-place').textContent = preset ? preset.name.split('(')[0].trim() : (ThermaState.siteLabel || `${ThermaState.lat}° N, ${ThermaState.lon}° E`);
     renderMaterialCards();
     window.dispatchEvent(new Event('thermabuild:site'));
     if (window.rebuild3DHouse) rebuild3DHouse();
@@ -458,7 +623,11 @@
 window.addEventListener('DOMContentLoaded', () => {
   const q = new URLSearchParams(location.search);
   const path = parseInt(q.get('path') || '1', 10), step = parseInt(q.get('step') || '0', 10);
-  if (q.get('view') === 'studio') document.body.classList.add('studio-only');
+  if (q.get('view') === 'studio') {
+    document.body.classList.add('studio-only');
+    history.replaceState({ tb: 'studio' }, '', location.search);
+    if (!step) { choosePath(path, true); window.scrollTo(0, 0); return; }
+  }
   if (!step) return;
   window.__instantNav = true;
   choosePath(path, true);

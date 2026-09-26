@@ -106,10 +106,10 @@
     const all = lay.zones.flatMap((z) => z.poly); const minX = Math.min(...all.map((q) => q[0])), maxX = Math.max(...all.map((q) => q[0])), minY = Math.min(...all.map((q) => q[1])), maxY = Math.max(...all.map((q) => q[1]));
     const W = 560, sc = (W - 60) / Math.max(maxX - minX, (maxY - minY) * 1.1), H = (maxY - minY) * sc + 70;
     const P = ([x, y]) => [30 + (x - minX) * sc, 30 + (maxY - y) * sc];
-    const facCol = { S: '#E4572E', N: '#3D7BD9', E: '#80858E', W: '#80858E' };
+    const facCol = { S: '#E4572E', N: '#3D7BD9', E: '#6B6781', W: '#6B6781' };
     const edges = lay.zones.map((z) => { const p = z.poly; let out = ''; for (let k = 0; k < p.length; k++) { const a = p[k], b = p[(k + 1) % p.length], L = Math.hypot(b[0] - a[0], b[1] - a[1]); if (L < 0.2) continue; const nx = (b[1] - a[1]) / L, ny = -(b[0] - a[0]) / L; const probe = [(a[0] + b[0]) / 2 + nx * 0.35, (a[1] + b[1]) / 2 + ny * 0.35]; if (lay.zones.some((q) => q !== z && inside(probe, q.poly))) continue; const ang = (Math.atan2(nx, ny) * 180) / Math.PI; const f = ang >= -45 && ang < 45 ? 'N' : ang >= 45 && ang < 135 ? 'E' : ang >= -135 && ang < -45 ? 'W' : 'S'; const [x1, y1] = P(a), [x2, y2] = P(b); out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${facCol[f]}" stroke-width="4" stroke-linecap="round"/>`; } return out; }).join('');
     return `<svg viewBox="0 0 ${W} ${H}" class="plan-svg" role="img" aria-label="Imported plan">
-      ${lay.zones.map((z) => { const pts = z.poly.map(P); const cx = pts.reduce((a, q) => a + q[0], 0) / pts.length, cy = pts.reduce((a, q) => a + q[1], 0) / pts.length; return `<polygon points="${pts.map((q) => q.join(',')).join(' ')}" fill="#fff" stroke="#15171B" stroke-width="1.2"/><text x="${cx}" y="${cy}" text-anchor="middle" class="room-n">${esc(z.name)}</text><text x="${cx}" y="${cy + 15}" text-anchor="middle" class="room-a">${z.area.toFixed(1)} m²</text>`; }).join('')}
+      ${lay.zones.map((z) => { const pts = z.poly.map(P); const cx = pts.reduce((a, q) => a + q[0], 0) / pts.length, cy = pts.reduce((a, q) => a + q[1], 0) / pts.length; return `<polygon points="${pts.map((q) => q.join(',')).join(' ')}" fill="#fff" stroke="#17152A" stroke-width="1.2"/><text x="${cx}" y="${cy}" text-anchor="middle" class="room-n">${esc(z.name)}</text><text x="${cx}" y="${cy + 15}" text-anchor="middle" class="room-a">${z.area.toFixed(1)} m²</text>`; }).join('')}
       ${edges}
       <g class="compass"><text x="${W - 22}" y="22" text-anchor="middle">N</text><path d="M${W - 22} 28 l-5 12 l5 -3 l5 3z"/></g>
     </svg>`;
