@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ThermaBuild — Climate-responsive home design</title>
-  <meta name="description" content="Pick a site anywhere in India. ThermaBuild reads its sun, wind and temperature, suggests a plan and materials, and shows how the home will perform before it is built.">
+  <meta name="description"
+    content="Pick a site anywhere in India. ThermaBuild reads its sun, wind and temperature, suggests a plan and materials, and shows how the home will perform before it is built.">
   <meta name="theme-color" content="#F8F7FB">
-  <script>try{var t=new URLSearchParams(location.search).get('theme')||localStorage.getItem('tb-theme');if(t&&t!=='iris')document.documentElement.dataset.theme=t;}catch(e){}</script>
+  <script>try { var t = new URLSearchParams(location.search).get('theme') || localStorage.getItem('tb-theme'); if (t && t !== 'iris') document.documentElement.dataset.theme = t; } catch (e) { }</script>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="apple-touch-icon" href="assets/touch-icon.png">
 
-  <link rel="preload" href="assets/vendor/fonts/IBMPlexSans-300-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/vendor/fonts/IBMPlexSans-300-700-latin.woff2" as="font" type="font/woff2"
+    crossorigin>
   <link rel="preload" href="assets/vendor/fonts/Fraunces-300-700-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/vendor/fonts/fonts.css?v=3">
 
@@ -20,6 +23,7 @@
 
   <link rel="stylesheet" href="css/site.css?v=27">
 </head>
+
 <body>
 
 
@@ -37,8 +41,9 @@
     <div class="header-inner">
       <a href="#top" class="brand" aria-label="ThermaBuild home">
         <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
-          <path d="M3 19 12 9l6 6.5L22 12l7 7" fill="none" stroke="var(--brand)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
-          <path d="M19 19h4v4h-4z" fill="var(--brand)"/>
+          <path d="M3 19 12 9l6 6.5L22 12l7 7" fill="none" stroke="var(--brand)" stroke-width="2.6"
+            stroke-linejoin="round" stroke-linecap="round" />
+          <path d="M19 19h4v4h-4z" fill="var(--brand)" />
         </svg>
         <span class="brand-name">ThermaBuild</span>
       </a>
@@ -57,7 +62,8 @@
 
       <a href="#paths" class="btn btn-primary header-cta" id="header-cta">Start designing</a>
 
-      <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">
+      <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="main-nav"
+        aria-label="Open menu">
         <span></span><span></span>
       </button>
     </div>
@@ -78,7 +84,8 @@
             <span class="line"><span class="load-in" style="--d:2">Stay warm</span></span>
             <span class="line"><span class="load-in" style="--d:3">all night.</span></span>
           </h1>
-          <p class="hero-lead load-in" style="--d:4">Walls that soak up winter sun by day and release it after dark. Pick a cold site and see how warm your home stays, before you build.</p>
+          <p class="hero-lead load-in" style="--d:4">Walls that soak up winter sun by day and release it after dark.
+            Pick a cold site and see how warm your home stays, before you build.</p>
           <div class="hero-actions load-in" style="--d:5">
             <a href="#paths" class="btn btn-primary btn-lg">Start designing</a>
             <a href="#how" class="btn btn-line btn-lg">See how it works</a>
@@ -86,9 +93,12 @@
           <div class="hero-starts load-in" style="--d:6">
             <span class="hero-starts-label">Or start from a cold site</span>
             <div class="hero-start-row">
-              <button type="button" class="start-chip" data-start="leh"><i class="dot dot-cold"></i>Leh, −18 °C winters</button>
-              <button type="button" class="start-chip" data-start="dras"><i class="dot dot-cold"></i>Dras, −28 °C winters</button>
-              <button type="button" class="start-chip" data-start="spiti"><i class="dot dot-cold"></i>Kaza, Spiti, −20 °C winters</button>
+              <button type="button" class="start-chip" data-start="leh"><i class="dot dot-cold"></i>Leh, −18 °C
+                winters</button>
+              <button type="button" class="start-chip" data-start="dras"><i class="dot dot-cold"></i>Dras, −28 °C
+                winters</button>
+              <button type="button" class="start-chip" data-start="spiti"><i class="dot dot-cold"></i>Kaza, Spiti, −20
+                °C winters</button>
             </div>
           </div>
         </div>
@@ -109,8 +119,16 @@
             <svg class="blocks-svg" id="blocks-svg" aria-hidden="true"></svg>
             <div class="bk-caption" id="bk-caption" aria-live="off">
               <span class="bk-num" id="bk-num">01</span>
-              <div class="bk-text"><p class="bk-layer" id="bk-layer">Foundation · inputs</p><p class="bk-title" id="bk-title">User requirements</p><p class="bk-detail" id="bk-detail">House size, type, location, occupancy, winter comfort target</p></div>
-              <button type="button" class="bk-toggle" id="bk-toggle" aria-pressed="true" aria-label="Pause"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path class="ico-pause" d="M4 3h3v10H4zM9 3h3v10H9z"/><path class="ico-play" d="M5 3l8 5-8 5z"/></svg></button>
+              <div class="bk-text">
+                <p class="bk-layer" id="bk-layer">Foundation · inputs</p>
+                <p class="bk-title" id="bk-title">User requirements</p>
+                <p class="bk-detail" id="bk-detail">House size, type, location, occupancy, winter comfort target</p>
+              </div>
+              <button type="button" class="bk-toggle" id="bk-toggle" aria-pressed="true" aria-label="Pause"><svg
+                  viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+                  <path class="ico-pause" d="M4 3h3v10H4zM9 3h3v10H9z" />
+                  <path class="ico-play" d="M5 3l8 5-8 5z" />
+                </svg></button>
             </div>
           </div>
         </div>
@@ -122,7 +140,8 @@
       <div class="container how-grid">
         <div class="how-intro reveal">
           <h2 id="how-title" class="section-title">Four decisions shape how a home feels inside.</h2>
-          <p class="section-lead">ThermaBuild walks you through them in the order an architect would, and explains every recommendation so you can question it.</p>
+          <p class="section-lead">ThermaBuild walks you through them in the order an architect would, and explains every
+            recommendation so you can question it.</p>
           <a href="#paths" class="text-link">Choose where to start</a>
         </div>
 
@@ -132,28 +151,32 @@
             <span class="how-num">1</span>
             <div>
               <h3>Read the site</h3>
-              <p>Drop a pin or search a town. You get its summer peak, winter low, sunshine and prevailing wind, plus the passive strategy that suits it.</p>
+              <p>Drop a pin or search a town. You get its summer peak, winter low, sunshine and prevailing wind, plus
+                the passive strategy that suits it.</p>
             </div>
           </li>
           <li class="how-step reveal">
             <span class="how-num">2</span>
             <div>
               <h3>Shape the plan</h3>
-              <p>Set plot size, bedrooms and entrance facing. Rooms are placed by sun and Vastu zone, and matched to a real floor plan.</p>
+              <p>Set plot size, bedrooms and entrance facing. Rooms are placed by sun and Vastu zone, and matched to a
+                real floor plan.</p>
             </div>
           </li>
           <li class="how-step reveal">
             <span class="how-num">3</span>
             <div>
               <h3>Get the envelope</h3>
-              <p>Walls, roof and glazing are chosen for your region, from rammed earth in Ladakh to cool roofs in Rajasthan, with the reasoning shown.</p>
+              <p>Walls, roof and glazing are chosen for your region, from rammed earth in Ladakh to cool roofs in
+                Rajasthan, with the reasoning shown.</p>
             </div>
           </li>
           <li class="how-step reveal">
             <span class="how-num">4</span>
             <div>
               <h3>See how it performs</h3>
-              <p>Move the sun across a 3D model, then read a 24-hour indoor temperature curve against an ordinary build.</p>
+              <p>Move the sun across a 3D model, then read a 24-hour indoor temperature curve against an ordinary build.
+              </p>
             </div>
           </li>
         </ol>
@@ -165,18 +188,27 @@
       <div class="container">
         <div class="climates-head reveal">
           <h2 id="climates-title" class="section-title">From −28 °C in Dras to 46 °C in Jaisalmer.</h2>
-          <p class="section-lead">One house design can't serve all of India. Each thermometer is filled from a place's winter nights to its summer afternoons; the thin line reaches the extremes of the last ten years. Pick one to start designing there.</p>
+          <p class="section-lead">One house design can't serve all of India. Each thermometer is filled from a place's
+            winter nights to its summer afternoons; the thin line reaches the extremes of the last ten years. Pick one
+            to start designing there.</p>
         </div>
         <div class="skyline reveal" id="skyline">
           <div class="sky-top">
             <div class="segmented sky-filter" id="sky-filter" role="group" aria-label="Show places">
-              <button type="button" class="seg active" data-g="all" aria-pressed="true">All places <span></span></button>
+              <button type="button" class="seg active" data-g="all" aria-pressed="true">All places
+                <span></span></button>
               <button type="button" class="seg" data-g="cold" aria-pressed="false">Cold regions <span></span></button>
               <button type="button" class="seg" data-g="city" aria-pressed="false">Cities <span></span></button>
             </div>
             <div class="sky-nav">
-              <button type="button" class="sky-arrow" id="sky-prev" aria-label="Scroll places left" aria-controls="sky-scroll"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-              <button type="button" class="sky-arrow" id="sky-next" aria-label="Scroll places right" aria-controls="sky-scroll"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+              <button type="button" class="sky-arrow" id="sky-prev" aria-label="Scroll places left"
+                aria-controls="sky-scroll"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M15 5l-7 7 7 7" />
+                </svg></button>
+              <button type="button" class="sky-arrow" id="sky-next" aria-label="Scroll places right"
+                aria-controls="sky-scroll"><svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 5l7 7-7 7" />
+                </svg></button>
             </div>
           </div>
           <div class="sky-frame" id="sky-frame">
@@ -184,7 +216,8 @@
             <div class="sky-view">
               <div class="sky-bg" id="sky-bg" aria-hidden="true"></div>
               <div class="sky-scroll" id="sky-scroll">
-                <div class="sky-track" id="sky-track" role="list" aria-label="Places by yearly temperature range, shown as thermometers"></div>
+                <div class="sky-track" id="sky-track" role="list"
+                  aria-label="Places by yearly temperature range, shown as thermometers"></div>
               </div>
               <span class="sky-fade sky-fade-l" aria-hidden="true"></span>
               <span class="sky-fade sky-fade-r" aria-hidden="true"></span>
@@ -193,7 +226,9 @@
           <div class="sky-progress" aria-hidden="true"><span id="sky-thumb"></span></div>
           <div class="sky-read" id="sky-read" aria-live="polite"></div>
           <div class="sky-foot">
-            <p class="sky-legend"><i class="sky-key sky-key-lo"></i>Winter nights <i class="sky-key sky-key-hi"></i>Summer afternoons <i class="sky-key sky-key-rec"></i>10-year extremes <i class="sky-key sky-key-band"></i>Comfortable indoors, 22–27 °C</p>
+            <p class="sky-legend"><i class="sky-key sky-key-lo"></i>Winter nights <i
+                class="sky-key sky-key-hi"></i>Summer afternoons <i class="sky-key sky-key-rec"></i>10-year extremes <i
+                class="sky-key sky-key-band"></i>Comfortable indoors, 22–27 °C</p>
             <p class="sky-src">ERA5 reanalysis, 2014–2023</p>
           </div>
         </div>
@@ -205,10 +240,12 @@
       <div class="container">
         <div class="paths-head reveal">
           <h2 id="paths-title" class="section-title">What are you building?</h2>
-          <p class="section-lead">Every path starts from your site's climate. Pick the one that matches where you are.</p>
+          <p class="section-lead">Every path starts from your site's climate. Pick the one that matches where you are.
+          </p>
         </div>
         <div class="paths-grid" id="flow-selector-hub">
-          <button type="button" class="path-card active reveal" id="flow-card-1" onclick="choosePath(1)" aria-pressed="true">
+          <button type="button" class="path-card active reveal" id="flow-card-1" onclick="choosePath(1)"
+            aria-pressed="true">
             <span class="path-media"><img src="assets/hero_house.jpg" alt="" loading="lazy" data-parallax-inner></span>
             <span class="path-body">
               <strong>A new home</strong>
@@ -217,15 +254,18 @@
             </span>
           </button>
           <button type="button" class="path-card reveal" id="flow-card-2" onclick="choosePath(2)" aria-pressed="false">
-            <span class="path-media path-media-plan"><img src="assets/plan_1.png" alt="" loading="lazy" data-parallax-inner></span>
+            <span class="path-media path-media-plan"><img src="assets/plan_1.png" alt="" loading="lazy"
+                data-parallax-inner></span>
             <span class="path-body">
               <strong>A plan I already have</strong>
-              <small>Upload a floor plan or pick one of ours, then see it in 3D and test it against your climate.</small>
+              <small>Upload a floor plan or pick one of ours, then see it in 3D and test it against your
+                climate.</small>
               <span class="path-meta">4 steps</span>
             </span>
           </button>
           <button type="button" class="path-card reveal" id="flow-card-3" onclick="choosePath(3)" aria-pressed="false">
-            <span class="path-media"><img src="assets/hero_cfd.jpg" alt="" loading="lazy" data-parallax-inner style="object-position: 40% 60%"></span>
+            <span class="path-media"><img src="assets/hero_cfd.jpg" alt="" loading="lazy" data-parallax-inner
+                style="object-position: 40% 60%"></span>
             <span class="path-body">
               <strong>Upgrading my current home</strong>
               <small>Tell us what your walls, roof and windows are made of. See which upgrades pay back fastest.</small>
@@ -233,7 +273,9 @@
             </span>
           </button>
           <button type="button" class="path-card reveal" id="flow-card-4" onclick="choosePath(4)" aria-pressed="false">
-            <span class="path-media"><img src="assets/livestock_changthang_herd.jpg" alt="" loading="lazy" data-parallax-inner style="object-position: 50% 70%"></span>
+            <span class="path-media"><img src="assets/livestock.png" alt="" loading="lazy" data-parallax-inner
+                style="object-position: 50% 70%"></span>
+
             <span class="path-body">
               <strong>A shelter for livestock</strong>
               <small>Cattle, goats or poultry. Keep heat stress down with shelter shape, roofing and airflow.</small>
@@ -247,15 +289,19 @@
     <!-- ============ STUDIO ============ -->
     <section class="studio" id="studio" aria-labelledby="studio-title">
       <div class="container">
-        <button type="button" class="studio-back" id="studio-back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back to home</button>
+        <button type="button" class="studio-back" id="studio-back"><svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M19 12H5M11 6l-6 6 6 6" />
+          </svg>Back to home</button>
         <div class="studio-head">
           <div>
             <h2 id="studio-title" class="section-title">Design studio</h2>
-            <p class="studio-path">You're designing <strong id="studio-path-name">a new home</strong>. <a href="#paths" class="text-link">Change</a></p>
+            <p class="studio-path">You're designing <strong id="studio-path-name">a new home</strong>. <a href="#paths"
+                class="text-link">Change</a></p>
           </div>
           <div class="live-pill" id="live-pill" aria-live="polite" hidden>
             <span class="live-dot" aria-hidden="true"></span>
-            <span class="live-text"><span class="live-label" id="live-label">Dawn indoors</span><span class="live-sub" id="live-sub"></span></span>
+            <span class="live-text"><span class="live-label" id="live-label">Dawn indoors</span><span class="live-sub"
+                id="live-sub"></span></span>
             <strong class="live-value" id="live-value">…</strong>
           </div>
         </div>
@@ -263,24 +309,52 @@
         <!-- Steppers (one per flow; app-core toggles which is visible) -->
         <nav class="stepper-wrap" id="stepper-wrap" aria-label="Design steps">
           <div class="stepper" id="stepper-flow-1">
-            <button type="button" class="step-tab active" id="step-tab-1" onclick="goToStep(1)"><span class="step-dot">1</span><span class="step-text"><span class="step-name" id="step-tab-title-1">Pick your site</span><span class="step-sub" id="step-tab-sub-1">Climate and orientation</span></span></button>
-            <button type="button" class="step-tab locked" id="step-tab-2" onclick="goToStep(2)"><span class="step-dot">2</span><span class="step-text"><span class="step-name" id="step-tab-title-2">Shape the home</span><span class="step-sub" id="step-tab-sub-2">Plot, rooms and facing</span></span></button>
-            <button type="button" class="step-tab locked" id="step-tab-3" onclick="goToStep(3)"><span class="step-dot">3</span><span class="step-text"><span class="step-name" id="step-tab-title-3">Choose materials</span><span class="step-sub" id="step-tab-sub-3">Plan and envelope</span></span></button>
-            <button type="button" class="step-tab locked" id="step-tab-4" onclick="goToStep(4)"><span class="step-dot">4</span><span class="step-text"><span class="step-name" id="step-tab-title-4">See it in 3D</span><span class="step-sub" id="step-tab-sub-4">Sun and heat</span></span></button>
-            <button type="button" class="step-tab locked" id="step-tab-5" onclick="goToStep(5)"><span class="step-dot">5</span><span class="step-text"><span class="step-name" id="step-tab-title-5">Your report</span><span class="step-sub" id="step-tab-sub-5">Performance and specs</span></span></button>
+            <button type="button" class="step-tab active" id="step-tab-1" onclick="goToStep(1)"><span
+                class="step-dot">1</span><span class="step-text"><span class="step-name" id="step-tab-title-1">Pick your
+                  site</span><span class="step-sub" id="step-tab-sub-1">Climate and orientation</span></span></button>
+            <button type="button" class="step-tab locked" id="step-tab-2" onclick="goToStep(2)"><span
+                class="step-dot">2</span><span class="step-text"><span class="step-name" id="step-tab-title-2">Shape the
+                  home</span><span class="step-sub" id="step-tab-sub-2">Plot, rooms and facing</span></span></button>
+            <button type="button" class="step-tab locked" id="step-tab-3" onclick="goToStep(3)"><span
+                class="step-dot">3</span><span class="step-text"><span class="step-name" id="step-tab-title-3">Choose
+                  materials</span><span class="step-sub" id="step-tab-sub-3">Plan and envelope</span></span></button>
+            <button type="button" class="step-tab locked" id="step-tab-4" onclick="goToStep(4)"><span
+                class="step-dot">4</span><span class="step-text"><span class="step-name" id="step-tab-title-4">See it in
+                  3D</span><span class="step-sub" id="step-tab-sub-4">Sun and heat</span></span></button>
+            <button type="button" class="step-tab locked" id="step-tab-5" onclick="goToStep(5)"><span
+                class="step-dot">5</span><span class="step-text"><span class="step-name" id="step-tab-title-5">Your
+                  report</span><span class="step-sub" id="step-tab-sub-5">Performance and specs</span></span></button>
           </div>
           <div class="stepper" id="stepper-flow-2" style="display:none">
-            <button type="button" class="step-tab active" id="f2-tab-1" onclick="goToStep(1)"><span class="step-dot">1</span><span class="step-text"><span class="step-name">Pick your site</span><span class="step-sub">Climate and orientation</span></span></button>
-            <button type="button" class="step-tab locked" id="f2-tab-2" onclick="goToStep(2)"><span class="step-dot">2</span><span class="step-text"><span class="step-name">Your plan</span><span class="step-sub">Upload or choose</span></span></button>
-            <button type="button" class="step-tab locked" id="f2-tab-3" onclick="goToStep(3)"><span class="step-dot">3</span><span class="step-text"><span class="step-name">See it in 3D</span><span class="step-sub">Sun and heat</span></span></button>
-            <button type="button" class="step-tab locked" id="f2-tab-4" onclick="goToStep(4)"><span class="step-dot">4</span><span class="step-text"><span class="step-name">Your report</span><span class="step-sub">Performance and specs</span></span></button>
+            <button type="button" class="step-tab active" id="f2-tab-1" onclick="goToStep(1)"><span
+                class="step-dot">1</span><span class="step-text"><span class="step-name">Pick your site</span><span
+                  class="step-sub">Climate and orientation</span></span></button>
+            <button type="button" class="step-tab locked" id="f2-tab-2" onclick="goToStep(2)"><span
+                class="step-dot">2</span><span class="step-text"><span class="step-name">Your plan</span><span
+                  class="step-sub">Upload or choose</span></span></button>
+            <button type="button" class="step-tab locked" id="f2-tab-3" onclick="goToStep(3)"><span
+                class="step-dot">3</span><span class="step-text"><span class="step-name">See it in 3D</span><span
+                  class="step-sub">Sun and heat</span></span></button>
+            <button type="button" class="step-tab locked" id="f2-tab-4" onclick="goToStep(4)"><span
+                class="step-dot">4</span><span class="step-text"><span class="step-name">Your report</span><span
+                  class="step-sub">Performance and specs</span></span></button>
           </div>
           <div class="stepper" id="stepper-flow-3" style="display:none">
-            <button type="button" class="step-tab active" id="f3-tab-1" onclick="goToStep(1)"><span class="step-dot">1</span><span class="step-text"><span class="step-name">Pick your site</span><span class="step-sub">Climate and orientation</span></span></button>
-            <button type="button" class="step-tab locked" id="f3-tab-2" onclick="goToStep(2)"><span class="step-dot">2</span><span class="step-text"><span class="step-name">Your home today</span><span class="step-sub">Plan and materials</span></span></button>
-            <button type="button" class="step-tab locked" id="f3-tab-3" onclick="goToStep(3)"><span class="step-dot">3</span><span class="step-text"><span class="step-name">Upgrade plan</span><span class="step-sub">Savings and payback</span></span></button>
-            <button type="button" class="step-tab locked" id="f3-tab-4" onclick="goToStep(4)"><span class="step-dot">4</span><span class="step-text"><span class="step-name">See it in 3D</span><span class="step-sub">Sun and heat</span></span></button>
-            <button type="button" class="step-tab locked" id="f3-tab-5" onclick="goToStep(5)"><span class="step-dot">5</span><span class="step-text"><span class="step-name">Your report</span><span class="step-sub">Before and after</span></span></button>
+            <button type="button" class="step-tab active" id="f3-tab-1" onclick="goToStep(1)"><span
+                class="step-dot">1</span><span class="step-text"><span class="step-name">Pick your site</span><span
+                  class="step-sub">Climate and orientation</span></span></button>
+            <button type="button" class="step-tab locked" id="f3-tab-2" onclick="goToStep(2)"><span
+                class="step-dot">2</span><span class="step-text"><span class="step-name">Your home today</span><span
+                  class="step-sub">Plan and materials</span></span></button>
+            <button type="button" class="step-tab locked" id="f3-tab-3" onclick="goToStep(3)"><span
+                class="step-dot">3</span><span class="step-text"><span class="step-name">Upgrade plan</span><span
+                  class="step-sub">Savings and payback</span></span></button>
+            <button type="button" class="step-tab locked" id="f3-tab-4" onclick="goToStep(4)"><span
+                class="step-dot">4</span><span class="step-text"><span class="step-name">See it in 3D</span><span
+                  class="step-sub">Sun and heat</span></span></button>
+            <button type="button" class="step-tab locked" id="f3-tab-5" onclick="goToStep(5)"><span
+                class="step-dot">5</span><span class="step-text"><span class="step-name">Your report</span><span
+                  class="step-sub">Before and after</span></span></button>
           </div>
         </nav>
 
@@ -290,7 +364,8 @@
           <section class="step-panel" id="flow-step-1" aria-labelledby="s1-title">
             <header class="panel-head">
               <h3 id="s1-title">Where is the site?</h3>
-              <p>Search for a town, click the map, or start from one of these places. The climate readout updates as you go.</p>
+              <p>Search for a town, click the map, or start from one of these places. The climate readout updates as you
+                go.</p>
             </header>
 
             <div class="site-grid">
@@ -298,40 +373,71 @@
                 <div class="search-row">
                   <div class="place-search" id="place-search">
                     <label class="sr-only" for="city-search">Search for an address, landmark, PIN code or town</label>
-                    <svg class="ps-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
-                    <input type="search" id="city-search" placeholder="Search an address, landmark, PIN code or town" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="place-suggest">
+                    <svg class="ps-icon" viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="11" cy="11" r="7" />
+                      <path d="m20 20-3.6-3.6" />
+                    </svg>
+                    <input type="search" id="city-search" placeholder="Search an address, landmark, PIN code or town"
+                      autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list"
+                      aria-expanded="false" aria-controls="place-suggest">
                     <span class="ps-spin" aria-hidden="true"></span>
-                    <ul class="place-suggest" id="place-suggest" role="listbox" aria-label="Suggested places" hidden></ul>
+                    <ul class="place-suggest" id="place-suggest" role="listbox" aria-label="Suggested places" hidden>
+                    </ul>
                   </div>
                   <button type="button" class="btn btn-ink" id="city-search-btn">Search</button>
                 </div>
                 <div class="chip-row" id="preset-chips" role="group" aria-label="Example places">
-                  <button type="button" class="chip active" data-preset="leh" onclick="selectMapPreset('leh')">Leh</button>
-                  <button type="button" class="chip" data-preset="nubra" onclick="selectMapPreset('nubra')">Nubra</button>
-                  <button type="button" class="chip" data-preset="kargil" onclick="selectMapPreset('kargil')">Kargil</button>
+                  <button type="button" class="chip active" data-preset="leh"
+                    onclick="selectMapPreset('leh')">Leh</button>
+                  <button type="button" class="chip" data-preset="nubra"
+                    onclick="selectMapPreset('nubra')">Nubra</button>
+                  <button type="button" class="chip" data-preset="kargil"
+                    onclick="selectMapPreset('kargil')">Kargil</button>
                   <button type="button" class="chip" data-preset="dras" onclick="selectMapPreset('dras')">Dras</button>
-                  <button type="button" class="chip" data-preset="pangong" onclick="selectMapPreset('pangong')">Pangong</button>
-                  <button type="button" class="chip" data-preset="spiti" onclick="selectMapPreset('spiti')">Spiti</button>
-                  <button type="button" class="chip" data-preset="new_delhi" onclick="selectMapPreset('new_delhi')">Delhi</button>
-                  <button type="button" class="chip" data-preset="chennai" onclick="selectMapPreset('chennai')">Chennai</button>
-                  <button type="button" class="chip" data-preset="jaisalmer" onclick="selectMapPreset('jaisalmer')">Jaisalmer</button>
-                  <button type="button" class="chip" data-preset="bengaluru" onclick="selectMapPreset('bengaluru')">Bengaluru</button>
+                  <button type="button" class="chip" data-preset="pangong"
+                    onclick="selectMapPreset('pangong')">Pangong</button>
+                  <button type="button" class="chip" data-preset="spiti"
+                    onclick="selectMapPreset('spiti')">Spiti</button>
+                  <button type="button" class="chip" data-preset="new_delhi"
+                    onclick="selectMapPreset('new_delhi')">Delhi</button>
+                  <button type="button" class="chip" data-preset="chennai"
+                    onclick="selectMapPreset('chennai')">Chennai</button>
+                  <button type="button" class="chip" data-preset="jaisalmer"
+                    onclick="selectMapPreset('jaisalmer')">Jaisalmer</button>
+                  <button type="button" class="chip" data-preset="bengaluru"
+                    onclick="selectMapPreset('bengaluru')">Bengaluru</button>
                 </div>
-                <select id="location-select" class="sr-only" tabindex="-1" aria-hidden="true" onchange="onLocationPresetChange(this.value)">
-                  <option value="leh">Leh</option><option value="nubra">Nubra</option><option value="kargil">Kargil</option>
-                  <option value="dras">Dras</option><option value="pangong">Pangong</option><option value="spiti">Spiti</option>
-                  <option value="new_delhi">New Delhi</option><option value="chennai">Chennai</option>
-                  <option value="jaisalmer">Jaisalmer</option><option value="bengaluru">Bengaluru</option>
+                <select id="location-select" class="sr-only" tabindex="-1" aria-hidden="true"
+                  onchange="onLocationPresetChange(this.value)">
+                  <option value="leh">Leh</option>
+                  <option value="nubra">Nubra</option>
+                  <option value="kargil">Kargil</option>
+                  <option value="dras">Dras</option>
+                  <option value="pangong">Pangong</option>
+                  <option value="spiti">Spiti</option>
+                  <option value="new_delhi">New Delhi</option>
+                  <option value="chennai">Chennai</option>
+                  <option value="jaisalmer">Jaisalmer</option>
+                  <option value="bengaluru">Bengaluru</option>
                 </select>
                 <div class="map-wrap">
                   <div id="map" class="map" role="application" aria-label="Map. Click to place your site."></div>
                   <div class="map-layers" role="group" aria-label="Map style">
-                    <button type="button" class="ml" data-layer="map" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 6 6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg>Map</button>
-                    <button type="button" class="ml active" data-layer="satellite" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 7 4-4 4 4-4 4zM3 17l4-4 4 4-4 4zM8.5 15.5l7-7"/><path d="M14 21a7 7 0 0 0 7-7"/></svg>Satellite</button>
+                    <button type="button" class="ml" data-layer="map" aria-pressed="false"><svg viewBox="0 0 24 24"
+                        aria-hidden="true">
+                        <path d="m3 6 6-2 6 2 6-2v14l-6 2-6-2-6 2z" />
+                        <path d="M9 4v14M15 6v14" />
+                      </svg>Map</button>
+                    <button type="button" class="ml active" data-layer="satellite" aria-pressed="true"><svg
+                        viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="m13 7 4-4 4 4-4 4zM3 17l4-4 4 4-4 4zM8.5 15.5l7-7" />
+                        <path d="M14 21a7 7 0 0 0 7-7" />
+                      </svg>Satellite</button>
                   </div>
                   <div class="map-readout" aria-live="polite">
                     <span class="mr-pin" aria-hidden="true"></span>
-                    <span class="mr-text"><strong id="map-place">Leh</strong><span id="map-coords">34.1526° N, 77.5771° E</span></span>
+                    <span class="mr-text"><strong id="map-place">Leh</strong><span id="map-coords">34.1526° N, 77.5771°
+                        E</span></span>
                   </div>
                   <p class="map-tip" aria-hidden="true">Click anywhere or drag the pin</p>
                 </div>
@@ -349,22 +455,37 @@
                 </div>
 
                 <dl class="climate-stats">
-                  <div><dt>Winter low</dt><dd id="climate-winter-temp">-14.2 °C</dd></div>
-                  <div><dt>Summer peak</dt><dd id="climate-summer-temp">28.4 °C</dd></div>
-                  <div><dt>Sunshine</dt><dd id="climate-solar-rad">5.8 kWh/m²/day</dd></div>
-                  <div class="wind-stat"><dt>Prevailing wind</dt><dd><span class="wind-arrow" id="wind-arrow" aria-hidden="true">↑</span><span id="climate-wind">3.4 m/s (West-Northwest)</span></dd></div>
+                  <div>
+                    <dt>Winter low</dt>
+                    <dd id="climate-winter-temp">-14.2 °C</dd>
+                  </div>
+                  <div>
+                    <dt>Summer peak</dt>
+                    <dd id="climate-summer-temp">28.4 °C</dd>
+                  </div>
+                  <div>
+                    <dt>Sunshine</dt>
+                    <dd id="climate-solar-rad">5.8 kWh/m²/day</dd>
+                  </div>
+                  <div class="wind-stat">
+                    <dt>Prevailing wind</dt>
+                    <dd><span class="wind-arrow" id="wind-arrow" aria-hidden="true">↑</span><span id="climate-wind">3.4
+                        m/s (West-Northwest)</span></dd>
+                  </div>
                 </dl>
 
                 <div class="guidance">
                   <p class="guidance-title">What this climate asks for</p>
-                  <p id="climate-directive">Direct solar gain, a heavy thermal-mass wall and buffer spaces to the north.</p>
+                  <p id="climate-directive">Direct solar gain, a heavy thermal-mass wall and buffer spaces to the north.
+                  </p>
                 </div>
               </aside>
             </div>
 
             <footer class="panel-actions">
               <span></span>
-              <button type="button" class="btn btn-primary" onclick="proceedToStep2()">Continue to the next step</button>
+              <button type="button" class="btn btn-primary" onclick="proceedToStep2()">Continue to the next
+                step</button>
             </footer>
           </section>
 
@@ -378,49 +499,66 @@
             <div class="shape-grid">
               <div class="control-stack">
                 <div class="field">
-                  <div class="field-row"><span class="field-label">What you're building</span><output class="field-value" id="btype-badge">Family home</output></div>
+                  <div class="field-row"><span class="field-label">What you're building</span><output
+                      class="field-value" id="btype-badge">Family home</output></div>
                   <div class="segmented" id="btype-segmented" role="group" aria-label="Building type">
                     <button type="button" class="seg active" onclick="seg(this); setBuildingType('home')">Home</button>
-                    <button type="button" class="seg" onclick="seg(this); setBuildingType('shelter')">Relief shelter</button>
+                    <button type="button" class="seg" onclick="seg(this); setBuildingType('shelter')">Relief
+                      shelter</button>
                     <button type="button" class="seg" onclick="seg(this); setBuildingType('post')">Border post</button>
                   </div>
                   <p class="field-hint" id="btype-hint">Family home: occupied mostly evenings and nights.</p>
                 </div>
 
                 <div class="field" data-for="shelter" hidden>
-                  <div class="field-row"><label class="field-label" for="shelter-people-slider">People to shelter</label><output class="field-value" id="shelter-people-val">40 people</output></div>
-                  <input type="range" class="range" id="shelter-people-slider" min="10" max="110" step="5" value="40" oninput="setOccupants('shelter', this.value)">
-                  <p class="field-hint" id="shelter-people-hint">4 m² a person, above the Sphere minimum of 3.5 m²: 160 m² of floor.</p>
+                  <div class="field-row"><label class="field-label" for="shelter-people-slider">People to
+                      shelter</label><output class="field-value" id="shelter-people-val">40 people</output></div>
+                  <input type="range" class="range" id="shelter-people-slider" min="10" max="110" step="5" value="40"
+                    oninput="setOccupants('shelter', this.value)">
+                  <p class="field-hint" id="shelter-people-hint">4 m² a person, above the Sphere minimum of 3.5 m²: 160
+                    m² of floor.</p>
                 </div>
 
                 <div class="field" data-for="shelter" hidden>
-                  <div class="field-row"><span class="field-label">Sleeping layout</span><output class="field-value" id="shelter-bays-val">Open hall</output></div>
+                  <div class="field-row"><span class="field-label">Sleeping layout</span><output class="field-value"
+                      id="shelter-bays-val">Open hall</output></div>
                   <div class="segmented" role="group" aria-label="Sleeping layout">
-                    <button type="button" class="seg active" onclick="seg(this); setBays('shelter', 1, 'Open hall')">Open hall</button>
-                    <button type="button" class="seg" onclick="seg(this); setBays('shelter', 2, '2 family bays')">2 family bays</button>
-                    <button type="button" class="seg" onclick="seg(this); setBays('shelter', 3, '3 family bays')">3 family bays</button>
+                    <button type="button" class="seg active"
+                      onclick="seg(this); setBays('shelter', 1, 'Open hall')">Open hall</button>
+                    <button type="button" class="seg" onclick="seg(this); setBays('shelter', 2, '2 family bays')">2
+                      family bays</button>
+                    <button type="button" class="seg" onclick="seg(this); setBays('shelter', 3, '3 family bays')">3
+                      family bays</button>
                   </div>
-                  <p class="field-hint">Bays give families privacy; one open hall is quickest to put up and shares heat best.</p>
+                  <p class="field-hint">Bays give families privacy; one open hall is quickest to put up and shares heat
+                    best.</p>
                 </div>
 
                 <div class="field" data-for="post" hidden>
-                  <div class="field-row"><label class="field-label" for="post-people-slider">Personnel on duty</label><output class="field-value" id="post-people-val">12 people</output></div>
-                  <input type="range" class="range" id="post-people-slider" min="4" max="40" step="1" value="12" oninput="setOccupants('post', this.value)">
-                  <p class="field-hint" id="post-people-hint">5 m² a person for bunks, kit and a stove: 60 m² of floor.</p>
+                  <div class="field-row"><label class="field-label" for="post-people-slider">Personnel on
+                      duty</label><output class="field-value" id="post-people-val">12 people</output></div>
+                  <input type="range" class="range" id="post-people-slider" min="4" max="40" step="1" value="12"
+                    oninput="setOccupants('post', this.value)">
+                  <p class="field-hint" id="post-people-hint">5 m² a person for bunks, kit and a stove: 60 m² of floor.
+                  </p>
                 </div>
 
                 <div class="field" data-for="post" hidden>
-                  <div class="field-row"><span class="field-label">Bunk rooms</span><output class="field-value" id="post-bays-val">2 rooms</output></div>
+                  <div class="field-row"><span class="field-label">Bunk rooms</span><output class="field-value"
+                      id="post-bays-val">2 rooms</output></div>
                   <div class="segmented" role="group" aria-label="Bunk rooms">
                     <button type="button" class="seg" onclick="seg(this); setBays('post', 1, '1 room')">1</button>
-                    <button type="button" class="seg active" onclick="seg(this); setBays('post', 2, '2 rooms')">2</button>
+                    <button type="button" class="seg active"
+                      onclick="seg(this); setBays('post', 2, '2 rooms')">2</button>
                     <button type="button" class="seg" onclick="seg(this); setBays('post', 3, '3 rooms')">3</button>
                   </div>
-                  <p class="field-hint">Bunk rooms sit on the sunny south side; the store and kitchen buffer the north.</p>
+                  <p class="field-hint">Bunk rooms sit on the sunny south side; the store and kitchen buffer the north.
+                  </p>
                 </div>
 
                 <div class="field" data-for="home">
-                  <div class="field-row"><span class="field-label">Home size</span><output class="field-value" id="bhk-badge">2 BHK</output></div>
+                  <div class="field-row"><span class="field-label">Home size</span><output class="field-value"
+                      id="bhk-badge">2 BHK</output></div>
                   <div class="segmented" id="bhk-segmented" role="group" aria-label="Home size">
                     <button type="button" class="seg" onclick="seg(this); setBHK('1BHK','1 BHK')">1 BHK</button>
                     <button type="button" class="seg active" onclick="seg(this); setBHK('2BHK','2 BHK')">2 BHK</button>
@@ -428,40 +566,54 @@
                     <button type="button" class="seg" onclick="seg(this); setBHK('4BHK','4 BHK')">4 BHK</button>
                   </div>
                   <select id="bhk-select" hidden onchange="updateBHKSelection(this.value)">
-                    <option value="1BHK">1 BHK</option><option value="2BHK" selected>2 BHK</option><option value="3BHK">3 BHK</option><option value="4BHK">4 BHK</option>
+                    <option value="1BHK">1 BHK</option>
+                    <option value="2BHK" selected>2 BHK</option>
+                    <option value="3BHK">3 BHK</option>
+                    <option value="4BHK">4 BHK</option>
                   </select>
                 </div>
 
                 <div class="field" data-for="home">
-                  <div class="field-row"><label class="field-label" for="plot-area-slider">Built-up area</label><output class="field-value" id="area-slider-val">1,200 sq ft (111.5 m²)</output></div>
-                  <input type="range" class="range" id="plot-area-slider" min="400" max="5000" step="50" value="1200" oninput="onAreaInput(this.value)">
+                  <div class="field-row"><label class="field-label" for="plot-area-slider">Built-up area</label><output
+                      class="field-value" id="area-slider-val">1,200 sq ft (111.5 m²)</output></div>
+                  <input type="range" class="range" id="plot-area-slider" min="400" max="5000" step="50" value="1200"
+                    oninput="onAreaInput(this.value)">
                   <input type="number" id="plot-area-input" value="1200" hidden>
                 </div>
 
                 <div class="field-pair">
                   <div class="field">
-                    <div class="field-row"><label class="field-label" for="plot-width-slider">Plot width</label><output class="field-value" id="width-slider-val">10.0 m</output></div>
-                    <input type="range" class="range" id="plot-width-slider" min="6" max="30" step="0.5" value="10" oninput="onPlotInput('width', this.value)">
+                    <div class="field-row"><label class="field-label" for="plot-width-slider">Plot width</label><output
+                        class="field-value" id="width-slider-val">10.0 m</output></div>
+                    <input type="range" class="range" id="plot-width-slider" min="6" max="30" step="0.5" value="10"
+                      oninput="onPlotInput('width', this.value)">
                     <input type="number" id="plot-width-input" value="10.0" hidden>
                   </div>
                   <div class="field">
-                    <div class="field-row"><label class="field-label" for="plot-length-slider">Plot length</label><output class="field-value" id="length-slider-val">12.0 m</output></div>
-                    <input type="range" class="range" id="plot-length-slider" min="6" max="30" step="0.5" value="12" oninput="onPlotInput('length', this.value)">
+                    <div class="field-row"><label class="field-label" for="plot-length-slider">Plot
+                        length</label><output class="field-value" id="length-slider-val">12.0 m</output></div>
+                    <input type="range" class="range" id="plot-length-slider" min="6" max="30" step="0.5" value="12"
+                      oninput="onPlotInput('length', this.value)">
                     <input type="number" id="plot-length-input" value="12.0" hidden>
                   </div>
                 </div>
 
                 <div class="field">
-                  <div class="field-row"><span class="field-label">Entrance faces</span><output class="field-value" id="facing-badge">North</output></div>
+                  <div class="field-row"><span class="field-label">Entrance faces</span><output class="field-value"
+                      id="facing-badge">North</output></div>
                   <div class="segmented" id="facing-segmented" role="group" aria-label="Entrance facing">
                     <button type="button" class="seg active" onclick="seg(this); setFacing('north')">North</button>
                     <button type="button" class="seg" onclick="seg(this); setFacing('east')">East</button>
                     <button type="button" class="seg" onclick="seg(this); setFacing('south')">South</button>
                     <button type="button" class="seg" onclick="seg(this); setFacing('west')">West</button>
                   </div>
-                  <p class="field-hint" id="facing-hint">North entrances keep the main door out of direct sun and suit most Indian climates.</p>
+                  <p class="field-hint" id="facing-hint">North entrances keep the main door out of direct sun and suit
+                    most Indian climates.</p>
                   <select id="facing-select" hidden onchange="calculateVastuScore()">
-                    <option value="north" selected>North</option><option value="east">East</option><option value="south">South</option><option value="west">West</option>
+                    <option value="north" selected>North</option>
+                    <option value="east">East</option>
+                    <option value="south">South</option>
+                    <option value="west">West</option>
                   </select>
                 </div>
               </div>
@@ -472,7 +624,8 @@
                   <p class="vastu-score"><span id="vastu-score-badge">94% (A+ Compliant)</span></p>
                 </div>
                 <div class="vastu-grid" id="vastu-grid" data-facing="north">
-                  <span class="compass compass-n">N</span><span class="compass compass-e">E</span><span class="compass compass-s">S</span><span class="compass compass-w">W</span>
+                  <span class="compass compass-n">N</span><span class="compass compass-e">E</span><span
+                    class="compass compass-s">S</span><span class="compass compass-w">W</span>
                   <div class="vz" data-side="n w"><b>North-west</b><small>Guest room, utility</small></div>
                   <div class="vz" data-side="n"><b>North</b><small>Living, study</small></div>
                   <div class="vz" data-side="n e"><b>North-east</b><small>Prayer, water</small></div>
@@ -489,7 +642,8 @@
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(1)">Back</button>
-              <button type="button" class="btn btn-primary" onclick="generate2DPlan(); proceedToStep3();">Suggest a plan and materials</button>
+              <button type="button" class="btn btn-primary" onclick="generate2DPlan(); proceedToStep3();">Suggest a plan
+                and materials</button>
             </footer>
           </section>
 
@@ -505,15 +659,21 @@
                 <div class="field">
                   <span class="field-label">Animals</span>
                   <div class="segmented" id="species-segmented" role="group" aria-label="Animals">
-                    <button type="button" class="seg active" id="species-btn-cattle" onclick="seg(this); selectAnimalType('cattle')">Dairy cattle</button>
-                    <button type="button" class="seg" id="species-btn-poultry" onclick="seg(this); selectAnimalType('poultry')">Poultry</button>
-                    <button type="button" class="seg" id="species-btn-goat" onclick="seg(this); selectAnimalType('goat')">Goats and sheep</button>
-                    <button type="button" class="seg" id="species-btn-yak" onclick="seg(this); selectAnimalType('yak')">Yak</button>
+                    <button type="button" class="seg active" id="species-btn-cattle"
+                      onclick="seg(this); selectAnimalType('cattle')">Dairy cattle</button>
+                    <button type="button" class="seg" id="species-btn-poultry"
+                      onclick="seg(this); selectAnimalType('poultry')">Poultry</button>
+                    <button type="button" class="seg" id="species-btn-goat"
+                      onclick="seg(this); selectAnimalType('goat')">Goats and sheep</button>
+                    <button type="button" class="seg" id="species-btn-yak"
+                      onclick="seg(this); selectAnimalType('yak')">Yak</button>
                   </div>
                 </div>
                 <div class="field">
-                  <div class="field-row"><label class="field-label" for="animal-herd-slider">Herd size</label><output class="field-value" id="animal-herd-val">20 Head</output></div>
-                  <input type="range" class="range" id="animal-herd-slider" min="5" max="150" value="20" oninput="updateAnimalHerdCapacity(this.value)">
+                  <div class="field-row"><label class="field-label" for="animal-herd-slider">Herd size</label><output
+                      class="field-value" id="animal-herd-val">20 Head</output></div>
+                  <input type="range" class="range" id="animal-herd-slider" min="5" max="150" value="20"
+                    oninput="updateAnimalHerdCapacity(this.value)">
                 </div>
                 <div class="field">
                   <label class="field-label" for="animal-orientation-select">Long side of the shelter runs</label>
@@ -526,16 +686,29 @@
               </div>
 
               <dl class="sizing-card">
-                <div><dt>Covered area</dt><dd id="animal-covered-area">90.0 m²</dd></div>
-                <div><dt>Open paddock</dt><dd id="animal-open-area">180.0 m²</dd></div>
-                <div><dt>Shelter size</dt><dd id="animal-shelter-dim">15.0 m × 6.0 m</dd></div>
-                <div><dt>Ridge / eaves height</dt><dd id="animal-shelter-height">4.2 m / 2.8 m</dd></div>
+                <div>
+                  <dt>Covered area</dt>
+                  <dd id="animal-covered-area">90.0 m²</dd>
+                </div>
+                <div>
+                  <dt>Open paddock</dt>
+                  <dd id="animal-open-area">180.0 m²</dd>
+                </div>
+                <div>
+                  <dt>Shelter size</dt>
+                  <dd id="animal-shelter-dim">15.0 m × 6.0 m</dd>
+                </div>
+                <div>
+                  <dt>Ridge / eaves height</dt>
+                  <dd id="animal-shelter-height">4.2 m / 2.8 m</dd>
+                </div>
               </dl>
             </div>
 
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(1)">Back</button>
-              <button type="button" class="btn btn-primary" onclick="updateAnimal2DLayout(); proceedToStep3();">Suggest a shelter plan</button>
+              <button type="button" class="btn btn-primary" onclick="updateAnimal2DLayout(); proceedToStep3();">Suggest
+                a shelter plan</button>
             </footer>
           </section>
 
@@ -543,15 +716,26 @@
           <section class="step-panel" id="flow-step-3" style="display:none" aria-labelledby="s3-title">
             <header class="panel-head">
               <h3 id="s3-title">Plan and materials</h3>
-              <p>We picked the plan that best fits your size, and the envelope that suits your region. Pick a different plan if you prefer.</p>
+              <p>We picked the plan that best fits your size, and the envelope that suits your region. Pick a different
+                plan if you prefer.</p>
             </header>
 
             <div class="plan-picker" role="group" aria-label="Floor plans">
-              <button type="button" class="plan-thumb active" id="plan-btn-0" onclick="selectArchitecturalPlan(0)"><img src="assets/plan_1.png" alt="" loading="lazy"><span><b>Courtyard villa</b><small>2–3 BHK, 1,158 sq ft</small></span></button>
-              <button type="button" class="plan-thumb" id="plan-btn-1" onclick="selectArchitecturalPlan(1)"><img src="assets/plan_2.png" alt="" loading="lazy"><span><b>Suburban home</b><small>4 BHK, 960 sq ft</small></span></button>
-              <button type="button" class="plan-thumb" id="plan-btn-2" onclick="selectArchitecturalPlan(2)"><img src="assets/plan_3.png" alt="" loading="lazy"><span><b>Large family home</b><small>5 BHK, 1,240 sq ft</small></span></button>
-              <button type="button" class="plan-thumb" id="plan-btn-3" onclick="selectArchitecturalPlan(3)"><img src="assets/plan_4.png" alt="" loading="lazy"><span><b>Compact studio</b><small>1 BHK, 483 sq ft</small></span></button>
-              <button type="button" class="plan-thumb" id="plan-btn-4" onclick="selectArchitecturalPlan(4)"><img src="assets/plan_5.png" alt="" loading="lazy"><span><b>Solar chamfer</b><small>1 BHK, 495 sq ft</small></span></button>
+              <button type="button" class="plan-thumb active" id="plan-btn-0" onclick="selectArchitecturalPlan(0)"><img
+                  src="assets/plan_1.png" alt="" loading="lazy"><span><b>Courtyard villa</b><small>2–3 BHK, 1,158 sq
+                    ft</small></span></button>
+              <button type="button" class="plan-thumb" id="plan-btn-1" onclick="selectArchitecturalPlan(1)"><img
+                  src="assets/plan_2.png" alt="" loading="lazy"><span><b>Suburban home</b><small>4 BHK, 960 sq
+                    ft</small></span></button>
+              <button type="button" class="plan-thumb" id="plan-btn-2" onclick="selectArchitecturalPlan(2)"><img
+                  src="assets/plan_3.png" alt="" loading="lazy"><span><b>Large family home</b><small>5 BHK, 1,240 sq
+                    ft</small></span></button>
+              <button type="button" class="plan-thumb" id="plan-btn-3" onclick="selectArchitecturalPlan(3)"><img
+                  src="assets/plan_4.png" alt="" loading="lazy"><span><b>Compact studio</b><small>1 BHK, 483 sq
+                    ft</small></span></button>
+              <button type="button" class="plan-thumb" id="plan-btn-4" onclick="selectArchitecturalPlan(4)"><img
+                  src="assets/plan_5.png" alt="" loading="lazy"><span><b>Solar chamfer</b><small>1 BHK, 495 sq
+                    ft</small></span></button>
             </div>
 
             <div class="plan-view">
@@ -575,9 +759,13 @@
               <div class="best-head">
                 <div>
                   <p class="best-title">Best materials for your region</p>
-                  <p class="best-sub" id="best-sub">Chosen for Leh's cold, dry climate. The report below is calculated on exactly these.</p>
+                  <p class="best-sub" id="best-sub">Chosen for Leh's cold, dry climate. The report below is calculated
+                    on exactly these.</p>
                 </div>
-                <span class="best-mark"><svg viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><path d="m4 10.5 4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Recommended</span>
+                <span class="best-mark"><svg viewBox="0 0 20 20" width="14" height="14" aria-hidden="true">
+                    <path d="m4 10.5 4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.2"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>Recommended</span>
               </div>
               <div class="best-grid" id="best-grid">
                 <article class="best-card" id="best-wall"></article>
@@ -586,17 +774,28 @@
               </div>
               <div class="why">
                 <p class="why-title">Why these</p>
-                <p id="ai-predict-rationale">Stabilised rammed earth delays the afternoon heat by about ten hours, so it reaches the rooms at night when it can be vented away.</p>
+                <p id="ai-predict-rationale">Stabilised rammed earth delays the afternoon heat by about ten hours, so it
+                  reaches the rooms at night when it can be vented away.</p>
               </div>
               <p class="best-note">Materials are fixed to the suggestion so the performance figures stay honest.</p>
               <select id="wall-mat-select" hidden>
-                <option value="rammed_earth" selected>Rammed earth</option><option value="aac_aerogel">AAC</option><option value="cavity_brick">Cavity terracotta</option><option value="cseb_cork">CSEB</option><option value="clt_woodfiber">CLT</option>
+                <option value="rammed_earth" selected>Rammed earth</option>
+                <option value="aac_aerogel">AAC</option>
+                <option value="cavity_brick">Cavity terracotta</option>
+                <option value="cseb_cork">CSEB</option>
+                <option value="clt_woodfiber">CLT</option>
               </select>
               <select id="roof-mat-select" hidden>
-                <option value="cool_roof" selected>Cool roof</option><option value="green_roof">Green roof</option><option value="poplar_mud">Poplar mud</option><option value="terracotta_double">Double tile</option>
+                <option value="cool_roof" selected>Cool roof</option>
+                <option value="green_roof">Green roof</option>
+                <option value="poplar_mud">Poplar mud</option>
+                <option value="terracotta_double">Double tile</option>
               </select>
               <select id="glazing-mat-select" hidden>
-                <option value="low_e_double" selected>Low-E double</option><option value="krypton_triple">Krypton triple</option><option value="smart_electrochromic">Electrochromic</option><option value="single_clear">Single clear</option>
+                <option value="low_e_double" selected>Low-E double</option>
+                <option value="krypton_triple">Krypton triple</option>
+                <option value="smart_electrochromic">Electrochromic</option>
+                <option value="single_clear">Single clear</option>
               </select>
             </div>
 
@@ -627,12 +826,17 @@
           <section class="step-panel" id="animal-flow-step-3" style="display:none" aria-labelledby="a3-title">
             <header class="panel-head">
               <h3 id="a3-title">Shelter plan and materials</h3>
-              <p>The shelter plan is matched to your herd. Roof, walls and floor are chosen for your region and animals.</p>
+              <p>The shelter plan is matched to your herd. Roof, walls and floor are chosen for your region and animals.
+              </p>
             </header>
 
             <div class="plan-picker plan-picker-2" role="group" aria-label="Shelter plans">
-              <button type="button" class="plan-thumb active" id="animal-plan-btn-0" onclick="selectAnimalPlan(0)"><img src="assets/animal_plan_1.png" alt="" loading="lazy"><span><b>Dairy cow shed</b><small>515 sq ft, 5 stalls and milking bay</small></span></button>
-              <button type="button" class="plan-thumb" id="animal-plan-btn-1" onclick="selectAnimalPlan(1)"><img src="assets/animal_plan_3.png" alt="" loading="lazy"><span><b>Poultry house</b><small>72 sq ft, raised roost</small></span></button>
+              <button type="button" class="plan-thumb active" id="animal-plan-btn-0" onclick="selectAnimalPlan(0)"><img
+                  src="assets/animal_plan_1.png" alt="" loading="lazy"><span><b>Dairy cow shed</b><small>515 sq ft, 5
+                    stalls and milking bay</small></span></button>
+              <button type="button" class="plan-thumb" id="animal-plan-btn-1" onclick="selectAnimalPlan(1)"><img
+                  src="assets/animal_plan_3.png" alt="" loading="lazy"><span><b>Poultry house</b><small>72 sq ft, raised
+                    roost</small></span></button>
             </div>
 
             <div class="plan-view">
@@ -646,7 +850,10 @@
                       <p class="best-title">Best materials for your region</p>
                       <p class="best-sub" id="animal-best-sub">Chosen for this climate and your animals.</p>
                     </div>
-                    <span class="best-mark"><svg viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><path d="m4 10.5 4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Recommended</span>
+                    <span class="best-mark"><svg viewBox="0 0 20 20" width="14" height="14" aria-hidden="true">
+                        <path d="m4 10.5 4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.2"
+                          stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>Recommended</span>
                   </div>
                   <div class="best-list" id="animal-best-list">
                     <article class="best-row" id="best-animal-roof"></article>
@@ -655,16 +862,24 @@
                   </div>
                   <div class="why why-inline">
                     <p class="why-title">Why these</p>
-                    <p id="animal-ai-predict-rationale">A layered thatch roof blocks most overhead heat. Open louvres keep air moving, so the heat-stress index stays in the comfort zone.</p>
+                    <p id="animal-ai-predict-rationale">A layered thatch roof blocks most overhead heat. Open louvres
+                      keep air moving, so the heat-stress index stays in the comfort zone.</p>
                   </div>
                   <select id="animal-roof-material" hidden>
-                    <option value="thatch" selected>Thatch</option><option value="white_aluminum">White aluminium</option><option value="terracotta_tiles">Clay tiles</option><option value="puff_sandwich">Sandwich panel</option>
+                    <option value="thatch" selected>Thatch</option>
+                    <option value="white_aluminum">White aluminium</option>
+                    <option value="terracotta_tiles">Clay tiles</option>
+                    <option value="puff_sandwich">Sandwich panel</option>
                   </select>
                   <select id="animal-wall-material" hidden>
-                    <option value="slatted_louvers" selected>Louvres</option><option value="poultry_mesh">Mesh</option><option value="rammed_half_wall">Earth half wall</option>
+                    <option value="slatted_louvers" selected>Louvres</option>
+                    <option value="poultry_mesh">Mesh</option>
+                    <option value="rammed_half_wall">Earth half wall</option>
                   </select>
                   <select id="animal-floor-material" hidden>
-                    <option value="grooved_concrete" selected>Grooved concrete</option><option value="slatted_timber">Timber slats</option><option value="vulcanized_rubber">Rubber mats</option>
+                    <option value="grooved_concrete" selected>Grooved concrete</option>
+                    <option value="slatted_timber">Timber slats</option>
+                    <option value="vulcanized_rubber">Rubber mats</option>
                   </select>
                 </div>
               </div>
@@ -680,21 +895,31 @@
           <section class="step-panel" id="flow-step-4" style="display:none" aria-labelledby="s4-title">
             <header class="panel-head">
               <h3 id="s4-title">See it in 3D</h3>
-              <p>Your design, built layer by layer from the simulation. Drag to orbit, click any part for its numbers, pull the house apart, take the roof off to see each room's temperature, or switch to the infrared view to see where heat escapes.</p>
+              <p>Your design, built layer by layer from the simulation. Drag to orbit, click any part for its numbers,
+                pull the house apart, take the roof off to see each room's temperature, or switch to the infrared view
+                to see where heat escapes.</p>
             </header>
 
             <div class="stage">
               <div class="stage-tabs" role="tablist" aria-label="3D view">
-                <button type="button" role="tab" class="stage-tab active" aria-selected="true" onclick="stageTab(this); showDrawings(false); switch3DViewerType('threejs')">Your design in 3D</button>
-                <button type="button" role="tab" class="stage-tab" aria-selected="false" onclick="stageTab(this); document.getElementById('viewer-3d-container').style.display='none'; document.getElementById('iframe-3d-container').style.display='none'; showDrawings(true)">Drawings</button>
-                <button type="button" role="tab" class="stage-tab" aria-selected="false" onclick="stageTab(this); showDrawings(false); switch3DViewerType('iframe')">Reference model</button>
+                <button type="button" role="tab" class="stage-tab active" aria-selected="true"
+                  onclick="stageTab(this); showDrawings(false); switch3DViewerType('threejs')">Your design in
+                  3D</button>
+                <button type="button" role="tab" class="stage-tab" aria-selected="false"
+                  onclick="stageTab(this); document.getElementById('viewer-3d-container').style.display='none'; document.getElementById('iframe-3d-container').style.display='none'; showDrawings(true)">Drawings</button>
+                <button type="button" role="tab" class="stage-tab" aria-selected="false"
+                  onclick="stageTab(this); showDrawings(false); switch3DViewerType('iframe')">Reference model</button>
               </div>
 
               <div id="viewer-3d-container">
                 <div class="stage-tools" role="group" aria-label="Camera">
                   <button type="button" onclick="zoom3D(0.85)" aria-label="Zoom in">+</button>
                   <button type="button" onclick="zoom3D(1.18)" aria-label="Zoom out">−</button>
-                  <button type="button" onclick="zoom3D(0)" aria-label="Reset the view"><svg viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><path d="M3 9.5 10 3l7 6.5M5 8v8h10V8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+                  <button type="button" onclick="zoom3D(0)" aria-label="Reset the view"><svg viewBox="0 0 20 20"
+                      width="14" height="14" aria-hidden="true">
+                      <path d="M3 9.5 10 3l7 6.5M5 8v8h10V8" fill="none" stroke="currentColor" stroke-width="1.8"
+                        stroke-linejoin="round" />
+                    </svg></button>
                 </div>
                 <div id="viewer-3d" class="viewer-canvas"></div>
                 <div class="stage-hud" id="stage-hud" aria-live="polite">
@@ -705,15 +930,19 @@
                   <div class="sun-control">
                     <label for="sun-time" class="sr-only">Time of day</label>
                     <span aria-hidden="true">6 am</span>
-                    <input type="range" id="sun-time" class="range range-dark" min="6" max="18.5" step="0.25" value="13" oninput="setSunTime(this.value)">
+                    <input type="range" id="sun-time" class="range range-dark" min="6" max="18.5" step="0.25" value="13"
+                      oninput="setSunTime(this.value)">
                     <span aria-hidden="true">6 pm</span>
                   </div>
                   <div class="segmented segmented-dark" role="group" aria-label="Season" id="season-seg">
-                    <button type="button" class="seg" data-season="summer" onclick="seg(this); setSeason('summer')">Summer</button>
-                    <button type="button" class="seg active" data-season="winter" onclick="seg(this); setSeason('winter')">Winter</button>
+                    <button type="button" class="seg" data-season="summer"
+                      onclick="seg(this); setSeason('summer')">Summer</button>
+                    <button type="button" class="seg active" data-season="winter"
+                      onclick="seg(this); setSeason('winter')">Winter</button>
                   </div>
                   <div class="segmented segmented-dark" role="group" aria-label="Display">
-                    <button type="button" class="seg active" onclick="seg(this); setViewerMode('realistic')">Model</button>
+                    <button type="button" class="seg active"
+                      onclick="seg(this); setViewerMode('realistic')">Model</button>
                     <button type="button" class="seg" onclick="seg(this); setViewerMode('thermal')">Infrared</button>
                     <button type="button" class="seg" onclick="seg(this); setViewerMode('wireframe')">Frame</button>
                   </div>
@@ -722,21 +951,26 @@
                     <button type="button" class="seg" onclick="seg(this); set3DView('exploded')">Exploded</button>
                     <button type="button" class="seg" onclick="seg(this); set3DView('cut')">Roof off</button>
                   </div>
-                  <button type="button" class="btn btn-ghost-light btn-sm is-on" id="labels-btn" aria-pressed="true" onclick="toggle3DLabels(this)">Labels</button>
-                  <button type="button" class="btn btn-ghost-light btn-sm" id="play-day" onclick="toggleSunPath()">Play the day</button>
+                  <button type="button" class="btn btn-ghost-light btn-sm is-on" id="labels-btn" aria-pressed="true"
+                    onclick="toggle3DLabels(this)">Labels</button>
+                  <button type="button" class="btn btn-ghost-light btn-sm" id="play-day" onclick="toggleSunPath()">Play
+                    the day</button>
                 </div>
               </div>
 
               <div id="drawings-container" class="drawings" style="display:none">
                 <div class="drawings-bar">
                   <p>Plan, section and elevations drawn from the same design as the 3D model and the report.</p>
-                  <div class="action-group"><button type="button" class="btn btn-quiet btn-sm" id="dw-svg-dl">Download SVG</button><button type="button" class="btn btn-ink btn-sm" id="dw-print">Print drawings</button></div>
+                  <div class="action-group"><button type="button" class="btn btn-quiet btn-sm" id="dw-svg-dl">Download
+                      SVG</button><button type="button" class="btn btn-ink btn-sm" id="dw-print">Print drawings</button>
+                  </div>
                 </div>
                 <div id="drawings-sheet" class="drawings-sheet"></div>
               </div>
 
               <div id="iframe-3d-container" style="display:none">
-                <iframe id="iframe-3d-model" title="Reference 3D model of a similar home" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen loading="lazy"></iframe>
+                <iframe id="iframe-3d-model" title="Reference 3D model of a similar home"
+                  allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen loading="lazy"></iframe>
                 <p class="stage-note" id="step4-plan-name">Reference model</p>
               </div>
             </div>
@@ -745,25 +979,31 @@
               <div class="tune-head">
                 <div>
                   <h4 id="tune-title">Fine-tune the design</h4>
-                  <p>Materials stay as recommended. Turning the house, the share of south glass and the overhang re-run the simulation, rebuild the model and carry into your report.</p>
+                  <p>Materials stay as recommended. Turning the house, the share of south glass and the overhang re-run
+                    the simulation, rebuild the model and carry into your report.</p>
                 </div>
                 <button type="button" class="btn btn-quiet btn-sm" id="tune-reset" disabled>Back to recommended</button>
               </div>
               <div class="tune-grid">
                 <div class="tune-dial-wrap" id="tune-orient">
                   <p class="field-label">Which way the long side faces</p>
-                  <div id="tune-dial" class="tune-dial" role="slider" tabindex="0" aria-label="Building orientation, degrees from due south" aria-valuemin="-45" aria-valuemax="45" aria-valuenow="0"></div>
+                  <div id="tune-dial" class="tune-dial" role="slider" tabindex="0"
+                    aria-label="Building orientation, degrees from due south" aria-valuemin="-45" aria-valuemax="45"
+                    aria-valuenow="0"></div>
                   <output class="field-value" id="tune-orient-v">Due south</output>
                 </div>
                 <div class="control-stack">
                   <div class="field" id="tune-wwr-field">
-                    <div class="field-row"><label class="field-label" for="tune-wwr">South wall that is glass</label><output class="field-value" id="tune-wwr-v">35 %</output></div>
+                    <div class="field-row"><label class="field-label" for="tune-wwr">South wall that is
+                        glass</label><output class="field-value" id="tune-wwr-v">35 %</output></div>
                     <input type="range" class="range" id="tune-wwr" min="10" max="60" step="5" value="35">
                   </div>
                   <div class="field">
-                    <div class="field-row"><label class="field-label" for="tune-oh">Overhang over the windows</label><output class="field-value" id="tune-oh-v">None</output></div>
+                    <div class="field-row"><label class="field-label" for="tune-oh">Overhang over the
+                        windows</label><output class="field-value" id="tune-oh-v">None</output></div>
                     <input type="range" class="range" id="tune-oh" min="0" max="1.2" step="0.1" value="0">
-                    <p class="field-hint">Low winter sun passes under a short overhang; high summer sun is blocked. See the section in Drawings.</p>
+                    <p class="field-hint">Low winter sun passes under a short overhang; high summer sun is blocked. See
+                      the section in Drawings.</p>
                   </div>
                   <p class="field-hint" id="tune-status" aria-live="polite"></p>
                 </div>
@@ -786,15 +1026,18 @@
 
             <div class="stage">
               <div class="stage-tabs" role="tablist" aria-label="3D view">
-                <button type="button" role="tab" class="stage-tab active" aria-selected="true" onclick="stageTab(this); switchAnimal3DViewerType('threejs')">Airflow</button>
-                <button type="button" role="tab" class="stage-tab" aria-selected="false" onclick="stageTab(this); switchAnimal3DViewerType('iframe')">Reference model</button>
+                <button type="button" role="tab" class="stage-tab active" aria-selected="true"
+                  onclick="stageTab(this); switchAnimal3DViewerType('threejs')">Airflow</button>
+                <button type="button" role="tab" class="stage-tab" aria-selected="false"
+                  onclick="stageTab(this); switchAnimal3DViewerType('iframe')">Reference model</button>
               </div>
               <div id="animal-viewer-3d-container">
                 <div id="animal-shelter-canvas" class="viewer-canvas"></div>
                 <div class="stage-hud"><span>Air enters low, leaves through the ridge</span></div>
               </div>
               <div id="iframe-animal-3d-container" style="display:none">
-                <iframe id="iframe-animal-3d-model" title="Reference 3D model of a similar shelter" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen loading="lazy"></iframe>
+                <iframe id="iframe-animal-3d-model" title="Reference 3D model of a similar shelter"
+                  allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen loading="lazy"></iframe>
                 <p class="stage-note" id="animal-step4-plan-name">Reference model</p>
               </div>
             </div>
@@ -810,26 +1053,34 @@
             <header class="report-head">
               <div>
                 <p class="report-kicker" id="report-place">Leh, Ladakh</p>
-                <h3 id="s5-title" class="report-title">Your home stays <span class="countup" id="res-temp-diff">12.3 °C</span> cooler at the hottest hour.</h3>
-                <p class="report-sub">Estimated with ThermaBuild's heat-balance model for a clear summer day. Export the model to ANSYS Fluent for a full simulation.</p>
+                <h3 id="s5-title" class="report-title">Your home stays <span class="countup" id="res-temp-diff">12.3
+                    °C</span> cooler at the hottest hour.</h3>
+                <p class="report-sub">Estimated with ThermaBuild's heat-balance model for a clear summer day. Export the
+                  model to ANSYS Fluent for a full simulation.</p>
               </div>
               <div class="report-actions">
                 <div class="segmented lang-toggle" role="group" aria-label="Report language">
                   <button type="button" class="seg active" data-lang="en">English</button>
                   <button type="button" class="seg" data-lang="hi" lang="hi">हिन्दी</button>
                 </div>
-                <button type="button" class="btn btn-primary" onclick="downloadPDFDossier()">Download report (PDF)</button>
+                <button type="button" class="btn btn-primary" onclick="downloadPDFDossier()">Download report
+                  (PDF)</button>
               </div>
             </header>
 
-            <p class="report-loading" id="report-loading" hidden><span class="spinner" aria-hidden="true"></span>Simulating your design room by room…</p>
+            <p class="report-loading" id="report-loading" hidden><span class="spinner"
+                aria-hidden="true"></span>Simulating your design room by room…</p>
 
             <div class="report-figures">
-              <div class="figure-tile figure-hot"><span>Ordinary build, peak indoors</span><strong id="res-peak-temp-base">38.4 °C</strong></div>
-              <div class="figure-tile figure-cool"><span>Your design, peak indoors</span><strong id="res-peak-temp-opt">26.1 °C</strong><small class="tile-range" id="res-range"></small></div>
-              <div class="figure-tile"><span>Cooling energy saved</span><strong id="res-energy-savings">68.4%</strong></div>
+              <div class="figure-tile figure-hot"><span>Ordinary build, peak indoors</span><strong
+                  id="res-peak-temp-base">38.4 °C</strong></div>
+              <div class="figure-tile figure-cool"><span>Your design, peak indoors</span><strong
+                  id="res-peak-temp-opt">26.1 °C</strong><small class="tile-range" id="res-range"></small></div>
+              <div class="figure-tile"><span>Cooling energy saved</span><strong id="res-energy-savings">68.4%</strong>
+              </div>
               <div class="figure-tile"><span>Fresh-air changes</span><strong id="res-ach-val">8.4 ACH</strong></div>
-              <div class="figure-tile"><span>Comfort (PMV)</span><strong id="res-pmv-val">+0.18 (Neutral / Ideal)</strong></div>
+              <div class="figure-tile"><span>Comfort (PMV)</span><strong id="res-pmv-val">+0.18 (Neutral /
+                  Ideal)</strong></div>
             </div>
 
             <figure class="chart-card">
@@ -847,7 +1098,8 @@
                 <span data-l="lg_band"><i class="lg-band"></i>Likely range (P10–P90)</span>
                 <span class="lg-night-k"><i class="lg-night"></i>Night</span>
               </div>
-              <div class="chart chart-tall" id="report-chart" role="img" aria-label="Line chart of outdoor, ordinary build and your design temperatures"></div>
+              <div class="chart chart-tall" id="report-chart" role="img"
+                aria-label="Line chart of outdoor, ordinary build and your design temperatures"></div>
               <details class="chart-table">
                 <summary>Show hourly values</summary>
                 <div id="report-chart-table"></div>
@@ -859,13 +1111,48 @@
               <div class="table-scroll">
                 <table class="spec-table">
                   <thead>
-                    <tr><th scope="col">Part</th><th scope="col">Assembly</th><th scope="col">Thickness</th><th scope="col">U-value</th><th scope="col">Notes</th><th scope="col">ECBC</th></tr>
+                    <tr>
+                      <th scope="col">Part</th>
+                      <th scope="col">Assembly</th>
+                      <th scope="col">Thickness</th>
+                      <th scope="col">U-value</th>
+                      <th scope="col">Notes</th>
+                      <th scope="col">ECBC</th>
+                    </tr>
                   </thead>
                   <tbody id="flow1-materials-report-body">
-                    <tr><th scope="row">Walls</th><td id="rep-wall-name">Stabilized Rammed Earth 350mm + Lime Plaster</td><td>350 mm</td><td><strong id="rep-wall-u">0.45 W/m²K</strong></td><td>10.2 h heat delay</td><td><span class="tag tag-ok">Meets</span></td></tr>
-                    <tr><th scope="row">Roof</th><td id="rep-roof-name">Cool Roof (SRI 104) + 100mm Overdeck XPS</td><td>220 mm</td><td><strong id="rep-roof-u">0.28 W/m²K</strong></td><td>Solar reflectance index 104</td><td><span class="tag tag-ok">Meets</span></td></tr>
-                    <tr><th scope="row">Windows</th><td id="rep-glaze-name">Double Glazed Low-E Argon (6+12A+6) + uPVC Frame</td><td>24 mm unit</td><td><strong id="rep-glaze-u">1.35 W/m²K</strong></td><td>SHGC 0.32, 68% daylight</td><td><span class="tag tag-ok">Meets</span></td></tr>
-                    <tr><th scope="row">Floor</th><td>Compacted base with 50 mm cork board screed</td><td>180 mm</td><td><strong>0.42 W/m²K</strong></td><td>Coupled to cool ground</td><td><span class="tag tag-ok">Meets</span></td></tr>
+                    <tr>
+                      <th scope="row">Walls</th>
+                      <td id="rep-wall-name">Stabilized Rammed Earth 350mm + Lime Plaster</td>
+                      <td>350 mm</td>
+                      <td><strong id="rep-wall-u">0.45 W/m²K</strong></td>
+                      <td>10.2 h heat delay</td>
+                      <td><span class="tag tag-ok">Meets</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Roof</th>
+                      <td id="rep-roof-name">Cool Roof (SRI 104) + 100mm Overdeck XPS</td>
+                      <td>220 mm</td>
+                      <td><strong id="rep-roof-u">0.28 W/m²K</strong></td>
+                      <td>Solar reflectance index 104</td>
+                      <td><span class="tag tag-ok">Meets</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Windows</th>
+                      <td id="rep-glaze-name">Double Glazed Low-E Argon (6+12A+6) + uPVC Frame</td>
+                      <td>24 mm unit</td>
+                      <td><strong id="rep-glaze-u">1.35 W/m²K</strong></td>
+                      <td>SHGC 0.32, 68% daylight</td>
+                      <td><span class="tag tag-ok">Meets</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Floor</th>
+                      <td>Compacted base with 50 mm cork board screed</td>
+                      <td>180 mm</td>
+                      <td><strong>0.42 W/m²K</strong></td>
+                      <td>Coupled to cool ground</td>
+                      <td><span class="tag tag-ok">Meets</span></td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -873,45 +1160,68 @@
 
             <div class="rep-grid rep-extra">
               <section class="rep-card rep-wide" id="rep-rooms" aria-labelledby="rooms-title">
-                <div class="rep-card-head"><div><h4 id="rooms-title" data-i18n="rooms_title">Room by room</h4><p data-i18n="rooms_sub">Drag the timeline to see each room through the nights.</p></div>
-                  <button type="button" class="btn btn-quiet btn-sm" id="rooms-play">Play the nights</button></div>
+                <div class="rep-card-head">
+                  <div>
+                    <h4 id="rooms-title" data-i18n="rooms_title">Room by room</h4>
+                    <p data-i18n="rooms_sub">Drag the timeline to see each room through the nights.</p>
+                  </div>
+                  <button type="button" class="btn btn-quiet btn-sm" id="rooms-play">Play the nights</button>
+                </div>
                 <div class="rooms-wrap">
-                  <div class="rooms-plan"><div id="rooms-svg"></div>
-                    <label class="rooms-scrub"><span class="sr-only">Time</span><input type="range" class="range" id="rooms-slider" min="0" max="287" value="0"><span id="rooms-time"></span></label>
+                  <div class="rooms-plan">
+                    <div id="rooms-svg"></div>
+                    <label class="rooms-scrub"><span class="sr-only">Time</span><input type="range" class="range"
+                        id="rooms-slider" min="0" max="287" value="0"><span id="rooms-time"></span></label>
                   </div>
                   <ul class="rooms-list" id="rooms-list"></ul>
                 </div>
               </section>
 
               <section class="rep-card" id="rep-flows" aria-labelledby="flows-title">
-                <h4 id="flows-title" data-i18n="flows_title">Where the heat goes</h4><p class="rep-sub" data-i18n="flows_sub">Heat in and out on a typical day.</p>
+                <h4 id="flows-title" data-i18n="flows_title">Where the heat goes</h4>
+                <p class="rep-sub" data-i18n="flows_sub">Heat in and out on a typical day.</p>
                 <div id="flows-chart" class="flows"></div>
               </section>
 
               <section class="rep-card" id="rep-why" aria-labelledby="why-title">
-                <h4 id="why-title" data-i18n="why_title">Why this design works</h4><p class="rep-sub" data-i18n="why_sub">Each feature switched off in turn.</p>
+                <h4 id="why-title" data-i18n="why_title">Why this design works</h4>
+                <p class="rep-sub" data-i18n="why_sub">Each feature switched off in turn.</p>
                 <ul id="why-list" class="why-list"></ul>
               </section>
 
               <section class="rep-card rep-wide" id="rep-safety" aria-labelledby="safety-title">
-                <h4 id="safety-title" data-i18n="safety_title">Safety checks</h4><p class="rep-sub" data-i18n="safety_sub">Checked on every design.</p>
+                <h4 id="safety-title" data-i18n="safety_title">Safety checks</h4>
+                <p class="rep-sub" data-i18n="safety_sub">Checked on every design.</p>
                 <ul id="safety-list" class="safety-list"></ul>
               </section>
 
               <section class="rep-card rep-wide" id="rep-calendar" aria-labelledby="cal-title">
-                <div class="rep-card-head"><div><h4 id="cal-title" data-i18n="cal_title">All year, hour by hour</h4><p data-i18n="cal_sub">Indoor temperature with no heating or cooling.</p></div>
-                  <div class="segmented" id="cal-toggle" role="group" aria-label="Which building"><button type="button" class="seg active" data-v="design">Your design</button><button type="button" class="seg" data-v="base">Ordinary build</button></div></div>
-                <div class="cal-grid" id="cal-grid" role="img" aria-label="Twelve months by twenty-four hours of indoor temperature"></div>
-                <div class="cal-foot"><p class="cal-stat" id="cal-stat"></p><p class="cal-scale" aria-hidden="true"><span>−15°</span><i></i><span>35°</span></p></div>
+                <div class="rep-card-head">
+                  <div>
+                    <h4 id="cal-title" data-i18n="cal_title">All year, hour by hour</h4>
+                    <p data-i18n="cal_sub">Indoor temperature with no heating or cooling.</p>
+                  </div>
+                  <div class="segmented" id="cal-toggle" role="group" aria-label="Which building"><button type="button"
+                      class="seg active" data-v="design">Your design</button><button type="button" class="seg"
+                      data-v="base">Ordinary build</button></div>
+                </div>
+                <div class="cal-grid" id="cal-grid" role="img"
+                  aria-label="Twelve months by twenty-four hours of indoor temperature"></div>
+                <div class="cal-foot">
+                  <p class="cal-stat" id="cal-stat"></p>
+                  <p class="cal-scale" aria-hidden="true"><span>−15°</span><i></i><span>35°</span></p>
+                </div>
               </section>
 
               <section class="rep-card rep-wide" id="rep-fuel" aria-labelledby="fuel-title">
-                <h4 id="fuel-title">Fuel over a winter</h4><p class="rep-sub" id="fuel-sub"></p>
+                <h4 id="fuel-title">Fuel over a winter</h4>
+                <p class="rep-sub" id="fuel-sub"></p>
                 <div id="fuel-body"></div>
               </section>
 
               <section class="rep-card rep-wide" id="rep-bom" aria-labelledby="bom-title">
-                <h4 id="bom-title" data-i18n="bom_title">Bill of materials</h4><p class="rep-sub" data-i18n="bom_sub">Quantities from the plan.</p>
+                <h4 id="bom-title" data-i18n="bom_title">Bill of materials</h4>
+                <p class="rep-sub" data-i18n="bom_sub">Quantities from the plan.</p>
                 <div id="bom-body"></div>
               </section>
 
@@ -926,7 +1236,8 @@
               <div class="action-group">
                 <button type="button" class="btn btn-quiet" onclick="downloadCSVReport()">Download data (CSV)</button>
                 <button type="button" class="btn btn-quiet" onclick="downloadJSONReport()">Download data (JSON)</button>
-                <button type="button" class="btn btn-ink" onclick="switchMainFlow(ThermaState.activeFlow)">Start a new design</button>
+                <button type="button" class="btn btn-ink" onclick="switchMainFlow(ThermaState.activeFlow)">Start a new
+                  design</button>
               </div>
             </footer>
           </section>
@@ -937,40 +1248,83 @@
               <div>
                 <p class="report-kicker">Livestock shelter report</p>
                 <h3 id="a5-title" class="report-title">Heat stress drops from severe to comfortable.</h3>
-                <p class="report-sub">Temperature-humidity index (THI) estimated for a hot afternoon. Below 72 is comfortable for most livestock.</p>
+                <p class="report-sub">Temperature-humidity index (THI) estimated for a hot afternoon. Below 72 is
+                  comfortable for most livestock.</p>
               </div>
-              <button type="button" class="btn btn-primary" onclick="downloadAnimalPDFDossier()">Download report (PDF)</button>
+              <button type="button" class="btn btn-primary" onclick="downloadAnimalPDFDossier()">Download report
+                (PDF)</button>
             </header>
 
             <div class="report-figures">
-              <div class="figure-tile figure-hot"><span>Ordinary shed (THI)</span><strong id="animal-thi-baseline">84.2 (Severe Heat Stress)</strong></div>
-              <div class="figure-tile figure-cool"><span>Your shelter (THI)</span><strong id="animal-thi-optimized">70.1 (Optimal Comfort Zone)</strong></div>
-              <div class="figure-tile"><span>Fresh-air changes</span><strong id="animal-ach">14.8 Air Changes/Hour</strong></div>
+              <div class="figure-tile figure-hot"><span>Ordinary shed (THI)</span><strong id="animal-thi-baseline">84.2
+                  (Severe Heat Stress)</strong></div>
+              <div class="figure-tile figure-cool"><span>Your shelter (THI)</span><strong id="animal-thi-optimized">70.1
+                  (Optimal Comfort Zone)</strong></div>
+              <div class="figure-tile"><span>Fresh-air changes</span><strong id="animal-ach">14.8 Air
+                  Changes/Hour</strong></div>
               <div class="figure-tile"><span>Milk or growth protected</span><strong>+18.5%</strong></div>
             </div>
 
             <figure class="chart-card" id="animal-cold-card" hidden>
-              <figcaption class="chart-head"><p class="chart-title">Inside the shelter through a three-day cold snap</p>
-                <div class="legend" aria-hidden="true"><span><i class="lg-out"></i>Outdoors</span><span><i class="lg-base"></i>Open stone pen</span><span><i class="lg-opt"></i>Your shelter</span></div></figcaption>
-              <div class="chart" id="animal-chart" role="img" aria-label="Line chart of shelter temperatures through a cold snap"></div>
+              <figcaption class="chart-head">
+                <p class="chart-title">Inside the shelter through a three-day cold snap</p>
+                <div class="legend" aria-hidden="true"><span><i class="lg-out"></i>Outdoors</span><span><i
+                      class="lg-base"></i>Open stone pen</span><span><i class="lg-opt"></i>Your shelter</span></div>
+              </figcaption>
+              <div class="chart" id="animal-chart" role="img"
+                aria-label="Line chart of shelter temperatures through a cold snap"></div>
               <p class="best-note" id="animal-feed"></p>
             </figure>
 
             <div class="thi-scale" aria-hidden="true">
-              <div class="thi-bar"><span class="thi-marker thi-marker-base" style="left: 80%">Ordinary</span><span class="thi-marker thi-marker-opt" style="left: 34%">Yours</span></div>
-              <div class="thi-labels"><span>60 Comfortable</span><span>72 Mild stress</span><span>80 Severe</span><span>90</span></div>
+              <div class="thi-bar"><span class="thi-marker thi-marker-base" style="left: 80%">Ordinary</span><span
+                  class="thi-marker thi-marker-opt" style="left: 34%">Yours</span></div>
+              <div class="thi-labels"><span>60 Comfortable</span><span>72 Mild stress</span><span>80
+                  Severe</span><span>90</span></div>
             </div>
 
             <div class="spec-card">
               <p class="mini-title">Shelter specification</p>
               <div class="table-scroll">
                 <table class="spec-table">
-                  <thead><tr><th scope="col">Part</th><th scope="col">Assembly</th><th scope="col">Size</th><th scope="col">Performance</th><th scope="col">What it does</th></tr></thead>
+                  <thead>
+                    <tr>
+                      <th scope="col">Part</th>
+                      <th scope="col">Assembly</th>
+                      <th scope="col">Size</th>
+                      <th scope="col">Performance</th>
+                      <th scope="col">What it does</th>
+                    </tr>
+                  </thead>
                   <tbody id="animal-materials-report-body">
-                    <tr><th scope="row">Roof</th><td id="rep-animal-roof-name">Multi-Layered Vernacular Thatch (Paddy Straw)</td><td>180 mm</td><td><strong id="rep-animal-roof-u">0.35 W/m²K</strong></td><td>Blocks most overhead sun</td></tr>
-                    <tr><th scope="row">Side walls</th><td id="rep-animal-wall-name">Open Slatted Hardwood Louvers (60% Porosity)</td><td>30 mm slats</td><td><strong>14.8 ACH</strong></td><td>Constant cross-breeze, clears humidity and ammonia</td></tr>
-                    <tr><th scope="row">Floor</th><td id="rep-animal-floor-name">Grooved Concrete with 1:40 Lateral Drainage</td><td>100 mm slab</td><td><strong>1.90 W/m²K</strong></td><td>Grip for hooves, drains quickly</td></tr>
-                    <tr><th scope="row">Ridge vent</th><td>Raised ridge cap with 300 mm opening</td><td>300 mm</td><td><strong>1.2 m/s</strong></td><td>Hot air rises and leaves at the top</td></tr>
+                    <tr>
+                      <th scope="row">Roof</th>
+                      <td id="rep-animal-roof-name">Multi-Layered Vernacular Thatch (Paddy Straw)</td>
+                      <td>180 mm</td>
+                      <td><strong id="rep-animal-roof-u">0.35 W/m²K</strong></td>
+                      <td>Blocks most overhead sun</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Side walls</th>
+                      <td id="rep-animal-wall-name">Open Slatted Hardwood Louvers (60% Porosity)</td>
+                      <td>30 mm slats</td>
+                      <td><strong>14.8 ACH</strong></td>
+                      <td>Constant cross-breeze, clears humidity and ammonia</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Floor</th>
+                      <td id="rep-animal-floor-name">Grooved Concrete with 1:40 Lateral Drainage</td>
+                      <td>100 mm slab</td>
+                      <td><strong>1.90 W/m²K</strong></td>
+                      <td>Grip for hooves, drains quickly</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Ridge vent</th>
+                      <td>Raised ridge cap with 300 mm opening</td>
+                      <td>300 mm</td>
+                      <td><strong>1.2 m/s</strong></td>
+                      <td>Hot air rises and leaves at the top</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -979,7 +1333,8 @@
             <footer class="panel-actions">
               <button type="button" class="btn btn-quiet" onclick="goToStep(4)">Back</button>
               <div class="action-group">
-                <button type="button" class="btn btn-quiet" onclick="downloadAnimalCSVReport()">Download data (CSV)</button>
+                <button type="button" class="btn btn-quiet" onclick="downloadAnimalCSVReport()">Download data
+                  (CSV)</button>
                 <button type="button" class="btn btn-ink" onclick="switchMainFlow(4)">Start a new design</button>
               </div>
             </footer>
@@ -993,28 +1348,45 @@
             </header>
 
             <label class="dropzone" for="f2-upload-input">
-              <input type="file" id="f2-upload-input" accept="image/*,.dxf,.svg,.json" onchange="flow2HandleCustomUpload(event)">
+              <input type="file" id="f2-upload-input" accept="image/*,.dxf,.svg,.json"
+                onchange="flow2HandleCustomUpload(event)">
               <span class="dropzone-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 16V4m0 0l-5 5m5-5l5 5M4 20h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg viewBox="0 0 24 24" width="22" height="22">
+                  <path d="M12 16V4m0 0l-5 5m5-5l5 5M4 20h16" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
               </span>
-              <span><b>Upload your floor plan</b><small>DXF from AutoCAD, LibreCAD or FreeCAD: rooms are read as closed polylines. PNG or JPG: trace the rooms by hand.</small></span>
+              <span><b>Upload your floor plan</b><small>DXF from AutoCAD, LibreCAD or FreeCAD: rooms are read as closed
+                  polylines. PNG or JPG: trace the rooms by hand.</small></span>
             </label>
             <div class="import-row">
               <button type="button" class="btn btn-quiet btn-sm" id="f2-sample">Try a sample DXF</button>
               <label class="import-north"><span>Up on the drawing is</span>
-                <select id="f2-north" class="select select-sm"><option value="N" selected>North</option><option value="E">East</option><option value="S">South</option><option value="W">West</option></select>
+                <select id="f2-north" class="select select-sm">
+                  <option value="N" selected>North</option>
+                  <option value="E">East</option>
+                  <option value="S">South</option>
+                  <option value="W">West</option>
+                </select>
               </label>
             </div>
             <p class="import-info" id="f2-import-info" hidden></p>
 
             <div class="trace-wrap" id="trace-wrap" hidden>
-              <div class="trace-head"><p><b>Trace your rooms.</b> Drag a box over each room, name it, then give the real width of the whole drawing.</p></div>
+              <div class="trace-head">
+                <p><b>Trace your rooms.</b> Drag a box over each room, name it, then give the real width of the whole
+                  drawing.</p>
+              </div>
               <div class="trace-body">
-                <div class="trace-stage"><img id="trace-img" alt="Your uploaded plan"><svg id="trace-svg" class="trace-svg" aria-label="Drag to mark a room"></svg></div>
+                <div class="trace-stage"><img id="trace-img" alt="Your uploaded plan"><svg id="trace-svg"
+                    class="trace-svg" aria-label="Drag to mark a room"></svg></div>
                 <div class="trace-side">
                   <ol class="trace-list" id="trace-list"></ol>
-                  <label class="field"><span class="field-label">Width of the drawing (m)</span><input type="number" id="trace-width" class="select" min="3" max="80" step="0.1" placeholder="e.g. 12.5"></label>
-                  <div class="trace-actions"><button type="button" class="btn btn-quiet btn-sm" id="trace-cancel">Cancel</button><button type="button" class="btn btn-ink btn-sm" id="trace-done">Use these rooms</button></div>
+                  <label class="field"><span class="field-label">Width of the drawing (m)</span><input type="number"
+                      id="trace-width" class="select" min="3" max="80" step="0.1" placeholder="e.g. 12.5"></label>
+                  <div class="trace-actions"><button type="button" class="btn btn-quiet btn-sm"
+                      id="trace-cancel">Cancel</button><button type="button" class="btn btn-ink btn-sm"
+                      id="trace-done">Use these rooms</button></div>
                 </div>
               </div>
             </div>
@@ -1022,15 +1394,26 @@
             <p class="or-divider"><span>or pick one of ours</span></p>
 
             <div class="plan-picker" role="group" aria-label="Floor plans">
-              <button type="button" class="plan-thumb active" id="f2-plan-btn-0" onclick="flow2SelectPresetPlan(0)"><img src="assets/plan_1.png" alt="" loading="lazy"><span><b>Courtyard villa</b><small>1,158 sq ft</small></span></button>
-              <button type="button" class="plan-thumb" id="f2-plan-btn-1" onclick="flow2SelectPresetPlan(1)"><img src="assets/plan_2.png" alt="" loading="lazy"><span><b>Suburban home</b><small>960 sq ft</small></span></button>
-              <button type="button" class="plan-thumb" id="f2-plan-btn-2" onclick="flow2SelectPresetPlan(2)"><img src="assets/plan_3.png" alt="" loading="lazy"><span><b>Large family home</b><small>1,240 sq ft</small></span></button>
-              <button type="button" class="plan-thumb" id="f2-plan-btn-3" onclick="flow2SelectPresetPlan(3)"><img src="assets/plan_4.png" alt="" loading="lazy"><span><b>Compact studio</b><small>483 sq ft</small></span></button>
-              <button type="button" class="plan-thumb" id="f2-plan-btn-4" onclick="flow2SelectPresetPlan(4)"><img src="assets/plan_5.png" alt="" loading="lazy"><span><b>Solar chamfer</b><small>495 sq ft</small></span></button>
+              <button type="button" class="plan-thumb active" id="f2-plan-btn-0" onclick="flow2SelectPresetPlan(0)"><img
+                  src="assets/plan_1.png" alt="" loading="lazy"><span><b>Courtyard villa</b><small>1,158 sq
+                    ft</small></span></button>
+              <button type="button" class="plan-thumb" id="f2-plan-btn-1" onclick="flow2SelectPresetPlan(1)"><img
+                  src="assets/plan_2.png" alt="" loading="lazy"><span><b>Suburban home</b><small>960 sq
+                    ft</small></span></button>
+              <button type="button" class="plan-thumb" id="f2-plan-btn-2" onclick="flow2SelectPresetPlan(2)"><img
+                  src="assets/plan_3.png" alt="" loading="lazy"><span><b>Large family home</b><small>1,240 sq
+                    ft</small></span></button>
+              <button type="button" class="plan-thumb" id="f2-plan-btn-3" onclick="flow2SelectPresetPlan(3)"><img
+                  src="assets/plan_4.png" alt="" loading="lazy"><span><b>Compact studio</b><small>483 sq
+                    ft</small></span></button>
+              <button type="button" class="plan-thumb" id="f2-plan-btn-4" onclick="flow2SelectPresetPlan(4)"><img
+                  src="assets/plan_5.png" alt="" loading="lazy"><span><b>Solar chamfer</b><small>495 sq
+                    ft</small></span></button>
             </div>
 
             <div class="plan-view">
-              <figure class="plan-figure"><img id="f2-plan-img" src="assets/plan_1.png" alt="Selected floor plan"></figure>
+              <figure class="plan-figure"><img id="f2-plan-img" src="assets/plan_1.png" alt="Selected floor plan">
+              </figure>
               <div class="plan-info">
                 <p class="plan-title" id="f2-plan-title">Plan 1: 2/3 BHK Executive Villa (1,158 sq.ft)</p>
                 <div class="tag-row">
@@ -1050,7 +1433,10 @@
                 <div class="field">
                   <label class="field-label" for="f2-facing-select">Entrance faces</label>
                   <select id="f2-facing-select" class="select" onchange="calculateVastuScore()">
-                    <option value="north" selected>North</option><option value="east">East</option><option value="south">South</option><option value="west">West</option>
+                    <option value="north" selected>North</option>
+                    <option value="east">East</option>
+                    <option value="south">South</option>
+                    <option value="west">West</option>
                   </select>
                 </div>
               </div>
@@ -1072,14 +1458,21 @@
             <div class="plan-view plan-view-audit">
               <div class="control-stack">
                 <label class="dropzone dropzone-sm" for="f3-upload-input">
-                  <input type="file" id="f3-upload-input" accept="image/*,.dxf,.svg,.json" onchange="flow3HandleCustomUpload(event)">
-                  <span class="dropzone-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 16V4m0 0l-5 5m5-5l5 5M4 20h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  <input type="file" id="f3-upload-input" accept="image/*,.dxf,.svg,.json"
+                    onchange="flow3HandleCustomUpload(event)">
+                  <span class="dropzone-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20">
+                      <path d="M12 16V4m0 0l-5 5m5-5l5 5M4 20h16" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    </svg></span>
                   <span><b>Upload your floor plan</b><small>Optional. Or pick the closest match below.</small></span>
                 </label>
                 <div class="chip-row" role="group" aria-label="Closest plan">
-                  <button type="button" class="chip active" id="f3-plan-btn-0" onclick="flow3SelectPresetPlan(0)">1,158 sq ft villa</button>
-                  <button type="button" class="chip" id="f3-plan-btn-1" onclick="flow3SelectPresetPlan(1)">960 sq ft home</button>
-                  <button type="button" class="chip" id="f3-plan-btn-2" onclick="flow3SelectPresetPlan(2)">1,240 sq ft home</button>
+                  <button type="button" class="chip active" id="f3-plan-btn-0" onclick="flow3SelectPresetPlan(0)">1,158
+                    sq ft villa</button>
+                  <button type="button" class="chip" id="f3-plan-btn-1" onclick="flow3SelectPresetPlan(1)">960 sq ft
+                    home</button>
+                  <button type="button" class="chip" id="f3-plan-btn-2" onclick="flow3SelectPresetPlan(2)">1,240 sq ft
+                    home</button>
                 </div>
                 <div class="field-pair">
                   <div class="field">
@@ -1131,7 +1524,8 @@
           <section class="step-panel" id="flow3-step-2" style="display:none" aria-labelledby="f3b-title">
             <header class="panel-head">
               <h3 id="f3b-title">Your upgrade plan</h3>
-              <p>What's wrong with each part of the home today, what to change, and how much heat it stops. Shorter bars let less heat through.</p>
+              <p>What's wrong with each part of the home today, what to change, and how much heat it stops. Shorter bars
+                let less heat through.</p>
             </header>
 
             <div class="payback">
@@ -1140,9 +1534,18 @@
                 <strong id="f3-payback-val">2.3 Years</strong>
               </div>
               <dl class="payback-stats">
-                <div><dt>Upgrade cost</dt><dd id="f3-cost-val">₹78,500</dd></div>
-                <div><dt>Saved every year</dt><dd id="f3-savings-val">₹34,200 / Year</dd></div>
-                <div><dt>Carbon avoided</dt><dd id="f3-co2-val">2.9 Tons CO₂ / Year</dd></div>
+                <div>
+                  <dt>Upgrade cost</dt>
+                  <dd id="f3-cost-val">₹78,500</dd>
+                </div>
+                <div>
+                  <dt>Saved every year</dt>
+                  <dd id="f3-savings-val">₹34,200 / Year</dd>
+                </div>
+                <div>
+                  <dt>Carbon avoided</dt>
+                  <dd id="f3-co2-val">2.9 Tons CO₂ / Year</dd>
+                </div>
               </dl>
             </div>
             <p class="best-note f3-note" id="f3-note"></p>
@@ -1151,44 +1554,82 @@
               <article class="upgrade" data-part="wall">
                 <h4>Walls</h4>
                 <div class="upgrade-cols">
-                  <div class="upgrade-now"><p class="upgrade-label">Today</p><p class="upgrade-name" id="f3-matrix-wall-name">Solid Clay Brick 230mm</p><p class="upgrade-text" id="f3-matrix-wall-flaw">No insulation.</p></div>
-                  <div class="upgrade-fix"><p class="upgrade-label">Upgrade</p><p class="upgrade-name" id="f3-matrix-wall-upgrade">50mm External EPS + Lime Plaster</p><p class="upgrade-text" id="f3-matrix-wall-sol">External insulation.</p></div>
+                  <div class="upgrade-now">
+                    <p class="upgrade-label">Today</p>
+                    <p class="upgrade-name" id="f3-matrix-wall-name">Solid Clay Brick 230mm</p>
+                    <p class="upgrade-text" id="f3-matrix-wall-flaw">No insulation.</p>
+                  </div>
+                  <div class="upgrade-fix">
+                    <p class="upgrade-label">Upgrade</p>
+                    <p class="upgrade-name" id="f3-matrix-wall-upgrade">50mm External EPS + Lime Plaster</p>
+                    <p class="upgrade-text" id="f3-matrix-wall-sol">External insulation.</p>
+                  </div>
                 </div>
                 <div class="u-bars">
-                  <div class="u-bar u-now"><span class="u-fill"></span><span class="u-val" id="f3-matrix-wall-u-base">U = 2.15</span></div>
-                  <div class="u-bar u-fix"><span class="u-fill"></span><span class="u-val" id="f3-matrix-wall-u-opt">U = 0.42</span></div>
+                  <div class="u-bar u-now"><span class="u-fill"></span><span class="u-val" id="f3-matrix-wall-u-base">U
+                      = 2.15</span></div>
+                  <div class="u-bar u-fix"><span class="u-fill"></span><span class="u-val" id="f3-matrix-wall-u-opt">U =
+                      0.42</span></div>
                   <p class="u-diff" id="f3-matrix-wall-diff">-80.5%</p>
                 </div>
               </article>
               <article class="upgrade" data-part="roof">
                 <h4>Roof</h4>
                 <div class="upgrade-cols">
-                  <div class="upgrade-now"><p class="upgrade-label">Today</p><p class="upgrade-name" id="f3-matrix-roof-name">Bare RCC Slab 150mm</p><p class="upgrade-text" id="f3-matrix-roof-flaw">Absorbs most sunlight.</p></div>
-                  <div class="upgrade-fix"><p class="upgrade-label">Upgrade</p><p class="upgrade-name" id="f3-matrix-roof-upgrade">Cool roof + 50mm XPS</p><p class="upgrade-text" id="f3-matrix-roof-sol">Reflects the sun.</p></div>
+                  <div class="upgrade-now">
+                    <p class="upgrade-label">Today</p>
+                    <p class="upgrade-name" id="f3-matrix-roof-name">Bare RCC Slab 150mm</p>
+                    <p class="upgrade-text" id="f3-matrix-roof-flaw">Absorbs most sunlight.</p>
+                  </div>
+                  <div class="upgrade-fix">
+                    <p class="upgrade-label">Upgrade</p>
+                    <p class="upgrade-name" id="f3-matrix-roof-upgrade">Cool roof + 50mm XPS</p>
+                    <p class="upgrade-text" id="f3-matrix-roof-sol">Reflects the sun.</p>
+                  </div>
                 </div>
                 <div class="u-bars">
-                  <div class="u-bar u-now"><span class="u-fill"></span><span class="u-val" id="f3-matrix-roof-u-base">U = 2.85</span></div>
-                  <div class="u-bar u-fix"><span class="u-fill"></span><span class="u-val" id="f3-matrix-roof-u-opt">U = 0.34</span></div>
+                  <div class="u-bar u-now"><span class="u-fill"></span><span class="u-val" id="f3-matrix-roof-u-base">U
+                      = 2.85</span></div>
+                  <div class="u-bar u-fix"><span class="u-fill"></span><span class="u-val" id="f3-matrix-roof-u-opt">U =
+                      0.34</span></div>
                   <p class="u-diff" id="f3-matrix-roof-diff">-88.1%</p>
                 </div>
               </article>
               <article class="upgrade" data-part="glaze">
                 <h4>Windows</h4>
                 <div class="upgrade-cols">
-                  <div class="upgrade-now"><p class="upgrade-label">Today</p><p class="upgrade-name" id="f3-matrix-glaze-name">Single Clear 4mm + Al Frame</p><p class="upgrade-text" id="f3-matrix-glaze-flaw">Heat passes straight through.</p></div>
-                  <div class="upgrade-fix"><p class="upgrade-label">Upgrade</p><p class="upgrade-name" id="f3-matrix-glaze-upgrade">Double glazed low-E</p><p class="upgrade-text" id="f3-matrix-glaze-sol">Reflects infrared heat.</p></div>
+                  <div class="upgrade-now">
+                    <p class="upgrade-label">Today</p>
+                    <p class="upgrade-name" id="f3-matrix-glaze-name">Single Clear 4mm + Al Frame</p>
+                    <p class="upgrade-text" id="f3-matrix-glaze-flaw">Heat passes straight through.</p>
+                  </div>
+                  <div class="upgrade-fix">
+                    <p class="upgrade-label">Upgrade</p>
+                    <p class="upgrade-name" id="f3-matrix-glaze-upgrade">Double glazed low-E</p>
+                    <p class="upgrade-text" id="f3-matrix-glaze-sol">Reflects infrared heat.</p>
+                  </div>
                 </div>
                 <div class="u-bars">
-                  <div class="u-bar u-now"><span class="u-fill"></span><span class="u-val" id="f3-matrix-glaze-u-base">U = 5.70</span></div>
-                  <div class="u-bar u-fix"><span class="u-fill"></span><span class="u-val" id="f3-matrix-glaze-u-opt">U = 1.40</span></div>
+                  <div class="u-bar u-now"><span class="u-fill"></span><span class="u-val" id="f3-matrix-glaze-u-base">U
+                      = 5.70</span></div>
+                  <div class="u-bar u-fix"><span class="u-fill"></span><span class="u-val" id="f3-matrix-glaze-u-opt">U
+                      = 1.40</span></div>
                   <p class="u-diff" id="f3-matrix-glaze-diff">-75.4%</p>
                 </div>
               </article>
               <article class="upgrade" data-part="shade">
                 <h4>Shading</h4>
                 <div class="upgrade-cols">
-                  <div class="upgrade-now"><p class="upgrade-label">Today</p><p class="upgrade-name" id="f3-matrix-shade-name">Unshaded windows</p><p class="upgrade-text" id="f3-matrix-shade-flaw">Direct sun enters.</p></div>
-                  <div class="upgrade-fix"><p class="upgrade-label">Upgrade</p><p class="upgrade-name" id="f3-matrix-shade-upgrade">External louvres</p><p class="upgrade-text" id="f3-matrix-shade-sol">Blocks summer sun.</p></div>
+                  <div class="upgrade-now">
+                    <p class="upgrade-label">Today</p>
+                    <p class="upgrade-name" id="f3-matrix-shade-name">Unshaded windows</p>
+                    <p class="upgrade-text" id="f3-matrix-shade-flaw">Direct sun enters.</p>
+                  </div>
+                  <div class="upgrade-fix">
+                    <p class="upgrade-label">Upgrade</p>
+                    <p class="upgrade-name" id="f3-matrix-shade-upgrade">External louvres</p>
+                    <p class="upgrade-text" id="f3-matrix-shade-sol">Blocks summer sun.</p>
+                  </div>
                 </div>
               </article>
             </div>
@@ -1217,8 +1658,13 @@
         <a href="#paths">Design paths</a>
         <a href="#studio">Studio</a>
       </nav>
-      <p class="footer-note">Climate: NASA POWER 2001–2020 monthly means, corrected to each site's elevation; elevation for map points from Open-Meteo. Performance is computed in your browser by ThermaBuild's multi-room heat-balance engine, checked against the ISO 13790 reference procedure. <a href="methodology.html">Method, equations and limits</a>. Costs are indicative; have a local engineer check the design before you build.</p>
-      <p class="footer-note footer-credit">Livestock photo: “Himalayan Herd” by Koshyk, <a href="https://www.flickr.com/photos/97235261@N00/7941423960" target="_blank" rel="noopener">Flickr</a>, <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a>.</p>
+      <p class="footer-note">Climate: NASA POWER 2001–2020 monthly means, corrected to each site's elevation; elevation
+        for map points from Open-Meteo. Performance is computed in your browser by ThermaBuild's multi-room heat-balance
+        engine, checked against the ISO 13790 reference procedure. <a href="methodology.html">Method, equations and
+          limits</a>. Costs are indicative; have a local engineer check the design before you build.</p>
+      <p class="footer-note footer-credit">Livestock photo: “Himalayan Herd” by Koshyk, <a
+          href="https://www.flickr.com/photos/97235261@N00/7941423960" target="_blank" rel="noopener">Flickr</a>, <a
+          href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a>.</p>
     </div>
   </footer>
 
@@ -1249,4 +1695,5 @@
   <script src="js/house3d.js?v=4" defer></script>
   <script src="js/work-loader.js?v=1" defer></script>
 </body>
+
 </html>
